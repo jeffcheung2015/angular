@@ -1,0 +1,74 @@
+<div class="table-container mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="campaignCode" sticky>
+      <th mat-header-cell *matHeaderCellDef> Campaign Code </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.campaignCode}} </td>
+    </ng-container>
+    <ng-container matColumnDef="partnerCode">
+      <th mat-header-cell *matHeaderCellDef> Partner Code </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.partnerCode}} </td>
+    </ng-container>
+    <ng-container matColumnDef="partnerName">
+      <th mat-header-cell *matHeaderCellDef> Partner Name </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.partnerName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="startDt">
+      <th mat-header-cell *matHeaderCellDef> Start Date </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.startDt}} </td>
+    </ng-container>
+    <ng-container matColumnDef="endDt">
+      <th mat-header-cell *matHeaderCellDef> End DAte </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.endDt}} </td>
+    </ng-container>
+    <ng-container matColumnDef="giProductCode">
+      <th mat-header-cell *matHeaderCellDef> GI Product Code </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.giProductCode}} </td>
+    </ng-container>
+    <ng-container matColumnDef="giProductSubtype">
+      <th mat-header-cell *matHeaderCellDef> GI Product </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.giProductSubtype}} </td>
+    </ng-container>
+    <ng-container matColumnDef="premiumForAm">
+      <th mat-header-cell *matHeaderCellDef> premiumForAm </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.premiumForAm}} </td>
+    </ng-container>
+    <ng-container matColumnDef="amEntitled">
+      <th mat-header-cell *matHeaderCellDef> AM Entitled </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.amEntitled}} </td>
+    </ng-container>
+    <ng-container matColumnDef="premiumDisc">
+      <th mat-header-cell *matHeaderCellDef> Premium Discount </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.premiumDisc}} </td>
+    </ng-container>
+    <ng-container matColumnDef="remarks">
+      <th mat-header-cell *matHeaderCellDef> Remarks </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.remarks}} </td>
+    </ng-container>
+    <ng-container matColumnDef="genericPromoCode">
+      <th mat-header-cell *matHeaderCellDef> Generic Promotion Code </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.genericPromoCode}} </td>
+    </ng-container>
+    <ng-container matColumnDef="uniquePromoCodePool">
+      <th mat-header-cell *matHeaderCellDef> Unique Promotion Code Pool </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.uniquePromoCodePool}} </td>
+    </ng-container>
+    <ng-container matColumnDef="uniquePromoCodeQty">
+      <th mat-header-cell *matHeaderCellDef> Unique Promotion Code Qty </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.uniquePromoCodeQty}} </td>
+    </ng-container>
+    <ng-container matColumnDef="promoCodeUsageUrl">
+      <th mat-header-cell *matHeaderCellDef> promoCodeUsageUrl </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.promoCodeUsageUrl}} </td>
+    </ng-container>
+    <ng-container matColumnDef="lastUpdUsr">
+      <th mat-header-cell *matHeaderCellDef> Last Update User </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.lastUpdUsr}} </td>
+    </ng-container>
+    <ng-container matColumnDef="lastUpdDt">
+      <th mat-header-cell *matHeaderCellDef> Last Update Date </th>
+      <td mat-cell *matCellDef="let pddcampaign"> {{pddcampaign.lastUpdDt}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
