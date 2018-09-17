@@ -4,6 +4,9 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import { AgentAssignmentRecord } from '../models/agentassignmentrecord.model';
 import { of } from 'rxjs';
+
+import {BehaviorSubject} from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })

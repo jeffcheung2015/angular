@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, JSONPipe } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { JsonPipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material';
 import {DataSource} from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { AgentassignmentService } from '../../services/agentassignment.service';
 import { AgentAssignmentRecord } from '../../models/agentassignmentrecord.model';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-searchrecord',
@@ -20,19 +22,20 @@ export class SearchrecordComponent implements OnInit {
   constructor(private agentassignmentService : AgentassignmentService) {}
 
   ngOnInit() {
-    //console.log("###@"+JSON.stringify(this.dataSource.agentassignmentService.data[0])
   }
 
 }
-export class SearchRecordDataSource extends DataSource<any>{
+
+export class SearchRecordDataSource extends MatTableDataSource<any>{
 
 	  constructor(private agentassignmentService: AgentassignmentService) {
 	    super();
+
+
 	  }
-	  connect(): Observable<AgentAssignmentRecord[]> {
-      console.log('connecting ~' + this.agentassignmentService.getAgentAssignmentRecord());
-	    return this.agentassignmentService.getAgentAssignmentRecord();
-	  }
-	  disconnect() {
+
+    connect() : BehaviorSubject<AgentAssignmentRecord[]> {
+      return this.agentassignmentService.getAgentAssignmentRecord();
     }
+
 }
