@@ -5,7 +5,7 @@ import {PddcampaigntableComponent} from "./components/pddcampaigntable/pddcampai
 import {PageNotFoundComponent} from "./components/notfound.component";
 import {DefaultPageComponent} from "./components/defaultpage.component";
 import {AppComponent} from "./app.component";
-import {AgentassignmentComponent} from "./components/agentassignment/agentassignment.component";
+import {AgentassignmentComponent} from "./pages/agentassignment/agentassignment.component";
 
 
 const appRoutes: Routes = [

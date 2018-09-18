@@ -1,4 +1,4 @@
-export interface AgentAssignmentRecord {
+export class AgentAssignmentRecord {
 	productClass: string;
 	policyNo: string;
 	prulifePolicyNo: string;
