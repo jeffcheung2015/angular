@@ -17,15 +17,78 @@
     <mat-paginator [pageSizeOptions]="[3,6,9]" showFirstLastButtons></mat-paginator>
 
 </div>-->
+<div class="searchRecord-div">
+  <h4>Search Criteria:
+    <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
+      “{{criteria}}”<span *ngIf="i < searchCriterias.length-1">,</span>
+    </ng-container>
+    <span class="noOfCustomer-span">Table No. Of Customers: {{noOfCustomer}}</span>
+  </h4>
+  <div class="table-wrapper table-responsive">
 
-<h4>Search Criteria:
-  <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
-    “{{criteria}}”<span *ngIf="i < searchCriterias.length-1">,</span>
-  </ng-container>
-</h4>
-<div class="table-wrapper table-responsive searchRecord-table">
-  <table datatable [dtOptions]="dtOptions" class="row-border hover">
-    
-  </table>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover searchRecord-table">
+      <thead>
+          <tr class="row1">
+              <th class="noscroll" rowspan="2">Class</th>
+              <th class="noscroll" rowspan="2">Policy No.</th>
+              <th class="noscroll" rowspan="2">Prulife Pol. No.</th>
+              <th class="noscroll" rowspan="2">Name of the Applicant</th>
+              <th class="noscroll" rowspan="2">ID Card No</th>
+              <th rowspan="2">Opt Out customer(GI)</th>
+              <th rowspan="2">Opt Out customer(Life)</th>
+              <th colspan="3">Current Agent</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th colspan="5">Assign Agent</th>
+              <th rowspan="2">PruChat,Email Send Date(to agent)</th>
+              <th rowspan="2">SMS,Email Send Date(to customer)/ View Customer Email</th>
+          </tr>
+          <tr class="row2">
+              <th class="table-subtitle">
+                  Agent Name
+              </th>
+              <th class="table-subtitle">
+                  Agent Code
+              </th>
+              <th class="table-subtitle">
+                  Agent Phone
+              </th>
 
+              <th>Date of Submission</th>
+              <th>Campaign Code</th>
+              <th>Assignment Type</th>
+              <th class="table-subtitle">
+                  Agency Team Name
+              </th>
+              <th class="table-subtitle">
+                  Agency Code
+              </th>
+              <th class="table-subtitle">
+                  Agency Name
+              </th>
+              <th class="table-subtitle">
+                  Agency Phone
+              </th>
+              <th class="table-subtitle">
+                  Agent Assigned Date
+              </th>
+          </tr>
+      </thead>
+    </table>
+    <div class="gotopage-div">
+      <span>Go to page</span>
+      <div class="gotopage_wrapper-div">
+        <input type="text" value="{{pageInfo.currPage}} / {{pageInfo.noOfPages}}"/>
+        <span id="gotopage_go-div">Go</span>
+      </div>
+    </div>
+    <ul class="searchRecord-ul">
+      <span>show</span>
+      <li><a [ngClass]="mapToLengthMenuNum[5]" (click)="changeTablePerPage(5)">5</a></li>
+      <li><a [ngClass]="mapToLengthMenuNum[10]" (click)="changeTablePerPage(10)">10</a></li>
+      <li><a [ngClass]="mapToLengthMenuNum[20]" (click)="changeTablePerPage(20)">20</a></li>
+      <span>per page</span>
+    </ul>
+  </div>
 </div>

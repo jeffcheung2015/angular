@@ -1,10 +1,29 @@
-.searchRecord-table{
-  table{
-    tr:first-child{
-      background: gray;
-      th{
-        color:black;
-      }
+div.searchRecord-div{
+  .searchRecord-table{
+    .noOfCustomer-span{
+      float:right;
     }
   }
+  .gotopage-div{
+    display: flex;
+    .gotopage_wrapper-div{
+      display: flex;
+    }
+  }
+  .searchRecord-ul{
+    list-style: none !important;
+    display: flex;
+    bottom: 15px;
+    position: absolute;
+    right: 0px;
+    li{
+      margin: 0px 10px;
+    }
+    .inactive-gray{
+      color:gray;
+    }
+    .active-red{
+      color:red;
+    }
+  }  
 }
