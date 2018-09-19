@@ -29,6 +29,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit {
   agentAssignSubscription;
   screenWidth: number;
 
+  dataTableSettings;//for changing table pages in gotopage
+  noOfPage : number;
+  currPage : number;
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
@@ -78,7 +81,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit {
         leftColumns: (window.innerWidth > 800) ? 5 : 1
       },
       columns: colArr,
-      pageLength: 5,
+      pageLength: 1,
       scrollX:true,
       columnDefs: [{
         targets: "_all",
@@ -98,6 +101,23 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit {
         lengthMenu: ``,
       },
       searching: false,
+      //serverSide: true,
+      //processing: true
+      /*ajax: (dataTablesParameters: any, callback) => {
+        that.http
+          .post<DataTablesResponse>(
+            'https://angular-datatables-demo-server.herokuapp.com/',
+            dataTablesParameters, {}
+          ).subscribe(resp => {
+            that.persons = resp.data;
+
+            callback({
+              recordsTotal: resp.recordsTotal,
+              recordsFiltered: resp.recordsFiltered,
+              data: []
+            });
+          });
+      },*/
     }
   }
 
@@ -111,25 +131,24 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit {
           this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.destroy();
 
-
             this.dtTrigger.next();
           });
           this.noOfCustomer = this.dtOptions.data.length;
+          this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
+          console.log('page:'+this.noOfPage);
         }, 1000)
       }
     )
-
-    /*$('.searchRecord-table').on( 'page.dt', function (e) {
-      this.calculatePageInfo();
-    });*/
-  }
-
-  calculatePageInfo(){
-    //total no of pages
-    let noOfPages = this.noOfCustomer / this.dtOptions.pageLength;
-    console.log(noOfPages + ":" + this.noOfCustomer + ":" + this.dtOptions.pageLength)
+    //settings fetch the datatable's settings first
+    //since angular-datatables is not supporting changing table page in option yet
+    //make use of settings.oApi._fnPageChange to change the page
+    //settings.oApi(settings, [page: string / int], true)
+    console.log($.fn['dataTable'].settings)
+    //value below was evaluated just now
 
   }
+
+
 
   ngOnDestroy(){
     this.dtTrigger.unsubscribe();
