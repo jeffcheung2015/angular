@@ -1,0 +1,87 @@
+<div class="row"><div class="col-md-12">
+    <div class="panel">
+        <div class="panel-body slide-body">
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                    <div id="accordioninpanel" class="accordion-group">
+                        <div class="accordion-item">
+                            <a class="accordion-title" data-toggle="collapse" data-parent="#accordioninpanel" href="#my-policy-diary">
+                              <h4>Input your Search Criteria(s)</h4>
+                            </a>
+                            <div id="my-policy-diary" class="collapse in" style="">
+                                <div class="accordion-body">
+                                    <form action="#">
+                                        <div>
+                                            <div class="search-by-col-wrap">
+                                                <div class="search-by-col">
+                                                    <div>
+                                                        <label>Full Name</label>
+                                                        <input class="search-by-input" type="text">
+                                                    </div>
+                                                    <div>
+                                                        <label>Policy No.</label>
+                                                        <input class="search-by-input" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="search-by-col">
+                                                    <div>
+                                                        <label>Mobile No.</label>
+                                                        <input class="search-by-input" type="text">
+                                                    </div>
+                                                    <div>
+                                                        <label>Email Address</label>
+                                                        <input class="search-by-input" type="email">
+                                                    </div>
+                                                    <div>
+                                                        <label>ID Card No.</label>
+                                                        <input class="search-by-input" type="email">
+                                                    </div>
+                                                </div>
+                                                <div class="search-by-col">
+                                                    <div> Date of Submission Form
+                                                        <div class="div-dateOfSubmissionFrom">
+                                                          <input name="dateOfSubmissionFrom" placeholder="DD/MM/YYYY" class="search-by-input datepicker1" [(ngModel)]="dateOfSubmissionFrom" ngbDatepicker #dFrom="ngbDatepicker" type="text">
+                                                          <input type="button" (click)="dFrom.toggle()" class="input-dateOfSubmissionBtn">
+                                                        </div>
+                                                    </div> To
+                                                    <div>
+                                                      <div class="div-dateOfSubmissionTo">
+                                                        <input name="dateOfSubmissionTo" placeholder="DD/MM/YYYY" class="search-by-input datepicker1" [(ngModel)]="dateOfSubmissionTo" ngbDatepicker #dTo="ngbDatepicker" type="text">
+                                                        <input type="button" (click)="dTo.toggle()" class="input-dateOfSubmissionBtn">
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                                <div class="search-by-col">
+                                                    <div>
+                                                        <label>Assignment</label>
+                                                        <div class="dropdown-redarrow search-by-dropdown">
+                                                            <select>
+                                                                <option value="1">Home Insurance</option>
+                                                                <option value="1">Policy Details</option>
+                                                                <option value="1">Coverage Details</option>
+                                                                <option value="1">Premium Settlement</option>
+                                                                <option value="1">List of Claims</option>
+                                                                <option value="1">e-Alert</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-left">
+                                            <input type="submit" class="btn btn-primary table-btn" value="Search">
+                                            <input type="reset" class="btn btn-default table-btn" value="Reset">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></div>

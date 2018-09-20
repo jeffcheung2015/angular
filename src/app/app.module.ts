@@ -22,6 +22,9 @@ import { AgentassignmentService } from './services/agentassignment.service';
 import { TablerecordComponent } from './components/tablerecord/tablerecord.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { DataTablesModule } from 'angular-datatables';
+import { FormsModule } from '@angular/forms';
+import { SearchCriteriaComponent } from './components/search-criteria/search-criteria.component';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -36,18 +39,18 @@ import { DataTablesModule } from 'angular-datatables';
     LayoutComponent,
     AgentassignmentComponent,
     SearchrecordComponent,
-    TablerecordComponent
+    TablerecordComponent,
+    SearchCriteriaComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    MatTableModule,
-    MatButtonModule,
-    MatToolbarModule,
+    MatTableModule, MatButtonModule,MatToolbarModule,MatPaginatorModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatPaginatorModule,
-    DataTablesModule
+    DataTablesModule,
+    FormsModule,
+    NgbDatepickerModule
   ],
   providers: [PddcampaigntransactionService, PddcampaignService,
     AgentassignmentService],

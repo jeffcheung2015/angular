@@ -17,16 +17,16 @@
     <mat-paginator [pageSizeOptions]="[3,6,9]" showFirstLastButtons></mat-paginator>
 
 </div>-->
-<div class="searchRecord-div">
+<div class="div-searchRecord">
   <h4>Search Criteria:
     <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
       “{{criteria}}”<span *ngIf="i < searchCriterias.length-1">,</span>
     </ng-container>
-    <span class="noOfCustomer-span">Table No. Of Customers: {{noOfCustomer}}</span>
+    <span class="span-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</span>
   </h4>
   <div class="table-wrapper table-responsive">
 
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover searchRecord-table">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
       <thead>
           <tr class="row1">
               <th class="noscroll" rowspan="2">Class</th>
@@ -36,11 +36,11 @@
               <th class="noscroll" rowspan="2">ID Card No</th>
               <th rowspan="2">Opt Out customer(GI)</th>
               <th rowspan="2">Opt Out customer(Life)</th>
-              <th colspan="3">Current Agent</th>
+              <th colspan="3" class="th-textCenter">Current Agent</th>
               <th></th>
               <th></th>
               <th></th>
-              <th colspan="5">Assign Agent</th>
+              <th colspan="5" class="th-textCenter">Assign Agent</th>
               <th rowspan="2">PruChat,Email Send Date(to agent)</th>
               <th rowspan="2">SMS,Email Send Date(to customer)/ View Customer Email</th>
           </tr>
@@ -76,19 +76,22 @@
           </tr>
       </thead>
     </table>
-    <div class="gotopage-div">
-      <span class="gotopage-span">Go to page</span>
-      <div class="gotopage_wrapper-div">
-        <!--<input type="text" [(ngModel)]="currPage" value="{{currPage}} / {{noOfPage}}"/>-->
-        <span id="gotopage_go-div">Go</span>
+    <div class="div-goToPage-showPerPage">
+      <div class="div-goToPage">
+        <span class="span-goToPage">Go to page</span>
+        <div class="div-goToPage_wrapper">
+          <input type="text" class="input-goToPage_left" [(ngModel)]="currPage" value="{{currPage}}"/>
+          <input type="text" class="input-goToPage_right" value="/ {{noOfPage}}" disabled/>
+          <input class="button-goToPage_go" value="GO" type="button" (click)="changeCurrTablePage(currPage)"/>
+        </div>
       </div>
+      <ul class="ul-showPerPage">
+        <span>show</span>
+        <li><a [ngClass]="mapToLengthMenuNum[5]" (click)="changeTablePerPage(5)">5</a></li>
+        <li><a [ngClass]="mapToLengthMenuNum[10]" (click)="changeTablePerPage(10)">10</a></li>
+        <li><a [ngClass]="mapToLengthMenuNum[20]" (click)="changeTablePerPage(20)">20</a></li>
+        <span>per page</span>
+      </ul>
     </div>
-    <ul class="searchRecord-ul">
-      <span>show</span>
-      <li><a [ngClass]="mapToLengthMenuNum[5]" (click)="changeTablePerPage(5)">5</a></li>
-      <li><a [ngClass]="mapToLengthMenuNum[10]" (click)="changeTablePerPage(10)">10</a></li>
-      <li><a [ngClass]="mapToLengthMenuNum[20]" (click)="changeTablePerPage(20)">20</a></li>
-      <span>per page</span>
-    </ul>
   </div>
 </div>

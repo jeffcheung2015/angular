@@ -1,0 +1,11 @@
+.div-dateOfSubmissionFrom, .div-dateOfSubmissionTo{
+  position:relative;
+
+  .input-dateOfSubmissionBtn{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: transparent;
+    width: 100%;
+  }
+}

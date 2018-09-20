@@ -12862,7 +12862,7 @@ h4 {
   position: relative;
 }
 .slide-body .accordion-group .accordion-item .accordion-title h4:after {
-  content: "\f067";
+  content: "\f068";
   font-family: FontAwesome;
   font-style: normal;
   font-weight: normal;
@@ -12880,10 +12880,29 @@ h4 {
   top: 11px;
   right: 15px;
 }
-.accordion-group .accordion-item .accordion-title.collapsed h4:after {
+.slide-body .accordion-group .accordion-item .accordion-title.collapsed h4:after {
+  content: "\f067" !important;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  float: right;
+  text-decoration: none;
+  font-size: 12px;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 26px;
+  color: #BCBCBA;
+  background-color: #EEEEEE;
+  position: absolute;
+  top: 11px;
+  right: 15px;
+}
+/*.accordion-group .accordion-item .accordion-title.collapsed h4:after {
   content: "\f068";
   background-color: #EEEEEE;
-}
+}*/
 .slide-body .accordion-group .accordion-item .accordion-title h4 .badge {
   vertical-align: middle;
   margin-top: -3px;
@@ -13193,7 +13212,7 @@ h4 {
 /*!
  * Yamm!3 - Yet another megamenu for Bootstrap 3
  * http://geedmo.github.com/yamm3
- * 
+ *
  * @geedmo - Licensed under the MIT license
  */
 .yamm .nav,
@@ -15534,6 +15553,3 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .approval{
   color: #158800;
 }
-
-
-
