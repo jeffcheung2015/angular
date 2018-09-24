@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-agentassignment',
   templateUrl: './agentassignment.component.html',
   styleUrls: ['./agentassignment.component.scss']
 })
-export class AgentassignmentComponent implements OnInit {
+export class AgentassignmentComponent implements OnInit, AfterViewInit {
+  //@ViewChild(searchCriteria) scComponent ;
+  //@ViewChild(searchRecord) srComponent ;
+
   searchRecordDisplayedColumns = ['Class', 'Policy No.', 'Prulife Pol. No.', 'Name of the Applicant',
   'ID Card No', 'Opt Out customer(GI)', 'Opt Out customer(Life)',
    'Agent Name','Agent Code','Agent Phone',
@@ -19,11 +22,14 @@ export class AgentassignmentComponent implements OnInit {
   'assignAgent_AgencyCode','assignAgent_AgencyName','assignAgent_AgencyPhone',
   'assignAgent_AgentAssignedDate','pruChatEmailSendDate','smsEmailSendDate'
   ];
-  searchRecordCriteria=['10029','jeff']; //dummy
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(){
+
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, HostListener, OnDestroy,AfterViewChecked } from '@angular/core';
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, KeyValuePipe } from '@angular/common';
 //import { MatPaginator, MatTableDataSource } from '@angular/material';
 //import {DataSource} from '@angular/cdk/collections';
 //import { Observable } from 'rxjs/Observable';
@@ -10,6 +10,7 @@ import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
 import {get as _get} from 'lodash';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-searchrecord',
@@ -19,8 +20,8 @@ import {get as _get} from 'lodash';
 export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked {
   @Input() displayedColumns : string[];
   @Input() displayedColumnsName : string[];
-  @Input() searchCriterias : string[];
-
+  searchCriterias : string[];
+  @Input() searchCriteriaComponent;
   noOfCustomer : number;
 
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
@@ -28,7 +29,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   dtTrigger= new Subject();
   pageInfo : any = {};
 
-  agentAssignSubscription;
   screenWidth: number;
 
   dataTableSettings;//for changing table pages in gotopage
@@ -42,7 +42,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     "20": "inactive-gray",
   };
 
-  constructor(private agentassignmentService : AgentassignmentService) {}
+  constructor(private agentassignmentService : AgentassignmentService, private http: HttpClient) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
@@ -54,7 +54,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.dtTrigger.next();
     });
   }
-
+  tableSearchRecords : AgentAssignmentRecord[];
   ngOnInit() {
     const that = this;
     let colArr = [], dataArr = [];
@@ -67,15 +67,49 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       fixedColumns: {
         leftColumns: (window.innerWidth > 800) ? 5 : 1
       },
-      data: [],
-      columns: colArr,
-      pageLength: 1,
+      pagingType: 'full_numbers',
+      pageLength: 5,
       scrollX:true,
+      scrollY:true,
       columnDefs: [{
         targets: "_all",
         orderable: false,
       }],
-      pagingType: 'full_numbers',
+      ajax:(params, callback, settings) => {
+        console.log(params)
+        console.log(callback)
+        console.log(settings)
+        this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json', {params: params}).subscribe((resp : any) => {
+            console.log(resp)
+            this.tableSearchRecords = resp.data;
+            console.log(this.tableSearchRecords)
+            this.noOfCustomer = resp.recordsFiltered;
+            this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
+            //resp may return the exact partitions
+            //callback(resp)
+            console.log(resp.draw)
+            let newObj = Object.assign({draw :this.draw}, resp);
+            this.draw++;
+            console.log(resp)
+            console.log(this.dtOptions.pageLength)
+            let resArr = {data:[]};
+            let fstRowIndex = (params.start);
+            console.log("fstRowIndex", fstRowIndex)
+            for(var i =0; i <params.length; i++){
+              let elem = _get(resp, 'data[' + (fstRowIndex + i) + ']');
+              console.log(i, elem)
+              if(elem){
+                resArr.data.push(elem);
+              }
+            }
+            console.log('resArr', resArr)
+            callback({
+              data:resArr.data,
+              recordsTotal: resp.recordsTotal,
+              recordsFiltered: resp.recordsFiltered
+            });
+          });
+      },
       language: {
         info: "",
         paginate: {
@@ -88,16 +122,20 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         // to change the hidden length menu
         lengthMenu: ``,
       },
-      searching: false
-
+      searching: false,
+      processing: true,
+      serverSide: true,
+      columns: colArr,
     }
     $('.table-searchRecord').on( 'page.dt', function (event,settings) {
       $('.input-goToPage_left').val(settings._iDisplayStart+1);
     });
+
   }
+  draw: number = 0;
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
-    this.agentassignmentService.getAgentAssignmentRecord().subscribe((resp : any)=>{
+    /*this.agentassignmentService.getAgentAssignmentRecord().subscribe((resp : any)=>{
 
       this.dtOptions.data = resp.data;
       this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -106,7 +144,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       });
       this.noOfCustomer = this.dtOptions.data.length;
       this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength)
-    });
+    });*/
   }
   ngAfterViewChecked(){
     //fetch the datatable's settings
@@ -117,7 +155,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   }
   ngOnDestroy(){
     this.dtTrigger.unsubscribe();
-    this.agentAssignSubscription.unsubscribe();
   }
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
@@ -146,4 +183,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     }
   }
 
+  refreshAndReloadSearchRecordTable(_searchCriteria : string[]){
+    this.searchCriterias = _searchCriteria;
+    console.log('refresh and reload');
+  }
 }

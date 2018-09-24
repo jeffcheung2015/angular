@@ -10,44 +10,52 @@
                             </a>
                             <div id="my-policy-diary" class="collapse in" style="">
                                 <div class="accordion-body">
-                                    <form action="#">
+                                    <form action="/api/searchCriteria" method="POST" (submit)="onSubmitSearch">
                                         <div>
                                             <div class="search-by-col-wrap">
                                                 <div class="search-by-col">
                                                     <div>
                                                         <label>Full Name</label>
-                                                        <input class="search-by-input" type="text">
+                                                        <input [(ngModel)]="fullName" name="fullNameField" class="search-by-input" type="text">
                                                     </div>
                                                     <div>
                                                         <label>Policy No.</label>
-                                                        <input class="search-by-input" type="text">
+                                                        <input [(ngModel)]="policyNo" name="policyNoField" class="search-by-input" type="text">
                                                     </div>
                                                 </div>
                                                 <div class="search-by-col">
                                                     <div>
                                                         <label>Mobile No.</label>
-                                                        <input class="search-by-input" type="text">
+                                                        <input [(ngModel)]="mobileNo" name="mobileNoField" class="search-by-input" type="text">
                                                     </div>
                                                     <div>
                                                         <label>Email Address</label>
-                                                        <input class="search-by-input" type="email">
+                                                        <input [(ngModel)]="emailAddr" name="emailAddrField" class="search-by-input" type="email">
                                                     </div>
                                                     <div>
                                                         <label>ID Card No.</label>
-                                                        <input class="search-by-input" type="email">
+                                                        <input [(ngModel)]="idCardno" name="idCardnoField" class="search-by-input" type="text">
                                                     </div>
                                                 </div>
                                                 <div class="search-by-col">
                                                     <div> Date of Submission Form
                                                         <div class="div-dateOfSubmissionFrom">
-                                                          <input name="dateOfSubmissionFrom" placeholder="DD/MM/YYYY" class="search-by-input datepicker1" [(ngModel)]="dateOfSubmissionFrom" ngbDatepicker #dFrom="ngbDatepicker" type="text">
-                                                          <input type="button" (click)="dFrom.toggle()" class="input-dateOfSubmissionBtn">
+
+                                                            <input matInput [matDatepicker]="dateOfSubmissionFromPicker" [(ngModel)]="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
+                                                            <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionFromPicker">
+                                                              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #dateOfSubmissionFromPicker></mat-datepicker>
                                                         </div>
                                                     </div> To
                                                     <div>
                                                       <div class="div-dateOfSubmissionTo">
-                                                        <input name="dateOfSubmissionTo" placeholder="DD/MM/YYYY" class="search-by-input datepicker1" [(ngModel)]="dateOfSubmissionTo" ngbDatepicker #dTo="ngbDatepicker" type="text">
-                                                        <input type="button" (click)="dTo.toggle()" class="input-dateOfSubmissionBtn">
+
+                                                        <input matInput [matDatepicker]="dateOfSubmissionToPicker" [(ngModel)]="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
+                                                        <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
+                                                          <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #dateOfSubmissionToPicker></mat-datepicker>
                                                       </div>
                                                     </div>
                                                 </div>
@@ -55,7 +63,7 @@
                                                     <div>
                                                         <label>Assignment</label>
                                                         <div class="dropdown-redarrow search-by-dropdown">
-                                                            <select>
+                                                            <select name="assignmentField">
                                                                 <option value="1">Home Insurance</option>
                                                                 <option value="1">Policy Details</option>
                                                                 <option value="1">Coverage Details</option>
@@ -71,6 +79,7 @@
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
+
                                         <div class="text-left">
                                             <input type="submit" class="btn btn-primary table-btn" value="Search">
                                             <input type="reset" class="btn btn-default table-btn" value="Reset">

@@ -2,6 +2,11 @@ div.div-searchRecord{
   .span-noOfCustomer{
     float:right;
   }
+  .dataTables_wrapper{
+    .dataTables_info{
+      display: none;
+    }
+  }
   table.table-searchRecord{
     .th-textCenter{
       text-align: center;
