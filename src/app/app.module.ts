@@ -22,6 +22,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import {
   MatAutocompleteModule,
@@ -91,8 +92,8 @@ import {
     AppRoutingModule,
     BrowserAnimationsModule,
     DataTablesModule,
-    FormsModule,
-    NgbDatepickerModule,
+    FormsModule,ReactiveFormsModule,
+    NgbDatepickerModule
 
   ],
   providers: [PddcampaigntransactionService, PddcampaignService,

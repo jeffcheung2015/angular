@@ -20,7 +20,9 @@
 <div class="div-searchRecord">
   <h4>Search Criteria:
     <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
-      “{{criteria}}”<span *ngIf="i < searchCriterias.length-1">,</span>
+      <span *ngIf="criteria">“{{criteria}}”
+        <span *ngIf="i < searchCriterias.length-1">,</span>
+      </span>
     </ng-container>
     <span class="span-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</span>
   </h4>
@@ -45,37 +47,48 @@
               <th rowspan="2">SMS,Email Send Date(to customer)/ View Customer Email</th>
           </tr>
           <tr class="row2">
-              <th class="table-subtitle">
-                  Agent Name
-              </th>
-              <th class="table-subtitle">
-                  Agent Code
-              </th>
-              <th class="table-subtitle">
-                  Agent Phone
-              </th>
-
+              <th class="table-subtitle">Agent Name</th>
+              <th class="table-subtitle">Agent Code</th>
+              <th class="table-subtitle">Agent Phone</th>
               <th>Date of Submission</th>
               <th>Campaign Code</th>
               <th>Assignment Type</th>
-              <th class="table-subtitle">
-                  Agency Team Name
-              </th>
-              <th class="table-subtitle">
-                  Agency Code
-              </th>
-              <th class="table-subtitle">
-                  Agency Name
-              </th>
-              <th class="table-subtitle">
-                  Agency Phone
-              </th>
-              <th class="table-subtitle">
-                  Agent Assigned Date
-              </th>
+              <th class="table-subtitle">Agency Team Name</th>
+              <th class="table-subtitle">Agency Code</th>
+              <th class="table-subtitle">Agency Name</th>
+              <th class="table-subtitle">Agency Phone</th>
+              <th class="table-subtitle">Agent Assigned Date</th>
           </tr>
       </thead>
-      
+      <!--<tbody *ngIf="tableSearchRecords?.length == 0">
+        <tr>
+          <td colspan="20">No data</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="tableSearchRecords?.length != 0">
+        <tr *ngFor="let tableSearchRecord of tableSearchRecords">
+          <td>{{tableSearchRecord.productClass}}</td>
+          <td>{{tableSearchRecord.policyNo}}</td>
+          <td>{{tableSearchRecord.prulifePolicyNo}}</td>
+          <td>{{tableSearchRecord.applicantName}}</td>
+          <td>{{tableSearchRecord.idCardno}}</td>
+          <td>{{tableSearchRecord.optOutCustomerGI}}</td>
+          <td>{{tableSearchRecord.optOutCustomerLife}}</td>
+          <td>{{tableSearchRecord.currentAgent_AgentName}}</td>
+          <td>{{tableSearchRecord.currentAgent_AgentCode}}</td>
+          <td>{{tableSearchRecord.currentAgent_AgentPhone}}</td>
+          <td>{{tableSearchRecord.dateOfSubmission}}</td>
+          <td>{{tableSearchRecord.campaignCode}}</td>
+          <td>{{tableSearchRecord.assignmentType}}</td>
+          <td>{{tableSearchRecord.assignAgent_AgencyTeamName}}</td>
+          <td>{{tableSearchRecord.assignAgent_AgencyCode}}</td>
+          <td>{{tableSearchRecord.assignAgent_AgencyName}}</td>
+          <td>{{tableSearchRecord.assignAgent_AgencyPhone}}</td>
+          <td>{{tableSearchRecord.assignAgent_AgentAssignedDate}}</td>
+          <td>{{tableSearchRecord.pruChatEmailSendDate}}</td>
+          <td>{{tableSearchRecord.smsEmailSendDate}}</td>
+        </tr>
+      </tbody>-->
     </table>
     <div class="div-goToPage-showPerPage">
       <div class="div-goToPage">

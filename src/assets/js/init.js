@@ -73,12 +73,12 @@ $(document).ready(function(){
   /*look for any elements with the class "dropdown-redarrow":*/
   x = document.getElementsByClassName("dropdown-redarrow");
   for (i = 0; i < x.length; i++) {
-    selElmnt = x[i].getElementsByTagName("select")[0];
+    selElmnt = $("[name=assignmentOptionField]")[0];
     /*for each element, create a new DIV that will act as the selected item:*/
     a = document.createElement("DIV");
-
     a.setAttribute("class", "select-selected");
-    a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+
+    a.innerHTML = selElmnt.options[0].innerHTML;
     x[i].appendChild(a);
     /*for each element, create a new DIV that will contain the option list:*/
     b = document.createElement("DIV");
@@ -87,6 +87,7 @@ $(document).ready(function(){
       /*for each option in the original select element,
       create a new DIV that will act as an option item:*/
       c = document.createElement("DIV");
+      if(j == 0){c.setAttribute("class", "same-as-selected");}
       c.innerHTML = selElmnt.options[j].innerHTML;
       c.addEventListener("click", function(e) {
         /*when an item is clicked, update the original select box,
@@ -94,6 +95,7 @@ $(document).ready(function(){
         var y, i, k, s, h;
         s = this.parentNode.parentNode.getElementsByTagName("select")[0];
         h = this.parentNode.previousSibling;
+
         for (i = 0; i < s.length; i++) {
           if (s.options[i].innerHTML == this.innerHTML) {
             for (i2 = 0; i2 < s.length; i2++) {
@@ -102,6 +104,7 @@ $(document).ready(function(){
             s.options[i].setAttribute("selected","selected");
             s.selectedIndex = i;
             h.innerHTML = this.innerHTML;
+
             y = this.parentNode.getElementsByClassName("same-as-selected");
             for (k = 0; k < y.length; k++) {
               y[k].removeAttribute("class");

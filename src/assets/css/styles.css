@@ -2407,6 +2407,7 @@ label[for="checkbox-office"] {
   padding: 16px 20px;
   border: 0;
   cursor: pointer;
+  height: 50px;
   font-size: 16px;
 }
 .select-items div:last-child {

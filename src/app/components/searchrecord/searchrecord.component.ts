@@ -56,11 +56,12 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   }
   tableSearchRecords : AgentAssignmentRecord[];
   ngOnInit() {
-    const that = this;
+
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val, index)=>{
       colArr.push({
-        data:val
+        data:val,
+        width:'0px'
       })
     });
     this.dtOptions = {
@@ -74,6 +75,71 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       columnDefs: [{
         targets: "_all",
         orderable: false,
+        createdCell: function (td, cellData, rowData, row, col) {
+          $(td).css('text-align',  '-webkit-center' );
+          //the whole row has to be in the same css height
+          //Assign Agent Section
+          if(col >= 13 && col <= 17){
+            if(col==15){
+              $(td).attr('colspan', '5');
+              let firstRow = (rowData.assignmentType === 'B' || rowData.assignmentType === 'C') ? `<tr>
+                  <td>`+ rowData.assignAgent_AgencyTeamName +`</td>
+                  <td>`+ rowData.assignAgent_AgencyCode +`</td>
+                  <td>`+ rowData.assignAgent_AgencyName +`</td>
+                  <td>`+ rowData.assignAgent_AgencyPhone +`</td>
+                  <td>`+ rowData.assignAgent_AgentAssignedDate +`</td>
+                </tr>` : `<button></button>`;
+              let secRowContent = (rowData.assignmentType === 'B') ?
+              `<button></button><button></button><button></button>` :
+               (rowData.assignmentType === 'C') ? `<button></button><button></button>` : ``;
+               
+              let secRow = (rowData.assignmentType === 'B' || rowData.assignmentType === 'C') ? `<tr>
+                  <td colspan="5">`+
+                  secRowContent +
+                  `</td>
+                </tr>` : ``;
+
+              $(td).html(`<table style="width:100%;height:100%">` +
+               firstRow +
+               secRow +
+              `</table>`);
+            }else{
+              $(td).remove();
+            }
+          }
+          //pruchat sms Section
+
+
+
+          if(col >= 13 && col <= 17){
+            switch(rowData.assignmentType){
+              case 'A': //assign only (1)
+                if(col == 15){
+
+                }else{
+
+                }
+                break;
+              case 'B': //val reassign pru sms (2)
+
+                break;
+              case 'C': //val pru sms (2)
+
+                break;
+              case 'D': //assign (1)
+
+                break;
+              case 'E': //sms (1)
+
+                break;
+              case 'F': //assign (1)
+
+                break;
+
+            }
+          }
+          console.log('td:', td, 'cellData:', cellData, 'rowData:', rowData, 'row:', row, 'col:', col)
+        }
       }],
       ajax:(params, callback, settings) => {
         console.log(params)
@@ -81,8 +147,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         console.log(settings)
         this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json', {params: params}).subscribe((resp : any) => {
             console.log(resp)
-            this.tableSearchRecords = resp.data;
-            console.log(this.tableSearchRecords)
             this.noOfCustomer = resp.recordsFiltered;
             this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
             //resp may return the exact partitions
@@ -90,6 +154,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             console.log(resp.draw)
             let newObj = Object.assign({draw :this.draw}, resp);
             this.draw++;
+
             console.log(resp)
             console.log(this.dtOptions.pageLength)
             let resArr = {data:[]};
@@ -103,8 +168,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               }
             }
             console.log('resArr', resArr)
+            this.tableSearchRecords = resArr.data;
             callback({
-              data:resArr.data,
+              data:resArr.data,//[],
               recordsTotal: resp.recordsTotal,
               recordsFiltered: resp.recordsFiltered
             });
@@ -128,6 +194,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       columns: colArr,
     }
     $('.table-searchRecord').on( 'page.dt', function (event,settings) {
+      console.log('Page change:', event, settings.oApi);
       $('.input-goToPage_left').val(settings._iDisplayStart+1);
     });
 
