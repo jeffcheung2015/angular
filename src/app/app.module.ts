@@ -61,6 +61,7 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { AgentdetailsComponent } from './pages/agentdetails/agentdetails.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import {
     SearchrecordComponent,
     TablerecordComponent,
     SearchcriteriaComponent,
+    AgentdetailsComponent,
   ],
   imports: [
     BrowserModule,

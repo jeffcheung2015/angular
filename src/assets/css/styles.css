@@ -15445,7 +15445,7 @@ table.dataTable thead th{
 }
 
 .re-assign{
-  background: #EFEFEF;
+  background: #EFEFEF !important;
   vertical-align: top !important;
 }
 .re-assign p{

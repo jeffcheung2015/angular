@@ -1,4 +1,5 @@
 div.div-searchRecord{
+  text-align: center;
   .span-noOfCustomer{
     float:right;
   }
@@ -7,7 +8,7 @@ div.div-searchRecord{
       display: none;
     }
   }
-  table.table-searchRecord{
+  .table-searchRecord{
     .th-textCenter{
       text-align: center;
     }
