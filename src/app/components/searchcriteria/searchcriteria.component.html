@@ -10,7 +10,37 @@
                             </a>
                             <div id="my-policy-diary" class="collapse in" style="">
                                 <div class="accordion-body">
-                                    <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearch(searchForm)">
+                                  <div *ngIf="currSubPage == 'agentDetails'">
+                                      <form [formGroup]="detailSearchForm" method="POST">
+                                          <div>
+                                              <div class="search-by-col-wrap">
+                                                  <div class="search-by-col">
+                                                      <div>
+                                                          <label>Agent Code</label>
+                                                          <input formControlName="agentCode" name="agentCodeField" class="search-by-input" type="text">
+                                                      </div>
+                                                      <div>
+                                                          <label>Agent Phone</label>
+                                                          <input formControlName="agentPhone" name="agentPhoneField" class="search-by-input" type="text">
+                                                      </div>
+                                                      <div>
+                                                          <label>Agent Name</label>
+                                                          <input formControlName="agentName" name="agentNameField" class="search-by-input" type="text">
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="clearfix"></div>
+                                              </div>
+                                          </div>
+
+                                          <div class="text-left">
+                                              <input type="submit" class="btn btn-primary table-btn" value="Search">
+                                              <input type="reset" class="btn btn-default table-btn" value="Reset">
+                                          </div>
+                                      </form>
+                                    </div>
+                                    <div *ngIf="currSubPage == 'agentAssign'">
+                                      <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearch(searchForm)">
                                         <div>
                                             <div class="search-by-col-wrap">
                                                 <div class="search-by-col">
@@ -63,12 +93,9 @@
                                                         <div class="dropdown-redarrow search-by-dropdown">
                                                             <select formControlName="assignmentOption" name="assignmentOptionField">
                                                                 <!--<option value=""></option>-->
-                                                                <option value="Home Insurance">Home Insurance</option>
-                                                                <option value="Policy Details">Policy Details</option>
-                                                                <option value="Coverage Details">Coverage Details</option>
-                                                                <option value="Premium Settlement">Premium Settlement</option>
-                                                                <option value="List of Claims">List of Claims</option>
-                                                                <option value="e-Alert">e-Alert</option>
+                                                                <option value="A">Assign</option>
+                                                                <option value="AA">Auto Assigned</option>
+                                                                <option value="R">Re-assign</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -84,6 +111,7 @@
                                             <input type="reset" class="btn btn-default table-btn" value="Reset">
                                         </div>
                                     </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>

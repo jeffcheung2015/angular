@@ -24,11 +24,25 @@
         <span *ngIf="i < searchCriterias.length-1">,</span>
       </span>
     </ng-container>
-    <span class="span-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</span>
+    <span class="span-noOfCustomer" *ngIf="currSubPage === 'agentAssign'">Table No. Of Customers: {{noOfCustomer}}</span>
+    <span class="span-noOfRenewals" *ngIf="currSubPage === 'agentDetails'">Table No. Of Renewals: {{noOfRenewals}}</span>
   </h4>
-  <div class="table-wrapper table-responsive">
-
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
+  <div class="table-wrapper table-responsive div-searchRecordDataTable">
+    <table *ngIf="currSubPage === 'agentDetails'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
+      <thead>
+        <tr class="row1">
+            <th class="noscroll">Agent Code</th>
+            <th class="noscroll">Agent Name</th>
+            <th class="noscroll">Email Address</th>
+            <th class="noscroll">Agent Phone</th>
+            <th class="noscroll">Last Assignment Date</th>
+            <th class="noscroll">Assign</th>
+            <th class="noscroll">On Leave</th>
+            <th class="noscroll"></th>
+        </tr>
+      </thead>
+    </table>
+    <table *ngIf="currSubPage === 'agentAssign'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
       <thead>
           <tr class="row1">
               <th class="noscroll" rowspan="2">Class</th>
@@ -60,35 +74,6 @@
               <th class="table-subtitle">Agent Assigned Date</th>
           </tr>
       </thead>
-      <!--<tbody *ngIf="tableSearchRecords?.length == 0">
-        <tr>
-          <td colspan="20">No data</td>
-        </tr>
-      </tbody>
-      <tbody *ngIf="tableSearchRecords?.length != 0">
-        <tr *ngFor="let tableSearchRecord of tableSearchRecords">
-          <td>{{tableSearchRecord.productClass}}</td>
-          <td>{{tableSearchRecord.policyNo}}</td>
-          <td>{{tableSearchRecord.prulifePolicyNo}}</td>
-          <td>{{tableSearchRecord.applicantName}}</td>
-          <td>{{tableSearchRecord.idCardno}}</td>
-          <td>{{tableSearchRecord.optOutCustomerGI}}</td>
-          <td>{{tableSearchRecord.optOutCustomerLife}}</td>
-          <td>{{tableSearchRecord.currentAgent_AgentName}}</td>
-          <td>{{tableSearchRecord.currentAgent_AgentCode}}</td>
-          <td>{{tableSearchRecord.currentAgent_AgentPhone}}</td>
-          <td>{{tableSearchRecord.dateOfSubmission}}</td>
-          <td>{{tableSearchRecord.campaignCode}}</td>
-          <td>{{tableSearchRecord.assignmentType}}</td>
-          <td>{{tableSearchRecord.assignAgent_AgencyTeamName}}</td>
-          <td>{{tableSearchRecord.assignAgent_AgencyCode}}</td>
-          <td>{{tableSearchRecord.assignAgent_AgencyName}}</td>
-          <td>{{tableSearchRecord.assignAgent_AgencyPhone}}</td>
-          <td>{{tableSearchRecord.assignAgent_AgentAssignedDate}}</td>
-          <td>{{tableSearchRecord.pruChatEmailSendDate}}</td>
-          <td>{{tableSearchRecord.smsEmailSendDate}}</td>
-        </tr>
-      </tbody>-->
     </table>
     <div class="div-goToPage-showPerPage">
       <div class="div-goToPage">

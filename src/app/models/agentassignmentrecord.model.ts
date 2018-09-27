@@ -1,27 +1,28 @@
 export class AgentAssignmentRecord {
-	productClass: string;
-	policyNo: string;
-	prulifePolicyNo: string;
-	applicantName: string;
-	idCardno: string;
-	optOutCustomerGI: string;
-	optOutCustomerLife: string;
+	prodClass : string;
+	polNo : string;
+	lifePolNo : string;
+	applicantName : string;
 
-	currentAgent_AgentName: string;
-	currentAgent_AgentCode: string;
-	currentAgent_AgentPhone: string;
+  idNo : string;
+	giOptOut : string;
+	lifeOptOut : string;
+	currentAgentName : string;
 
-	dateOfSubmission: string;
-	campaignCode: string;
-	assignmentType: string;
+  currentAgentCode : string;
+	currentAgentPhone : string;
+	dateOfSubmission : string;
 
-	assignAgent_AgencyTeamName: string;
-	assignAgent_AgencyCode: string;
-	assignAgent_AgencyName: string;
-	assignAgent_AgencyPhone: string;
-	assignAgent_AgentAssignedDate: string;
+  campaignCode : string;
+	assignmentType : string;
+	agentTeam : string;
 
-	pruChatEmailSendDate: string;
-	smsEmailSendDate: string;
+  agentCode : string;
+	agentName : string;
+	agentPhone : string;
 
+  agentAssignedDate : string;
+	agentSentDate : string;
+	customerSentDate : string;
+	lastEmailId: string;
 }

@@ -15449,8 +15449,8 @@ table.dataTable thead th{
   vertical-align: top !important;
 }
 .re-assign p{
-  font-size: 10px;
-  margin: 0;
+  /*font-size: 10px;
+  margin: 0;*/
 }
 
 table tbody tr td:nth-child(5) {

@@ -4,13 +4,19 @@
             <div class="row">
                 <div id="page-heading">
                     <ol class="breadcrumb">
-                        <li><a href="index.htm">Home</a></li>
-                        <li class="active"><a href="index.htm">Agent Assignment</a></li>
+                        <li [ngClass]="currSubPage=='home' ? 'active' : ''">
+                          <a routerLink="/agentHome" (click)="changeCurrSubPage('agentHome')">Home</a>
+                        </li>
+                        <li *ngIf="currSubPage=='agentAssign' || currSubPage=='agentDetails'" [ngClass]="currSubPage=='agentAssign' ? 'active' : ''">
+                          <a routerLink="agentAssign" (click)="changeCurrSubPage('agentAssign')">Agent Assignment</a>
+                        </li>
+                        <li *ngIf="currSubPage=='agentDetails'" [ngClass]="currSubPage=='agentDetails' ? 'active' : ''">
+                          <a routerLink="agentDetails" (click)="changeCurrSubPage('agentDetails')">Agent Details</a>
+                        </li>
                     </ol>
                 </div>
             </div>
-
-            <app-searchcriteria #searchCriteriaComponent [searchRecordComponent]="searchRecordComponent"></app-searchcriteria>
+            <app-searchcriteria #searchCriteriaComponent [currSubPage]="currSubPage" [searchRecordComponent]="searchRecordComponent"></app-searchcriteria>
 
     <div class="row">
         <div class="col-md-12">
@@ -20,6 +26,7 @@
                         <div class="col-md-12 clearfix">
                           <app-searchrecord
                           #searchRecordComponent
+                          [currSubPage]="currSubPage"
                           [searchCriteriaComponent]="searchCriteriaComponent"
                           [displayedColumns]="searchRecordDisplayedColumns"
                           [displayedColumnsName]="searchRecordDisplayedColumnsName"

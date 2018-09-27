@@ -1,6 +1,6 @@
 div.div-searchRecord{
-  text-align: center;
-  .span-noOfCustomer{
+
+  .span-noOfCustomer, .span-noOfRenewals{
     float:right;
   }
   .dataTables_wrapper{
@@ -8,9 +8,12 @@ div.div-searchRecord{
       display: none;
     }
   }
-  .table-searchRecord{
-    .th-textCenter{
-      text-align: center;
+  .div-searchRecordDataTable{
+    text-align: center;
+
+    .table-searchRecord{
+      .th-textCenter{
+      }
     }
   }
   .div-goToPage-showPerPage{

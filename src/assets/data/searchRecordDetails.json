@@ -1,0 +1,22 @@
+{
+  "draw": 0,
+  "recordsTotal": 2,
+  "recordsFiltered": 2,
+  "data" : [{
+    "agentCode":"900009104762",
+    "agentName":"ZHANG YONG",
+    "emailAddress":"sherman.py.yeung@pruhk.com",
+    "agentPhone":"91234567",
+    "lastAssignmentDate":"02/03/2018 11:53",
+    "assign":null,
+    "onLeave":"08/10 - 10/10"
+  },{
+    "agentCode":"900009104762",
+    "agentName":"ZHANG YONG",
+    "emailAddress":"sherman.py.yeung@pruhk.com",
+    "agentPhone":"91234567",
+    "lastAssignmentDate":"02/04/2018 11:53",
+    "assign":null,
+    "onLeave":null
+  }]
+  }
