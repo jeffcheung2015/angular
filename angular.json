@@ -90,7 +90,8 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              { "glob": "searchRecord.json", "input": "src/assets/", "output": "./assets/data/" }
             ]
           }
         },
