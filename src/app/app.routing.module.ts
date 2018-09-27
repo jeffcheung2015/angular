@@ -6,12 +6,13 @@ import {PageNotFoundComponent} from "./components/notfound.component";
 import {DefaultPageComponent} from "./components/defaultpage.component";
 import {AppComponent} from "./app.component";
 import {AgentassignmentComponent} from "./pages/agentassignment/agentassignment.component";
-
+import { AgentdetailsComponent } from './pages/agentdetails/agentdetails.component';
 
 const appRoutes: Routes = [
   { path: 'PddTransactions', component: PddcampaigntransactiontableComponent },
   { path: 'PddCampaigns',  component: PddcampaigntableComponent },
   { path: 'Agent', component: AgentassignmentComponent },
+  { path: 'AgentDetails', component: AgentdetailsComponent},
   { path: '', component: DefaultPageComponent, pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

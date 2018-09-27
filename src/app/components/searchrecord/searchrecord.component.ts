@@ -76,25 +76,32 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         targets: "_all",
         orderable: false,
         createdCell: function (td, cellData, rowData, row, col) {
-          $(td).css('text-align',  '-webkit-center' );
           //the whole row has to be in the same css height
           //Assign Agent Section
+          let assignType = rowData.assignmentType;
           if(col >= 13 && col <= 17){
             if(col==15){
               $(td).attr('colspan', '5');
-              let firstRow = (rowData.assignmentType === 'B' || rowData.assignmentType === 'C') ? `<tr>
-                  <td>`+ rowData.assignAgent_AgencyTeamName +`</td>
-                  <td>`+ rowData.assignAgent_AgencyCode +`</td>
-                  <td>`+ rowData.assignAgent_AgencyName +`</td>
-                  <td>`+ rowData.assignAgent_AgencyPhone +`</td>
-                  <td>`+ rowData.assignAgent_AgentAssignedDate +`</td>
-                </tr>` : `<button></button>`;
-              let secRowContent = (rowData.assignmentType === 'B') ?
-              `<button></button><button></button><button></button>` :
-               (rowData.assignmentType === 'C') ? `<button></button><button></button>` : ``;
-               
-              let secRow = (rowData.assignmentType === 'B' || rowData.assignmentType === 'C') ? `<tr>
-                  <td colspan="5">`+
+              $(td).addClass((assignType !== 'B') ? '' : 're-assign');
+              let firstRow = (assignType === 'B' || assignType === 'C') ? `<tr class="` +
+                  ((assignType === 'B') ? `re-assign` : ``) + `">
+                  <td><p>` + rowData.assignAgent_AgencyTeamName + `</p></td>
+                  <td><p>` + rowData.assignAgent_AgencyCode + `</p></td>
+                  <td><p>` + rowData.assignAgent_AgencyName + `</p></td>
+                  <td><p>` + rowData.assignAgent_AgencyPhone + `</p></td>
+                  <td><p>` + rowData.assignAgent_AgentAssignedDate + `</p></td>
+                </tr>` : `<button>Assign</button>`;
+
+              let assignBtnHTML = `<button>Reassign</button>`;
+              let pruchatBtnHTML = `<button>PruChat,Email Send Date(to agent)</button>`;
+              let smsEmailBtnHTML = `<button>SMS,Email Send Date(to customer)/ View Customer Email</button>`;
+
+              let secRowContent = (assignType === 'B') ? assignBtnHTML + pruchatBtnHTML + smsEmailBtnHTML :
+               (assignType === 'C') ? pruchatBtnHTML + smsEmailBtnHTML : ``;
+
+              let secRow = (assignType === 'B' || assignType === 'C') ? `<tr>
+                  <td colspan="5" ` +
+                  ((assignType === 'B') ? `class="re-assign"` : ``) + `>`+
                   secRowContent +
                   `</td>
                 </tr>` : ``;
@@ -108,17 +115,10 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             }
           }
           //pruchat sms Section
-
-
-
-          if(col >= 13 && col <= 17){
-            switch(rowData.assignmentType){
+          if(col >= 18){
+            switch(assignType){
               case 'A': //assign only (1)
-                if(col == 15){
 
-                }else{
-
-                }
                 break;
               case 'B': //val reassign pru sms (2)
 
@@ -138,7 +138,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
             }
           }
-          console.log('td:', td, 'cellData:', cellData, 'rowData:', rowData, 'row:', row, 'col:', col)
+          //console.log('td:', td, 'cellData:', cellData, 'rowData:', rowData, 'row:', row, 'col:', col)
         }
       }],
       ajax:(params, callback, settings) => {
