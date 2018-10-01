@@ -1,0 +1,15 @@
+.onLeaveModalForm{
+  .modal-header{
+    .modal-title{
+      color: #FE0000;
+    }
+  }
+  .modal-body{
+    .label-fromField, .label-toField{
+      display: block;
+    }
+    .material-icons{
+      color:red;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-.div-searchRecord{
+.div-detailSearchRecord{
 
   .span-noOfCustomer, .span-noOfRenewals{
     float:right;
@@ -8,11 +8,13 @@
       display: none;
     }
   }
-  .div-searchRecordDataTable{
+  .div-detailSearchRecordDataTable{
     text-align: center;
 
-    .table-searchRecord{
-      .th-textCenter{
+    .table-detailSearchRecord{
+      width: 100% !important;
+      th.noscroll{
+        font-size: 12px;
       }
     }
   }

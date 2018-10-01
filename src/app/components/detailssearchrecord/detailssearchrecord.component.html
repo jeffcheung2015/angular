@@ -17,47 +17,28 @@
     <mat-paginator [pageSizeOptions]="[3,6,9]" showFirstLastButtons></mat-paginator>
 
 </div>-->
-<div class="div-searchRecord">
+<div class="div-detailSearchRecord">
   <h4>Search Criteria:
     <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
       <span *ngIf="criteria">“{{criteria}}”
-        <span *ngIf="i < searchCriterias.length-1 && criteria">,</span>
+        <span *ngIf="i < searchCriterias.length-1">,</span>
       </span>
     </ng-container>
-    <span class="span-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</span>
+    <span class="span-noOfRenewals">Table No. Of Renewals: {{noOfRenewals}}</span>
   </h4>
-  <div class="table-wrapper table-responsive div-searchRecordDataTable">
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
+  <div class="table-wrapper table-responsive div-detailSearchRecordDataTable">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-detailSearchRecord">
       <thead>
-          <tr class="row1">
-              <th class="noscroll" rowspan="2">Class</th>
-              <th class="noscroll" rowspan="2">Policy No.</th>
-              <th class="noscroll" rowspan="2">Prulife Pol. No.</th>
-              <th class="noscroll" rowspan="2">Name of the Applicant</th>
-              <th class="noscroll" rowspan="2">ID Card No</th>
-              <th rowspan="2">Opt Out customer(GI)</th>
-              <th rowspan="2">Opt Out customer(Life)</th>
-              <th colspan="3" class="th-textCenter">Current Agent</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th colspan="5" class="th-textCenter">Assign Agent</th>
-              <th rowspan="2">PruChat,Email Send Date(to agent)</th>
-              <th rowspan="2">SMS,Email Send Date(to customer)/ View Customer Email</th>
-          </tr>
-          <tr class="row2">
-              <th class="table-subtitle">Agent Name</th>
-              <th class="table-subtitle">Agent Code</th>
-              <th class="table-subtitle">Agent Phone</th>
-              <th>Date of Submission</th>
-              <th>Campaign Code</th>
-              <th>Assignment Type</th>
-              <th class="table-subtitle">Agency Team Name</th>
-              <th class="table-subtitle">Agency Code</th>
-              <th class="table-subtitle">Agency Name</th>
-              <th class="table-subtitle">Agency Phone</th>
-              <th class="table-subtitle">Agent Assigned Date</th>
-          </tr>
+        <tr class="row1">
+            <th class="noscroll">Agent Code</th>
+            <th class="noscroll">Agent Name</th>
+            <th class="noscroll">Email Address</th>
+            <th class="noscroll">Agent Phone</th>
+            <th class="noscroll">Last Assignment Date</th>
+            <th class="noscroll">Assign</th>
+            <th class="noscroll">On Leave</th>
+
+        </tr>
       </thead>
     </table>
     <div class="div-goToPage-showPerPage">

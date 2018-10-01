@@ -13,19 +13,19 @@ import {get as _get} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import constants from '../../constants/constants';
+
 @Component({
-  selector: 'app-searchrecord',
-  templateUrl: './searchrecord.component.html',
-  styleUrls: ['./searchrecord.component.scss']
+  selector: 'app-detailssearchrecord',
+  templateUrl: './detailssearchrecord.component.html',
+  styleUrls: ['./detailssearchrecord.component.scss']
 })
-export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked {
-  displayedColumns : string[] = constants["SearchRecordColumnName"];
-  displayedColumnsName : string[] = constants["SearchRecordColumnField"];
-  searchCriterias : string[] = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign"];
-  searchCriteriaFieldName : string[] = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
-    "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption"];
+export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked {
+  displayedColumns : string[] = constants["DetailSearchRecordColumnName"];
+  displayedColumnsName : string[] = constants["DetailSearchRecordColumnField"];
+  searchCriterias : string[] = ["", "" ,""];
+  searchCriteriaFieldName : string[] = ["agentCode","agentPhone","agentName"];
+
   searchCriteriaComponent;
-  noOfCustomer : number = 0;
   noOfRenewals : number = 0;
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
@@ -35,8 +35,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   screenWidth: number;
 
   dataTableSettings;//for changing table pages in gotopage
-  noOfPage : number;
-  currPage : number = 1;
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
@@ -44,44 +42,38 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     "10": "inactive-gray",
     "20": "inactive-gray",
   };
+  //tableSearchRecords : AgentAssignmentRecord[];
   constructor(private agentassignmentService : AgentassignmentService,
      private http: HttpClient) {
-
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     this.screenWidth = window.innerWidth;
     console.log("New Screen width:" + window.innerWidth);
-    this.dtOptions.fixedColumns.leftColumns = (this.screenWidth < 800) ? 1 : 5;
     this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.destroy();
       this.dtTrigger.next();
     });
   }
 
-
-
   ngOnInit() {
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
-
+    //this.searchCriteriaComponent.setSearchRecordComponent(this);
+    console.log("detail search record ")
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val, index)=>{
-      colArr.push({
-        data:val,
-        width:'0px'
-      })
+      let col : any = {};
+      col.data = val;
+      colArr.push(col);
     });
     this.dtOptions = {
-      fixedColumns: {
-        leftColumns: (window.innerWidth > 800) ? 5 : 1
-      },
       pagingType: 'full_numbers',
       pageLength: 5,
       scrollX:true,
       scrollY:true,
-      columnDefs : this.agentAssignedColumnDef(),
-      ajax : this.agentAssignedAjax(),
+      columnDefs : this.agentDetailsColumnDef(),
+      ajax : this.agentDetailsAjax(),
       processing: true,
       serverSide: true,
       language: {
@@ -99,31 +91,23 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       searching: false,
       columns: colArr,
     }
-
     $('.table-searchRecord').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
-
   }
   draw: number = 0;
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
-    console.log('###@@@',this.searchCriteriaComponent);
-  }
-  //search criteria component is ngif content and will only be available
-  //after content init
-  ngAfterContentInit(){
-  //this.searchCriteriaComponent.setSearchRecordComponent(this);
 
   }
-
   ngAfterViewChecked(){
     //fetch the datatable's settings
     //since angular-datatables is not supporting changing table page in option yet
     //make use of settings.oApi._fnPageChange to change the page
     //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
     this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
+
   }
   ngOnDestroy(){
     this.dtTrigger.unsubscribe();
@@ -144,15 +128,13 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       dtInstance.destroy();
       this.dtTrigger.next();
     });
-    this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
-    this.currPage = 1;
+
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
       console.log('Change to page: ' + page);
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
-      this.currPage = page;
     }
   }
   //called outside of this component
@@ -168,105 +150,42 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.dtTrigger.next();
     });
   }
-  agentAssignedColumnDef(){
+  agentDetailsColumnDef(){
     return [{
       targets: "_all",
       orderable: false,
       createdCell: function (td, cellData, rowData, row, col) {
-        let assignType = rowData.assignmentType;
-        let agentCode = rowData.agentCode;
+        let redBtnClass = "btn btn-primary table-btn";
+        let grayBtnClass = "btn btn-default table-btn";
         let convertDate = (date, minsOpt) => {
           return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " +
           ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
-        //A,D,F assign btn only
-        //B val reassign pru sms
-        //C val pru sms
-        //E sms btn only
-        let rowSymbol = (assignType === 1 && !agentCode) ? 'A' :
-                        (assignType === 1 && agentCode) ? 'B' :
-                        (assignType === 2) ? 'C' :
-                        (assignType === 3) ? 'D' :
-                        (assignType === 4) ? 'E' : 'F';
-        if(col < 13){
-          if(!cellData){ //for those null data
-            $(td).html('-');
-          }else{ //col 10 convert date str into proper format dd/MM/YYYY
-            if(col === 10 && cellData){
+        let onLeave = rowData.onLeave;
+
+        switch(col){
+          case 4:
+            if(cellData){
               let convertDateData = new Date(cellData);
               $(td).html(convertDate(convertDateData, 'withoutMins'));
             }
-          }
-        }else if(col >= 13 && col <= 17){
-          if(col!==15){  //remove and merge all the 5 tds as a one td
-            $(td).remove();
-          }else{
-            $(td).attr('colspan', '5');
-
-            $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
-
-            let redBtnClass = "btn btn-primary table-btn";
-            let grayBtnClass = "btn btn-default table-btn";
-
-            let assignBtnHTML = `<a class="` + redBtnClass + `" href="/agentHome/agentDetails">Assign</a>`;
-            let reassignBtnHTML = `<a class="` + redBtnClass + `">Re-assign</a>`;
-            let pruchatBtnHTML = `<a class="` + grayBtnClass + `">PruChat & Email to Agent(Resend)</a>`;
-            let smsEmailBtnHTML = `<a class="` + grayBtnClass + `">SMS & Email to Customer(Resend)</a>`;
-
-            let agentAssignedDate = new Date(rowData.agentAssignedDate);
-
-            let tdValRowHTML = `<td><p>` + rowData.agentTeam + `</p></td>
-            <td><p>` + rowData.agentCode + `</p></td>
-            <td><p>` + rowData.agentName + `</p></td>
-            <td><p>` + rowData.agentPhone + `</p></td>
-            <td><p>` + convertDate(agentAssignedDate, 'withoutMins') + `</p></td>`;
-
-            let firstRow :string = '' , secRow :string = '';
-
-            switch(rowSymbol){
-              case 'A': case 'D': case 'F':
-                firstRow = assignBtnHTML;
-                break;
-              case 'B': //val reassign pru sms (2)
-                firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
-                secRow = `<tr><td colspan="5" class="re-assign">` + reassignBtnHTML +
-                 pruchatBtnHTML + smsEmailBtnHTML + `</td></tr>`;
-                break;
-              case 'C': //val pru sms (2)
-                firstRow = `<tr>` + tdValRowHTML + `</tr>`;
-                secRow = `<tr><td colspan="5">` +
-                 pruchatBtnHTML + smsEmailBtnHTML + `</td></tr>`;
-                break;
-              case 'E': //sms (1)
-                firstRow = smsEmailBtnHTML;
-                break;
-            }
-            $(td).html(`<table style="width:100%;height:100%">` +
-                         firstRow +
-                         secRow +
-                        `</table>`);
-          }
-        }else if(col >= 18){ //pruchat sms Section
-          $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
-          let dataArrSrc = (col === 18) ? rowData.agentSentDate : rowData.customerSentDate;
-          let tdhtml = "";
-          if(dataArrSrc && dataArrSrc.length != 0){
-            dataArrSrc.forEach((data)=>{
-              let dateData = new Date(data);
-              tdhtml += `<p>` + convertDate(dateData, "withMins") + `</p>`;
-            });
-            tdhtml += `<a href='viewEmail/` + rowData.lastEmailId + `'>View email</a>`;
-          }else{
-            tdhtml = 'N/A';
-          }
-          $(td).html(tdhtml);
+            break;
+          case 5:
+            $(td).html(`<a class="` + redBtnClass + `">Select</a>`);
+            break;
+          case 6:
+            let resetOrAdd = (onLeave) ? "Reset" : "Add";
+            let onleaveP = (onLeave) ? "<p style='margin:auto;'>" + onLeave + "</p>" : "";
+            $(td).css("display", "inline-flex");
+            $(td).css("width", "100%");
+            $(td).html(onleaveP + `<a style="margin:auto" class="` + grayBtnClass + `" data-toggle="modal" data-target="#myModal" >` + resetOrAdd + `</a>`);
+            break;
         }
       }
     }]
   }
-  agentAssignedAjax(){
+  agentDetailsAjax(){
     return (params, callback, settings) => {
-
       this.searchCriterias.forEach((data, key)=>{
         params[this.searchCriteriaFieldName[key]] = data;
       });
@@ -274,29 +193,25 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       console.log(callback)
       console.log(settings)
 
-      this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json',
+      this.http.get('http://localhost:4200/eas/assets/data/searchRecordDetails.json',
         {
           params: params
         }
       ).subscribe((resp : any) => {
-          this.noOfCustomer = resp.recordsFiltered;
-          this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
+          this.noOfRenewals = resp.recordsFiltered;
           //resp may return the exact partitions
           //callback(resp)
           let newObj = Object.assign({draw :this.draw}, resp);
           this.draw++;
           let resArr = {data: Array<any>()};
           let fstRowIndex = (params.start);
-          //console.log("fstRowIndex", fstRowIndex)
-          for(var i = 0; i <params.length; i++){
+          for(var i =0; i <params.length; i++){
             let elem = _get(resp, 'data[' + (fstRowIndex + i) + ']');
-          //  console.log(i, elem)
+            console.log(i, elem)
             if(elem){
               resArr.data.push(elem);
             }
           }
-          //console.log('resArr', resArr)
-
           callback({
             data:resArr.data,//[],
             recordsTotal: resp.recordsTotal,
@@ -305,5 +220,4 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         });
     }
   }
-
 }

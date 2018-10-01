@@ -1,3 +1,45 @@
+<!-- modal in subpage agent details -->
+<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <form [formGroup]="onLeaveModalForm" (ngSubmit)="onSubmitUpdate()" class="onLeaveModalForm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">On Leave</h4>
+            </div>
+            <div class="modal-body clearfix">
+              <div class="col-md-6">
+                  <label class="label-fromField">From</label>
+                  <input placeholder="DD/MM/YYYY" class="search-by-input"
+                   (dateChange)="onLeaveDateChange($event, 0)"
+                   matInput [max]="maxDateFrom" [matDatepicker]="onLeaveFromPicker"
+                   formControlName="onLeaveFrom" name="onLeaveFromField">
+                  <mat-datepicker-toggle matSuffix [for]="onLeaveFromPicker">
+                    <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #onLeaveFromPicker></mat-datepicker>
+              </div>
+              <div class="col-md-6">
+                  <label class="label-toField">To</label>
+                  <input placeholder="DD/MM/YYYY" class="search-by-input"
+                   (dateChange)="onLeaveDateChange($event, 1)"
+                   matInput [min]="minDateTo" [matDatepicker]="onLeaveToPicker"
+                   formControlName="onLeaveTo" name="onLeaveToField">
+                  <mat-datepicker-toggle matSuffix [for]="onLeaveToPicker">
+                    <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #onLeaveToPicker></mat-datepicker>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary table-btn">Save</button>
+                <button type="button" class="btn btn-default table-btn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+  </form>
+</div>
+<!-- modal in subpage agent details -->
+
 <div id="page-content">
     <div id='wrap'>
         <div class="container">
@@ -7,16 +49,23 @@
                         <li [ngClass]="currSubPage=='home' ? 'active' : ''">
                           <a routerLink="/agentHome" (click)="changeCurrSubPage('agentHome')">Home</a>
                         </li>
-                        <li *ngIf="currSubPage=='agentAssign' || currSubPage=='agentDetails'" [ngClass]="currSubPage=='agentAssign' ? 'active' : ''">
+                        <li *ngIf="currSubPage=='agentAssign' || currSubPage=='agentDetails' || currSubPage == 'campaignDetails'" [ngClass]="currSubPage=='agentAssign' ? 'active' : ''">
                           <a routerLink="agentAssign" (click)="changeCurrSubPage('agentAssign')">Agent Assignment</a>
                         </li>
                         <li *ngIf="currSubPage=='agentDetails'" [ngClass]="currSubPage=='agentDetails' ? 'active' : ''">
                           <a routerLink="agentDetails" (click)="changeCurrSubPage('agentDetails')">Agent Details</a>
                         </li>
+                        <li *ngIf="currSubPage=='campaignDetails'" [ngClass]="currSubPage=='campaignDetails' ? 'active' : ''">
+                          <a routerLink="campaignDetails" (click)="changeCurrSubPage('campaignDetails')">Campaign Details</a>
+                        </li>
+                        <a (click)="logAgent()">TEST BTN</a>
                     </ol>
                 </div>
             </div>
-            <app-searchcriteria #searchCriteriaComponent [currSubPage]="currSubPage" [searchRecordComponent]="searchRecordComponent"></app-searchcriteria>
+            <app-searchcriteria
+            *ngIf="currSubPage == 'agentAssign' || currSubPage == 'agentDetails'"
+            [currSubPage]="currSubPage"
+            ></app-searchcriteria>
 
     <div class="row">
         <div class="col-md-12">
@@ -25,13 +74,18 @@
                     <div class="row">
                         <div class="col-md-12 clearfix">
                           <app-searchrecord
-                          #searchRecordComponent
-                          [currSubPage]="currSubPage"
-                          [searchCriteriaComponent]="searchCriteriaComponent"
-                          [displayedColumns]="searchRecordDisplayedColumns"
-                          [displayedColumnsName]="searchRecordDisplayedColumnsName"
+                          *ngIf="currSubPage == 'agentAssign'"
                           >
                           </app-searchrecord>
+                          <app-detailssearchrecord
+                          *ngIf="currSubPage == 'agentDetails'"
+                          >
+                          </app-detailssearchrecord>
+                          <app-campaigndetails
+                          *ngIf="currSubPage == 'campaignDetails'"
+
+                          >
+                          </app-campaigndetails>
                         </div>
                     </div>
                 </div>

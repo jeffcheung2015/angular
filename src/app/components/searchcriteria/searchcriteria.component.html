@@ -11,7 +11,7 @@
                             <div id="my-policy-diary" class="collapse in" style="">
                                 <div class="accordion-body">
                                   <div *ngIf="currSubPage == 'agentDetails'">
-                                      <form [formGroup]="detailSearchForm" method="POST">
+                                      <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearch()">
                                           <div>
                                               <div class="search-by-col-wrap">
                                                   <div class="search-by-col">
@@ -40,7 +40,7 @@
                                       </form>
                                     </div>
                                     <div *ngIf="currSubPage == 'agentAssign'">
-                                      <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearch(searchForm)">
+                                      <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearch()">
                                         <div>
                                             <div class="search-by-col-wrap">
                                                 <div class="search-by-col">
@@ -97,6 +97,12 @@
                                                                 <option value="AA">Auto Assigned</option>
                                                                 <option value="R">Re-assign</option>
                                                             </select>
+                                                            <div class="select-selected"></div>
+                                                            <div class="select-items select-hide"><!--same-as-selected-->
+                                                              <div>Assign</div>
+                                                              <div>Auto Assigned</div>
+                                                              <div>Re-assign</div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -1489,9 +1489,6 @@ caption {
   color: #aeafb1;
   text-align: left;
 }
-th {
-  text-align: left;
-}
 .table {
   width: 100%;
   max-width: 100%;
@@ -3824,7 +3821,7 @@ button.close {
   cursor: not-allowed;
 }
 .modal-open {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .modal {
   display: none;
@@ -3834,7 +3831,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1050;
+  z-index: 999;
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
@@ -3849,14 +3846,14 @@ button.close {
   transition: transform 0.3s ease-out;
 }
 .modal.in .modal-dialog {
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  -o-transform: translate(0, 0);
-  transform: translate(0, 0);
+  -webkit-transform: translate(0, 50%);
+  -ms-transform: translate(0, 50%);
+  -o-transform: translate(0, 50%);
+  transform: translate(0, 50%);
 }
 .modal-open .modal {
   overflow-x: hidden;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 .modal-dialog {
   position: relative;
@@ -3875,7 +3872,7 @@ button.close {
   outline: 0;
 }
 .modal-backdrop {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   left: 0;

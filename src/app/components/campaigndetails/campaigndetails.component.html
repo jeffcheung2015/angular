@@ -1,0 +1,87 @@
+<div class="row"><div class="col-md-12">
+    <div class="panel">
+        <div class="panel-body slide-body">
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                    <div id="accordioninpanel" class="accordion-group clearfix">
+                        <div class="accordion-item col-lg-12 col-md-12">
+                            <a><h4 style="color: #FE0000;border-bottom: 1px solid #EBEBEB; padding: 20px 0px;margin-left: 20px;">Campaign Details</h4></a>
+                            <div id="my-policy-diary" class="clearfix">
+                                <div class="client-detail compaign-detail">
+                                    <div class="col-lg-6 col-md-6 detail-box">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 ">Campaign Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 ">{{campaignCode}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6">Campaign Start Date</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{campaignStartDate}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 ">Campaign End Date</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 ">{{campaignEndDate}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6">Premium Percent Off</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{premPercentOff}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6">Generic Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{genericCode}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6">Promotion Code Pool</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{promotionCodePool}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6">Promotion Code Unit</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{promotionCodeUnit}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 detail-box">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6">Partner Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{partnerCode}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 ">Partner Name</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{partnerName}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6">Product Subtype</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{productSubType}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item col-lg-6 col-md-6">
+                            <a><h4 style="color: #FE0000;border-bottom: 1px solid #EBEBEB; padding: 20px 0px;margin-left: 20px;">Promotion Code Usage</h4></a>
+                            <div id="my-policy-diary" class="clearfix">
+                                <div class="client-detail">
+                                    <div class="col-lg-12 detail-box">
+                                        <p>{{productCodeUsage}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="accordion-item col-lg-12 col-md-12 col-xs-12">
+                            <h4 style="margin:20px 0 0 20px;color: #FE0000;">Remarks</h4>
+                            <div class="col-md-6" id="remarkDiv">
+                              {{remarks}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-box clearfix">
+                        <input routerLink="agentAssign" type="submit" class=" btn btn-default table-btn float-left all-btn" value="Back">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div></div>

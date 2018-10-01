@@ -14,6 +14,7 @@ const appRoutes: Routes = [
     children:[
       { path: 'agentAssign', component: AgentassignmentComponent },
       { path: 'agentDetails', component: AgentassignmentComponent },
+      { path: 'campaignDetails', component: AgentassignmentComponent },
     ]
   },
   { path: '', component: DefaultPageComponent, pathMatch: 'full' },

@@ -68,30 +68,30 @@ $(document).ready(function(){
   })
 
   // select option
-  var x, i, j, selElmnt, a, b, c;
+  /*var x, i, j, selElmnt, a, b, c;
 
-  /*look for any elements with the class "dropdown-redarrow":*/
+  //look for any elements with the class "dropdown-redarrow":
   x = document.getElementsByClassName("dropdown-redarrow");
   for (i = 0; i < x.length; i++) {
     selElmnt = $("[name=assignmentOptionField]")[0];
-    /*for each element, create a new DIV that will act as the selected item:*/
+    //for each element, create a new DIV that will act as the selected item:
     a = document.createElement("DIV");
     a.setAttribute("class", "select-selected");
 
     a.innerHTML = selElmnt.options[0].innerHTML;
     x[i].appendChild(a);
-    /*for each element, create a new DIV that will contain the option list:*/
+    //for each element, create a new DIV that will contain the option list:
     b = document.createElement("DIV");
     b.setAttribute("class", "select-items select-hide");
     for (j = 0; j < selElmnt.length; j++) {
-      /*for each option in the original select element,
-      create a new DIV that will act as an option item:*/
+      //for each option in the original select element,
+      //create a new DIV that will act as an option item:
       c = document.createElement("DIV");
       if(j == 0){c.setAttribute("class", "same-as-selected");}
       c.innerHTML = selElmnt.options[j].innerHTML;
       c.addEventListener("click", function(e) {
-        /*when an item is clicked, update the original select box,
-        and the selected item:*/
+        //when an item is clicked, update the original select box,
+        //and the selected item:
         var y, i, k, s, h;
         s = this.parentNode.parentNode.getElementsByTagName("select")[0];
         h = this.parentNode.previousSibling;
@@ -119,15 +119,15 @@ $(document).ready(function(){
     }
     x[i].appendChild(b);
     a.addEventListener("click", function(e) {
-      /*when the select box is clicked, close any other select boxes,
-      and open/close the current select box:*/
+      //when the select box is clicked, close any other select boxes,
+      //and open/close the current select box:
       e.stopPropagation();
       closeAllSelect(this);
       this.nextSibling.classList.toggle("select-hide");
       this.classList.toggle("select-arrow-active");
     });
   }
-
+*/
 });
 
 $(window).scroll(function() {
@@ -168,7 +168,7 @@ function closeAllSelect(elmnt) {
 
 /*if the user clicks anywhere outside the select box,
 then close all select boxes:*/
-document.addEventListener("click", closeAllSelect);
+//document.addEventListener("click", closeAllSelect);
 
 // $(function () {
 //         var d1 = [];

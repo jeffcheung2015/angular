@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,13 +15,9 @@ export class LayoutComponent implements OnInit {
   ngOnInit() {
     let arr = Object.keys(this.router);
     arr.forEach((val)=>{
-      console.log("###"+val + ":" +this.router[val]);
+      //console.log("###"+val + ":" +this.router[val]);
     })
 
-  }
-
-  ngOnChanges(){
-    console.log("on change:"+this.router.url)
   }
 
 }

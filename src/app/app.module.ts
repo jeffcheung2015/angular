@@ -10,14 +10,13 @@ import { PddcampaignService } from './services/pddcampaign.service';
 import { PageNotFoundComponent } from './components/notfound.component';
 import { DefaultPageComponent } from './components/defaultpage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GlobalheaderComponent } from './components/globalheader/globalheader.component';
-import { GlobalfooterComponent } from './components/globalfooter/globalfooter.component';
-import { LeftsidebarComponent } from './components/leftsidebar/leftsidebar.component';
+import { GlobalheaderComponent } from './components/layout/globalheader/globalheader.component';
+import { GlobalfooterComponent } from './components/layout/globalfooter/globalfooter.component';
+import { LeftsidebarComponent } from './components/layout/leftsidebar/leftsidebar.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { AgentassignmentComponent } from './pages/agentassignment/agentassignment.component';
 import { SearchrecordComponent } from './components/searchrecord/searchrecord.component';
 import { AgentassignmentService } from './services/agentassignment.service';
-import { TablerecordComponent } from './components/tablerecord/tablerecord.component';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
@@ -61,6 +60,8 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { DetailssearchrecordComponent } from './components/detailssearchrecord/detailssearchrecord.component';
+import { CampaigndetailsComponent } from './components/campaigndetails/campaigndetails.component';
 
 @NgModule({
   declarations: [
@@ -75,8 +76,9 @@ import {
     LayoutComponent,
     AgentassignmentComponent,
     SearchrecordComponent,
-    TablerecordComponent,
     SearchcriteriaComponent,
+    DetailssearchrecordComponent,
+    CampaigndetailsComponent,
   ],
   imports: [
     BrowserModule,
