@@ -105,7 +105,6 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   onSubmitSearch(){
     let fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,
     agentCode,agentPhone,agentName;
-    console.log("###", this.searchForm.get("mobileNo").errors);
     //angular form cannot read value of a select elm which is being controlled by div and jquery
     //has to use jquery to read the div value and overwrite the search criterias sent
     //to searchRecordComponent first

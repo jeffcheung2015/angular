@@ -62,6 +62,7 @@ import {
 } from '@angular/material';
 import { DetailssearchrecordComponent } from './components/detailssearchrecord/detailssearchrecord.component';
 import { CampaigndetailsComponent } from './components/campaigndetails/campaigndetails.component';
+import { PddindexComponent } from './pages/pddindex/pddindex.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { CampaigndetailsComponent } from './components/campaigndetails/campaignd
     SearchcriteriaComponent,
     DetailssearchrecordComponent,
     CampaigndetailsComponent,
+    PddindexComponent,
   ],
   imports: [
     BrowserModule,

@@ -21,6 +21,8 @@ export class AgentassignmentService{
   dateOfSubmissionTo: string;
   assignment: string;
 
+  private serviceUrl = "/eas/api/agent/getPolicyList";
+
   constructor(private http: HttpClient){ }
   getAgentAssignmentRecord(){
     //just replace data with the http observable func
@@ -28,7 +30,14 @@ export class AgentassignmentService{
     //let sub = Observable.of(data).subscribe((v)=>{bSubj.next(v)});
     //return bSubj;
 
-    return this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json');
+
+    return this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json',
+      {}, {
+        draw: 1,
+        start: 1,
+        length: 10,
+
+      });
   }
 
 
