@@ -30,14 +30,15 @@ export class AgentassignmentService{
     //let sub = Observable.of(data).subscribe((v)=>{bSubj.next(v)});
     //return bSubj;
 
-
-    return this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json',
-      {}, {
+    let params : any = { observe: "response",
+      data: {
         draw: 1,
         start: 1,
-        length: 10,
+        length: 10
+      }
+    };
 
-      });
+    return this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json', params);
   }
 
 

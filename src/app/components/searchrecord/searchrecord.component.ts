@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,AfterViewChecked, OnChanges } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 //import { MatPaginator, MatTableDataSource } from '@angular/material';
 //import {DataSource} from '@angular/cdk/collections';
@@ -11,6 +11,7 @@ import { DataTableDirective } from 'angular-datatables';
 
 import {get as _get} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import constants from '../../constants/constants';
 @Component({
@@ -18,7 +19,7 @@ import constants from '../../constants/constants';
   templateUrl: './searchrecord.component.html',
   styleUrls: ['./searchrecord.component.scss']
 })
-export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked {
+export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked, OnChanges {
   displayedColumns : string[] = constants["SearchRecordColumnName"];
   displayedColumnsName : string[] = constants["SearchRecordColumnField"];
   searchCriterias : string[] = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign"];
@@ -45,7 +46,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     "20": "inactive-gray",
   };
   constructor(private agentassignmentService : AgentassignmentService,
-     private http: HttpClient) {
+     private http: HttpClient, private router: Router) {
 
   }
 
@@ -59,9 +60,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.dtTrigger.next();
     });
   }
-
-
-
+  ngOnChanges(){
+    this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
+  }
   ngOnInit() {
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
 
@@ -117,13 +118,42 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   //this.searchCriteriaComponent.setSearchRecordComponent(this);
 
   }
-
+  //jquery workaround, use router.navigate instead of href in dom 'a', as href will refresh whole page
+  campaignCodeLinkSelector = [];
+  assignBtnSelector = [];
+  viewEmailLinkSelector = [];
+  onclickEventInit = false; //onchange would reset this back to false
   ngAfterViewChecked(){
     //fetch the datatable's settings
     //since angular-datatables is not supporting changing table page in option yet
     //make use of settings.oApi._fnPageChange to change the page
     //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
     this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
+    if(!this.onclickEventInit){
+      console.log("init onclick event", $(".a-campaignCode, .a-assignBtn, .a-viewEmail"))
+      //length sometimes can be 0 to be done
+      //maybe when datatable view initialized call sth
+
+      if($(".a-campaignCode, .a-assignBtn, .a-viewEmail").length >= 1){
+        $(".a-campaignCode, .a-assignBtn, .a-viewEmail").click((e)=>{
+          console.log("!!@#", $(e.target).attr("class"));
+          let redirectRoute :string = "";
+          switch($(e.target).attr("class")){
+            case 'a-campaignCode':
+              redirectRoute = "/agentHome/campaignDetails";
+            break;
+            case 'a-assignBtn':
+              redirectRoute = "/agentHome/assignDetails";
+            break;
+            case 'a-viewEmail':
+              redirectRoute = "viewEmail";
+            break;
+          }
+          this.router.navigate([redirectRoute]);
+        });
+        this.onclickEventInit = true;
+      }
+    }
   }
   ngOnDestroy(){
     this.dtTrigger.unsubscribe();
@@ -189,6 +219,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                         (assignType === 3) ? 'D' :
                         (assignType === 4) ? 'E' : 'F';
         if(col < 13){
+          if(col == 11){//campaign code, put campaign code as attr later
+            $(td).html('<a class="a-campaignCode">' + cellData + '</a>');
+          }
           if(!cellData){ //for those null data
             $(td).html('-');
           }else{ //col 10 convert date str into proper format dd/MM/YYYY
@@ -208,7 +241,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let redBtnClass = "btn btn-primary table-btn";
             let grayBtnClass = "btn btn-default table-btn";
 
-            let assignBtnHTML = `<a class="` + redBtnClass + `" href="/agentHome/agentDetails">Assign</a>`;
+            let assignBtnHTML = `<a class="` + redBtnClass + `" class="a-assignBtn">Assign</a>`;
             let reassignBtnHTML = `<a class="` + redBtnClass + `">Re-assign</a>`;
             let pruchatBtnHTML = `<a class="` + grayBtnClass + `">PruChat & Email to Agent(Resend)</a>`;
             let smsEmailBtnHTML = `<a class="` + grayBtnClass + `">SMS & Email to Customer(Resend)</a>`;
@@ -255,7 +288,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               let dateData = new Date(data);
               tdhtml += `<p>` + convertDate(dateData, "withMins") + `</p>`;
             });
-            tdhtml += `<a href='viewEmail/` + rowData.lastEmailId + `'>View email</a>`;
+            tdhtml += `<a class="a-viewEmail" href='viewEmail/` + rowData.lastEmailId + `'>View email</a>`;
           }else{
             tdhtml = 'N/A';
           }
@@ -274,11 +307,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       console.log(callback)
       console.log(settings)
 
-      this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json',
-        {
-          params: params
-        }
-      ).subscribe((resp : any) => {
+      this.agentassignmentService.getAgentAssignmentRecord().subscribe((resp : any) => {
           this.noOfCustomer = resp.recordsFiltered;
           this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
           //resp may return the exact partitions
@@ -289,7 +318,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
           let fstRowIndex = (params.start);
           //console.log("fstRowIndex", fstRowIndex)
           for(var i = 0; i <params.length; i++){
-            let elem = _get(resp, 'data[' + (fstRowIndex + i) + ']');
+            let elem = _get(resp, 'body.data[' + (fstRowIndex + i) + ']');
           //  console.log(i, elem)
             if(elem){
               resArr.data.push(elem);
@@ -299,8 +328,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
           callback({
             data:resArr.data,//[],
-            recordsTotal: resp.recordsTotal,
-            recordsFiltered: resp.recordsFiltered
+            recordsTotal: resp.body.recordsTotal,
+            recordsFiltered: resp.body.recordsFiltered
           });
         });
     }
