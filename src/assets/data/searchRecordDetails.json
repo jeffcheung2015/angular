@@ -1,86 +1,67 @@
 {
-  "draw": 0,
-  "recordsTotal": 10,
-  "recordsFiltered": 10,
-  "data" : [{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/03/2018 11:53",
-    "assign":null,
-    "onLeave":"08/10 - 10/10"
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  },{
-    "agentCode":"900009104762",
-    "agentName":"ZHANG YONG",
-    "emailAddress":"sherman.py.yeung@pruhk.com",
-    "agentPhone":"91234567",
-    "lastAssignmentDate":"02/04/2018 11:53",
-    "assign":null,
-    "onLeave":null
-  }]
-  }
+  "draw":1,
+  "recordsFiltered":6,
+  "recordsTotal":6,
+  "data":[
+    {
+      "agentCode":"00010001",
+      "agentName":"00010001 SURNAME 00010001 FIRSTNAME 00010001 OTHERNAME",
+      "email":"UATnda.so@pruhk.com",
+      "agentPhone":"",
+      "lastAssignDate":"2018-09-27T01:58:21.006+0000",
+      "leaveId":1231322,
+      "leaveStartDate":"2018-09-27T01:58:21.006+0000",
+      "leaveEndDate":"2018-09-29T01:58:21.006+0000"
+    },
+    {
+      "agentCode":"00010009",
+      "agentName":"00010009 SURNAME 00010009 FIRSTNAME 00010009 OTHERNAME",
+      "email":"UUW3PC02@INDEV.ASDEV",
+      "agentPhone":"99951678",
+      "lastAssignDate":null,
+      "leaveId":0,
+      "leaveStartDate":null,
+      "leaveEndDate":null
+    },
+    {
+      "agentCode":"00010014",
+      "agentName":"00010014 SURNAME TAI MAN 00010014 OTHER_NAME",
+      "email":"jessie.hui@prudential.com.hk",
+      "agentPhone":"91234567",
+      "lastAssignDate":null,
+      "leaveId":12313,
+      "leaveStartDate":"2018-09-18T08:01:55.000+0000",
+      "leaveEndDate":"2018-09-27T01:58:22.253+0000"
+    },
+    {
+      "agentCode":"00010025",
+      "agentName":"SAD TAI MAN FASDF",
+      "email":"jessie.hui@prudential.com.hk",
+      "agentPhone":"91234567",
+      "lastAssignDate":null,
+      "leaveId":0,
+      "leaveStartDate":null,
+      "leaveEndDate":null
+    },
+    {
+      "agentCode":"00010028",
+      "agentName":"00010028 SURNAME TAI MAN 00010028 OTHER_NAME",
+      "email":"jessie.hui@prudential.com.hk",
+      "agentPhone":"91234567",
+      "lastAssignDate":null,
+      "leaveId":0,
+      "leaveStartDate":null,
+      "leaveEndDate":null
+    },
+    {
+      "agentCode":"00010029",
+      "agentName":"00010029 SURNAME 00010029 FIRSTNAME 00010029 OTHERNAME",
+      "email":"UATon.ng@pruhk.com",
+      "agentPhone":"99942345",
+      "lastAssignDate":null,
+      "leaveId":0,
+      "leaveStartDate":null,
+      "leaveEndDate":null
+    }
+  ]
+}

@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,AfterViewChecked, OnChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, HostListener,
+   OnDestroy,AfterViewChecked, OnChanges, Renderer2 } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 //import { MatPaginator, MatTableDataSource } from '@angular/material';
 //import {DataSource} from '@angular/cdk/collections';
@@ -9,7 +10,7 @@ import { AgentAssignmentRecord } from '../../models/agentassignmentrecord.model'
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
-import {get as _get} from 'lodash';
+import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -46,10 +47,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     "20": "inactive-gray",
   };
   constructor(private agentassignmentService : AgentassignmentService,
-     private http: HttpClient, private router: Router) {
-
+     private http: HttpClient, private router: Router, private renderer2: Renderer2) {
   }
-
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     this.screenWidth = window.innerWidth;
@@ -107,10 +106,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     });
 
   }
-  draw: number = 0;
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
-    console.log('###@@@',this.searchCriteriaComponent);
   }
   //search criteria component is ngif content and will only be available
   //after content init
@@ -118,41 +115,42 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   //this.searchCriteriaComponent.setSearchRecordComponent(this);
 
   }
-  //jquery workaround, use router.navigate instead of href in dom 'a', as href will refresh whole page
-  campaignCodeLinkSelector = [];
-  assignBtnSelector = [];
-  viewEmailLinkSelector = [];
+  //for handling the datatables's link
+  //use router.navigate instead of href in dom 'a', as href will refresh whole page
   onclickEventInit = false; //onchange would reset this back to false
+  classToTrigger  : Array<{
+    className: string,
+    url: string
+  }> = [
+    {className : 'a-campaignCode', url: "/agentHome/campaignDetails"},
+    {className : 'a-assignBtn', url: "/agentHome/agentDetails"},
+    {className : 'a-viewEmail', url: "/viewEmail"}
+  ];
   ngAfterViewChecked(){
     //fetch the datatable's settings
     //since angular-datatables is not supporting changing table page in option yet
     //make use of settings.oApi._fnPageChange to change the page
     //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
     this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
+    //for handling the btn inside datatables
     if(!this.onclickEventInit){
-      console.log("init onclick event", $(".a-campaignCode, .a-assignBtn, .a-viewEmail"))
-      //length sometimes can be 0 to be done
-      //maybe when datatable view initialized call sth
-
-      if($(".a-campaignCode, .a-assignBtn, .a-viewEmail").length >= 1){
-        $(".a-campaignCode, .a-assignBtn, .a-viewEmail").click((e)=>{
-          console.log("!!@#", $(e.target).attr("class"));
-          let redirectRoute :string = "";
-          switch($(e.target).attr("class")){
-            case 'a-campaignCode':
-              redirectRoute = "/agentHome/campaignDetails";
-            break;
-            case 'a-assignBtn':
-              redirectRoute = "/agentHome/assignDetails";
-            break;
-            case 'a-viewEmail':
-              redirectRoute = "viewEmail";
-            break;
+      this.onclickEventInit = true;
+      this.renderer2.listen("body", 'click', (event)=>{
+        this.classToTrigger.forEach((elem, key)=>{
+          if($(event.target).hasClass(elem.className)){
+            //read queryParams attr
+            //e.g. queryParams="abc:2,ddd:4" ...
+            let paramsToBePassed = {};
+            let queryParamsStr = $(event.target).attr("queryParams");
+            let queryParamsArray = queryParamsStr.split(',');
+            queryParamsArray.forEach((elem, key)=>{
+              let elemPair = elem.split(':');
+              _set(paramsToBePassed, elemPair[0], elemPair[1]);
+            });
+            this.router.navigate([elem.url], { queryParams : paramsToBePassed });
           }
-          this.router.navigate([redirectRoute]);
         });
-        this.onclickEventInit = true;
-      }
+      });
     }
   }
   ngOnDestroy(){
@@ -192,11 +190,14 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       if(elem !== '') tmpSearchCriterias.push(elem);
     });
     this.searchCriterias = tmpSearchCriterias;
-    this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
-      //redraw table only need these 2 funcs
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
+    let dTableInstance = _get(this.dTable, "dtInstance");
+    if(dTableInstance){
+      dTableInstance.then((dtInstance: DataTables.Api) => {
+        //redraw table only need these 2 funcs
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
   agentAssignedColumnDef(){
     return [{
@@ -220,7 +221,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                         (assignType === 4) ? 'E' : 'F';
         if(col < 13){
           if(col == 11){//campaign code, put campaign code as attr later
-            $(td).html('<a class="a-campaignCode">' + cellData + '</a>');
+            $(td).html('<a class="a-campaignCode" queryParams="campaignCode:' + rowData.campaignCode + '">' + cellData + '</a>');
           }
           if(!cellData){ //for those null data
             $(td).html('-');
@@ -241,7 +242,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let redBtnClass = "btn btn-primary table-btn";
             let grayBtnClass = "btn btn-default table-btn";
 
-            let assignBtnHTML = `<a class="` + redBtnClass + `" class="a-assignBtn">Assign</a>`;
+            let assignBtnHTML = `<a class="` + redBtnClass + ` a-assignBtn" queryParams="policyNo:` + rowData.polNo + `">Assign</a>`;
             let reassignBtnHTML = `<a class="` + redBtnClass + `">Re-assign</a>`;
             let pruchatBtnHTML = `<a class="` + grayBtnClass + `">PruChat & Email to Agent(Resend)</a>`;
             let smsEmailBtnHTML = `<a class="` + grayBtnClass + `">SMS & Email to Customer(Resend)</a>`;
@@ -307,29 +308,18 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       console.log(callback)
       console.log(settings)
 
-      this.agentassignmentService.getAgentAssignmentRecord().subscribe((resp : any) => {
-          this.noOfCustomer = resp.recordsFiltered;
+      this.agentassignmentService.getAgentAssignmentRecord(params).subscribe((resp : any) => {
+          console.log('resp:', resp)
+          this.noOfCustomer = resp.body.recordsFiltered;
           this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
-          //resp may return the exact partitions
-          //callback(resp)
-          let newObj = Object.assign({draw :this.draw}, resp);
-          this.draw++;
-          let resArr = {data: Array<any>()};
-          let fstRowIndex = (params.start);
-          //console.log("fstRowIndex", fstRowIndex)
-          for(var i = 0; i <params.length; i++){
-            let elem = _get(resp, 'body.data[' + (fstRowIndex + i) + ']');
-          //  console.log(i, elem)
-            if(elem){
-              resArr.data.push(elem);
-            }
-          }
-          //console.log('resArr', resArr)
 
           callback({
-            data:resArr.data,//[],
+            data:resp.body.data,
             recordsTotal: resp.body.recordsTotal,
             recordsFiltered: resp.body.recordsFiltered
+            // data:resp.body.data,
+            // recordsTotal: resp.body.recordsTotal,
+            // recordsFiltered: resp.body.recordsFiltered
           });
         });
     }

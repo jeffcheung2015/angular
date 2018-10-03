@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
+  AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 //import { MatPaginator, MatTableDataSource } from '@angular/material';
 //import {DataSource} from '@angular/cdk/collections';
@@ -9,7 +10,7 @@ import { AgentAssignmentRecord } from '../../models/agentassignmentrecord.model'
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
-import {get as _get} from 'lodash';
+import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import constants from '../../constants/constants';
@@ -19,18 +20,26 @@ import constants from '../../constants/constants';
   templateUrl: './detailssearchrecord.component.html',
   styleUrls: ['./detailssearchrecord.component.scss']
 })
-export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked {
+export class DetailssearchrecordComponent implements OnInit, OnDestroy,
+ AfterViewInit,AfterViewChecked,OnChanges {
+  @Input() policyNo; //passed from AgentassignmentComponent
+
   displayedColumns : string[] = constants["DetailSearchRecordColumnName"];
   displayedColumnsName : string[] = constants["DetailSearchRecordColumnField"];
   searchCriterias : string[] = ["", "" ,""];
   searchCriteriaFieldName : string[] = ["agentCode","agentPhone","agentName"];
 
+  defaultCriterias : string[] = ["", "", ""];
+
   searchCriteriaComponent;
   noOfRenewals : number = 0;
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
-  dtTrigger= new Subject();
+  dtTrigger = new Subject();
   pageInfo : any = {};
+
+  noOfPage : number;
+  currPage : number = 1;
 
   screenWidth: number;
 
@@ -42,10 +51,14 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterVie
     "10": "inactive-gray",
     "20": "inactive-gray",
   };
-  //tableSearchRecords : AgentAssignmentRecord[];
-  constructor(private agentassignmentService : AgentassignmentService,
-     private http: HttpClient) {
-  }
+  //subscription
+  dataTableAjaxSubscription;
+  //
+  constructor(
+     private agentassignmentService : AgentassignmentService,
+     private http: HttpClient,
+     private renderer2 : Renderer2
+   ) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
@@ -56,16 +69,17 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterVie
       this.dtTrigger.next();
     });
   }
-
+  ngOnChanges(){
+    this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
+  }
   ngOnInit() {
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     //this.searchCriteriaComponent.setSearchRecordComponent(this);
-    console.log("detail search record ")
     let colArr = [], dataArr = [];
-    this.displayedColumnsName.forEach((val, index)=>{
-      let col : any = {};
-      col.data = val;
-      colArr.push(col);
+    this.displayedColumnsName.forEach((val)=>{
+      colArr.push({
+        data: val
+      });
     });
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -95,22 +109,61 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterVie
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
+
+    this.classToTrigger =  [
+      {className: "a-resetBtn", callback: ()=>{
+                                            this.resetLeaveRecord();
+                                            this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
+                                          }},
+      {className: "a-saveBtn", callback: ()=>{
+
+                                          }},
+      {className: "a-selectBtn", callback: ()=>{
+
+                                          }},
+      {className: "a-yesBtn", callback: ()=>{
+
+                                          }},
+    ];
   }
-  draw: number = 0;
+  resetLeaveRecord(){
+    //this.agentassignmentService.postResetLeaveRecord().subscribe(()=>{
+
+    //});
+  }
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
-
   }
+  //for handling the datatables's link
+  //use router.navigate instead of href in dom 'a', as href will refresh whole page
+  onclickEventInit : boolean= false; //onchange would reset this back to false
+  //class to function it should trigger
+  classToTrigger : Array<{
+    className: string,
+    callback?: any
+  }>;
   ngAfterViewChecked(){
     //fetch the datatable's settings
     //since angular-datatables is not supporting changing table page in option yet
     //make use of settings.oApi._fnPageChange to change the page
     //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
     this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
-
+    //for handling the btn inside datatables
+    if(!this.onclickEventInit){
+      this.onclickEventInit = true;
+      this.renderer2.listen("body", 'click', (event)=>{
+        this.classToTrigger.forEach((elem, key)=>{
+          if($(event.target).hasClass(elem.className)){
+            elem.callback();            
+          }
+        });
+      });
+    }
   }
   ngOnDestroy(){
     this.dtTrigger.unsubscribe();
+    this.dataTableAjaxSubscription.unsubscribe();
+
   }
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
@@ -128,7 +181,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterVie
       dtInstance.destroy();
       this.dtTrigger.next();
     });
-
+    this.currPage = 1;
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
@@ -137,18 +190,23 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterVie
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
     }
   }
-  //called outside of this component
+
   refreshAndReloadSearchRecordTable(_searchCriteria : string[]){
     let tmpSearchCriterias = [];
-    _searchCriteria.forEach((elem)=>{
-      if(elem !== '') tmpSearchCriterias.push(elem);
-    });
+    if(_searchCriteria){
+      _searchCriteria.forEach((elem)=>{
+        if(elem !== '') tmpSearchCriterias.push(elem);
+      });
+    }
     this.searchCriterias = tmpSearchCriterias;
-    this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
-      //redraw table only need these 2 funcs
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
+    let dTableInstance = _get(this.dTable, "dtInstance");
+    if(dTableInstance){
+      dTableInstance.then((dtInstance: DataTables.Api) => {
+        //redraw table only need these 2 funcs
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
   agentDetailsColumnDef(){
     return [{
@@ -163,6 +221,9 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterVie
         }
         let onLeave = rowData.onLeave;
 
+        if(col <= 4 && !cellData || cellData === ''){
+          $(td).html("<span>-</span>");
+        }
         switch(col){
           case 4:
             if(cellData){
@@ -171,14 +232,19 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterVie
             }
             break;
           case 5:
-            $(td).html(`<a class="` + redBtnClass + `">Select</a>`);
+            if(!cellData){
+              $(td).html(`<a class="` + redBtnClass + ` a-selectBtn" data-toggle="modal" data-target="#selectBtnModal">Select</a>`);
+            }
             break;
           case 6:
-            let resetOrAdd = (onLeave) ? "Reset" : "Add";
             let onleaveP = (onLeave) ? "<p style='margin:auto;'>" + onLeave + "</p>" : "";
             $(td).css("display", "inline-flex");
             $(td).css("width", "100%");
-            $(td).html(onleaveP + `<a style="margin:auto" class="` + grayBtnClass + `" data-toggle="modal" data-target="#myModal" >` + resetOrAdd + `</a>`);
+            if(!onLeave){
+              $(td).html(onleaveP + `<a style="margin:auto" class="` + grayBtnClass + ` a-addBtn" data-toggle="modal" data-target="#onLeaveModal">Add</a>`);
+            }else{
+              $(td).html(onleaveP + `<a style="margin:auto" class="` + grayBtnClass + ` a-resetBtn">Reset</a>`);
+            }
             break;
         }
       }
@@ -192,32 +258,31 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy, AfterVie
       console.log("***params:", (params))
       console.log(callback)
       console.log(settings)
-
-      this.http.get('http://localhost:4200/eas/assets/data/searchRecordDetails.json',
-        {
-          params: params
+      this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(params).subscribe((resp : any) => {
+        this.noOfRenewals = resp.body.recordsFiltered;
+        this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
+        //preprocessing the resp.body.data
+        let resArr = {data: Array<any>()};
+        let convertDateMonth = (date) => {
+          return date.getDate() + "/" + date.getMonth();
         }
-      ).subscribe((resp : any) => {
-          this.noOfRenewals = resp.recordsFiltered;
-          //resp may return the exact partitions
-          //callback(resp)
-          let newObj = Object.assign({draw :this.draw}, resp);
-          this.draw++;
-          let resArr = {data: Array<any>()};
-          let fstRowIndex = (params.start);
-          for(var i =0; i <params.length; i++){
-            let elem = _get(resp, 'data[' + (fstRowIndex + i) + ']');
-            console.log(i, elem)
-            if(elem){
-              resArr.data.push(elem);
-            }
-          }
-          callback({
-            data:resArr.data,//[],
-            recordsTotal: resp.recordsTotal,
-            recordsFiltered: resp.recordsFiltered
-          });
+        resp.body.data.forEach((elem,key)=>{
+          let leaveId, leaveStartDate, leaveEndDate, restAttrObj;
+          ({leaveId,leaveStartDate,leaveEndDate,...restAttrObj} = elem);
+          _set(restAttrObj,"assign",null);
+          let dateStr = (!leaveId || leaveId === 0) ? null :
+            convertDateMonth(new Date(leaveStartDate)) + "-" + convertDateMonth(new Date(leaveEndDate));
+          _set(restAttrObj,"onLeave", dateStr);
+
+          resArr.data.push(restAttrObj);
         });
+        //
+        callback({
+          data:resArr.data,
+          recordsTotal: resp.body.recordsTotal,
+          recordsFiltered: resp.body.recordsFiltered
+        });
+      });
     }
   }
 }

@@ -1,10 +1,10 @@
 <!-- modal in subpage agent details -->
-<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <form [formGroup]="onLeaveModalForm" (ngSubmit)="onSubmitUpdate()" class="onLeaveModalForm">
+<div class="modal fade " id="onLeaveModal" tabindex="-1" role="dialog" aria-labelledby="onLeaveModalLabel">
+  <form [formGroup]="onLeaveModalForm" class="onLeaveModalForm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title" id="myModalLabel">On Leave</h4>
+              <h4 class="modal-title" id="onLeaveModalLabel">On Leave</h4>
             </div>
             <div class="modal-body clearfix">
               <div class="col-md-6">
@@ -31,12 +31,29 @@
               </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary table-btn">Save</button>
+                <button type="submit" class="btn btn-primary table-btn a-saveBtn" data-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-default table-btn" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
   </form>
+</div>
+<!-- select btn modal -->
+<div class="modal fade " id="selectBtnModal" tabindex="-1" role="dialog" aria-labelledby="selectBtnModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="selectBtnModalLabel">Are you sure to assign?</h4>
+            </div>
+            <div class="modal-body clearfix">
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary table-btn a-yesBtn" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-default table-btn" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- modal in subpage agent details -->
 
@@ -53,12 +70,11 @@
                           <a routerLink="agentAssign" (click)="changeCurrSubPage('agentAssign')">Agent Assignment</a>
                         </li>
                         <li *ngIf="currSubPage=='agentDetails'" [ngClass]="currSubPage=='agentDetails' ? 'active' : ''">
-                          <a routerLink="agentDetails" (click)="changeCurrSubPage('agentDetails')">Agent Details</a>
+                          <a>Agent Details</a>
                         </li>
                         <li *ngIf="currSubPage=='campaignDetails'" [ngClass]="currSubPage=='campaignDetails' ? 'active' : ''">
-                          <a routerLink="campaignDetails" (click)="changeCurrSubPage('campaignDetails')">Campaign Details</a>
+                          <a>Campaign Details</a>
                         </li>
-                        <a (click)="logAgent()">TEST BTN</a>
                     </ol>
                 </div>
             </div>
@@ -79,6 +95,7 @@
                           </app-searchrecord>
                           <app-detailssearchrecord
                           *ngIf="currSubPage == 'agentDetails'"
+                          [policyNo]="policyNo"
                           >
                           </app-detailssearchrecord>
                           <app-campaigndetails

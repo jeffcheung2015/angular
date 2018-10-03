@@ -24,21 +24,38 @@ export class AgentassignmentService{
   private serviceUrl = "/eas/api/agent/getPolicyList";
 
   constructor(private http: HttpClient){ }
-  getAgentAssignmentRecord(){
+  getAgentAssignmentRecord(params){
     //just replace data with the http observable func
     //let bSubj = new BehaviorSubject<AgentAssignmentRecord[]>(new Array<AgentAssignmentRecord>());
     //let sub = Observable.of(data).subscribe((v)=>{bSubj.next(v)});
     //return bSubj;
 
-    let params : any = { observe: "response",
-      data: {
-        draw: 1,
-        start: 1,
-        length: 10
+    let getParams : any = { observe: "response",
+      params: {
+        draw: params.draw,
+        start: params.start,
+        length: params.length
       }
     };
 
-    return this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json', params);
+    return this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json', getParams);
+    //#vm
+    //return this.http.get(this.serviceUrl,getParams);
+  }
+
+  getAgentDetailRecord(params){
+    let getParams : any = { observe: "response",
+      params: {
+        draw: params.draw,
+        start: params.start,
+        length: params.length        
+      },
+    };
+
+    return this.http.get('http://localhost:4200/eas/assets/data/searchRecordDetails.json', getParams);
+    //#vm
+    //return this.http.get(this.serviceUrl,getParams);
+
   }
 
 

@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit, AfterContentInit, ViewChild, AfterViewChecked } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SearchrecordComponent } from '../../components/searchrecord/searchrecord.component';
 import { DetailssearchrecordComponent } from '../../components/detailssearchrecord/detailssearchrecord.component';
 import { SearchcriteriaComponent } from '../../components/searchcriteria/searchcriteria.component';
 import { CampaigndetailsComponent } from '../../components/campaigndetails/campaigndetails.component';
-import { set as _set } from 'lodash';
+import { get as _get, set as _set } from 'lodash';
 import { FormGroup, FormControl } from '@angular/forms';
 
 //in this parent component do the checking of router url
@@ -17,17 +17,21 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: './agentassignment.component.html',
   styleUrls: ['./agentassignment.component.scss']
 })
-export class AgentassignmentComponent implements OnInit, AfterViewChecked, AfterViewInit {
+export class AgentassignmentComponent implements OnInit, AfterViewChecked,
+ AfterViewInit {
   //managing children component mutual reference in this component
   @ViewChild(SearchrecordComponent) searchRecordComponent;
   @ViewChild(DetailssearchrecordComponent) detailSearchRecordComponent;
   @ViewChild(SearchcriteriaComponent) searchCriteriaComponent;
   @ViewChild(CampaigndetailsComponent) campaignDetailsComponent;
 
-  constructor(private router :Router) { }
+  policyNo;//will be passed to detailSearchRecordComponent
+
+  constructor(private router :Router, private aRoute : ActivatedRoute) { }
 
   ngOnInit() {
     this.setCurrUrlAndSubPage();
+    console.log(this.router)
   }
 
   ngAfterViewInit(){
@@ -36,9 +40,10 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked, After
   }
 
   setCurrUrlAndSubPage(){
-    this.currUrl = this.router.url;
-    this.currSubPage = this.currUrl.substr(this.currUrl.lastIndexOf('/')+1,this.currUrl.length);
+    let routePathArray = _get(this.router, 'rawUrlTree.root.children.primary.segments', null);
+    this.currSubPage = (!routePathArray) ? this.currSubPage : routePathArray[routePathArray.length - 1].path;
   }
+
   //updating currSubPage in order to update the child component when url addr get changed
   currUrl : string = "";
   //refers to the current page the visitor is visiting, maybe subpage
@@ -47,8 +52,13 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked, After
   currSubPageJustUpdated : boolean = false;
   ngAfterContentChecked(){
     if(this.currUrl !== this.router.url){ //url changes
+      this.currUrl = this.router.url;
       this.setCurrUrlAndSubPage();
       this.currSubPageJustUpdated = true;
+      //set the policyNo before passing forward to the child detailSearchRecordComponent
+      if(this.currSubPage === 'agentDetails'){
+        this.policyNo = _get(this.router, "rawUrlTree.queryParams.policyNo", null);
+      }
     }
   }
   ngAfterViewChecked(){
@@ -87,16 +97,5 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked, After
   }
   changeCurrSubPage(newCurrSubPage){
     this.currSubPage = newCurrSubPage;
-  }
-  //tobedeleted
-  logAgent(){
-    console.log("#####",
-      this.searchRecordComponent,this.detailSearchRecordComponent,
-      this.searchCriteriaComponent,this.campaignDetailsComponent
-    )
-  }
-  //changes of the onleave date
-  onSubmitUpdate(){
-    console.log("on leave date change")
   }
 }

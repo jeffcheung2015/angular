@@ -15,6 +15,6 @@ export default {
     'agentAssignedDate','agentSentDate','customerSentDate'],
     DetailSearchRecordColumnName:["Agent Code","Agent Name","Email Address","Agent Phone",
     "Last Assignment Date","Assign", "On Leave"],
-    DetailSearchRecordColumnField:["agentCode","agentName","emailAddress","agentPhone",
-    "lastAssignmentDate","assign", "onLeave"],
+    DetailSearchRecordColumnField:["agentCode","agentName","email",
+    "agentPhone","lastAssignDate","assign", "onLeave"],
 };
