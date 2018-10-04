@@ -48,7 +48,7 @@ export class AgentassignmentService{
       params: {
         draw: params.draw,
         start: params.start,
-        length: params.length        
+        length: params.length
       },
     };
 
@@ -57,6 +57,21 @@ export class AgentassignmentService{
     //return this.http.get(this.serviceUrl,getParams);
 
   }
+  postResetLeaveRecord(params){
+    console.log(params)
+    return this.http.post("/xxx", {}, params);
+  }
+
+  postSaveLeaveRecord(params){
+    console.log(params)
+    return this.http.post("/xxx", {}, params);
+  }
+
+  postSelectYesLeaveRecord(params){
+    console.log(params)
+    return this.http.post("/xxx", {}, params);
+  }
+
 
 
 }
