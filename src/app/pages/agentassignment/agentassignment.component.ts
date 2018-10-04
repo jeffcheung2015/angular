@@ -25,7 +25,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   @ViewChild(SearchcriteriaComponent) searchCriteriaComponent;
   @ViewChild(CampaigndetailsComponent) campaignDetailsComponent;
 
-  policyNo;//will be passed to detailSearchRecordComponent
+  policyNo : string;//will be passed to detailSearchRecordComponent
 
   constructor(private router :Router, private aRoute : ActivatedRoute) { }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AgentassignmentService } from '../../services/agentassignment.service';
 
 @Component({
   selector: 'app-searchcriteria',
@@ -16,12 +17,14 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   minDateTo;
   maxDateFrom;
   @Input()currSubPage;
-  constructor() {
-  }
-  ngOnInit() {
-  }
+  constructor(
+    private agentassignmentService : AgentassignmentService
+  ) {}
+
+  ngOnInit() {}
 
   //get funcs
+  //agentassign page
   get fullName(){return this.searchForm.get("fullName");}
   get policyNo(){return this.searchForm.get("policyNo");}
   get mobileNo(){return this.searchForm.get("mobileNo");}
@@ -30,6 +33,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   get dateOfSubmissionFrom(){return this.searchForm.get("dateOfSubmissionFrom");}
   get dateOfSubmissionTo(){return this.searchForm.get("dateOfSubmissionTo");}
   get assignmentOption(){return this.searchForm.get("assignmentOption");}
+  //agentdetail page
   get agentCode(){return this.searchForm.get("agentCode");}
   get agentPhone(){return this.searchForm.get("agentPhone");}
   get agentName(){return this.searchForm.get("agentName");}
@@ -37,7 +41,8 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   ngOnChanges(changes: SimpleChanges){
     console.log('Info: Search Criteria component onchanges, ', changes, "this.currSubPage:", this.currSubPage);
     let phoneNoValidator = [Validators.pattern('[0-9]+'), Validators.maxLength(8), Validators.minLength(8)];
-    this.searchForm = (this.currSubPage === "agentAssign") ? new FormGroup({
+    this.searchForm = (this.currSubPage === "agentAssign") ?
+    new FormGroup({
       fullName : new FormControl(''),
       policyNo : new FormControl(''),
       mobileNo : new FormControl('',phoneNoValidator),
@@ -102,24 +107,25 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     this[(fromOrTo == 0) ? "minDateTo" : "maxDateFrom"] = e.value;
   }
 
-  onSubmitSearch(){
+  onSubmitSearchCriteria(){
     let fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,
-    agentCode,agentPhone,agentName;
+    agentCode,agentPhone,agentName, paramsToServer;
     //angular form cannot read value of a select elm which is being controlled by div and jquery
     //has to use jquery to read the div value and overwrite the search criterias sent
     //to searchRecordComponent first
-    let theSelectedIndex = -1;
+    assignmentOption = "";
     for(var i = 0 ; i < $('.select-items div').length; i++){
       if($('.select-items div:eq(' + i + ')').hasClass('same-as-selected')){
-        theSelectedIndex = i;
+        assignmentOption = $('[name="assignmentOptionField"] option:eq('+ i +')').html();
         break;
       }
     }
-    assignmentOption = theSelectedIndex === -1 ? "" : $('[name="assignmentOptionField"] option:eq('+ theSelectedIndex+')').html();
-    if(this.currSubPage === "agentAssign"){
+    if(this.currSubPage === 'agentAssign'){
       ({fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo} = this.searchForm.value);
+      paramsToServer = {fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};
     }else{
       ({agentCode, agentPhone, agentName} = this.searchForm.value);
+      paramsToServer = {agentCode, agentPhone, agentName};
     }
     //transform the raw date to formatted locale date string YYYY/MM/DD
     dateOfSubmissionFrom = !dateOfSubmissionFrom ? dateOfSubmissionFrom : new Date(dateOfSubmissionFrom).toLocaleDateString();
@@ -129,13 +135,16 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     [fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption] :
     [agentCode, agentPhone, agentName];
 
-    let property = this.currSubPage === 'agentAssign' ? "searchRecordComponent" : "detailSearchRecordComponent";
+    let property = (this.currSubPage === 'agentAssign') ? "searchRecordComponent" : "detailSearchRecordComponent";
     this[property].refreshAndReloadSearchRecordTable(searchCriteriaArr);
-
+    //request data from api via service
+    this.agentassignmentService.getAgentAssignmentRecord(paramsToServer,'searchCriteria').subscribe((resp : any) => {
+        console.log('resp : ', resp);
+    });
   }
 
-  setSearchRecordComponent(searchRecordComponent){ //ngif on the comps, they wouldnt be automatically assigned
-    let property = this.currSubPage === 'agentAssign' ? "searchRecordComponent" : "detailSearchRecordComponent";
+  setSearchRecordComponent(searchRecordComponent){ //ngif in the comps, they wouldnt be automatically assigned
+    let property = (this.currSubPage === 'agentAssign') ? "searchRecordComponent" : "detailSearchRecordComponent";
     this[property] = searchRecordComponent;
   }
 }

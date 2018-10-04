@@ -21,57 +21,51 @@ export class AgentassignmentService{
   dateOfSubmissionTo: string;
   assignment: string;
 
-  private serviceUrl = "/eas/api/agent/getPolicyList";
-
   constructor(private http: HttpClient){ }
-  getAgentAssignmentRecord(params){
-    //just replace data with the http observable func
-    //let bSubj = new BehaviorSubject<AgentAssignmentRecord[]>(new Array<AgentAssignmentRecord>());
-    //let sub = Observable.of(data).subscribe((v)=>{bSubj.next(v)});
-    //return bSubj;
-
-    let getParams : any = { observe: "response",
-      params: {
+  //type : dataTable | searchCriteria
+  getPostFunc(url, params, getOrPost, type?){
+    let sentParams : any = {
+      observe: "response",
+      params: type === 'dataTable' ? {
         draw: params.draw,
         start: params.start,
         length: params.length
-      }
+      } : params
     };
-
-    return this.http.get('http://localhost:4200/eas/assets/data/searchRecord.json', getParams);
-    //#vm
-    //return this.http.get(this.serviceUrl,getParams);
+    if(getOrPost === 'get')
+      return this.http.get(url, sentParams);
+    else
+      return this.http.get(url, sentParams);
   }
 
-  getAgentDetailRecord(params){
-    let getParams : any = { observe: "response",
-      params: {
-        draw: params.draw,
-        start: params.start,
-        length: params.length
-      },
-    };
-
-    return this.http.get('http://localhost:4200/eas/assets/data/searchRecordDetails.json', getParams);
+  getAgentAssignmentRecord(params, type){
+    return this.getPostFunc('http://localhost:4200/eas/assets/data/searchRecord.json', params, 'get', type)
     //#vm
-    //return this.http.get(this.serviceUrl,getParams);
+    //return this.getPostFunc("/eas/api/agent/getPolicyList",params, 'get');
+  }
 
+  getAgentDetailRecord(params, type){
+    return this.getPostFunc('http://localhost:4200/eas/assets/data/searchRecordDetails.json', params, 'post', type);
+    //#vm
+    //return this.getPostFunc("/aaa",params, 'post');
   }
   postResetLeaveRecord(params){
-    console.log(params)
-    return this.http.post("/xxx", {}, params);
+    return this.getPostFunc('/aaa', params, 'post');
+    //#vm
+    //return this.getPostFunc("/aaa",params, 'post');
   }
 
   postSaveLeaveRecord(params){
-    console.log(params)
-    return this.http.post("/xxx", {}, params);
+    return this.getPostFunc('/aaa', params, 'post');
+    //#vm
+    //return this.getPostFunc("/aaa",params, 'post');
   }
 
   postSelectYesLeaveRecord(params){
-    console.log(params)
-    return this.http.post("/xxx", {}, params);
+    return this.getPostFunc('/aaa', params, 'get');
+    //#vm
+    //return this.getPostFunc("/aaa",params, 'get');
   }
-
 
 
 }

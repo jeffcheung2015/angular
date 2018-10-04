@@ -14,6 +14,8 @@ import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { SearchcriteriaComponent } from '../../components/searchcriteria/searchcriteria.component';
+
 import constants from '../../constants/constants';
 @Component({
   selector: 'app-searchrecord',
@@ -26,17 +28,17 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   searchCriterias : string[] = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign"];
   searchCriteriaFieldName : string[] = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
     "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption"];
-  searchCriteriaComponent;
+  searchCriteriaComponent : SearchcriteriaComponent;
   noOfCustomer : number = 0;
   noOfRenewals : number = 0;
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
-  dtTrigger= new Subject();
+  dtTrigger : Subject<any>= new Subject();
   pageInfo : any = {};
 
   screenWidth: number;
 
-  dataTableSettings;//for changing table pages in gotopage
+  dataTableSettings : any;//for changing table pages in gotopage
   noOfPage : number;
   currPage : number = 1;
 
@@ -49,7 +51,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   constructor(private agentassignmentService : AgentassignmentService,
      private http: HttpClient, private router: Router, private renderer2: Renderer2) {
   }
-  @HostListener('window:resize', ['$event'])
+  /*@HostListener('window:resize', ['$event'])
   onResize(event?) {
     this.screenWidth = window.innerWidth;
     console.log("New Screen width:" + window.innerWidth);
@@ -58,7 +60,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       dtInstance.destroy();
       this.dtTrigger.next();
     });
-  }
+  }*/
   ngOnChanges(){
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
@@ -118,10 +120,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   //for handling the datatables's link
   //use router.navigate instead of href in dom 'a', as href will refresh whole page
   onclickEventInit = false; //onchange would reset this back to false
-  classToTrigger  : Array<{
-    className: string,
-    url: string
-  }> = [
+  classToTrigger : Array<{className: string, url: string}> = [
     {className : 'a-campaignCode', url: "/agentHome/campaignDetails"},
     {className : 'a-assignBtn', url: "/agentHome/agentDetails"},
     {className : 'a-viewEmail', url: "/viewEmail"}
@@ -300,7 +299,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   }
   agentAssignedAjax(){
     return (params, callback, settings) => {
-
       this.searchCriterias.forEach((data, key)=>{
         params[this.searchCriteriaFieldName[key]] = data;
       });
@@ -308,7 +306,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       console.log(callback)
       console.log(settings)
 
-      this.agentassignmentService.getAgentAssignmentRecord(params).subscribe((resp : any) => {
+      this.agentassignmentService.getAgentAssignmentRecord(params, 'dataTable').subscribe((resp : any) => {
           console.log('resp:', resp)
           this.noOfCustomer = resp.body.recordsFiltered;
           this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);

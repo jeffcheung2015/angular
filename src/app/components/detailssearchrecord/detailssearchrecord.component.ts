@@ -62,7 +62,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
      private renderer2 : Renderer2
    ) {}
 
-  @HostListener('window:resize', ['$event'])
+  /*@HostListener('window:resize', ['$event'])
   onResize(event?) {
     this.screenWidth = window.innerWidth;
     console.log("New Screen width:" + window.innerWidth);
@@ -71,7 +71,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       dtInstance.destroy();
       this.dtTrigger.next();
     });
-  }
+  }*/
   ngOnChanges(){
     this.currSelectedAgentCode = "";
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
@@ -171,7 +171,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
         this.classToTrigger.forEach((elem, key)=>{
           if($(event.target).hasClass(elem.className)){
             let queryParams = {};
-            let queryParamsArray = $(event.target).attr("queryParams").split(",");
+            let queryParamsAttr = $(event.target).attr("queryParams");
+            let queryParamsArray = queryParamsAttr ? $(event.target).attr("queryParams").split(",") : [];
             queryParamsArray.forEach((elem,key)=>{
               let keyValPair = elem.split(':');
               _set(queryParams, keyValPair[0], keyValPair[1]);
@@ -284,7 +285,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       console.log("***params:", (params))
       console.log(callback)
       console.log(settings)
-      this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(params).subscribe((resp : any) => {
+      this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(params, 'dataTable').subscribe((resp : any) => {
         this.noOfRenewals = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
         //preprocessing the resp.body.data
