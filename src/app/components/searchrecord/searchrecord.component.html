@@ -17,6 +17,22 @@
     <mat-paginator [pageSizeOptions]="[3,6,9]" showFirstLastButtons></mat-paginator>
 
 </div>-->
+<!-- modal in agent assignment -->
+<div class="modal fade " id="btnMsgModal" tabindex="-1" role="dialog" aria-labelledby="btnMsgModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="btnMsgModalLabel">{{popUpMsg}}</h4>
+      </div>
+      <div class="modal-body clearfix">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default table-btn btn-ok" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal in agent assignment -->
 <div class="div-searchRecord">
   <h4>Search Criteria:
     <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
@@ -29,7 +45,7 @@
   <div class="table-wrapper table-responsive div-searchRecordDataTable">
     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
       <thead>
-        <tr class="row1">
+        <tr class="row1 tr-row1">
             <th class="noscroll" rowspan="2">Class</th>
             <th class="noscroll" rowspan="2">Policy No.</th>
             <th class="noscroll" rowspan="2">Prulife Pol. No.</th>
@@ -43,9 +59,9 @@
             <th></th>
             <th colspan="5" class="th-textCenter">Assign Agent</th>
             <th rowspan="2">PruChat,Email Send Date(to agent)</th>
-            <th rowspan="2">SMS,Email Send Date(to customer)/ View Customer Email</th>
+            <th rowspan="2" colspan="1" style="width:1000px">SMS,Email Send Date(to customer)/ View Customer Email</th>
         </tr>
-        <tr class="row2">
+        <tr class="row2 tr-row2">
             <th class="table-subtitle">Agent Name</th>
             <th class="table-subtitle">Agent Code</th>
             <th class="table-subtitle">Agent Phone</th>

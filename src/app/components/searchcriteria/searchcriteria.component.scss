@@ -1,14 +1,35 @@
-.div-dateOfSubmissionFrom, .div-dateOfSubmissionTo{
-  position:relative;
+.div-searchCriteria{
+  .div-dateOfSubmissionWrapper{
+    margin-bottom: 10px;
+    .span-dateOfSubmissionFrom{
+      margin-bottom: 10px;
 
-  .input-dateOfSubmissionBtn{
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    background: transparent;
-    width: 100%;
+    }
+    .span-dateOfSubmissionTo{
+      position: relative;
+      left: -20px;
+    }
   }
-  .mat-icon.material-icons{
-    color:red;
+  input{
+    height:40px !important;
+    border-color:#cccccc;
+  }
+  .div-dateOfSubmissionFrom, .div-dateOfSubmissionTo{
+    position:relative;
+
+    .input-dateOfSubmissionBtn{
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      background: transparent;
+      width: 100%;
+    }
+    .mat-icon.material-icons{
+      color:red;
+    }
+
+    .input-dateOfSubmission{
+      width: 230px;
+    }
   }
 }

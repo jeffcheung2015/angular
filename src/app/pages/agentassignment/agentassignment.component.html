@@ -2,114 +2,115 @@
 <div class="modal fade " id="onLeaveModal" tabindex="-1" role="dialog" aria-labelledby="onLeaveModalLabel">
   <form [formGroup]="onLeaveModalForm" class="onLeaveModalForm">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="onLeaveModalLabel">On Leave</h4>
-            </div>
-            <div class="modal-body clearfix">
-              <div class="col-md-6">
-                  <label class="label-fromField">From</label>
-                  <input placeholder="DD/MM/YYYY" class="search-by-input"
-                   (dateChange)="onLeaveDateChange($event, 0)"
-                   matInput [max]="maxDateFrom" [matDatepicker]="onLeaveFromPicker"
-                   formControlName="onLeaveFrom" name="onLeaveFromField">
-                  <mat-datepicker-toggle matSuffix [for]="onLeaveFromPicker">
-                    <mat-icon matDatepickerToggleIcon>apps</mat-icon>
-                  </mat-datepicker-toggle>
-                  <mat-datepicker #onLeaveFromPicker></mat-datepicker>
-              </div>
-              <div class="col-md-6">
-                  <label class="label-toField">To</label>
-                  <input placeholder="DD/MM/YYYY" class="search-by-input"
-                   (dateChange)="onLeaveDateChange($event, 1)"
-                   matInput [min]="minDateTo" [matDatepicker]="onLeaveToPicker"
-                   formControlName="onLeaveTo" name="onLeaveToField">
-                  <mat-datepicker-toggle matSuffix [for]="onLeaveToPicker">
-                    <mat-icon matDatepickerToggleIcon>apps</mat-icon>
-                  </mat-datepicker-toggle>
-                  <mat-datepicker #onLeaveToPicker></mat-datepicker>
-              </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary table-btn a-saveBtn" data-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-default table-btn" data-dismiss="modal">Cancel</button>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="onLeaveModalLabel">On Leave</h4>
         </div>
+        <div class="modal-body clearfix">
+          <div class="col-md-6">
+            <label class="label-fromField">From</label>
+            <input placeholder="DD/MM/YYYY" class="search-by-input"
+            (dateChange)="onLeaveDateChange($event, 0)"
+            matInput [max]="maxDateFrom" [matDatepicker]="onLeaveFromPicker"
+            formControlName="onLeaveFrom" name="onLeaveFromField">
+            <mat-datepicker-toggle matSuffix [for]="onLeaveFromPicker">
+              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #onLeaveFromPicker></mat-datepicker>
+          </div>
+          <div class="col-md-6">
+            <label class="label-toField">To</label>
+            <input placeholder="DD/MM/YYYY" class="search-by-input"
+            (dateChange)="onLeaveDateChange($event, 1)"
+            matInput [min]="minDateTo" [matDatepicker]="onLeaveToPicker"
+            formControlName="onLeaveTo" name="onLeaveToField">
+            <mat-datepicker-toggle matSuffix [for]="onLeaveToPicker">
+              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #onLeaveToPicker></mat-datepicker>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary table-btn a-saveBtn" data-dismiss="modal">Save</button>
+          <button type="button" class="btn btn-default table-btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
     </div>
   </form>
 </div>
 <!-- select btn modal -->
 <div class="modal fade " id="selectBtnModal" tabindex="-1" role="dialog" aria-labelledby="selectBtnModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="selectBtnModalLabel">Are you sure to assign?</h4>
-            </div>
-            <div class="modal-body clearfix">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="selectBtnModalLabel">Are you sure to assign?</h4>
+      </div>
+      <div class="modal-body clearfix">
 
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary table-btn a-selectYesBtn" data-dismiss="modal">Yes</button>
-                <button type="button" class="btn btn-default table-btn" data-dismiss="modal">No</button>
-            </div>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary table-btn a-selectYesBtn" data-dismiss="modal">Yes</button>
+        <button type="button" class="btn btn-default table-btn" data-dismiss="modal">No</button>
+      </div>
     </div>
+  </div>
 </div>
-<!-- modal in subpage agent details -->
 
 <div id="page-content">
-    <div id='wrap'>
-        <div class="container">
-            <div class="row">
-                <div id="page-heading">
-                    <ol class="breadcrumb">
-                        <li [ngClass]="currSubPage=='home' ? 'active' : ''">
-                          <a routerLink="/agentHome" (click)="changeCurrSubPage('agentHome')">Home</a>
-                        </li>
-                        <li *ngIf="currSubPage=='agentAssign' || currSubPage=='agentDetails' || currSubPage == 'campaignDetails'" [ngClass]="currSubPage=='agentAssign' ? 'active' : ''">
-                          <a routerLink="agentAssign" (click)="changeCurrSubPage('agentAssign')">Agent Assignment</a>
-                        </li>
-                        <li *ngIf="currSubPage=='agentDetails'" [ngClass]="currSubPage=='agentDetails' ? 'active' : ''">
-                          <a>Agent Details</a>
-                        </li>
-                        <li *ngIf="currSubPage=='campaignDetails'" [ngClass]="currSubPage=='campaignDetails' ? 'active' : ''">
-                          <a>Campaign Details</a>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-            <app-searchcriteria
-            *ngIf="currSubPage == 'agentAssign' || currSubPage == 'agentDetails'"
-            [currSubPage]="currSubPage"
-            ></app-searchcriteria>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12 clearfix">
-                          <app-searchrecord
-                          *ngIf="currSubPage == 'agentAssign'"
-                          >
-                          </app-searchrecord>
-                          <app-detailssearchrecord
-                          *ngIf="currSubPage == 'agentDetails'"
-                          [policyNo]="policyNo"
-                          >
-                          </app-detailssearchrecord>
-                          <app-campaigndetails
-                          *ngIf="currSubPage == 'campaignDetails'"
-
-                          >
-                          </app-campaigndetails>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div id='wrap'>
+    <div class="container">
+      <div class="row">
+        <div id="page-heading">
+          <ol class="breadcrumb">
+            <li [ngClass]="currSubPage=='home' ? 'active' : ''">
+              <a routerLink="/agentHome" (click)="changeCurrSubPage('agentHome')">Home</a>
+            </li>
+            <li *ngIf="currSubPage=='agentAssign' || currSubPage=='agentDetails' || currSubPage == 'campaignDetails'" [ngClass]="currSubPage=='agentAssign' ? 'active' : ''">
+              <a routerLink="agentAssign" (click)="changeCurrSubPage('agentAssign')">Agent Assignment</a>
+            </li>
+            <li *ngIf="currSubPage=='agentDetails'" [ngClass]="currSubPage=='agentDetails' ? 'active' : ''">
+              <a>Agent Details</a>
+            </li>
+            <li *ngIf="currSubPage=='campaignDetails'" [ngClass]="currSubPage=='campaignDetails' ? 'active' : ''">
+              <a>Campaign Details</a>
+            </li>
+          </ol>
         </div>
-    </div>
+      </div>
+      <app-searchcriteria
+      *ngIf="currSubPage == 'agentAssign' || currSubPage == 'agentDetails'"
+      [currSubPage]="currSubPage"
+      ></app-searchcriteria>
 
-        </div> <!-- container -->
-    </div> <!--wrap -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12 clearfix">
+                  <app-searchrecord
+                  *ngIf="currSubPage == 'agentAssign'"
+                  [setPopUpMsg]="setPopUpMsg"
+                  [popUpMsg]="popUpMsg"
+                  >
+                </app-searchrecord>
+                <app-detailssearchrecord
+                *ngIf="currSubPage == 'agentDetails'"
+                [policyNo]="policyNo"
+                >
+              </app-detailssearchrecord>
+              <app-campaigndetails
+              *ngIf="currSubPage == 'campaignDetails'"
+
+              >
+            </app-campaigndetails>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div> <!-- container -->
+</div> <!--wrap -->
 </div> <!-- page-content -->

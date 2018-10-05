@@ -123,14 +123,14 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   }
 
   resetLeaveRecord(queryParams){
-    this.agentassignmentService.postResetLeaveRecord(queryParams).subscribe((resp : any)=>{
+    this.agentassignmentService.postResetLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
 
     }, (error) => console.log(error));
     this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
   }
   saveLeaveRecord(queryParams){
-    this.agentassignmentService.postSaveLeaveRecord(queryParams).subscribe((resp : any)=>{
+    this.agentassignmentService.postSaveLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
 
     }, (error) => console.log(error));
@@ -140,7 +140,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     this.currSelectedAgentCode = "";
   }
   selectYesRecord(queryParams){
-    this.agentassignmentService.postSelectYesLeaveRecord(queryParams).subscribe((resp : any)=>{
+    this.agentassignmentService.postSelectYesLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
 
     }, (error) => console.log(error));

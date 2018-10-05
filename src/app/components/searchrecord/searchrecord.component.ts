@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener,
-   OnDestroy,AfterViewChecked, OnChanges, Renderer2 } from '@angular/core';
+   OnDestroy,AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 //import { MatPaginator, MatTableDataSource } from '@angular/material';
 //import {DataSource} from '@angular/cdk/collections';
@@ -23,6 +23,8 @@ import constants from '../../constants/constants';
   styleUrls: ['./searchrecord.component.scss']
 })
 export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked, OnChanges {
+  @Input() setPopUpMsg : Function;
+  @Input() popUpMsg : string;
   displayedColumns : string[] = constants["SearchRecordColumnName"];
   displayedColumnsName : string[] = constants["SearchRecordColumnField"];
   searchCriterias : string[] = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign"];
@@ -55,11 +57,13 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   onResize(event?) {
     this.screenWidth = window.innerWidth;
     console.log("New Screen width:" + window.innerWidth);
-    this.dtOptions.fixedColumns.leftColumns = (this.screenWidth < 800) ? 1 : 5;
-    this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
+    //this.dtOptions.fixedColumns.leftColumns = (this.screenWidth < 800) ? 1 : 5;
+    if(this.dTable.dtInstance){
+      this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }*/
   ngOnChanges(){
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
@@ -71,13 +75,14 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     this.displayedColumnsName.forEach((val, index)=>{
       colArr.push({
         data:val,
-        width:'0px'
+        width:(index == 19) ? '200px' : '5px'
       })
     });
     this.dtOptions = {
       fixedColumns: {
-        leftColumns: (window.innerWidth > 800) ? 5 : 1
+        leftColumns: 5
       },
+      responsive: true,
       pagingType: 'full_numbers',
       pageLength: 5,
       scrollX:true,
@@ -107,6 +112,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
 
+
   }
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
@@ -117,14 +123,30 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   //this.searchCriteriaComponent.setSearchRecordComponent(this);
 
   }
-  //for handling the datatables's link
+  //for handling the datatables's link,
   //use router.navigate instead of href in dom 'a', as href will refresh whole page
   onclickEventInit = false; //onchange would reset this back to false
-  classToTrigger : Array<{className: string, url: string}> = [
+  classToTrigger : Array<{className: string, url?: string, callback?: Function}> = [
     {className : 'a-campaignCode', url: "/agentHome/campaignDetails"},
     {className : 'a-assignBtn', url: "/agentHome/agentDetails"},
-    {className : 'a-viewEmail', url: "/viewEmail"}
+    {className : 'a-reassignBtn', url: "/agentHome/agentDetails"},
+    {className : 'a-viewEmail', url: "/viewEmail"},
+    {className : 'a-pruchatEmailBtn', callback: ()=>{this.showPopUpMsg("pruchat")} },
+    {className : 'a-smsEmailBtn', callback: ()=>{this.showPopUpMsg("sms")}},
   ];
+  //for pruchat, sms option only
+  showPopUpMsg(type){
+    let params = {};
+    if(type === 'pruchat'){
+      this.agentassignmentService.postResendPruchat(params, 'sendParams').subscribe((resp : any) => {
+      });
+    }else if(type === 'sms'){
+      this.agentassignmentService.postResendSMS(params, 'sendParams').subscribe((resp : any) => {
+      });
+    }
+    this.setPopUpMsg(type === 'pruchat' ? "PruChat and email has been sent successfully" : "SMS and email has been sent successfully");
+  }
+
   ngAfterViewChecked(){
     //fetch the datatable's settings
     //since angular-datatables is not supporting changing table page in option yet
@@ -141,12 +163,19 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             //e.g. queryParams="abc:2,ddd:4" ...
             let paramsToBePassed = {};
             let queryParamsStr = $(event.target).attr("queryParams");
-            let queryParamsArray = queryParamsStr.split(',');
-            queryParamsArray.forEach((elem, key)=>{
-              let elemPair = elem.split(':');
-              _set(paramsToBePassed, elemPair[0], elemPair[1]);
-            });
-            this.router.navigate([elem.url], { queryParams : paramsToBePassed });
+            if(queryParamsStr){
+              let queryParamsArray = queryParamsStr.split(',');
+              queryParamsArray.forEach((elem, key)=>{
+                let elemPair = elem.split(':');
+                _set(paramsToBePassed, elemPair[0], elemPair[1]);
+              });
+            }
+            if(elem.url){
+              this.router.navigate([elem.url], { queryParams : paramsToBePassed });
+            }
+            if(elem.callback){
+              elem.callback();
+            }
           }
         });
       });
@@ -242,9 +271,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let grayBtnClass = "btn btn-default table-btn";
 
             let assignBtnHTML = `<a class="` + redBtnClass + ` a-assignBtn" queryParams="policyNo:` + rowData.polNo + `">Assign</a>`;
-            let reassignBtnHTML = `<a class="` + redBtnClass + `">Re-assign</a>`;
-            let pruchatBtnHTML = `<a class="` + grayBtnClass + `">PruChat & Email to Agent(Resend)</a>`;
-            let smsEmailBtnHTML = `<a class="` + grayBtnClass + `">SMS & Email to Customer(Resend)</a>`;
+            let reassignBtnHTML = `<a class="` + redBtnClass + ` a-reassignBtn">Re-assign</a>`;
+            let pruchatBtnHTML = `<a class="` + grayBtnClass + ` a-pruchatEmailBtn" data-toggle="modal" data-target="#btnMsgModal" >PruChat & Email to Agent(Resend)</a>`;
+            let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" data-toggle="modal" data-target="#btnMsgModal" >SMS & Email to Customer(Resend)</a>`;
 
             let agentAssignedDate = new Date(rowData.agentAssignedDate);
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, AfterContentInit, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentInit, ViewChild, AfterViewChecked, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SearchrecordComponent } from '../../components/searchrecord/searchrecord.component';
 import { DetailssearchrecordComponent } from '../../components/detailssearchrecord/detailssearchrecord.component';
@@ -18,7 +18,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./agentassignment.component.scss']
 })
 export class AgentassignmentComponent implements OnInit, AfterViewChecked,
- AfterViewInit {
+ AfterViewInit, OnChanges {
   //managing children component mutual reference in this component
   @ViewChild(SearchrecordComponent) searchRecordComponent;
   @ViewChild(DetailssearchrecordComponent) detailSearchRecordComponent;
@@ -26,6 +26,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   @ViewChild(CampaigndetailsComponent) campaignDetailsComponent;
 
   policyNo : string;//will be passed to detailSearchRecordComponent
+  popUpMsg : string;//for pruchat or sms btn
 
   constructor(private router :Router, private aRoute : ActivatedRoute) { }
 
@@ -35,8 +36,16 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   }
 
   ngAfterViewInit(){
-
     this.bindChildComponents();//must be binded AfterViewInit cause the viewChild
+  }
+
+  setPopUpMsg(setVal){
+    this.popUpMsg = setVal;
+    console.log('setPopUpMsg', this.popUpMsg)
+  }
+
+  ngOnChanges(c){
+    console.log(c)
   }
 
   setCurrUrlAndSubPage(){

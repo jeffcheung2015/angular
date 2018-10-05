@@ -10,7 +10,8 @@ export class CampaigndetailsComponent implements OnInit {
   campaignCode;
   campaignStartDate;
   campaignEndDate;
-  premPercentOff;
+  premForAsiaMiles;
+  asiaMiles;
   genericCode;
   promotionCodePool;
   promotionCodeUnit;

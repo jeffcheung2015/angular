@@ -1,4 +1,4 @@
-<div class="row"><div class="col-md-12">
+<div class="row div-searchCriteria"><div class="col-md-12">
     <div class="panel">
         <div class="panel-body slide-body">
             <div class="row">
@@ -67,19 +67,20 @@
                                                         <input formControlName="idCardNo" name="idCardnoField" class="search-by-input" type="text">
                                                     </div>
                                                 </div>
-                                                <div class="search-by-col">
-                                                    <div> Date of Submission Form
+                                                <div class="search-by-col div-dateOfSubmissionWrapper">
+                                                    <div> <span class="span-dateOfSubmissionFrom">Date of Submission From</span>
                                                         <div class="div-dateOfSubmissionFrom">
-                                                            <input (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
+                                                            <input class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
                                                             <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionFromPicker">
                                                               <mat-icon matDatepickerToggleIcon>apps</mat-icon>
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #dateOfSubmissionFromPicker></mat-datepicker>
                                                         </div>
-                                                    </div> To
+                                                    </div>
+                                                    <span class="span-dateOfSubmissionTo">To</span>
                                                     <div>
                                                       <div class="div-dateOfSubmissionTo">
-                                                        <input (dateChange)="dateOfSubmissionChange($event, 1)" matInput [min]="minDateTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
+                                                        <input class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)" matInput [min]="minDateTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
                                                         <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
                                                           <mat-icon matDatepickerToggleIcon>apps</mat-icon>
                                                         </mat-datepicker-toggle>

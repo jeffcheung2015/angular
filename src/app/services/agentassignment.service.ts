@@ -22,11 +22,11 @@ export class AgentassignmentService{
   assignment: string;
 
   constructor(private http: HttpClient){ }
-  //type : dataTable | searchCriteria
+  //type : dataTable | searchCriteria | sendParams
   getPostFunc(url, params, getOrPost, type?){
     let sentParams : any = {
       observe: "response",
-      params: type === 'dataTable' ? {
+      params: (type === 'dataTable') ? {
         draw: params.draw,
         start: params.start,
         length: params.length
@@ -49,23 +49,34 @@ export class AgentassignmentService{
     //#vm
     //return this.getPostFunc("/aaa",params, 'post');
   }
-  postResetLeaveRecord(params){
-    return this.getPostFunc('/aaa', params, 'post');
+  postResetLeaveRecord(params, type){
+    return this.getPostFunc('/aaa', params, 'post', type);
     //#vm
     //return this.getPostFunc("/aaa",params, 'post');
   }
 
-  postSaveLeaveRecord(params){
-    return this.getPostFunc('/aaa', params, 'post');
+  postSaveLeaveRecord(params, type){
+    return this.getPostFunc('/aaa', params, 'post', type);
     //#vm
     //return this.getPostFunc("/aaa",params, 'post');
   }
 
-  postSelectYesLeaveRecord(params){
-    return this.getPostFunc('/aaa', params, 'get');
+  postSelectYesLeaveRecord(params, type){
+    return this.getPostFunc('/aaa', params, 'get', type);
     //#vm
     //return this.getPostFunc("/aaa",params, 'get');
   }
 
+  postResendPruchat(params, type){
+    return this.getPostFunc('/aaa', params, 'post', type);
+    //#vm
+    //return this.getPostFunc("/aaa",params, 'get');
+  }
+
+  postResendSMS(params, type){
+    return this.getPostFunc('/aaa', params, 'post', type);
+    //#vm
+    //return this.getPostFunc("/aaa",params, 'get');
+  }
 
 }
