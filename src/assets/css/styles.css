@@ -9244,6 +9244,7 @@ footer .container {
   /*background: #fff;*/
   white-space: nowrap;
   overflow-x: scroll;
+  padding-left: 26px;
 }
 #page-heading .breadcrumb::-webkit-scrollbar,
 .table-wrapper::-webkit-scrollbar {
@@ -10280,6 +10281,8 @@ body.show-rightbar #chatarea .chatmsg.sent:after {
   font-size: 16px;
   vertical-align: initial;
   margin-top: 0px;
+  top: 1.5px;
+  position: relative;
 }
 #sidebar .divider {
   height: 1px;

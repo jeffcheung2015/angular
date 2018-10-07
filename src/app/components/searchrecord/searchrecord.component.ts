@@ -270,6 +270,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let redBtnClass = "btn btn-primary table-btn";
             let grayBtnClass = "btn btn-default table-btn";
 
+            let displayInlineStyle = "style='display: inline-flex;float: left;'";
+
             let assignBtnHTML = `<a class="` + redBtnClass + ` a-assignBtn" queryParams="policyNo:` + rowData.polNo + `">Assign</a>`;
             let reassignBtnHTML = `<a class="` + redBtnClass + ` a-reassignBtn">Re-assign</a>`;
             let pruchatBtnHTML = `<a class="` + grayBtnClass + ` a-pruchatEmailBtn" data-toggle="modal" data-target="#btnMsgModal" >PruChat & Email to Agent(Resend)</a>`;
@@ -287,26 +289,29 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
             switch(rowSymbol){
               case 'A': case 'D': case 'F':
-                firstRow = assignBtnHTML;
+                firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
                 break;
               case 'B': //val reassign pru sms (2)
                 firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
-                secRow = `<tr><td colspan="5" class="re-assign">` + reassignBtnHTML +
-                 pruchatBtnHTML + smsEmailBtnHTML + `</td></tr>`;
+                secRow = `<tr><td colspan="5" class="re-assign" style="padding: 8px 0px;">` +
+                 `<div ` + displayInlineStyle + `><div>` +
+                 reassignBtnHTML + `</div><div>` + pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div></div>` +
+                 `</td></tr>`;
                 break;
               case 'C': //val pru sms (2)
                 firstRow = `<tr>` + tdValRowHTML + `</tr>`;
-                secRow = `<tr><td colspan="5">` +
-                 pruchatBtnHTML + smsEmailBtnHTML + `</td></tr>`;
+                secRow = `<tr><td colspan="5" style="padding: 8px 0px;">` +
+                 `<div ` + displayInlineStyle + `><div>` +
+                  pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
+                  `</td></tr>`;
                 break;
               case 'E': //sms (1)
-                firstRow = smsEmailBtnHTML;
+                firstRow = `<div ` + displayInlineStyle + `>` + smsEmailBtnHTML + `</div>`;
                 break;
             }
-            $(td).html(`<table style="width:100%;height:100%">` +
-                         firstRow +
-                         secRow +
-                        `</table>`);
+            let firstSecRowHtml = firstRow + secRow;
+            let htmlStr = (['B', 'C'].includes(rowSymbol)) ? `<table style="width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
+            $(td).html(htmlStr);
           }
         }else if(col >= 18){ //pruchat sms Section
           $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
