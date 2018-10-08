@@ -24,7 +24,6 @@ import constants from '../../constants/constants';
 })
 export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked, OnChanges {
   @Input() setPopUpMsg : Function;
-  @Input() setCampaignDetails : Function;
   @Input() popUpMsg : string;
   displayedColumns : string[] = constants["SearchRecordColumnName"];
   displayedColumnsName : string[] = constants["SearchRecordColumnField"];
@@ -72,7 +71,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
   ngOnInit() {
     this.classToTrigger = [
-      {className : 'a-campaignCode', url: constants.route['CampaignDetail'], callback:(queryParams)=>{this.setCampaignDetails(queryParams)}},
+      {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
       {className : 'a-assignBtn', url: constants.route['AgentDetail']},
       {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
       {className : 'a-viewEmail', url: "/viewEmail"},

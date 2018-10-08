@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {AgentassignmentService} from '../../services/agentassignment.service';
+import { get as _get } from 'lodash';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-campaigndetails',
@@ -12,47 +14,48 @@ export class CampaigndetailsComponent implements OnInit {
   campaignCode;
   startDate;
   endDate;
-
   genericCode;
   promoPool;
   promoUnit;
-
   partnerCode;
   partnerName;
   prodSubType;
   promoUsage;
   remarks;
-
   premiumFromAM;
   amEntitled;
 
   currSubPage;
   @Input()gobackRouteLink: string;
 
-  constructor(private router: Router,
-     private aRoute : ActivatedRoute) {
-  }
+  constructor(
+     private router: Router,
+     private aRoute : ActivatedRoute,
+     private agentassignmentService : AgentassignmentService
+   ) { }
 
   ngOnInit() {
+    let campaignCode = _get(this.aRoute, 'snapshot.queryParams.campaignCode', '');
+    if(campaignCode == ''){
+      this.router.navigate(['/'+this.gobackRouteLink]); //redirect back to agentassignGI/CS page
+    }else{
+      let sentParams = {
+          campaignCode: campaignCode
+      };
+      this.agentassignmentService.getCampaignDetail(sentParams, 'campaignDetails').
+      subscribe((resp : any) => {
+        console.log(resp)
+        this.setData(resp.body);
+      },(error : any) =>{
+        console.log('error getting campaign details', error);
+      })
+    }
   }
 
   setData(responseObj){
-    this.campaignCode = responseObj.campaignCode;
-    this.startDate = responseObj.startDate;
-    this.endDate = responseObj.endDate;
-
-    this.genericCode = responseObj.genericCode;
-    this.promoPool = responseObj.promoPool;
-    this.promoUnit = responseObj.promoUnit;
-
-    this.partnerCode = responseObj.partnerCode;
-    this.partnerName = responseObj.partnerName;
-    this.prodSubType = responseObj.prodSubType;
-    this.promoUsage = responseObj.promoUsage;
-    this.remarks = responseObj.remarks;
-
-    this.premiumFromAM = responseObj.premiumFromAM;
-    this.amEntitled = responseObj.amEntitled;
-    console.log(responseObj)
+    for(var prop in responseObj){
+      this[prop] = responseObj[prop];
+      console.log(this[prop], prop)
+    }
   }
 }

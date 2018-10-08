@@ -13,15 +13,15 @@
                                             <div class="col-lg-6 col-md-6 col-xs-6 ">Campaign Code</div>
                                             <div class="col-lg-6 col-md-6 col-xs-6 ">{{campaignCode}}</div>
                                         </div>
-                                        <div *ngIf="campaignStartDate" class="row">
+                                        <div *ngIf="startDate" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6">Campaign Start Date</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{startDate}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{startDate | date:'MMM d, y'}}</div>
                                         </div>
-                                        <div *ngIf="campaignEndDate" class="row">
+                                        <div *ngIf="endDate" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 ">Campaign End Date</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 ">{{endDate}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 ">{{endDate | date: 'MMM d, y'}}</div>
                                         </div>
-                                        <div *ngIf="premPercentOff" class="row">
+                                        <div *ngIf="premiumFromAM && amEntitled" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6">Premium Percent Off</div>
                                             <div class="col-lg-6 col-md-6 col-xs-6">HK${{premiumFromAM}} = {{amEntitled}} Mile</div>
                                         </div>
@@ -29,11 +29,11 @@
                                             <div class="col-lg-6 col-md-6 col-xs-6">Generic Code</div>
                                             <div class="col-lg-6 col-md-6 col-xs-6">{{genericCode}}</div>
                                         </div>
-                                        <div *ngIf="promotionCodePool" class="row">
+                                        <div *ngIf="promoPool" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6">Promotion Code Pool</div>
                                             <div class="col-lg-6 col-md-6 col-xs-6">{{promoPool}}</div>
                                         </div>
-                                        <div *ngIf="promotionCodeUnit" class="row">
+                                        <div *ngIf="promoUnit" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6">Promotion Code Unit</div>
                                             <div class="col-lg-6 col-md-6 col-xs-6">{{promoUnit}}</div>
                                         </div>
@@ -47,7 +47,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-6 ">Partner Name</div>
                                             <div class="col-lg-6 col-md-6 col-xs-6">{{partnerName}}</div>
                                         </div>
-                                        <div *ngIf="productSubType" class="row">
+                                        <div *ngIf="prodSubType" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6">Product Subtype</div>
                                             <div class="col-lg-6 col-md-6 col-xs-6">{{prodSubType}}</div>
                                         </div>
@@ -56,7 +56,7 @@
                             </div>
                         </div>
 
-                        <div class="accordion-item col-lg-6 col-md-6">
+                        <div *ngIf="promoUsage" class="accordion-item col-lg-6 col-md-6">
                             <a><h4 style="color: #FE0000;border-bottom: 1px solid #EBEBEB; padding: 20px 0px;margin-left: 20px;">Promotion Code Usage</h4></a>
                             <div id="my-policy-diary" class="clearfix">
                                 <div class="client-detail">
@@ -68,7 +68,7 @@
                         </div>
 
 
-                        <div class="accordion-item col-lg-12 col-md-12 col-xs-12">
+                        <div *ngIf="remarks" class="accordion-item col-lg-12 col-md-12 col-xs-12">
                             <h4 style="margin:20px 0 0 20px;color: #FE0000;">Remarks</h4>
                             <div class="col-md-6" id="remarkDiv">
                               {{remarks}}
