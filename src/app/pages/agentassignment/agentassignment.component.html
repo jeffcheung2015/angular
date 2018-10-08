@@ -93,6 +93,7 @@
                   *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS'"
                   [setPopUpMsg]="setPopUpMsg"
                   [popUpMsg]="popUpMsg"
+                  [setCampaignDetails]="setCampaignDetails"
                   >
                 </app-searchrecord>
                 <app-detailssearchrecord
@@ -102,6 +103,8 @@
               </app-detailssearchrecord>
               <app-campaigndetails
               *ngIf="currSubPage == 'easCampaignDetail'"
+              [gobackRouteLink]="agentassignmentService.currServiceName"
+              [campaignDetailObj]="campaignDetailObj"
               >
             </app-campaigndetails>
           </div>

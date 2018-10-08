@@ -24,6 +24,7 @@ import constants from '../../constants/constants';
 })
 export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked, OnChanges {
   @Input() setPopUpMsg : Function;
+  @Input() setCampaignDetails : Function;
   @Input() popUpMsg : string;
   displayedColumns : string[] = constants["SearchRecordColumnName"];
   displayedColumnsName : string[] = constants["SearchRecordColumnField"];
@@ -68,9 +69,10 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   ngOnChanges(){
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
+
   ngOnInit() {
     this.classToTrigger = [
-      {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
+      {className : 'a-campaignCode', url: constants.route['CampaignDetail'], callback:(queryParams)=>{this.setCampaignDetails(queryParams)}},
       {className : 'a-assignBtn', url: constants.route['AgentDetail']},
       {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
       {className : 'a-viewEmail', url: "/viewEmail"},
@@ -172,11 +174,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                 _set(paramsToBePassed, elemPair[0], elemPair[1]);
               });
             }
+            if(elem.callback){
+              elem.callback(paramsToBePassed);
+            }
             if(elem.url){
               this.router.navigate([elem.url], { queryParams : paramsToBePassed });
-            }
-            if(elem.callback){
-              elem.callback();
             }
           }
         });

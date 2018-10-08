@@ -30,7 +30,10 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   policyNo : string;//will be passed to detailSearchRecordComponent
   popUpMsg : string;//for pruchat or sms btn
 
-  constructor(private router :Router, private agentassignmentService : AgentassignmentService) { }
+  campaignDetailObj;
+
+  constructor(private router :Router,
+     private agentassignmentService : AgentassignmentService) { }
 
   ngOnInit() {
     this.setCurrUrlAndSubPage();
@@ -54,6 +57,20 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   setCurrUrlAndSubPage(){
     let routePathArray = _get(this.router, 'rawUrlTree.root.children.primary.segments', null);
     this.currSubPage = (!routePathArray) ? this.currSubPage : routePathArray[routePathArray.length - 1].path;
+  }
+
+  setCampaignDetails(params){
+    let sentParams = {
+      campaignCode: params.campaignCode
+    }
+    this.agentassignmentService.getCampaignDetail(sentParams, 'campaignDetails').
+    subscribe((resp : any) => {
+      console.log(resp)
+      //this.campaignDetailObj = resp.body;
+      //console.log(this.campaignDetailObj)
+      console.log(this.campaignDetailsComponent, this.detailSearchRecordComponent)
+      //this.campaignDetailsComponent.setData(resp);
+    })
   }
 
   //updating currSubPage in order to update the child component when url addr get changed
@@ -104,11 +121,13 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
         _set(this, 'searchCriteriaComponent.detailSearchRecordComponent', this.detailSearchRecordComponent);
         _set(this, 'detailSearchRecordComponent.searchCriteriaComponent', this.searchCriteriaComponent);
       break;
-      //case 'campaignDetails':
-      //break;
+      case 'campaignDetails':
+        //_set(this, 'campaignDetailsComponent.searchCriteriaComponent', this.searchCriteriaComponent);
+      break;
     }
   }
   changeCurrSubPage(newCurrSubPage){
     this.currSubPage = newCurrSubPage;
   }
+
 }

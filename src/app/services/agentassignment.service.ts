@@ -39,6 +39,11 @@ export class AgentassignmentService{
           params: params
         };
       break;
+      case 'campaignDetails':
+        sentParams =  {
+          observe: "response"
+        };
+      break;
     }
     return (getOrPost === 'get') ? this.http.get(url, sentParams) : this.http.post(url, sentParams);
   }
@@ -53,6 +58,12 @@ export class AgentassignmentService{
     return this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecordDetails.json', params, 'get', type);
     //#vm
     //return this.getOrPostFunc("/eas/api/agent/assignAgent",params, 'get', type);
+  }
+  //campaignDetails
+  getCampaignDetail(params, type){
+    return this.getOrPostFunc('http://localhost:4200/eas/assets/data/campaignDetail.json', params, 'get', type);
+    //#vm
+    //return this.getOrPostFunc("/api/campaign/detail/" + params.campaignCode ,params, 'get', type);
   }
   //sendParams
   postResetLeaveRecord(params, type){

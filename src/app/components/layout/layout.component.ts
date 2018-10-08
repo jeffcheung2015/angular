@@ -95,9 +95,6 @@ export class LayoutComponent implements OnInit {
             this[this.mapMenuLinkToTab[prop]].enabled = true;
           }
         }
-
-
-
         //merge all of the tabs into menu
         ['agentAssignmentTab', 'pddTab', 'leadResponseTab', 'eDMTab'].forEach((elem)=>{
           this.menu.push(this[elem]);

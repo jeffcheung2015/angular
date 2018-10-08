@@ -1,0 +1,19 @@
+{
+  "campaignCode":"A1112409",
+  "startDate":"2017-11-30T16:00:00.000+0000",
+  "endDate":"2018-12-22T16:00:00.000+0000",
+  "partnerCode":"ASIAMILES",
+  "partnerName":"Asia Miles",
+  "prodSubType":"TPC ANNUAL",
+
+  "premiumFromAM":5,
+  "amEntitled":1,
+  "premiumDisc":15,
+
+  "genericCode":"PROMOCODE12345",
+
+  "promoPool":"TESTPOOL1",
+  "promoUnit":4,
+  "promoUsage":"https://cwsdev.prudential.com.hk/test.html",
+  "remarks":"PDD Remarks"
+}
