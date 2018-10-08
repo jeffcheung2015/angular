@@ -17,11 +17,13 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { AgentassignmentComponent } from './pages/agentassignment/agentassignment.component';
 import { SearchrecordComponent } from './components/searchrecord/searchrecord.component';
 import { AgentassignmentService } from './services/agentassignment.service';
+import { LayoutService } from './services/layout.service';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+
 
 import {
   MatAutocompleteModule,
@@ -101,7 +103,7 @@ import { PddindexComponent } from './pages/pddindex/pddindex.component';
 
   ],
   providers: [PddcampaigntransactionService, PddcampaignService,
-    AgentassignmentService],
+    AgentassignmentService, LayoutService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

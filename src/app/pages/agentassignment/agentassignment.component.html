@@ -63,22 +63,23 @@
         <div id="page-heading">
           <ol class="breadcrumb">
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
-              <a routerLink="/agentHome" (click)="changeCurrSubPage('agentHome')">Home</a>
+              <a href="javascript:;">Home</a>
             </li>
-            <li *ngIf="currSubPage=='agentAssign' || currSubPage=='agentDetails' || currSubPage == 'campaignDetails'" [ngClass]="currSubPage=='agentAssign' ? 'active' : ''">
-              <a routerLink="agentAssign" (click)="changeCurrSubPage('agentAssign')">Agent Assignment</a>
+            <li *ngIf="currSubPage=='easAgentAssignGI' || currSubPage =='easAgentAssignCS' || currSubPage=='easAgentDetail' || currSubPage == 'easCampaignDetail'"
+                [ngClass]="currSubPage=='easAgentAssignGI' || currSubPage=='easAgentAssignCS' ? 'active' : ''">
+              <a routerLink="/{{agentassignmentService.currServiceName}}" (click)="changeCurrSubPage('easAgentAssignGIOrCS')">Agent Assignment</a>
             </li>
-            <li *ngIf="currSubPage=='agentDetails'" [ngClass]="currSubPage=='agentDetails' ? 'active' : ''">
+            <li *ngIf="currSubPage=='easAgentDetail'" [ngClass]="currSubPage=='easAgentDetail' ? 'active' : ''">
               <a>Agent Details</a>
             </li>
-            <li *ngIf="currSubPage=='campaignDetails'" [ngClass]="currSubPage=='campaignDetails' ? 'active' : ''">
+            <li *ngIf="currSubPage=='easCampaignDetail'" [ngClass]="currSubPage=='easCampaignDetail' ? 'active' : ''">
               <a>Campaign Details</a>
             </li>
           </ol>
         </div>
       </div>
       <app-searchcriteria
-      *ngIf="currSubPage == 'agentAssign' || currSubPage == 'agentDetails'"
+      *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS' || currSubPage == 'easAgentDetail'"
       [currSubPage]="currSubPage"
       ></app-searchcriteria>
 
@@ -89,19 +90,18 @@
               <div class="row">
                 <div class="col-md-12 clearfix">
                   <app-searchrecord
-                  *ngIf="currSubPage == 'agentAssign'"
+                  *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS'"
                   [setPopUpMsg]="setPopUpMsg"
                   [popUpMsg]="popUpMsg"
                   >
                 </app-searchrecord>
                 <app-detailssearchrecord
-                *ngIf="currSubPage == 'agentDetails'"
+                *ngIf="currSubPage == 'easAgentDetail'"
                 [policyNo]="policyNo"
                 >
               </app-detailssearchrecord>
               <app-campaigndetails
-              *ngIf="currSubPage == 'campaignDetails'"
-
+              *ngIf="currSubPage == 'easCampaignDetail'"
               >
             </app-campaigndetails>
           </div>

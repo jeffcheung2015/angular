@@ -1,11 +1,13 @@
 import { Component, OnInit, AfterViewInit, AfterContentInit, ViewChild, AfterViewChecked, OnChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { SearchrecordComponent } from '../../components/searchrecord/searchrecord.component';
 import { DetailssearchrecordComponent } from '../../components/detailssearchrecord/detailssearchrecord.component';
 import { SearchcriteriaComponent } from '../../components/searchcriteria/searchcriteria.component';
 import { CampaigndetailsComponent } from '../../components/campaigndetails/campaigndetails.component';
 import { get as _get, set as _set } from 'lodash';
 import { FormGroup, FormControl } from '@angular/forms';
+
+import { AgentassignmentService } from '../../services/agentassignment.service';
 
 //in this parent component do the checking of router url
 //then pass the result to children components
@@ -28,7 +30,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   policyNo : string;//will be passed to detailSearchRecordComponent
   popUpMsg : string;//for pruchat or sms btn
 
-  constructor(private router :Router, private aRoute : ActivatedRoute) { }
+  constructor(private router :Router, private agentassignmentService : AgentassignmentService) { }
 
   ngOnInit() {
     this.setCurrUrlAndSubPage();
@@ -36,6 +38,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   }
 
   ngAfterViewInit(){
+    console.log(this.agentassignmentService)
     this.bindChildComponents();//must be binded AfterViewInit cause the viewChild
   }
 
@@ -57,7 +60,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   currUrl : string = "";
   //refers to the current page the visitor is visiting, maybe subpage
   //agentHome, agentAssign, agentDetails, campaignDetails
-  currSubPage : string = 'agentAssign';
+  currSubPage : string = '';
   currSubPageJustUpdated : boolean = false;
   ngAfterContentChecked(){
     if(this.currUrl !== this.router.url){ //url changes
@@ -65,7 +68,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
       this.setCurrUrlAndSubPage();
       this.currSubPageJustUpdated = true;
       //set the policyNo before passing forward to the child detailSearchRecordComponent
-      if(this.currSubPage === 'agentDetails'){
+      if(this.currSubPage === 'easAgentDetail'){
         this.policyNo = _get(this.router, "rawUrlTree.queryParams.policyNo", null);
       }
     }
@@ -92,11 +95,12 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   //
   bindChildComponents(){
     switch(this.currSubPage){
-      case 'agentAssign':
+      case 'easAgentAssignGI':
+      case 'easAgentAssignCS':
         _set(this, 'searchCriteriaComponent.searchRecordComponent', this.searchRecordComponent);
         _set(this, 'searchRecordComponent.searchCriteriaComponent', this.searchCriteriaComponent);
       break;
-      case 'agentDetails':
+      case 'easAgentDetail':
         _set(this, 'searchCriteriaComponent.detailSearchRecordComponent', this.detailSearchRecordComponent);
         _set(this, 'detailSearchRecordComponent.searchCriteriaComponent', this.searchCriteriaComponent);
       break;

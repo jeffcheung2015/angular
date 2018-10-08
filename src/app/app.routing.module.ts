@@ -7,16 +7,16 @@ import {DefaultPageComponent} from "./components/defaultpage.component";
 import {AppComponent} from "./app.component";
 import {AgentassignmentComponent} from "./pages/agentassignment/agentassignment.component";
 import {PddindexComponent} from "./pages/pddindex/pddindex.component";
+
 const appRoutes: Routes = [
   { path: 'PddTransactions', component: PddcampaigntransactiontableComponent },
   { path: 'PddCampaigns',  component: PddcampaigntableComponent },
-  { path: 'agentHome', component: AgentassignmentComponent,
-    children:[
-      { path: 'agentAssign', component: AgentassignmentComponent },
-      { path: 'agentDetails', component: AgentassignmentComponent },
-      { path: 'campaignDetails', component: AgentassignmentComponent },
-    ]
-  },
+
+  { path: 'easAgentAssignGI', component: AgentassignmentComponent },
+  { path: 'easAgentAssignCS', component: AgentassignmentComponent },
+  { path: 'easAgentDetail', component: AgentassignmentComponent },
+  { path: 'easCampaignDetail', component: AgentassignmentComponent },
+
   { path: '', component: DefaultPageComponent, pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -69,6 +69,15 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
   ngOnInit() {
+    this.classToTrigger = [
+      {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
+      {className : 'a-assignBtn', url: constants.route['AgentDetail']},
+      {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
+      {className : 'a-viewEmail', url: "/viewEmail"},
+      {className : 'a-pruchatEmailBtn', callback: ()=>{this.showPopUpMsg("pruchat")} },
+      {className : 'a-smsEmailBtn', callback: ()=>{this.showPopUpMsg("sms")}},
+    ];
+
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
 
     let colArr = [], dataArr = [];
@@ -126,14 +135,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   //for handling the datatables's link,
   //use router.navigate instead of href in dom 'a', as href will refresh whole page
   onclickEventInit = false; //onchange would reset this back to false
-  classToTrigger : Array<{className: string, url?: string, callback?: Function}> = [
-    {className : 'a-campaignCode', url: "/agentHome/campaignDetails"},
-    {className : 'a-assignBtn', url: "/agentHome/agentDetails"},
-    {className : 'a-reassignBtn', url: "/agentHome/agentDetails"},
-    {className : 'a-viewEmail', url: "/viewEmail"},
-    {className : 'a-pruchatEmailBtn', callback: ()=>{this.showPopUpMsg("pruchat")} },
-    {className : 'a-smsEmailBtn', callback: ()=>{this.showPopUpMsg("sms")}},
-  ];
+  classToTrigger : Array<{className: string, url?: string, callback?: Function}>;
   //for pruchat, sms option only
   showPopUpMsg(type){
     let params = {};

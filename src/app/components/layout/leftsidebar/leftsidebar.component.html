@@ -4,23 +4,34 @@
     <ul class="acc-menu" id="sidebar">
         <li id="title">Engagement Assignment System</li>
         <li style="color:white !important;" id="info">
-            <div><i class="icon-circle-user"></i>S. O Ng (00701872)</div>
-            <div><i class="icon-calendar"></i>Fri, Jan 19 2018</div>
+            <div><i class="icon-circle-user"></i>{{username}} ({{usercode}})</div>
+            <div><i class="icon-calendar"></i>{{currDate | date:'EE, MMM d y'}}</div>
             <div><i class="iconfont">&#xe618;</i></div>
         </li>
         <li id="min-menu" class="bg-black">
             <i class="icon-mini-menu"></i> <span>Minimize Menu</span>
         </li>
-        <li class="active"><a routerLink="/agentHome/agentAssign"><i class="iconfont">&#xe615;</i> <span>Agent Assignment</span></a></li>
-        <li><a href="javascript:;"><i class="iconfont">&#xe617;</i> <span>PDD</span> </a>
-            <ul class="acc-menu" style="display: block;">
-                <li><a href="policy-search.htm"><span>Lead Extension Approval</span></a></li>
-                <li><a href="layout-horizontal.htm"><span>Summary</span></a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="javascript:;"><i class="iconfont">&#xe616;</i> <span>eDM</span> </a>
-        </li>
+        <ng-container *ngIf="menu">
+          <li *ngFor="let tabElem of menu" >
+            <ng-container *ngIf="tabElem.enabled">
+              <a *ngIf="tabElem.link" routerLink="/{{tabElem.link}}" routerLinkActive="active"><!--agentAssignment , edm-->
+                <i *ngIf="tabElem.title=='Agent Assignment'" class="iconfont">&#xe615;</i>
+                <i *ngIf="tabElem.title=='eDM'" class="iconfont">&#xe616;</i>
+                <span>{{tabElem.title}}</span>
+              </a>
+              <ng-container *ngIf="!tabElem.link">
+                <a href="javascript:;" *ngIf="tabElem.title=='PDD' || tabElem.title=='Lead Response'" routerLinkActive="active">
+                  <i class="iconfont">&#xe617;</i><span>{{tabElem.title}}</span>
+                </a>
+                <ul class="acc-menu" style="display: none;">
+                  <li *ngFor="let subElem of tabElem.children">
+                    <a routerLink="/{{subElem.link}}" routerLinkActive="active"><span>{{subElem.title}}</span></a>
+                  </li>
+                </ul>
+              </ng-container>
+            </ng-container>
+          </li>
+        </ng-container>
     </ul>
     <!-- END SIDEBAR MENU -->
 </nav>

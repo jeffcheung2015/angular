@@ -1,0 +1,17 @@
+{
+  "name": "FN00685096 SN00685096",
+  "code": "00685096",
+  "menu":{
+    "AGENT_ASSIGN_GI":"easAgentAssignGI",
+    "AGENT_DETAIL" : "easAgentDetail",
+    "CLIENT_DETAIL" : "easClientDetail",
+    "CAMPAIGN_DETAIL" : "easCampaignDetail",
+    "LR_AGENT" : "easAgentInterface",
+    "LR_AP_UPLINE" : "easAPInterface",
+    "LR_AO" : "easAOInterface",
+    "PDD_LEAD_APPLICATION" : "easLeadExtensionAppl",
+    "PDD_LEAD_APPROVAL" : "easLeadExtensionApproval",
+    "PDD_SUMMARY" : "easLeadSummary",
+    "EDM" : "easEDM"
+  }
+}

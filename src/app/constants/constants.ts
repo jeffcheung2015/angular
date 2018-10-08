@@ -1,4 +1,11 @@
 export default {
+    route:{
+      AgentAssignGI: 'easAgentAssignGI',
+      AgentAssignCS: 'easAgentAssignCS',
+      AgentDetail: 'easAgentDetail',
+      CampaignDetail: 'easCampaignDetail'
+
+    },
     SearchRecordColumnName: [
     'Class', 'Policy No.', 'Prulife Pol. No.', 'Name of the Applicant',
     'ID Card No', 'Opt Out customer(GI)', 'Opt Out customer(Life)',

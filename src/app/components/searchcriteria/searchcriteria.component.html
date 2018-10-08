@@ -10,7 +10,7 @@
                             </a>
                             <div id="my-policy-diary" class="collapse in" style="">
                                 <div class="accordion-body">
-                                  <div *ngIf="currSubPage == 'agentDetails'">
+                                  <div *ngIf="currSubPage == 'easAgentDetail'">
                                       <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearchCriteria()">
                                           <div>
                                               <div class="search-by-col-wrap">
@@ -39,7 +39,7 @@
                                           </div>
                                       </form>
                                     </div>
-                                    <div *ngIf="currSubPage == 'agentAssign'">
+                                    <div *ngIf="currSubPage=='easAgentAssignCS'||currSubPage=='easAgentAssignGI'">
                                       <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearchCriteria()">
                                         <div>
                                             <div class="search-by-col-wrap">
