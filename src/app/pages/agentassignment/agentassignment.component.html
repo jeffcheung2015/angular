@@ -67,7 +67,7 @@
             </li>
             <li *ngIf="currSubPage=='easAgentAssignGI' || currSubPage =='easAgentAssignCS' || currSubPage=='easAgentDetail' || currSubPage == 'easCampaignDetail'"
                 [ngClass]="currSubPage=='easAgentAssignGI' || currSubPage=='easAgentAssignCS' ? 'active' : ''">
-              <a routerLink="/{{agentassignmentService.currServiceName}}" (click)="changeCurrSubPage('easAgentAssignGIOrCS')">Agent Assignment</a>
+              <a routerLink="/{{agentassignmentService.currServiceName}}" (click)="changeCurrSubPage(agentassignmentService.currServiceName)">Agent Assignment</a>
             </li>
             <li *ngIf="currSubPage=='easAgentDetail'" [ngClass]="currSubPage=='easAgentDetail' ? 'active' : ''">
               <a>Agent Details</a>
