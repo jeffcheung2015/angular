@@ -41,14 +41,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   }
 
   ngAfterViewInit(){
-    console.log(this.agentassignmentService)
     this.bindChildComponents();//must be binded AfterViewInit cause the viewChild
-    console.log('AfterViewInit:',this.searchRecordComponent,
-  this.detailSearchRecordComponent,
-  this.searchCriteriaComponent,
-  this.campaignDetailsComponent)
-
-
   }
 
   setPopUpMsg(setVal){
