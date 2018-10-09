@@ -27,7 +27,6 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   @ViewChild(SearchcriteriaComponent) searchCriteriaComponent;
   @ViewChild(CampaigndetailsComponent) campaignDetailsComponent;
 
-  policyNo : string;//will be passed to detailSearchRecordComponent
   popUpMsg : string;//for pruchat or sms btn
 
   campaignDetailObj;
@@ -69,9 +68,9 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
       this.setCurrUrlAndSubPage();
       this.currSubPageJustUpdated = true;
       //set the policyNo before passing forward to the child detailSearchRecordComponent
-      if(this.currSubPage === 'easAgentDetail'){
-        this.policyNo = _get(this.router, "rawUrlTree.queryParams.policyNo", null);
-      }
+      // if(this.currSubPage === 'easAgentDetail'){
+      //   this.policyNo = _get(this.router, "rawUrlTree.queryParams.policyNo", null);
+      // }
     }
   }
   ngAfterViewChecked(){

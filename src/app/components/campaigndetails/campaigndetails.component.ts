@@ -26,7 +26,7 @@ export class CampaigndetailsComponent implements OnInit {
   amEntitled;
 
   currSubPage;
-  @Input()gobackRouteLink: string;
+  @Input()gobackRouteLink: string; //go back to AgentAssignGI / AgentAssignCS depends on parent var
 
   constructor(
      private router: Router,
@@ -42,20 +42,13 @@ export class CampaigndetailsComponent implements OnInit {
       let sentParams = {
           campaignCode: campaignCode
       };
-      this.agentassignmentService.getCampaignDetail(sentParams, 'campaignDetails').
-      subscribe((resp : any) => {
-        console.log(resp)
-        this.setData(resp.body);
+      this.agentassignmentService.getCampaignDetail(sentParams, 'campaignDetails').subscribe((resp : any) => {
+        for(var prop in resp.body){
+          this[prop] = resp.body[prop];
+        }
       },(error : any) =>{
         console.log('error getting campaign details', error);
       })
-    }
-  }
-
-  setData(responseObj){
-    for(var prop in responseObj){
-      this[prop] = responseObj[prop];
-      console.log(this[prop], prop)
     }
   }
 }

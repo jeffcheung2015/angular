@@ -102,6 +102,4 @@ export class AgentassignmentService{
     //return this.getOrPostFunc("/aaa",params, 'post', type);
   }
 
-  //searchCriteria pass to searchRecord Observable to be done
-  
 }

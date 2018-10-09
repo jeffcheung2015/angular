@@ -16,8 +16,6 @@ import { LeftsidebarComponent } from './components/layout/leftsidebar/leftsideba
 import { LayoutComponent } from './components/layout/layout.component';
 import { AgentassignmentComponent } from './pages/agentassignment/agentassignment.component';
 import { SearchrecordComponent } from './components/searchrecord/searchrecord.component';
-import { AgentassignmentService } from './services/agentassignment.service';
-import { LayoutService } from './services/layout.service';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
@@ -65,6 +63,21 @@ import {
 import { DetailssearchrecordComponent } from './components/detailssearchrecord/detailssearchrecord.component';
 import { CampaigndetailsComponent } from './components/campaigndetails/campaigndetails.component';
 import { PddindexComponent } from './pages/pddindex/pddindex.component';
+import { AgentinterfaceComponent } from './components/agentinterface/agentinterface.component';
+import { CustomerdetailComponent } from './components/customerdetail/customerdetail.component';
+import { LeadextensionapplicationComponent } from './components/leadextensionapplication/leadextensionapplication.component';
+import { UpselldetailsComponent } from './components/upselldetails/upselldetails.component';
+import { ApuplineinterfaceComponent } from './components/apuplineinterface/apuplineinterface.component';
+import { AointerfaceComponent } from './components/aointerface/aointerface.component';
+import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
+import { EdmComponent } from './pages/edm/edm.component';
+import { PddComponent } from './pages/pdd/pdd.component';
+
+import { LeadresponseService } from './services/leadresponse.service';
+import { EdmService } from './services/edm.service';
+import { PddService } from './services/pdd.service';
+import { AgentassignmentService } from './services/agentassignment.service';
+import { LayoutService } from './services/layout.service';
 
 @NgModule({
   declarations: [
@@ -83,6 +96,15 @@ import { PddindexComponent } from './pages/pddindex/pddindex.component';
     DetailssearchrecordComponent,
     CampaigndetailsComponent,
     PddindexComponent,
+    AgentinterfaceComponent,
+    CustomerdetailComponent,
+    LeadextensionapplicationComponent,
+    UpselldetailsComponent,
+    ApuplineinterfaceComponent,
+    AointerfaceComponent,
+    LeadresponseComponent,
+    EdmComponent,
+    PddComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,7 +125,8 @@ import { PddindexComponent } from './pages/pddindex/pddindex.component';
 
   ],
   providers: [PddcampaigntransactionService, PddcampaignService,
-    AgentassignmentService, LayoutService],
+    AgentassignmentService, LayoutService,LeadresponseService,
+    EdmService, PddService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,41 @@
+<div id="page-content">
+  <div id='wrap'>
+    <div class="container">
+      <div class="row">
+        <div id="page-heading">
+          <ol class="breadcrumb">
+            <li [ngClass]="currSubPage=='home' ? 'active' : ''">
+              <a href="javascript:;">Lead Response</a>
+            </li>
+            <li *ngIf="currSubPage=='easAgentInterface'" [ngClass]="currSubPage=='easAgentInterface' ? 'active' : ''">
+              <a>Agent interface</a>
+            </li>
+            <li *ngIf="currSubPage=='easAPInterface'" [ngClass]="currSubPage=='easAPInterface' ? 'active' : ''">
+              <a>Ap-upline interface</a>
+            </li>
+            <li *ngIf="currSubPage=='easAOInterface'" [ngClass]="currSubPage=='easAOInterface' ? 'active' : ''">
+              <a>AO interface</a>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12 clearfix">
+                  <app-agentinterface *ngIf="currSubPage=='easAgentInterface'"></app-agentinterface>
+                  <app-aointerface *ngIf="currSubPage=='easAOInterface'"></app-aointerface>
+                  <app-apuplineinterface *ngIf="currSubPage=='easAPInterface'"></app-apuplineinterface>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

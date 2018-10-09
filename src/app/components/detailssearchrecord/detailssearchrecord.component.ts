@@ -22,7 +22,6 @@ import constants from '../../constants/constants';
 })
 export class DetailssearchrecordComponent implements OnInit, OnDestroy,
  AfterViewInit,AfterViewChecked,OnChanges {
-  @Input() policyNo; //passed from AgentassignmentComponent
 
   displayedColumns : string[] = constants["DetailSearchRecordColumnName"];
   displayedColumnsName : string[] = constants["DetailSearchRecordColumnField"];

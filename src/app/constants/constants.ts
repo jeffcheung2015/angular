@@ -1,9 +1,16 @@
 export default {
     route:{
+      //agent assignment
       AgentAssignGI: 'easAgentAssignGI',
       AgentAssignCS: 'easAgentAssignCS',
       AgentDetail: 'easAgentDetail',
-      CampaignDetail: 'easCampaignDetail'
+      CampaignDetail: 'easCampaignDetail',
+      //lead response
+      AgentInterface:'easAgentInterface',
+      APInterface:'easAPInterface',
+      AOInterface:'easAOInterface',
+
+      
 
     },
     SearchRecordColumnName: [

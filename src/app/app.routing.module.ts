@@ -8,6 +8,11 @@ import {AppComponent} from "./app.component";
 import {AgentassignmentComponent} from "./pages/agentassignment/agentassignment.component";
 import {PddindexComponent} from "./pages/pddindex/pddindex.component";
 
+import { ApuplineinterfaceComponent } from './components/apuplineinterface/apuplineinterface.component';
+import { AointerfaceComponent } from './components/aointerface/aointerface.component';
+import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
+
+
 const appRoutes: Routes = [
   { path: 'PddTransactions', component: PddcampaigntransactiontableComponent },
   { path: 'PddCampaigns',  component: PddcampaigntableComponent },
@@ -16,6 +21,11 @@ const appRoutes: Routes = [
   { path: 'easAgentAssignCS', component: AgentassignmentComponent },
   { path: 'easAgentDetail', component: AgentassignmentComponent },
   { path: 'easCampaignDetail', component: AgentassignmentComponent },
+
+  { path: 'easAgentInterface', component: LeadresponseComponent },
+  { path: 'easAPInterface', component: LeadresponseComponent },
+  { path: 'easAOInterface', component: LeadresponseComponent },
+
 
   { path: '', component: DefaultPageComponent, pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

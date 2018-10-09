@@ -14,18 +14,18 @@
         <ng-container *ngIf="menu">
           <li *ngFor="let tabElem of menu" >
             <ng-container *ngIf="tabElem.enabled">
-              <a *ngIf="tabElem.link" routerLink="/{{tabElem.link}}" routerLinkActive="active"><!--agentAssignment , edm-->
+              <a *ngIf="tabElem.link" routerLink="/{{tabElem.link}}" routerLinkActive="tab-active"><!--agentAssignment , edm-->
                 <i *ngIf="tabElem.title=='Agent Assignment'" class="iconfont">&#xe615;</i>
                 <i *ngIf="tabElem.title=='eDM'" class="iconfont">&#xe616;</i>
                 <span>{{tabElem.title}}</span>
               </a>
               <ng-container *ngIf="!tabElem.link">
-                <a href="javascript:;" *ngIf="tabElem.title=='PDD' || tabElem.title=='Lead Response'" routerLinkActive="active">
+                <a href="javascript:;" *ngIf="tabElem.title=='PDD' || tabElem.title=='Lead Response'">
                   <i class="iconfont">&#xe617;</i><span>{{tabElem.title}}</span>
                 </a>
                 <ul class="acc-menu" style="display: none;">
                   <li *ngFor="let subElem of tabElem.children">
-                    <a routerLink="/{{subElem.link}}" routerLinkActive="active"><span>{{subElem.title}}</span></a>
+                    <a routerLink="/{{subElem.link}}" routerLinkActive="tab-active"><span>{{subElem.title}}</span></a>
                   </li>
                 </ul>
               </ng-container>
