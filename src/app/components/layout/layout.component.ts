@@ -3,6 +3,8 @@ import { LayoutService } from '../../services/layout.service';
 import {set as _set} from 'lodash';
 import {LeftsidebarComponent} from './leftsidebar/leftsidebar.component';
 import {AgentassignmentService} from '../../services/agentassignment.service';
+
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -18,24 +20,24 @@ export class LayoutComponent implements OnInit {
   @ViewChild(LeftsidebarComponent) leftsidebar : LeftsidebarComponent;
   //detail pages are ignored in menu
   ignoredMenu :Array<string>= [
-    "AGENT_DETAIL",
-    "CLIENT_DETAIL",
-    "CAMPAIGN_DETAIL"
+    "easAgentDetail",
+    "easClientDetail",
+    "easCampaignDetail"
   ]
   //map the corresponding menu link received from resp body into menu title
   mapMenuLinkToTab : object = {
-    AGENT_ASSIGN_CS: "agentAssignmentTab",
-    AGENT_ASSIGN_GI: "agentAssignmentTab",
+    easAgentAssignCS: "agentAssignmentTab",
+    easAgentAssignGI: "agentAssignmentTab",
 
-    LR_AGENT: "leadResponseTab",
-    LR_AO: "leadResponseTab",
-    LR_AP_UPLINE: "leadResponseTab",
+    easAgentInterface: "leadResponseTab",
+    easAOInterface: "leadResponseTab",
+    easAPInterface: "leadResponseTab",
 
-    PDD_SUMMARY:"pddTab",
-    PDD_LEAD_APPLICATION:"pddTab",
-    PDD_LEAD_APPROVAL:"pddTab",
+    easLeadSummary:"pddTab",
+    easLeadExtensionAppl:"pddTab",
+    easLeadExtensionApproval:"pddTab",
 
-    EDM:"eDMTab"
+    easEDM:"eDMTab"
   }
 
   agentAssignmentTab : object = {
@@ -60,44 +62,46 @@ export class LayoutComponent implements OnInit {
   }
 
   mapSubmenuToTitle = {
-    "AGENT_ASSIGN_CS":"Agent Assignment",//non submenu
-    "AGENT_ASSIGN_GI":"Agent Assignment",//non submenu
+    "easAgentAssignGI" : "Agent Assignment",
+    "easAgentAssignCS" : "Agent Assignment",
 
-    "PDD_LEAD_APPROVAL":"Lead extension approval",
-    "PDD_SUMMARY":"Summary",
-    "PDD_LEAD_APPLICATION":"Application for Assigned Lead",
+    "easLeadExtensionApproval":"Lead extension approval",
+    "easLeadSummary":"Summary",
+    "easLeadExtensionAppl":"Application for Assigned Lead",
 
-    "LR_AGENT" : "Agent interface",
-    "LR_AP_UPLINE" : "Ap-upline interface",
-    "LR_AO" : "AO interface",
+    "easAgentInterface" : "Agent interface",
+    "easAPInterface" : "Ap-upline interface",
+    "easAOInterface" : "AO interface",
 
-    "EDM":"eDM"//non submenu
+    "easEDM" : "eDM"
   }
-
   ngOnInit() {
     this.layoutService.getLeftSideBarMenu({}, 'menuApi').subscribe((resp : any) =>{
-        for(var prop in resp.body.menu){
-          if(!this.ignoredMenu.includes(prop)){ //non detail pages
-            if(['AGENT_ASSIGN_CS', 'AGENT_ASSIGN_GI', 'EDM'].includes(prop)){
-              this[this.mapMenuLinkToTab[prop]].link = '/'+resp.body.menu[prop];
-              if(['AGENT_ASSIGN_CS', 'AGENT_ASSIGN_GI'].includes(prop)){
-                this.agentassignmentService.currServiceName = resp.body.menu[prop];
+        resp.body.menu.forEach((elem)=>{
+          if(!this.ignoredMenu.includes(elem)){ //non detail pages
+            if(['easAgentAssignCS', 'easAgentAssignGI', 'easEDM'].includes(elem)){
+              this[this.mapMenuLinkToTab[elem]].link = '/'+elem;
+              if(['easAgentAssignCS', 'easAgentAssignGI'].includes(elem)){
+                //store in it so that later be used in other component
+                this.agentassignmentService.currServiceName = elem;
               }
             }
             else{
-              this[this.mapMenuLinkToTab[prop]].children.push(
+              this[this.mapMenuLinkToTab[elem]].children.push(
                 {
-                  title: this.mapSubmenuToTitle[prop],
-                  link: '/'+resp.body.menu[prop]
+                  title: this.mapSubmenuToTitle[elem],
+                  link: '/'+elem
                 }
               );
             }
-            this[this.mapMenuLinkToTab[prop]].enabled = true;
+            this[this.mapMenuLinkToTab[elem]].enabled = true;
           }
-        }
-        //merge all of the tabs into menu
+        });
+        //merge all of the tabs into menu object
         ['agentAssignmentTab', 'pddTab', 'leadResponseTab', 'eDMTab'].forEach((elem)=>{
-          this.menu.push(this[elem]);
+          if(this[elem].enabled){
+            this.menu.push(this[elem]);
+          }
         });
         this.leftsidebar.setLeftsidebarMenuNameCode(this.menu, resp.body.name, resp.body.code);
       }, (error : any) => {
