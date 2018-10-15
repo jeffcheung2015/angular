@@ -16,7 +16,8 @@ export class LayoutComponent implements OnInit {
     private agentassignmentService : AgentassignmentService
   ) {}
   menu = []; //to be passed down to leftsidebar
-
+  username: string;
+  usercode: string;
   @ViewChild(LeftsidebarComponent) leftsidebar : LeftsidebarComponent;
   //detail pages are ignored in menu
   ignoredMenu :Array<string>= [
@@ -103,7 +104,9 @@ export class LayoutComponent implements OnInit {
             this.menu.push(this[elem]);
           }
         });
-        this.leftsidebar.setLeftsidebarMenuNameCode(this.menu, resp.body.name, resp.body.code);
+        this.username = resp.body.name;
+        this.usercode = resp.body.code;
+        this.leftsidebar.setLeftsidebarMenuNameCode(this.menu);
       }, (error : any) => {
         console.log('error:', error)
       }

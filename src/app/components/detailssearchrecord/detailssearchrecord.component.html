@@ -30,14 +30,9 @@
     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-detailSearchRecord">
       <thead>
         <tr class="row1">
-            <th class="noscroll">Agent Code</th>
-            <th class="noscroll">Agent Name</th>
-            <th class="noscroll">Email Address</th>
-            <th class="noscroll">Agent Phone</th>
-            <th class="noscroll">Last Assignment Date</th>
-            <th class="noscroll">Assign</th>
-            <th class="noscroll">On Leave</th>
-
+          <th class="noscroll" *ngFor="let colName of displayedColumns">
+            {{colName}}
+          </th>
         </tr>
       </thead>
     </table>

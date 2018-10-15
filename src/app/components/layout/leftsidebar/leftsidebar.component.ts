@@ -15,8 +15,8 @@ export class LeftsidebarComponent implements OnInit {
     enabled: boolean,
     children: Array<any>
   }>;
-  username: string;
-  usercode: string;
+  @Input() username: string;
+  @Input() usercode: string;
   currDate: Date;
 
   constructor(private router :Router) { }
@@ -25,10 +25,10 @@ export class LeftsidebarComponent implements OnInit {
     this.currDate = new Date();
   }
 
-  setLeftsidebarMenuNameCode(_menu, _name, _code){
+  setLeftsidebarMenuNameCode(_menu){
     this.menu = _menu;
-    this.username = _name;
-    this.usercode = _code;
+    // this.username = _name;
+    // this.usercode = _code;
   }
 
 
