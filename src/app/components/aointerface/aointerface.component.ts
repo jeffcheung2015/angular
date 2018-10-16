@@ -26,8 +26,6 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   displayedColumns : string[] = constants["AOInterfaceColumnName"];
   displayedColumnsName : string[] = constants["AOInterfaceColumnField"];
 
-  @Input()usercode : string;
-
 
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
@@ -203,7 +201,6 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
     }
   }
-
   aoInterfaceColumnDef(){
     return [{
       targets: "_all",
@@ -215,9 +212,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
           ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
         //rowData's status is N then it should be gray in color
-        if(rowData.status){
-          $(td).css('color', 'gray');
-        }
+        console.log(rowData)
         switch(col){
           case 3:case 5:case 6:
             if(cellData){
@@ -226,11 +221,29 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             }
             break;
           case 0:
-            $(td).html((cellData) ? (`<a>` + cellData + `</a>`) : ``);
+            //store the polno with customerName in the same column
+            let cellDataSplit = cellData.split(":");
+            let polNo = cellDataSplit[0];
+            let customerName = cellDataSplit[1];
+            $(td).html((cellData) ? (`<a polno="` + polNo + `">` + customerName + `</a>`) : ``);
             break;
           case 7:case 8:
             if(cellData){
-
+              let statusNumMapToText = [
+                "",//blank
+                "To apply for extension",//to apply for extension
+                "Applied for extension",//applied extension
+                "Opt-out from this program",//opt out
+                "Re-assigned" //reassigned
+              ];
+              let extNumMapToText = [
+                "",//blank
+                "To be reviewed",//to be reviewed
+                "Approved",//approved
+                "Rejected" //rejected
+              ];
+              let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
+              $(td).html(`<span>` + text + `</span>`);
             }else{
               let aPromptText = '';
               $(td).html(`<a>` + aPromptText + `</a>`);
@@ -240,32 +253,35 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             if(cellData){
 
             }else{
-              let aPromptText = 'Please input ' + (col == 10) ? 'Pol' : (col == 11) ? 'Product' : '';
-              $(td).html(`<a>` + aPromptText + `</a>`);
+              let aPromptText = 'Please input ' + ((col == 10) ? 'Pol' : (col == 11) ? 'Product' : 'Afyp');
+              $(td).html(`<a href="javascript;" data-d>` + aPromptText + `</a>`);
             }
             break;
           default:
-            $(td).html(`<p>` + cellData + `</p>`);
+            $(td).html(`<span>` + cellData + `</span>`);
             break;
 
         }
       }
     }]
   }
+
   aoInterfaceAjax(){ //agentCd as
     return (params, callback, settings) => {
       console.log("***params:", (params))
-      this.dataTableAjaxSubscription = this.leadresponseService.getaoInterfaceRecord(params, 'dataTable').subscribe((resp : any) => {
+      this.dataTableAjaxSubscription = this.leadresponseService.getAgentInterfaceRecord(params, 'dataTable').subscribe((resp : any) => {
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
         let convertDateMonthYear = (date) => {
           return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
-        }
+        };
 
         resp.body.data.forEach((elem,key)=>{
           //separate some unwanted params from other params
-          let polNo, restAttrObj;
-          ({polNo, ...restAttrObj} = elem);
+          let polNo, customerName, restAttrObj;
+          ({polNo, customerName, ...restAttrObj} = elem);
+          let customerInfo = polNo + ":" + customerName;
+          restAttrObj['customerInfo'] = customerInfo;
           resArr.data.push(restAttrObj);
         });
         //

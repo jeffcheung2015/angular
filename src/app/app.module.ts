@@ -1,28 +1,13 @@
+//module
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule  } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app.routing.module";
-import { PddcampaigntransactiontableComponent } from './components/pddcampaigntransactiontable/pddcampaigntransactiontable.component';
-import { PddcampaigntableComponent } from './components/pddcampaigntable/pddcampaigntable.component';
-import { PddcampaigntransactionService } from './services/pddcampaigntransaction.service';
-import { PddcampaignService } from './services/pddcampaign.service';
-import { PageNotFoundComponent } from './components/notfound.component';
-import { DefaultPageComponent } from './components/defaultpage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GlobalheaderComponent } from './components/layout/globalheader/globalheader.component';
-import { GlobalfooterComponent } from './components/layout/globalfooter/globalfooter.component';
-import { LeftsidebarComponent } from './components/layout/leftsidebar/leftsidebar.component';
-import { LayoutComponent } from './components/layout/layout.component';
-import { AgentassignmentComponent } from './pages/agentassignment/agentassignment.component';
-import { SearchrecordComponent } from './components/searchrecord/searchrecord.component';
 import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
-import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-
-
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -60,6 +45,30 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+
+//service
+import { LoginUserService } from './services/loginUser.service';
+import { PddcampaigntransactionService } from './services/pddcampaigntransaction.service';
+import { PddcampaignService } from './services/pddcampaign.service';
+import { LeadresponseService } from './services/leadresponse.service';
+import { EdmService } from './services/edm.service';
+import { PddService } from './services/pdd.service';
+import { AgentassignmentService } from './services/agentassignment.service';
+import { LayoutService } from './services/layout.service';
+
+//component
+import { LayoutComponent } from './components/layout/layout.component';
+import { SearchrecordComponent } from './components/searchrecord/searchrecord.component';
+import { AppComponent } from './app.component';
+import { PddcampaigntransactiontableComponent } from './components/pddcampaigntransactiontable/pddcampaigntransactiontable.component';
+import { PddcampaigntableComponent } from './components/pddcampaigntable/pddcampaigntable.component';
+import { PageNotFoundComponent } from './components/notfound.component';
+import { DefaultPageComponent } from './components/defaultpage.component';
+import { GlobalheaderComponent } from './components/layout/globalheader/globalheader.component';
+import { GlobalfooterComponent } from './components/layout/globalfooter/globalfooter.component';
+import { LeftsidebarComponent } from './components/layout/leftsidebar/leftsidebar.component';
+import { AgentassignmentComponent } from './pages/agentassignment/agentassignment.component';
+import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
 import { DetailssearchrecordComponent } from './components/detailssearchrecord/detailssearchrecord.component';
 import { CampaigndetailsComponent } from './components/campaigndetails/campaigndetails.component';
 import { PddindexComponent } from './pages/pddindex/pddindex.component';
@@ -72,12 +81,6 @@ import { AointerfaceComponent } from './components/aointerface/aointerface.compo
 import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
 import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
-
-import { LeadresponseService } from './services/leadresponse.service';
-import { EdmService } from './services/edm.service';
-import { PddService } from './services/pdd.service';
-import { AgentassignmentService } from './services/agentassignment.service';
-import { LayoutService } from './services/layout.service';
 
 @NgModule({
   declarations: [
@@ -126,7 +129,7 @@ import { LayoutService } from './services/layout.service';
   ],
   providers: [PddcampaigntransactionService, PddcampaignService,
     AgentassignmentService, LayoutService,LeadresponseService,
-    EdmService, PddService],
+    EdmService, PddService, LoginUserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

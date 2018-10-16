@@ -34,7 +34,7 @@ export default {
     AgentInterfaceColumnName:["Customer Name", "Phone", "Email", "Submission Date", "Product",
     "Date of Assignment", "First Contact", "Assignment Status", "Application of Extension",
     "CS Remarks", "Upsell Life Pol No", "Upsell Life Product", "AFYP (HK$)"],
-    AgentInterfaceColumnField:["customerName", "phone", "email", "submissionDt", "prod",
+    AgentInterfaceColumnField:["customerInfo", "phone", "email", "submissionDt", "prod",
     "agentAssignmentDt", "firstContactDt", "assignmentStatus", "applicationExt",
     "csRemarks", "upsellLifePolNo", "upsellLifeProd", "afyp"],
     APUplineInterfaceColumnName:["Agent Code", "Agent Name", "Date of Assignment", "Assignment Status", "No. of Leads assigned"],
@@ -42,7 +42,7 @@ export default {
     AOInterfaceColumnName:["Customer Name", "Phone", "Email", "Submission Date", "Product",
     "Date of Assignment", "First Contact", "Assignment Status", "Application of Extension",
     "CS Remarks", "Upsell Life Pol No", "Upsell Life Product", "AFYP (HK$)"],
-    AOInterfaceColumnField:["customerName", "phone", "email", "submissionDt", "prod",
+    AOInterfaceColumnField:["customerInfo", "phone", "email", "submissionDt", "prod",
     "agentAssignmentDt", "firstContactDt", "assignmentStatus", "applicationExt",
     "csRemarks", "upsellLifePolNo", "upsellLifeProd", "afyp"],
 };

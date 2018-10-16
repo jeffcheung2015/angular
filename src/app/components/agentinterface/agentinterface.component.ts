@@ -8,7 +8,7 @@ import { JsonPipe, KeyValuePipe } from '@angular/common';
 import { LeadresponseService } from '../../services/leadresponse.service';
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
-
+import { FormGroup, FormControl } from '@angular/forms';
 import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
@@ -25,8 +25,23 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   displayedColumns : string[] = constants["AgentInterfaceColumnName"];
   displayedColumnsName : string[] = constants["AgentInterfaceColumnField"];
 
-  @Input()usercode : string;
-
+  //for displaying data in modal in 3 different sub pages [Customer Details, Lead extension, Upsell Details]
+  currCustomerName; currPhone; currEmail; currAssignmentDt; currFirstContactDt;
+  currReasonOfExt; currApplicationExt; currExtSubmitted;
+  currUpsellLifePolNo; currUpsellLifeProd; currAfyp;
+  customerDetailModalForm = new FormGroup({
+     firstContactDt : new FormControl('')
+  });
+  leadExtensionModalForm = new FormGroup({
+     reasonOfExt : new FormControl(''),
+     applicationExt : new FormControl('')
+  });
+  upsellDetailModalForm = new FormGroup({
+     upsellLifePolNo : new FormControl(''),
+     upsellLifeProd : new FormControl(''),
+     afyp : new FormControl('')
+  });
+  //
 
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
@@ -215,6 +230,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
         }
         //rowData's status is N then it should be gray in color
         console.log(rowData)
+        let cursorStyle = `style="cursor: pointer;"`;
         switch(col){
           case 3:case 5:case 6:
             if(cellData){
@@ -223,7 +239,11 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             }
             break;
           case 0:
-            $(td).html((cellData) ? (`<a class>` + cellData + `</a>`) : ``);
+            //store the polno with customerName in the same column
+            let cellDataSplit = cellData.split(":");
+            let polNo = cellDataSplit[0];
+            let customerName = cellDataSplit[1];
+            $(td).html((cellData) ? (`<a polno="` + polNo + `" ` + cursorStyle + ` data-toggle="modal" data-target="#customerDetailModal">` + customerName + `</a>`) : ``);
             break;
           case 7:case 8:
             if(cellData){
@@ -241,22 +261,22 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
                 "Rejected" //rejected
               ];
               let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
-              $(td).html(`<p>` + text + `</p>`);
+              $(td).html(`<span>` + text + `</span>`);
             }else{
               let aPromptText = '';
-              $(td).html(`<a>` + aPromptText + `</a>`);
+              $(td).html(`<a ` + cursorStyle + ` data-toggle="modal" data-target="#leadExtensionModal">` + aPromptText + `</a>`);
             }
             break;
           case 10:case 11:case 12:
             if(cellData){
 
             }else{
-              let aPromptText = 'Please input ' + ((col == 10) ? 'Pol' : (col == 11) ? 'Product' : '');
-              $(td).html(`<a>` + aPromptText + `</a>`);
+              let aPromptText = 'Please input ' + ((col == 10) ? 'Pol' : (col == 11) ? 'Product' : 'Afyp');
+              $(td).html(`<a ` + cursorStyle + ` data-toggle="modal" data-target="#upsellDetailModal">` + aPromptText + `</a>`);
             }
             break;
           default:
-            $(td).html(`<p>` + cellData + `</p>`);
+            $(td).html(`<span>` + cellData + `</span>`);
             break;
 
         }
@@ -271,12 +291,14 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
         let resArr = {data: Array<any>()};
         let convertDateMonthYear = (date) => {
           return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
-        }
+        };
 
         resp.body.data.forEach((elem,key)=>{
           //separate some unwanted params from other params
-          let polNo, restAttrObj;
-          ({polNo, ...restAttrObj} = elem);
+          let polNo, customerName, restAttrObj;
+          ({polNo, customerName, ...restAttrObj} = elem);
+          let customerInfo = polNo + ":" + customerName;
+          restAttrObj['customerInfo'] = customerInfo;
           resArr.data.push(restAttrObj);
         });
         //

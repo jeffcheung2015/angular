@@ -25,8 +25,6 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
   displayedColumns : string[] = constants["APUplineInterfaceColumnName"];
   displayedColumnsName : string[] = constants["APUplineInterfaceColumnField"];
 
-  @Input()usercode : string;
-
 
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};

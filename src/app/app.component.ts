@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";
 import { HelloworldService } from './services/helloworld.service';
-import { LoginUserService } from './services/loginUser.service';
-import { User } from './models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -13,16 +11,11 @@ import { User } from './models/user.model';
 })
 export class AppComponent implements OnInit{
   result = '';
-  currentUserId = '';
 
-  constructor(private http: HttpClient, private router: Router, private loginUserService: LoginUserService, private helloworldService: HelloworldService){
+  constructor(private http: HttpClient, private router: Router, private helloworldService: HelloworldService){
   }
 
   ngOnInit() {
-	  this.loginUserService.getCurrentLoginUser().subscribe( data => {
-		  console.log(data);
-		  this.currentUserId = data.username;
-	  });
   }
 
   getTime(): void {

@@ -3,7 +3,7 @@ import { LayoutService } from '../../services/layout.service';
 import {set as _set} from 'lodash';
 import {LeftsidebarComponent} from './leftsidebar/leftsidebar.component';
 import {AgentassignmentService} from '../../services/agentassignment.service';
-
+import {LoginUserService} from '../../services/loginUser.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,7 +13,8 @@ import {AgentassignmentService} from '../../services/agentassignment.service';
 export class LayoutComponent implements OnInit {
   constructor(
     private layoutService : LayoutService,
-    private agentassignmentService : AgentassignmentService
+    private agentassignmentService : AgentassignmentService,
+    private loginUserService : LoginUserService
   ) {}
   menu = []; //to be passed down to leftsidebar
   username: string;
@@ -104,8 +105,11 @@ export class LayoutComponent implements OnInit {
             this.menu.push(this[elem]);
           }
         });
+
         this.username = resp.body.name;
         this.usercode = resp.body.code;
+        this.loginUserService.setCurrentLoginUserInfo(resp.body.name, resp.body.code);
+
         this.leftsidebar.setLeftsidebarMenuNameCode(this.menu);
       }, (error : any) => {
         console.log('error:', error)
