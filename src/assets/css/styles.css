@@ -3454,6 +3454,9 @@ button.close {
   top: auto;
   left: auto;
 }
+.a-modalLink{
+  border-bottom: solid 1px red;
+}
 @media (min-width: 768px) {
   .nav-justified > li {
     display: table-cell;
@@ -3838,20 +3841,13 @@ button.close {
   outline: 0;
 }
 .modal.fade .modal-dialog {
-  -webkit-transform: translate(0, -25%);
-  -ms-transform: translate(0, -25%);
-  -o-transform: translate(0, -25%);
-  transform: translate(0, -25%);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -moz-transition: -moz-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
+
 }
 .modal.in .modal-dialog {
-  -webkit-transform: translate(0, 50%);
-  -ms-transform: translate(0, 50%);
-  -o-transform: translate(0, 50%);
-  transform: translate(0, 50%);
+  -webkit-transform: translate(0%, -50%);
+  -ms-transform: translate(0%, -50%);
+  -o-transform: translate(0%, -50%);
+  transform: translate(0%, -50%);
 }
 .modal-open .modal {
   overflow-x: hidden;
@@ -3932,10 +3928,10 @@ button.close {
   .modal-dialog {
     width: 600px;
     position: fixed;
-    left: 50%;
+    left: 33%;
     top: 50%;
-    margin-top: -300px;
-    margin-left: -300px;
+    /* margin-top: -300px;
+    margin-left: -300px; */
   }
   .modal-content {
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);

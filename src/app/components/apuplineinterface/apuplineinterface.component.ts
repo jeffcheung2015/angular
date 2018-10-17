@@ -102,7 +102,7 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
       searching: false,
       columns: colArr,
     }
-    $('.table-searchRecord').on( 'page.dt', function (event,settings) {
+    $('.table-apUplineInterface').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });

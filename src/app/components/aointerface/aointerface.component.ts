@@ -103,7 +103,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       searching: false,
       columns: colArr,
     }
-    $('.table-searchRecord').on( 'page.dt', function (event,settings) {
+    $('.table-aoInterface').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
@@ -193,12 +193,14 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       this.dtTrigger.next();
     });
     this.currPage = 1;
+
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
       console.log('Change to page: ' + page);
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
+      this.currPage = page;
     }
   }
   aoInterfaceColumnDef(){
@@ -212,7 +214,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
           ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
         //rowData's status is N then it should be gray in color
-        console.log(rowData)
+        let cursorStyle = `style="cursor: pointer;"`;
         switch(col){
           case 3:case 5:case 6:
             if(cellData){
@@ -225,7 +227,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             let cellDataSplit = cellData.split(":");
             let polNo = cellDataSplit[0];
             let customerName = cellDataSplit[1];
-            $(td).html((cellData) ? (`<a polno="` + polNo + `">` + customerName + `</a>`) : ``);
+            $(td).html((cellData) ? (`<a class="a-modalLink" polno="` + polNo + `" ` + cursorStyle + ` data-toggle="modal" data-target="#customerDetailModal">` + customerName + `</a>`) : ``);
             break;
           case 7:case 8:
             if(cellData){
@@ -242,20 +244,23 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
                 "Approved",//approved
                 "Rejected" //rejected
               ];
+              let html = ``;
               let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
-              $(td).html(`<span>` + text + `</span>`);
+              if((col == 7 && cellData == 2) ||
+                (col == 8 && (cellData == 2 || cellData == 3))){
+                html += `<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#leadExtensionModal">` + text + `</a>`;
+              }else{
+                html += `<span>` + text + `</span>`;
+              }
+              $(td).html(html);
             }else{
-              let aPromptText = '';
-              $(td).html(`<a>` + aPromptText + `</a>`);
+              $(td).html(`<span>` + cellData + `</span>`);
             }
             break;
           case 10:case 11:case 12:
-            if(cellData){
-
-            }else{
-              let aPromptText = 'Please input ' + ((col == 10) ? 'Pol' : (col == 11) ? 'Product' : 'Afyp');
-              $(td).html(`<a href="javascript;" data-d>` + aPromptText + `</a>`);
-            }
+            let aPromptText = ``;
+            aPromptText = (cellData) ? cellData : ('Please input ' + ((col == 10) ? 'Pol' : (col == 11) ? 'Product' : 'Afyp'));
+            $(td).html(`<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#upsellDetailModal">` + aPromptText + `</a>`);
             break;
           default:
             $(td).html(`<span>` + cellData + `</span>`);
@@ -284,6 +289,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
           restAttrObj['customerInfo'] = customerInfo;
           resArr.data.push(restAttrObj);
         });
+
+        this.noOfPage = Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength);
         //
         callback({
           data:resArr.data,

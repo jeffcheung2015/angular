@@ -108,7 +108,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       searching: false,
       columns: colArr,
     }
-    $('.table-searchRecord').on( 'page.dt', function (event,settings) {
+    $('.table-detailSearchRecord').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
@@ -211,6 +211,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       console.log('Change to page: ' + page);
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
+      this.currPage = page;
     }
   }
 

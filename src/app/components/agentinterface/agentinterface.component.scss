@@ -12,18 +12,23 @@
 .modal{
   .modal-topPart{
     .a-closeBtn{
-
+      display: flex;
+      margin-left: auto;
+      justify-content: center;
     }
   }
 }
 .div-agentInterfaceDataTable{
   text-align: center;
 
+
   .table-agentInterface{
     width: 100% !important;
     th.noscroll{
       font-size: 12px;
     }
+    
+
   }
 
   .div-goToPage-showPerPage{

@@ -13,7 +13,13 @@
           <label class="col-12 label-fromField">Date and Time of Assignment: {{currAssignmentDt | date:'dd/MM/yyyy hh:mm'}}</label><br />
           <label class="col-12 label-fromField">Date of first contact with assigned lead:
             <input placeholder="DD/MM/YYYY" class="search-by-input"
+            (dateChange)="onFirstContactDtChange($event, 0)"
+            matInput [max]="maxDateFrom" [matDatepicker]="firstContactDtPicker"
             formControlName="firstContactDt" name="firstContactDtField" value="{{currFirstContactDt}}">
+            <mat-datepicker-toggle matSuffix [for]="firstContactDtPicker">
+              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #firstContactDtPicker></mat-datepicker>
           </label>
         </div>
         <div class="modal-footer">
@@ -33,8 +39,10 @@
         </div>
         <div class="modal-body clearfix">
           <label class="col-12 label-fromField">I would like to extend the assigned lead for another 6 months:
-            <input placeholder="Please state reasons here." class="search-by-input"
-            formControlName="reasonOfExt" name="reasonOfExtField" value="{{currReasonOfExt}}">
+            <textarea placeholder="Please state reasons here." class="search-by-input"
+            formControlName="reasonOfExt" name="reasonOfExtField">
+              {{currReasonOfExt}}
+            </textarea>
           </label><br />
 
           <label class="col-12 label-fromField">Application will be reviewed by PDD and maximum extension is 6 months
@@ -44,8 +52,10 @@
           <label class="col-12 label-fromField">Application of Extension:
             <span class="span-blue">To be Reviewed</span><span class="span-green">/ Approved / </span>
             <span class="span-red">Rejected</span>
-            <input class="search-by-input"
-            formControlName="applicationExt" name="applicationExtField" value="{{currApplicationExt}}">
+            <textarea class="search-by-input"
+            formControlName="applicationExt" name="applicationExtField">
+              {{currApplicationExt}}
+            </textarea>
           </label>
         </div>
         <div class="modal-footer">
