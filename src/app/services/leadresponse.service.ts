@@ -55,4 +55,16 @@ export class LeadresponseService {
     //return this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
   }
 
+  postCustomerDtlRecord(params, type){
+    return this.getOrPostFunc('/eas/api/leadresp/updFirstContactDt', params, 'post', type);
+  }
+
+  postLeadExtRecord(params, type){
+    return this.getOrPostFunc('/eas/api/leadresp/updLeadExtension', params, 'post', type);
+  }
+
+  postUpsellDtlRecord(params, type){
+    return this.getOrPostFunc('/eas/api/leadresp/updUpsellDetails', params, 'post', type);
+  }
+
 }

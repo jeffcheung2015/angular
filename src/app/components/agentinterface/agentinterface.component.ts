@@ -29,6 +29,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   currCustomerName; currPhone; currEmail; currAssignmentDt; currFirstContactDt;
   currReasonOfExt; currApplicationExt; currExtSubmitted;
   currUpsellLifePolNo; currUpsellLifeProd; currAfyp;
+
   customerDetailModalForm = new FormGroup({
      firstContactDt : new FormControl('')
   });
@@ -125,27 +126,38 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     });
 
     this.classToTrigger =  [
-      // {className: "a-resetBtn", callback: (queryParams)=>{this.resetLeaveRecord(queryParams)}},
-      // {className: "a-saveBtn", callback: (queryParams)=>{this.saveLeaveRecord(queryParams)}},
-      // {className: "a-selectBtn", callback: (queryParams)=>{this.setCurrSelectedAgentCode(queryParams)}},
-      // {className: "a-selectYesBtn", callback: (queryParams)=>{this.selectYesRecord(queryParams)}},
+      {className: "a-modalLink", callback: (queryParams)=>{this.setCurrentSelected(queryParams)}},
+      // {className: "a-customerDtlBtn", callback: (queryParams)=>{this.setCustomerDtl(queryParams)}},
+      // {className: "a-leadExtBtn", callback: (queryParams)=>{this.setLeadExt(queryParams)}},
+      // {className: "a-upsellDtlBtn", callback: (queryParams)=>{this.setUpsellDtl(queryParams)}}
     ];
   }
+  //set current selected value
+  setCurrentSelected(){
+  // currCustomerName; currPhone; currEmail; currAssignmentDt; currFirstContactDt;
+  // currReasonOfExt; currApplicationExt; currExtSubmitted;
+  // currUpsellLifePolNo; currUpsellLifeProd; currAfyp;
 
-  // resetLeaveRecord(queryParams){
-  //   this.agentassignmentService.postResetLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
-  //     console.log("resp:", resp);
-  //
-  //   }, (error) => console.log(error));
-  //   // this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
-  // }
-  // saveLeaveRecord(queryParams){
-  //   this.agentassignmentService.postSaveLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
-  //     console.log("resp:", resp);
-  //
-  //   }, (error) => console.log(error));
-  //   // this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
-  // }
+
+  }
+  setCustomerDtl(queryParams){
+    this.leadresponseService.postCustomerDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
+      console.log("resp:", resp);
+
+    }, (error) => console.log(error));
+  }
+  setLeadExt(queryParams){
+    this.leadresponseService.postLeadExtRecord(queryParams, "sendParams").subscribe((resp : any)=>{
+      console.log("resp:", resp);
+
+    }, (error) => console.log(error));
+  }
+  setUpsellDtl(queryParams){
+    this.leadresponseService.postUpsellDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
+      console.log("resp:", resp);
+
+    }, (error) => console.log(error));
+  }
   setCurrSelectedAgentCode(queryParams){
     this.currSelectedAgentCode = "";
   }
@@ -173,15 +185,40 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
           if($(event.target).hasClass(elem.className)){
-            let queryParams = {};
-            let queryParamsAttr = $(event.target).attr("queryParams");
-            let queryParamsArray = queryParamsAttr ? $(event.target).attr("queryParams").split(",") : [];
-            queryParamsArray.forEach((elem,key)=>{
-              let keyValPair = elem.split(':');
-              _set(queryParams, keyValPair[0], keyValPair[1]);
-            })
+            let rowDataStr = $(event.target).closest("tr").attr("rowdata");
+            let rowDataObj = JSON.parse(rowDataStr);
+            let dataTarget = $(event.target).attr('data-target');
+            //
+            switch(dataTarget){
+              case '#customerDetailModal':
+                this.currCustomerName = rowDataObj.customerName;
+                this.currPhone = rowDataObj.phone;
+                this.currEmail = rowDataObj.email;
+                this.currAssignmentDt = rowDataObj.agentAssignmentDt;
+                this.currFirstContactDt = rowDataObj.firstContactDt;
+              break;
+              case '#leadExtensionModal':
+                this.currApplicationExt = rowDataObj.applicationExt;
+                // this.currReasonOfExt = rowDataObj.
+              break;
+              case '#upsellDetailModal':
+                this.currCustomerName = rowDataObj.customerName;
+                this.currUpsellLifeProd = rowDataObj.upsellLifeProd;
+                this.currUpsellLifePolNo = rowDataObj.upsellLifePolNo;
+                this.currAfyp = rowDataObj.afyp;
+              break;
 
-            elem.callback(queryParams);
+            }
+            
+            // let queryParams = {};
+            // let queryParamsAttr = $(event.target).attr("queryParams");
+            // let queryParamsArray = queryParamsAttr ? $(event.target).attr("queryParams").split(",") : [];
+            // queryParamsArray.forEach((elem,key)=>{
+            //   let keyValPair = elem.split(':');
+            //   _set(queryParams, keyValPair[0], keyValPair[1]);
+            // })
+            //
+            // elem.callback(queryParams);
           }
         });
       });
@@ -224,64 +261,86 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       targets: "_all",
       orderable: false,
       createdCell: function (td, cellData, rowData, row, col) {
-
+        //funcs
         let convertDate = (date, minsOpt) => {
           return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " +
           ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
-        //rowData's status is N then it should be gray in color
+        //styles
         let cursorStyle = `style="cursor: pointer;"`;
+        let optOutReassignStyle = `style="color:gray; border: solid 0px;"`;
+
+        //those fields that has assignmentstatus as Optout / reassigned need to be specially handled.
+        //customerName, applicationStatus and applicationExt gray in color, cs remarks can be viewed
+        let optoutOrReassign = ["3", "4"].includes(rowData.assignmentStatus);
+        let isRejected = rowData.applicationExt === '4';
+
+        let customerInfoSplit = rowData.customerInfo.split(":");
+        //datatable data
+        let polNo = customerInfoSplit[0];
+        let customerName = customerInfoSplit[1];
+
+        let html = ``;
         switch(col){
-          case 3:case 5:case 6:
-            if(cellData){
-              let convertDateData = new Date(cellData);
-              $(td).html(convertDate(convertDateData, 'withoutMins'));
-            }
-            break;
           case 0:
-            //store the polno with customerName in the same column
-            let cellDataSplit = cellData.split(":");
-            let polNo = cellDataSplit[0];
-            let customerName = cellDataSplit[1];
-            $(td).html((cellData) ? (`<a class="a-modalLink" polno="` + polNo + `" ` + cursorStyle + ` data-toggle="modal" data-target="#customerDetailModal">` + customerName + `</a>`) : ``);
+            //store the whole row's data into closest tr of this cell
+            let closestTrObj = $(td).closest('tr');
+            $(closestTrObj).attr("rowData", JSON.stringify(rowData));
+
+            html = optoutOrReassign ? `<a ` + optOutReassignStyle + ` class="a-modalLink" polno="` + polNo + `" >` + customerName + `</a>` :
+             `<a class="a-modalLink" polNo="` + polNo + `"` + cursorStyle +
+             ` data-toggle="modal" data-target="#customerDetailModal">` + customerName + `</a>`;
+            $(td).html(html);
+            break;
+          case 3:case 5:case 6:
+            html = (cellData && !optoutOrReassign) ? convertDate(new Date(cellData), 'withoutMins') : '<span></span>';
+            $(td).html(html);
             break;
           case 7:case 8:
-            if(cellData){
-              let statusNumMapToText = [
-                "",//blank
-                "To apply for extension",//to apply for extension
-                "Applied for extension",//applied extension
-                "Opt-out from this program",//opt out
-                "Re-assigned" //reassigned
-              ];
-              let extNumMapToText = [
-                "",//blank
-                "To be reviewed",//to be reviewed
-                "Approved",//approved
-                "Rejected" //rejected
-              ];
-              let html = ``;
-              let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
-              if((col == 7 && cellData == 2) ||
-                (col == 8 && (cellData == 2 || cellData == 3))){
-                html += `<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#leadExtensionModal">` + text + `</a>`;
-              }else{
-                html += `<span>` + text + `</span>`;
+            let statusNumMapToText = [
+              "",//blank
+              "Applied for extension",//applied extension
+              "Opt-out from this program",//opt out
+              "Re-assigned" //reassigned
+            ];
+            let extNumMapToText = [
+              "",//blank
+              "To be reviewed",//to be reviewed
+              "Approved",//approved
+              "Rejected" //rejected
+            ];
+
+            html = ``;
+            let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
+
+            if(col == 7 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
+              let datDiff : number = (new Date().getTime() - new Date(rowData.agentAssignmentDt).getTime()) / (86400000); //24*60*60*1000ms
+              if(rowData.upsellLifePolNo === '' && datDiff > 150){ //5 months  5*30 days
+                html += `<a class="a-modalLink" ` + cursorStyle + `data-toggle="modal" data-target="#leadExtensionModal" ` + `>To apply for extension</a>`;
               }
-              $(td).html(html);
-            }else{
-              $(td).html(`<span>` + cellData + `</span>`);
+              else{
+                html += `<span></span>`;
+              }
+            }else if(col == 7 && cellData == 2){ //applied extension
+              html += `<span>` + text + `</span>`;
+            }else if(col == 8 && (cellData == 2 || cellData == 3)){ //To be reviewed || Approved
+              html += (optoutOrReassign) ? `<span ` + optOutReassignStyle + `>` + text + `</span>` : //optout or reassign then this cell should be in gray color
+                        `<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#leadExtensionModal">` + text + `</a>`;
+            }else{ //opt-out || reassigned || rejected
+              html += `<span ` + ((optoutOrReassign) ? optOutReassignStyle : ``) + `>` + text + `</span>`;
             }
+            $(td).html((cellData) ? html : `<span></span>`);
             break;
           case 10:case 11:case 12:
             let aPromptText = ``;
             aPromptText = (cellData) ? cellData : ('Please input ' + ((col == 10) ? 'Pol' : (col == 11) ? 'Product' : 'Afyp'));
-            $(td).html(`<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#upsellDetailModal">` + aPromptText + `</a>`);
+            html = (optoutOrReassign) ? `<span></span>` :
+                    (`<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#upsellDetailModal">` + aPromptText + `</a>`);
+            $(td).html(html);
             break;
           default:
-            $(td).html(`<span>` + cellData + `</span>`);
+            $(td).html((cellData && !optoutOrReassign) ? `<span>` + cellData + '</span>' : `<span></span>`);
             break;
-
         }
       }
     }]
