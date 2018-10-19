@@ -25,7 +25,7 @@ export class LayoutService {
   //menuApi
   getLeftSideBarMenu(params, type){
     return this.getOrPostFunc('http://localhost:4200/eas/assets/data/menu.json', params, 'get', type);
-    //return this.getOrPostFunc('/eas/api/common/getMenu', params, 'get', type);
+    //return this.getOrPostFunc('/eas/api/common/menu', params, 'get', type);
   }
 
 

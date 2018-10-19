@@ -29,8 +29,7 @@ export class LeadresponseService {
       break;
       case 'sendParams':
         sentParams =  {
-          observe: "response",
-          params: params
+          ...params
         };
       break;
     }
@@ -56,7 +55,7 @@ export class LeadresponseService {
   }
 
   postCustomerDtlRecord(params, type){
-    return this.getOrPostFunc('/eas/api/leadresp/updFirstContactDt', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/leadresp/updCustomerDetails', params, 'post', type);
   }
 
   postLeadExtRecord(params, type){

@@ -34,8 +34,7 @@ export class AgentassignmentService{
       case 'searchCriteria':
       case 'sendParams':
         sentParams =  {
-          observe: "response",
-          params: params
+          ...params
         };
       break;
       case 'campaignDetails':
@@ -72,7 +71,7 @@ export class AgentassignmentService{
   }
   //sendParams
   postSaveLeaveRecord(params, type){
-    return this.getOrPostFunc('/saveLeave', params, 'post', type);
+    return this.getOrPostFunc('/submitOnLeave', params, 'post', type);
     //#vm
     //return this.getOrPostFunc("/aaa",params, 'post', type);
   }

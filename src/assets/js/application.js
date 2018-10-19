@@ -36,8 +36,6 @@ $(function () {
 
     var targetAnchor;
     $.each ($('ul.acc-menu a'), function() {
-
-        console.log('this.href:', this.href)
         if( this.href == window.location ) {
             targetAnchor = this;
             return false;

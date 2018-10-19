@@ -9,13 +9,12 @@
         <div class="modal-body clearfix">
           <label class="col-12 label-fromField">Customer Name: {{currCustomerName}}</label><br />
           <label class="col-12 label-fromField">Phone: {{currPhone}}</label><br />
-          <label class="col-12 label-fromField">Email: {{currAmail}}</label><br />
+          <label class="col-12 label-fromField">Email: {{currEmail}}</label><br />
           <label class="col-12 label-fromField">Date and Time of Assignment: {{currAssignmentDt | date:'dd/MM/yyyy hh:mm'}}</label><br />
           <label class="col-12 label-fromField">Date of first contact with assigned lead:
             <input placeholder="DD/MM/YYYY" class="search-by-input"
-            (dateChange)="onFirstContactDtChange($event, 0)"
             matInput [max]="maxDateFrom" [matDatepicker]="firstContactDtPicker"
-            formControlName="firstContactDt" name="firstContactDtField" value="{{currFirstContactDt}}">
+            formControlName="firstContactDt" name="firstContactDtField">
             <mat-datepicker-toggle matSuffix [for]="firstContactDtPicker">
               <mat-icon matDatepickerToggleIcon>apps</mat-icon>
             </mat-datepicker-toggle>
@@ -39,23 +38,19 @@
         </div>
         <div class="modal-body clearfix">
           <label class="col-12 label-fromField">I would like to extend the assigned lead for another 6 months:
-            <textarea placeholder="Please state reasons here." class="search-by-input"
+            <input placeholder="Please state reasons here." class="search-by-input"
             formControlName="reasonOfExt" name="reasonOfExtField">
-              {{currReasonOfExt}}
-            </textarea>
           </label><br />
 
           <label class="col-12 label-fromField">Application will be reviewed by PDD and maximum extension is 6 months
-              <button type="submit" class="btn btn-primary table-btn a-leadExtSubmitBtn" data-dismiss="modal">Submit</button>
+              <button [disabled]="currAssignmentStatus == '2'" type="submit" class="btn btn-primary table-btn a-leadExtSubmitBtn" data-dismiss="modal">Submit</button>
           </label><br />
 
           <label class="col-12 label-fromField">Application of Extension:
             <span class="span-blue">To be Reviewed</span><span class="span-green">/ Approved / </span>
             <span class="span-red">Rejected</span>
-            <textarea class="search-by-input"
+            <input class="search-by-input"
             formControlName="applicationExt" name="applicationExtField">
-              {{currApplicationExt}}
-            </textarea>
           </label>
         </div>
         <div class="modal-footer">
@@ -77,15 +72,15 @@
           <label class="col-12 label-fromField">Customer Name: {{currCustomerName}}</label><br />
           <label class="col-12 label-fromField">Upsell Prulife Pol No.:
             <input placeholder="Please Input Pol No." class="search-by-input"
-            formControlName="upsellLifePolNo" name="upsellLifePolNoField" value="{{currUpsellLifePolNo}}">
+            formControlName="upsellLifePolNo" name="upsellLifePolNoField">
           </label><br />
           <label class="col-12 label-fromField">Upsell Life Product:
             <input placeholder="Please Input Product Name" class="search-by-input"
-            formControlName="upsellLifeProd" name="upsellLifeProdField" value="{{currUpsellLifeProd}}">
+            formControlName="upsellLifeProd" name="upsellLifeProdField">
           </label><br />
           <label class="col-12 label-fromField">AFYP:
             <input placeholder="Please Input AFYP" class="search-by-input"
-            formControlName="afyp" name="afypField" value="{{currAfyp}}">
+            formControlName="afyp" name="afypField">
           </label>
         </div>
         <div class="modal-footer">

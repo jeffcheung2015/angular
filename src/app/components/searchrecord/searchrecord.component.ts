@@ -238,7 +238,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         let assignType = rowData.assignmentType;
         let agentCode = rowData.agentCode;
         let convertDate = (date, minsOpt) => {
-          return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " +
+          return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
           ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
         //A,D,F assign btn only
@@ -339,10 +339,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.searchCriterias.forEach((data, key)=>{
         params[this.searchCriteriaFieldName[key]] = data;
       });
-      console.log("***params:", (params))
-      console.log(callback)
-      console.log(settings)
-
       this.agentassignmentService.getAgentAssignmentRecord(params, 'dataTable').subscribe((resp : any) => {
           console.log('resp:', resp)
           this.noOfCustomer = resp.body.recordsFiltered;

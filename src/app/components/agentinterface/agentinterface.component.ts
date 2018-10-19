@@ -26,9 +26,9 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   displayedColumnsName : string[] = constants["AgentInterfaceColumnField"];
 
   //for displaying data in modal in 3 different sub pages [Customer Details, Lead extension, Upsell Details]
-  currCustomerName; currPhone; currEmail; currAssignmentDt; currFirstContactDt;
-  currReasonOfExt; currApplicationExt; currExtSubmitted;
-  currUpsellLifePolNo; currUpsellLifeProd; currAfyp;
+  currCustomerName; currPhone; currEmail; currAssignmentDt;
+  currAssignmentStatus;
+  currPolNo;
 
   customerDetailModalForm = new FormGroup({
      firstContactDt : new FormControl('')
@@ -73,16 +73,6 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
      private renderer2 : Renderer2
    ) {}
 
-  /*@HostListener('window:resize', ['$event'])
-  onResize(event?) {
-    this.screenWidth = window.innerWidth;
-    console.log("New Screen width:" + window.innerWidth);
-    console.log(this.dTable.dtInstance)
-    this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
-  }*/
   ngOnChanges(){
     this.currSelectedAgentCode = "";
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
@@ -126,38 +116,47 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     });
 
     this.classToTrigger =  [
-      {className: "a-modalLink", callback: (queryParams)=>{this.setCurrentSelected(queryParams)}},
-      // {className: "a-customerDtlBtn", callback: (queryParams)=>{this.setCustomerDtl(queryParams)}},
-      // {className: "a-leadExtBtn", callback: (queryParams)=>{this.setLeadExt(queryParams)}},
-      // {className: "a-upsellDtlBtn", callback: (queryParams)=>{this.setUpsellDtl(queryParams)}}
+      {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
+
+      {type: 'submit', className: "a-customerDtlSubmitBtn", callback: ()=>{this.setCustomerDtl()}},
+      {type: 'submit', className: "a-leadExtSubmitBtn", callback: ()=>{this.setLeadExt()}},
+      {type: 'submit', className: "a-upsellDtlSubmitBtn", callback: ()=>{this.setUpsellDtl()}}
     ];
   }
-  //set current selected value
-  setCurrentSelected(){
-  // currCustomerName; currPhone; currEmail; currAssignmentDt; currFirstContactDt;
-  // currReasonOfExt; currApplicationExt; currExtSubmitted;
-  // currUpsellLifePolNo; currUpsellLifeProd; currAfyp;
-
-
-  }
-  setCustomerDtl(queryParams){
+  setCustomerDtl(){
+    let queryParams = {
+      firstContactDt: this.customerDetailModalForm.controls['firstContactDt'].value,
+      polNo: this.currPolNo
+    };
     this.leadresponseService.postCustomerDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
 
     }, (error) => console.log(error));
   }
-  setLeadExt(queryParams){
+  setLeadExt(){
+    let queryParams = {
+      reasonOfExt: this.leadExtensionModalForm.controls['reasonOfExt'].value,
+      applicationExt: this.leadExtensionModalForm.controls['applicationExt'].value,
+      polNo: this.currPolNo
+    };
     this.leadresponseService.postLeadExtRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
 
     }, (error) => console.log(error));
   }
-  setUpsellDtl(queryParams){
+  setUpsellDtl(){
+    let queryParams = {
+      lifePolNo: this.upsellDetailModalForm.controls['upsellLifePolNo'].value,
+      lifePolCls: this.upsellDetailModalForm.controls['upsellLifeProd'].value,
+      lifeAfyp: this.upsellDetailModalForm.controls['afyp'].value,
+      polNo: this.currPolNo
+    };
     this.leadresponseService.postUpsellDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
 
     }, (error) => console.log(error));
   }
+
   setCurrSelectedAgentCode(queryParams){
     this.currSelectedAgentCode = "";
   }
@@ -170,6 +169,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   onclickEventInit : boolean= false; //onchange would reset this back to false
   //class to function it should trigger
   classToTrigger : Array<{
+    type: string,
     className: string,
     callback?: any
   }>;
@@ -184,41 +184,55 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       this.onclickEventInit = true;
       this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
-          if($(event.target).hasClass(elem.className)){
+          if($(event.target).hasClass(elem.className) && elem.type === 'submit'){
+            elem.callback();
+          }else if($(event.target).hasClass(elem.className) && elem.type === 'modal'){
+            //app ext obj map
+            let extNumMapToText = [
+              "",//blank
+              "To be reviewed",//to be reviewed
+              "Approved",//approved
+              "Rejected" //rejected
+            ];
+            //
             let rowDataStr = $(event.target).closest("tr").attr("rowdata");
             let rowDataObj = JSON.parse(rowDataStr);
             let dataTarget = $(event.target).attr('data-target');
+            //the cols that need to be split
+            let customerInfoSplit = rowDataObj.customerInfo.split(":");
+            let polNo = customerInfoSplit[0];
+            let customerName = customerInfoSplit[1];
+            //===============
+            let assignmentInfoSplit = rowDataObj.assignmentInfo.split(":");
+            let assignmentStatus = assignmentInfoSplit[0];
+            let reasonOfExt = assignmentInfoSplit[1];
             //
+
             switch(dataTarget){
               case '#customerDetailModal':
-                this.currCustomerName = rowDataObj.customerName;
+                this.currCustomerName = customerName;
                 this.currPhone = rowDataObj.phone;
                 this.currEmail = rowDataObj.email;
                 this.currAssignmentDt = rowDataObj.agentAssignmentDt;
-                this.currFirstContactDt = rowDataObj.firstContactDt;
+
+                this.customerDetailModalForm.controls['firstContactDt'].setValue(new Date(rowDataObj.firstContactDt));
               break;
               case '#leadExtensionModal':
-                this.currApplicationExt = rowDataObj.applicationExt;
-                // this.currReasonOfExt = rowDataObj.
+                this.currAssignmentStatus = assignmentStatus;
+
+                this.leadExtensionModalForm.controls['reasonOfExt'].setValue(reasonOfExt);
+                this.leadExtensionModalForm.controls['applicationExt'].setValue(extNumMapToText[rowDataObj.applicationExt - 1]);
               break;
               case '#upsellDetailModal':
-                this.currCustomerName = rowDataObj.customerName;
-                this.currUpsellLifeProd = rowDataObj.upsellLifeProd;
-                this.currUpsellLifePolNo = rowDataObj.upsellLifePolNo;
-                this.currAfyp = rowDataObj.afyp;
-              break;
+                this.currCustomerName = customerName;
 
+                this.upsellDetailModalForm.controls['upsellLifeProd'].setValue(rowDataObj.upsellLifeProd);
+                this.upsellDetailModalForm.controls['upsellLifePolNo'].setValue(rowDataObj.upsellLifePolNo);
+                this.upsellDetailModalForm.controls['afyp'].setValue(rowDataObj.afyp);
+              break;
             }
-            
-            // let queryParams = {};
-            // let queryParamsAttr = $(event.target).attr("queryParams");
-            // let queryParamsArray = queryParamsAttr ? $(event.target).attr("queryParams").split(",") : [];
-            // queryParamsArray.forEach((elem,key)=>{
-            //   let keyValPair = elem.split(':');
-            //   _set(queryParams, keyValPair[0], keyValPair[1]);
-            // })
-            //
-            // elem.callback(queryParams);
+            //in no matter which condition should polno be assigned as all post reqs need polno parameter
+            this.currPolNo = polNo;
           }
         });
       });
@@ -261,9 +275,16 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       targets: "_all",
       orderable: false,
       createdCell: function (td, cellData, rowData, row, col) {
+        //datatable data [need to be preprocessed first]
+        let customerInfoSplit = rowData.customerInfo.split(":");
+        let assignmentInfoSplit = rowData.assignmentInfo.split(":");
+        let polNo = customerInfoSplit[0];
+        let customerName = customerInfoSplit[1];
+        let assignmentStatus = assignmentInfoSplit[0];
+
         //funcs
         let convertDate = (date, minsOpt) => {
-          return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " +
+          return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
           ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
         //styles
@@ -272,13 +293,8 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
 
         //those fields that has assignmentstatus as Optout / reassigned need to be specially handled.
         //customerName, applicationStatus and applicationExt gray in color, cs remarks can be viewed
-        let optoutOrReassign = ["3", "4"].includes(rowData.assignmentStatus);
+        let optoutOrReassign = ["3", "4"].includes(assignmentStatus);
         let isRejected = rowData.applicationExt === '4';
-
-        let customerInfoSplit = rowData.customerInfo.split(":");
-        //datatable data
-        let polNo = customerInfoSplit[0];
-        let customerName = customerInfoSplit[1];
 
         let html = ``;
         switch(col){
@@ -297,6 +313,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             $(td).html(html);
             break;
           case 7:case 8:
+            html = ``;
             let statusNumMapToText = [
               "",//blank
               "Applied for extension",//applied extension
@@ -309,12 +326,12 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
               "Approved",//approved
               "Rejected" //rejected
             ];
-
-            html = ``;
+            cellData = (col == 7) ? assignmentStatus : cellData; //reassign back the extracted assignmentstatus to cellData for col == 7
             let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
 
             if(col == 7 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
               let datDiff : number = (new Date().getTime() - new Date(rowData.agentAssignmentDt).getTime()) / (86400000); //24*60*60*1000ms
+
               if(rowData.upsellLifePolNo === '' && datDiff > 150){ //5 months  5*30 days
                 html += `<a class="a-modalLink" ` + cursorStyle + `data-toggle="modal" data-target="#leadExtensionModal" ` + `>To apply for extension</a>`;
               }
@@ -347,20 +364,21 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   }
   agentInterfaceAjax(){ //agentCd as
     return (params, callback, settings) => {
-      console.log("***params:", (params))
       this.dataTableAjaxSubscription = this.leadresponseService.getAgentInterfaceRecord(params, 'dataTable').subscribe((resp : any) => {
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
-        let convertDateMonthYear = (date) => {
-          return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
-        };
-
         resp.body.data.forEach((elem,key)=>{
           //separate some unwanted params from other params
-          let polNo, customerName, restAttrObj;
-          ({polNo, customerName, ...restAttrObj} = elem);
-          let customerInfo = polNo + ":" + customerName;
+          let polNo, customerName, reasonOfExt, assignmentStatus, restAttrObj;
+          ({polNo, customerName, reasonOfExt, assignmentStatus, ...restAttrObj} = elem);
+
+          //customerInfo put both polNo and customerName into one col and later be processed in agentInterfaceColumnDef
+          let customerInfo = (polNo ? polNo : '') + ":" + (customerName ? customerName : '');
+          //assignmentInfo put both reasonOfExt and assignmentStatus into one col and later be processed in agentInterfaceColumnDef
+          let assignmentInfo = (assignmentStatus ? assignmentStatus : '') + ":" + (reasonOfExt ? reasonOfExt : '');
+
           restAttrObj['customerInfo'] = customerInfo;
+          restAttrObj['assignmentInfo'] = assignmentInfo;
           resArr.data.push(restAttrObj);
         });
 

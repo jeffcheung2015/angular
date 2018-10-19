@@ -240,7 +240,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
         let redBtnClass = "btn btn-primary table-btn";
         let grayBtnClass = "btn btn-default table-btn";
         let convertDate = (date, minsOpt) => {
-          return date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + " " +
+          return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
           ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
         let onLeave = rowData.onLeave;
@@ -282,16 +282,13 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       this.searchCriterias.forEach((data, key)=>{
         params[this.searchCriteriaFieldName[key]] = data;
       });
-      console.log("***params:", (params))
-      console.log(callback)
-      console.log(settings)
       this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(params, 'dataTable').subscribe((resp : any) => {
         this.noOfRenewals = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
         let convertDateMonth = (date) => {
-          return date.getDate() + "/" + date.getMonth();
+          return date.getDate() + "/" + (date.getMonth() + 1);
         }
         resp.body.data.forEach((elem,key)=>{
           let leaveId, leaveStartDate, leaveEndDate, restAttrObj;

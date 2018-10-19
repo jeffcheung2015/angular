@@ -1,69 +1,93 @@
+#leadExtensionModal{
+  .span-blue{
+    color: lightskyblue;
+  }
+  .span-green{
+    color: mediumseagreen;
+  }
+  .span-red{
+    color: red;
+  }
+}
+.modal{
+  .modal-topPart{
+    .a-closeBtn{
+      display: flex;
+      margin-left: auto;
+      justify-content: center;
+    }
+  }
+}
 .div-aoInterfaceDataTable{
   text-align: center;
+
 
   .table-aoInterface{
     width: 100% !important;
     th.noscroll{
       font-size: 12px;
     }
+
+
   }
-}
-.div-goToPage-showPerPage{
-  display: -webkit-box;
-  position: relative;
-  .div-goToPage{
-    display: flex;
+
+  .div-goToPage-showPerPage{
+    display: -webkit-box;
     position: relative;
-    left: 50%;
-    transform: translate(-50%,10px);
-    .span-goToPage{
-      line-height: 50px;
+    .div-goToPage{
+      display: flex;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%,10px);
+      .span-goToPage{
+        line-height: 50px;
+        color:gray;
+      }
+      .div-goToPage_wrapper{
+        display:inline-block;
+        .input-goToPage_left{
+          margin-left: 10px;
+          border-radius: 10px 0px 0px 10px;
+          border-right: 0px;
+          text-align: end;
+          color:gray;
+        }
+        .input-goToPage_right{
+          position:relative;
+          left:-10px;
+          color:gray;
+          border-left: 0px;
+          border-radius: 0px;
+        }
+        input {
+          width: 80px;
+          background-color:transparent;
+        }
+        .button-goToPage_go{
+          position:relative;
+          left:-12px;
+          border-radius: 0px 10px 10px 0px;
+          background-color: rgb(200,200,200);
+          color:black;
+        }
+      }
+    }
+  }
+  .ul-showPerPage{
+    list-style: none !important;
+    display: flex;
+    position: absolute;
+    top: -26px;
+    right: 0px;
+    float: right;
+    li{
+      margin: 0px 10px;
+    }
+    .inactive-gray{
       color:gray;
     }
-    .div-goToPage_wrapper{
-      display:inline-block;
-      .input-goToPage_left{
-        margin-left: 10px;
-        border-radius: 10px 0px 0px 10px;
-        border-right: 0px;
-        text-align: end;
-        color:gray;
-      }
-      .input-goToPage_right{
-        position:relative;
-        left:-10px;
-        color:gray;
-        border-left: 0px;
-        border-radius: 0px;
-      }
-      input {
-        width: 80px;
-        background-color:transparent;
-      }
-      .button-goToPage_go{
-        position:relative;
-        left:-12px;
-        border-radius: 0px 10px 10px 0px;
-        background-color: rgb(200,200,200);
-        color:black;
-      }
+    .active-red{
+      color:red;
     }
-  }
-}
-.ul-showPerPage{
-  list-style: none !important;
-  display: flex;
-  position: absolute;
-  top: -26px;
-  right: 0px;
-  float: right;
-  li{
-    margin: 0px 10px;
-  }
-  .inactive-gray{
-    color:gray;
-  }
-  .active-red{
-    color:red;
   }
 }
