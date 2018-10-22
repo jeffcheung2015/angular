@@ -1,4 +1,5 @@
 export default {
+    localOrVm: 'local', //local || vm
     route:{
       //agent assignment
       AgentAssignGI: 'easAgentAssignGI',

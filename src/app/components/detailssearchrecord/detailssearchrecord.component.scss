@@ -1,3 +1,39 @@
+.onLeaveModalForm{
+  .modal-header{
+    .modal-title{
+      color: #FE0000;
+    }
+  }
+  .modal-body{
+    .label-fromField, .label-toField{
+      display: block;
+    }
+    .material-icons{
+      color:red;
+    }
+  }
+  .modal-footer{
+    .a-saveLeaveDateBtn{
+      float:left;
+    }
+  }
+}
+
+#selectBtnModal{
+  .modal-title{
+    text-align: center;
+  }
+  .a-selectYesBtn{
+    float: left;
+  }
+}
+
+#btnMsgModal{
+  .btn-ok{
+
+  }
+}
+
 .div-detailSearchRecord{
   .span-noOfCustomer, .span-noOfRenewals{
     float:right;

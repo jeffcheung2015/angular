@@ -50,8 +50,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     "10": "inactive-gray",
     "20": "inactive-gray",
   };
-  constructor(private agentassignmentService : AgentassignmentService,
-     private http: HttpClient, private router: Router, private renderer2: Renderer2) {
+  constructor(
+     private agentassignmentService : AgentassignmentService,
+     private http: HttpClient,
+     private router: Router,
+     private renderer2: Renderer2) {
   }
   /*@HostListener('window:resize', ['$event'])
   onResize(event?) {
@@ -251,15 +254,17 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                         (assignType === 3) ? 'D' :
                         (assignType === 4) ? 'E' : 'F';
         if(col < 13){
-          if(col == 11){//campaign code, put campaign code as attr later
-            $(td).html('<a class="a-campaignCode" queryParams="campaignCode:' + rowData.campaignCode + '">' + cellData + '</a>');
-          }
           if(!cellData){ //for those null data
             $(td).html('-');
-          }else{ //col 10 convert date str into proper format dd/MM/YYYY
-            if(col === 10 && cellData){
+          }else{
+            if(col === 10){//col 10 convert date str into proper format dd/MM/YYYY
               let convertDateData = new Date(cellData);
               $(td).html(convertDate(convertDateData, 'withoutMins'));
+            }else if(col == 11){//campaign code, put campaign code as attr later
+              $(td).html('<a class="a-campaignCode" queryParams="campaignCode:' + rowData.campaignCode + '">' + cellData + '</a>');
+            }else if(col == 12){
+              let assignTypeToText = ["Assign New Agent Pool", "Auto Assign Life Agent", "Assign GI Agent Pool", "GIEB Sales Support"];
+              $(td).html(`<span>` + assignTypeToText[cellData - 1] + `</span>`);
             }
           }
         }else if(col >= 13 && col <= 17){

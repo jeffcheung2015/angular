@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs';
 
 import {BehaviorSubject} from 'rxjs';
-
+import constants from '../constants/constants';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,21 +37,21 @@ export class LeadresponseService {
   }
   //dataTable
   getAgentInterfaceRecord(params, type){
-    return this.getOrPostFunc('http://localhost:4200/eas/assets/data/agentInterface.json', params, 'get', type)
-    //#vm
-    //return this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/agentInterface.json', params, 'get', type) :
+            this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
   }
   //dataTable
   getaoInterfaceRecord(params, type){
-    return this.getOrPostFunc('http://localhost:4200/eas/assets/data/aoInterface.json', params, 'get', type)
-    //#vm
-    //return this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/aoInterface.json', params, 'get', type) :
+            this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
   }
   //dataTable
   getapUplineInterfaceRecord(params, type){
-    return this.getOrPostFunc('http://localhost:4200/eas/assets/data/apUplineInterface.json', params, 'get', type)
-    //#vm
-    //return this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/apUplineInterface.json', params, 'get', type) :
+            this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
   }
 
   postCustomerDtlRecord(params, type){

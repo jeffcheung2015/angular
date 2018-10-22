@@ -6,6 +6,8 @@ import { of } from 'rxjs';
 
 import {BehaviorSubject} from 'rxjs';
 
+import constants from '../constants/constants';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,57 +49,51 @@ export class AgentassignmentService{
   }
   //dataTable
   getAgentAssignmentRecord(params, type){
-    return this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecord.json', params, 'get', type)
-    //#vm
-    //return this.getOrPostFunc("/eas/api/agent/getPolicyList",params, 'get', type);
+    return (constants.localOrVm === 'local') ?
+              this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecord.json', params, 'get', type) :
+              this.getOrPostFunc("/eas/api/agent/getPolicyList",params, 'get', type);
   }
   //dataTable
   getAgentDetailRecord(params, type){
-    return this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecordDetails.json', params, 'get', type);
-    //#vm
-    //return this.getOrPostFunc("/eas/api/agent/assignAgent",params, 'get', type);
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecordDetails.json', params, 'get', type) :
+            this.getOrPostFunc("/eas/api/agent/assignAgent",params, 'get', type);
   }
   //campaignDetails
   getCampaignDetail(params, type){
-    return this.getOrPostFunc('http://localhost:4200/eas/assets/data/campaignDetail.json', params, 'get', type);
-    //#vm
-    //return this.getOrPostFunc("/api/campaign/detail/" + params.campaignCode ,params, 'get', type);
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/campaignDetail.json', params, 'get', type) :
+            this.getOrPostFunc("/api/campaign/detail/" + params.campaignCode ,params, 'get', type);
   }
   //sendParams
   postResetLeaveRecord(params, type){
-    return this.getOrPostFunc('/resetLeave', params, 'post', type);
-    //#vm
-    //return this.getOrPostFunc("/aaa",params, 'post', type);
+    return this.getOrPostFunc('/submitOnLeave', params, 'post', type);
+
   }
   //sendParams
   postSaveLeaveRecord(params, type){
     return this.getOrPostFunc('/submitOnLeave', params, 'post', type);
-    //#vm
-    //return this.getOrPostFunc("/aaa",params, 'post', type);
+
   }
   //sendParams
   postSelectYesLeaveRecord(params, type){
-    return this.getOrPostFunc('/selectYes', params, 'post', type);
-    //#vm
-    //return this.getOrPostFunc("/aaa",params, 'post', type);
+    return this.getOrPostFunc('/assignAgent', params, 'post', type);
+
   }
   //sendParams
   postResendPruchat(params, type){
     return this.getOrPostFunc('/resendPruchat', params, 'post', type);
-    //#vm
-    //return this.getOrPostFunc("/aaa",params, 'post', type);
+
   }
   //sendParams
   postResendSMS(params, type){
     return this.getOrPostFunc('/resendSMS', params, 'post', type);
-    //#vm
-    //return this.getOrPostFunc("/aaa",params, 'post', type);
+
   }
   //searchCriteria
   postSearchCriteriaRecord(params, type){
     return this.getOrPostFunc('/searchCriteria', params, 'post', type);
-    //#vm
-    //return this.getOrPostFunc("/aaa",params, 'post', type);
+
   }
 
 }

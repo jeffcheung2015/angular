@@ -80,19 +80,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
       this.currSubPageJustUpdated = false;
     }
   }
-  //
 
-  //to set the min, max date of from / to once onleavefrom / to is changed
-  onLeaveDateChange(e, fromOrTo){
-    this[(fromOrTo == 0) ? "minDateTo" : "maxDateFrom"] = e.value;
-  }
-  minDateTo;
-  maxDateFrom;
-  onLeaveModalForm = new FormGroup({
-    onLeaveFrom : new FormControl(''),
-    onLeaveTo : new FormControl('')
-  });
-  //
   bindChildComponents(){
     switch(this.currSubPage){
       case 'easAgentAssignGI':

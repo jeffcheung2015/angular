@@ -14,6 +14,10 @@ import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import constants from '../../constants/constants';
+import convertformat from '../../utils/convertformat';
+
+import { ActivatedRoute  } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-detailssearchrecord',
@@ -40,11 +44,22 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   noOfPage : number;
   currPage : number = 1;
 
-  screenWidth: number;
-
-  currSelectedAgentCode: string= "";
+  currDate = new Date();
 
   dataTableSettings;//for changing table pages in gotopage
+
+  currAgentCode: string= ""; currLeaveId : string = ""; currPolicyNo : string = "";
+  //to set the min, max date of from / to once onleavefrom / to is changed
+  onLeaveDateChange(e, fromOrTo){
+    this[(fromOrTo == 0) ? "minDateTo" : "maxDateFrom"] = e.value;
+  }
+  minDateTo;
+  maxDateFrom;
+  onLeaveModalForm = new FormGroup({
+    onLeaveFrom : new FormControl(''),
+    onLeaveTo : new FormControl('')
+  });
+  //
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
@@ -58,29 +73,24 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   constructor(
      private agentassignmentService : AgentassignmentService,
      private http: HttpClient,
-     private renderer2 : Renderer2
+     private renderer2 : Renderer2,
+     private activatedRoute: ActivatedRoute
    ) {}
 
-  /*@HostListener('window:resize', ['$event'])
-  onResize(event?) {
-    this.screenWidth = window.innerWidth;
-    console.log("New Screen width:" + window.innerWidth);
-    console.log(this.dTable.dtInstance)
-    this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
-  }*/
   ngOnChanges(){
-    this.currSelectedAgentCode = "";
+    this.currAgentCode = "";
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
   ngOnInit() {
+    this.currPolicyNo = this.activatedRoute.snapshot.queryParams.policyNo || "";
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     //this.searchCriteriaComponent.setSearchRecordComponent(this);
     let colArr = [], dataArr = [];
-    this.displayedColumnsName.forEach((val)=>{
-      colArr.push({
+    this.displayedColumnsName.forEach((val, index)=>{
+      colArr.push((index === 6) ? {
+        data: val,
+        width: '15%'  // bigger width for [onLeave] col
+      } : {
         data: val
       });
     });
@@ -112,40 +122,72 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
-
+    //all the following btns are placed inside the agentassignment.component.html
     this.classToTrigger =  [
-      {className: "a-resetBtn", callback: (queryParams)=>{this.resetLeaveRecord(queryParams)}},
-      {className: "a-saveBtn", callback: (queryParams)=>{this.saveLeaveRecord(queryParams)}},
-      {className: "a-selectBtn", callback: (queryParams)=>{this.setCurrSelectedAgentCode(queryParams)}},
-      {className: "a-selectYesBtn", callback: (queryParams)=>{this.selectYesRecord(queryParams)}},
+      {type: "setCurrRow", className: "a-addBtn", callback: ()=>{this.addBtnClicked()}},
+      {type: "setCurrRow", className: "a-selectBtn", callback: ()=>{}},
+
+      {type: "setCurrRowAndSubmit", className: "a-resetBtn", callback: ()=>{this.resetLeaveRecord()}},
+
+      {type: "submit", className: "a-saveLeaveDateBtn", callback: ()=>{this.saveLeaveRecord()}},
+      {type: "submit", className: "a-selectYesBtn", callback: ()=>{this.selectYesRecord()}},
     ];
   }
 
-  resetLeaveRecord(queryParams){
+  resetLeaveRecord(){
+    let queryParams = {
+      leaveId : this.currLeaveId
+    };
     this.agentassignmentService.postResetLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
+      this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
 
     }, (error) => console.log(error));
-    this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
   }
-  saveLeaveRecord(queryParams){
-    this.agentassignmentService.postSaveLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
-      console.log("resp:", resp);
+  addBtnClicked(){
+    //reset the form's Value
+    this.onLeaveModalForm.controls['onLeaveFrom'].setValue('');
+    this.onLeaveModalForm.controls['onLeaveTo'].setValue('');
+  }
 
-    }, (error) => console.log(error));
-    this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
+  saveLeaveRecord(){
+    //preprocess the leave start dt and leave end dt,
+    try{
+      let leaveStartDate = this.onLeaveModalForm.controls['onLeaveFrom'].value;
+      let leaveEndDate = this.onLeaveModalForm.controls['onLeaveTo'].value;
+      if(!leaveStartDate || !leaveEndDate || leaveEndDate - leaveStartDate < 0 || leaveStartDate < this.currDate){
+        throw new Error('leaveStartDt || leaveEndDt error');
+      }
+      let queryParams = {
+        leaveId: this.currLeaveId,
+        agentCode: this.currAgentCode,
+        leaveStartDate: convertformat.dateToYYYYMMDD(leaveStartDate, '-'),
+        leaveEndDate: convertformat.dateToYYYYMMDD(leaveEndDate, '-')
+      }
+
+      this.agentassignmentService.postSaveLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
+        console.log("resp:", resp);
+        this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
+
+      }, (error) => console.log(error));
+    }catch(e){
+      console.log('Exception: ', e);
+    }
   }
-  setCurrSelectedAgentCode(queryParams){
-    this.currSelectedAgentCode = "";
-  }
-  selectYesRecord(queryParams){
+
+  selectYesRecord(){
+    let queryParams = {
+        agentCode: this.currAgentCode,
+        policyNo: this.currPolicyNo
+    };
+
     this.agentassignmentService.postSelectYesLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
+      this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
 
     }, (error) => console.log(error));
-    this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
-
   }
+
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
   }
@@ -154,6 +196,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   onclickEventInit : boolean= false; //onchange would reset this back to false
   //class to function it should trigger
   classToTrigger : Array<{
+    type: string,
     className: string,
     callback?: any
   }>;
@@ -169,15 +212,17 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
           if($(event.target).hasClass(elem.className)){
-            let queryParams = {};
-            let queryParamsAttr = $(event.target).attr("queryParams");
-            let queryParamsArray = queryParamsAttr ? $(event.target).attr("queryParams").split(",") : [];
-            queryParamsArray.forEach((elem,key)=>{
-              let keyValPair = elem.split(':');
-              _set(queryParams, keyValPair[0], keyValPair[1]);
-            })
+            //add, select, reset btn that is inside the tr row
+            //only these btns have the info of the closest tr for setting currently selected row
+            if(['setCurrRow', 'setCurrRowAndSubmit'].includes(elem.type)){
+              let rowDataStr = $(event.target).closest("tr").attr("rowdata");
+              let rowDataObj = JSON.parse(rowDataStr);
+              let leaveId = rowDataObj.onLeave ? rowDataObj.onLeave.split(":")[0] : null;
 
-            elem.callback(queryParams);
+              this.currLeaveId = leaveId;
+              this.currAgentCode = rowDataObj.agentCode;
+            }
+            elem.callback();
           }
         });
       });
@@ -239,17 +284,38 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       createdCell: function (td, cellData, rowData, row, col) {
         let redBtnClass = "btn btn-primary table-btn";
         let grayBtnClass = "btn btn-default table-btn";
-        let convertDate = (date, minsOpt) => {
-          return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
-          ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
+        let convertDate = (date, opt) => {
+          return (opt === "MMDD") ? (date.getMonth() + 1) + '/' + date.getDate() :
+          date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
+          ((opt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
+
         let onLeave = rowData.onLeave;
+        let splitOnLeave = (onLeave) ? onLeave.split(";") : null; //[0] =leaveId, [1] =onleave start end date
+        let onLeaveP, onLeaveDt, onLeaveStartDt, onLeaveEndDt, isWithinLeavePeriod = false;
+        let currDate = new Date();
+        if(splitOnLeave){
+
+          onLeaveDt = splitOnLeave[1].split(',');
+          onLeaveStartDt = new Date(onLeaveDt[0]);
+          onLeaveEndDt = new Date(onLeaveDt[1]);
+          isWithinLeavePeriod = (currDate.getTime() - onLeaveStartDt.getTime() > 0 && currDate.getTime() - onLeaveEndDt.getTime() < 0);
+          //compare current date with the on leave start dt and end dt
+          let pStyle = `style="margin:auto;` + ((isWithinLeavePeriod) ? `color:lightgray;"` : `"`);
+
+          onLeaveP = `<p ` + pStyle + `>` + convertDate(onLeaveStartDt, "MMDD") + "-" + convertDate(onLeaveEndDt, "MMDD") + `</p>`;
+        }
+
+        let aOrSpanStyle = ``; // for col 4 [lastAssignDate] and col 6 [onleave]
 
         if(col <= 4 && !cellData || cellData === ''){
           $(td).html("<span>-</span>");
         }
         switch(col){
           case 4:
+            let closestTrObj = $(td).closest('tr');
+            $(closestTrObj).attr("rowData", JSON.stringify(rowData));
+
             if(cellData){
               let convertDateData = new Date(cellData);
               $(td).html(convertDate(convertDateData, 'withoutMins'));
@@ -257,21 +323,26 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
             break;
           case 5:
             if(!cellData){
-              $(td).html(`<a class="` + redBtnClass + ` a-selectBtn" data-toggle="modal" data-target="#selectBtnModal" queryParams="` + rowData.agentCode + `">Select</a>`);
+              $(td).html(`<a class="` + redBtnClass + ` a-selectBtn" data-toggle="modal" data-target="#selectBtnModal">Select</a>`);
             }
             break;
           case 6:
-            let splitOnLeave = (onLeave) ? onLeave.split(":") : null; //[0] =leaveId, [1] =onleave start end date
-            let onleaveP = (splitOnLeave) ? "<p style='margin:auto;'>" + splitOnLeave[1] + "</p>" : "";
-            $(td).css({
-              "display": "inline-flex",
-              "width": "100%"
-            });
-            if(!onLeave){
-              $(td).html(onleaveP + `<a style="margin:auto" class="` + grayBtnClass + ` a-addBtn" data-toggle="modal" data-target="#onLeaveModal">Add</a>`);
+            aOrSpanStyle += `margin:auto;`;
+            let divStyle = `display:inline-flex;width:100%;`
+
+            if(!onLeave || !isWithinLeavePeriod){
+              $(td).html(`<div style="` + divStyle + `">` +
+                   `<a style="` + aOrSpanStyle + `" class="` + grayBtnClass +
+                   ` a-addBtn" data-toggle="modal" data-target="#onLeaveModal">Add</a></div>`);
             }else{
-              $(td).html(onleaveP + `<a style="margin:auto" class="` + grayBtnClass + ` a-resetBtn" queryParams="leaveId:` + splitOnLeave[0] + `">Reset</a>`);
+              $(td).html(`<div style="` + divStyle + `">` +
+                  onLeaveP + `<a style="` + aOrSpanStyle + `" class="` + grayBtnClass +
+                  ` a-resetBtn" >Reset</a></div>`);
             }
+            break;
+          default:
+            aOrSpanStyle += ((isWithinLeavePeriod) ? "color:lightgray;" : "");
+            $(td).html(`<span style="` + aOrSpanStyle + `">` + cellData + `</span>`);
             break;
         }
       }
@@ -287,18 +358,16 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
         this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
-        let convertDateMonth = (date) => {
-          return date.getDate() + "/" + (date.getMonth() + 1);
-        }
+
         resp.body.data.forEach((elem,key)=>{
           let leaveId, leaveStartDate, leaveEndDate, restAttrObj;
           ({leaveId,leaveStartDate,leaveEndDate,...restAttrObj} = elem);
           _set(restAttrObj,"assign",null);
           let dateStr = (!leaveId || leaveId === 0) ? null :
-            leaveId + ":" + convertDateMonth(new Date(leaveStartDate)) + "-" + convertDateMonth(new Date(leaveEndDate));
+            leaveId + ";" + leaveStartDate + "," + leaveEndDate;
+
           //the leaveId should be later split out
           _set(restAttrObj,"onLeave", dateStr);
-
           resArr.data.push(restAttrObj);
         });
         //

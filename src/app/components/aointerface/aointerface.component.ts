@@ -306,9 +306,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             let closestTrObj = $(td).closest('tr');
             $(closestTrObj).attr("rowData", JSON.stringify(rowData));
 
-            html = optoutOrReassign ? `<a ` + optOutReassignStyle + ` class="a-modalLink" polno="` + polNo + `" >` + customerName + `</a>` :
-             `<a class="a-modalLink" polNo="` + polNo + `"` + cursorStyle +
-             ` data-toggle="modal" data-target="#customerDetailModal">` + customerName + `</a>`;
+            html = optoutOrReassign ? `<span>` + customerName + `</span>` :
+             `<span>` + customerName + `</span>`;
             $(td).html(html);
             break;
           case 3:case 5:case 6:
@@ -336,7 +335,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
               let datDiff : number = (new Date().getTime() - new Date(rowData.agentAssignmentDt).getTime()) / (86400000); //24*60*60*1000ms
 
               if(rowData.upsellLifePolNo === '' && datDiff > 150){ //5 months  5*30 days
-                html += `<a class="a-modalLink" ` + cursorStyle + `data-toggle="modal" data-target="#leadExtensionModal" ` + `>To apply for extension</a>`;
+                html += `<span>To apply for extension</span>`;
               }
               else{
                 html += `<span></span>`;
@@ -345,7 +344,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
               html += `<span>` + text + `</span>`;
             }else if(col == 8 && (cellData == 2 || cellData == 3)){ //To be reviewed || Approved
               html += (optoutOrReassign) ? `<span ` + optOutReassignStyle + `>` + text + `</span>` : //optout or reassign then this cell should be in gray color
-                        `<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#leadExtensionModal">` + text + `</a>`;
+                        `<span>` + text + `</span>`;
             }else{ //opt-out || reassigned || rejected
               html += `<span ` + ((optoutOrReassign) ? optOutReassignStyle : ``) + `>` + text + `</span>`;
             }
@@ -353,9 +352,9 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             break;
           case 10:case 11:case 12:
             let aPromptText = ``;
-            aPromptText = (cellData) ? cellData : ('Please input ' + ((col == 10) ? 'Pol' : (col == 11) ? 'Product' : 'Afyp'));
+            aPromptText = (cellData) ? cellData : "";
             html = (optoutOrReassign) ? `<span></span>` :
-                    (`<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#upsellDetailModal">` + aPromptText + `</a>`);
+                    (`<span>` + aPromptText + `</span>`);
             $(td).html(html);
             break;
           default:

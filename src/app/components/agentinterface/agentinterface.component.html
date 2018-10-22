@@ -12,17 +12,24 @@
           <label class="col-12 label-fromField">Email: {{currEmail}}</label><br />
           <label class="col-12 label-fromField">Date and Time of Assignment: {{currAssignmentDt | date:'dd/MM/yyyy hh:mm'}}</label><br />
           <label class="col-12 label-fromField">Date of first contact with assigned lead:
-            <input placeholder="DD/MM/YYYY" class="search-by-input"
-            matInput [max]="maxDateFrom" [matDatepicker]="firstContactDtPicker"
-            formControlName="firstContactDt" name="firstContactDtField">
-            <mat-datepicker-toggle matSuffix [for]="firstContactDtPicker">
-              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #firstContactDtPicker></mat-datepicker>
+            <ng-container *ngIf="currFirstContactDt">
+              {{customerDetailModalForm.controls['firstContactDt'].value | date:'dd/MM/yyyy'}}
+            </ng-container>
+            <ng-container *ngIf="!currFirstContactDt">
+              <input placeholder="DD/MM/YYYY" class="search-by-input"
+              matInput [max]="maxDateFrom" [matDatepicker]="firstContactDtPicker"
+              formControlName="firstContactDt" name="firstContactDtField">
+
+              <mat-datepicker-toggle matSuffix [for]="firstContactDtPicker">
+                <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #firstContactDtPicker></mat-datepicker>
+            </ng-container>
           </label>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary table-btn a-customerDtlSubmitBtn" data-dismiss="modal">Submit</button>
+          <button [disabled]="currFirstContactDt"
+            type="submit" class="btn btn-primary table-btn a-customerDtlSubmitBtn" data-dismiss="modal">Submit</button>
         </div>
       </div>
     </div>
@@ -38,8 +45,10 @@
         </div>
         <div class="modal-body clearfix">
           <label class="col-12 label-fromField">I would like to extend the assigned lead for another 6 months:
-            <input placeholder="Please state reasons here." class="search-by-input"
+            <span *ngIf="currAssignmentStatus == '2'">{{currReasonOfExt}}</span>
+            <input *ngIf="currAssignmentStatus != '2'" placeholder="Please state reasons here." class="search-by-input"
             formControlName="reasonOfExt" name="reasonOfExtField">
+
           </label><br />
 
           <label class="col-12 label-fromField">Application will be reviewed by PDD and maximum extension is 6 months
@@ -47,10 +56,9 @@
           </label><br />
 
           <label class="col-12 label-fromField">Application of Extension:
-            <span class="span-blue">To be Reviewed</span><span class="span-green">/ Approved / </span>
-            <span class="span-red">Rejected</span>
-            <input class="search-by-input"
-            formControlName="applicationExt" name="applicationExtField">
+            <span *ngIf="currApplicationExt == 2" class="span-blue">To be Reviewed</span>
+            <span *ngIf="currApplicationExt == 3" class="span-green">Approved</span>
+            <span *ngIf="currApplicationExt == 4" class="span-red">Rejected</span>
           </label>
         </div>
         <div class="modal-footer">

@@ -13,6 +13,7 @@ import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import constants from '../../constants/constants';
+import convertformat from '../../utils/convertformat';
 
 @Component({
   selector: 'app-agentinterface',
@@ -25,17 +26,20 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   displayedColumns : string[] = constants["AgentInterfaceColumnName"];
   displayedColumnsName : string[] = constants["AgentInterfaceColumnField"];
 
-  //for displaying data in modal in 3 different sub pages [Customer Details, Lead extension, Upsell Details]
+  //for displaying data in modal in 3 different modals [Customer Details, Lead extension, Upsell Details]
   currCustomerName; currPhone; currEmail; currAssignmentDt;
   currAssignmentStatus;
   currPolNo;
+  //input fields of 3 different modals [Customer Details, Lead extension, Upsell Details]
+  currFirstContactDt;
+  currApplicationExt; currReasonOfExt;
+  currUpsellLifePolNo; currUpsellLifeProd; currAfyp;
 
   customerDetailModalForm = new FormGroup({
      firstContactDt : new FormControl('')
   });
   leadExtensionModalForm = new FormGroup({
-     reasonOfExt : new FormControl(''),
-     applicationExt : new FormControl('')
+     reasonOfExt : new FormControl('')
   });
   upsellDetailModalForm = new FormGroup({
      upsellLifePolNo : new FormControl(''),
@@ -124,23 +128,29 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     ];
   }
   setCustomerDtl(){
+    let firstContactDt = this.customerDetailModalForm.controls['firstContactDt'].value;
+    //let formattedFCD = firstContactDt.getFullYear()+"-"+(firstContactDt.getMonth()+1)+"-"+firstContactDt.getDate();
     let queryParams = {
-      firstContactDt: this.customerDetailModalForm.controls['firstContactDt'].value,
+      firstContactDt: convertformat.dateToYYYYMMDD(firstContactDt, '-'),
       polNo: this.currPolNo
     };
+
     this.leadresponseService.postCustomerDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
+
+      this.refreshTable();
 
     }, (error) => console.log(error));
   }
   setLeadExt(){
     let queryParams = {
       reasonOfExt: this.leadExtensionModalForm.controls['reasonOfExt'].value,
-      applicationExt: this.leadExtensionModalForm.controls['applicationExt'].value,
       polNo: this.currPolNo
     };
     this.leadresponseService.postLeadExtRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
+
+      this.refreshTable();
 
     }, (error) => console.log(error));
   }
@@ -154,7 +164,21 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     this.leadresponseService.postUpsellDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
 
+      this.refreshTable();
+
     }, (error) => console.log(error));
+  }
+
+  //called outside of this component
+  refreshTable(){
+    let dTableInstance = _get(this.dTable, "dtInstance");
+    if(dTableInstance){
+      dTableInstance.then((dtInstance: DataTables.Api) => {
+        //redraw table only need these 2 funcs
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
 
   setCurrSelectedAgentCode(queryParams){
@@ -184,55 +208,64 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       this.onclickEventInit = true;
       this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
-          if($(event.target).hasClass(elem.className) && elem.type === 'submit'){
-            elem.callback();
-          }else if($(event.target).hasClass(elem.className) && elem.type === 'modal'){
-            //app ext obj map
-            let extNumMapToText = [
-              "",//blank
-              "To be reviewed",//to be reviewed
-              "Approved",//approved
-              "Rejected" //rejected
-            ];
-            //
-            let rowDataStr = $(event.target).closest("tr").attr("rowdata");
-            let rowDataObj = JSON.parse(rowDataStr);
-            let dataTarget = $(event.target).attr('data-target');
-            //the cols that need to be split
-            let customerInfoSplit = rowDataObj.customerInfo.split(":");
-            let polNo = customerInfoSplit[0];
-            let customerName = customerInfoSplit[1];
-            //===============
-            let assignmentInfoSplit = rowDataObj.assignmentInfo.split(":");
-            let assignmentStatus = assignmentInfoSplit[0];
-            let reasonOfExt = assignmentInfoSplit[1];
-            //
+          if($(event.target).hasClass(elem.className)){
+            if(elem.type === 'submit'){
+              elem.callback();
+            }else if(elem.type === 'modal'){
+              //app ext obj map
+              let extNumMapToText = [
+                "",//blank
+                "To be reviewed",//to be reviewed
+                "Approved",//approved
+                "Rejected" //rejected
+              ];
+              //
+              let rowDataStr = $(event.target).closest("tr").attr("rowdata");
+              let rowDataObj = JSON.parse(rowDataStr);
+              let dataTarget = $(event.target).attr('data-target');
+              //the cols that need to be split
+              let customerInfoSplit = rowDataObj.customerInfo.split(":");
+              let polNo = customerInfoSplit[0];
+              let customerName = customerInfoSplit[1];
+              //===============
+              let assignmentInfoSplit = rowDataObj.assignmentInfo.split(":");
+              let assignmentStatus = assignmentInfoSplit[0];
+              let reasonOfExt = assignmentInfoSplit[1];
+              //
 
-            switch(dataTarget){
-              case '#customerDetailModal':
-                this.currCustomerName = customerName;
-                this.currPhone = rowDataObj.phone;
-                this.currEmail = rowDataObj.email;
-                this.currAssignmentDt = rowDataObj.agentAssignmentDt;
+              switch(dataTarget){
+                case '#customerDetailModal':
+                  this.currCustomerName = customerName;
+                  this.currPhone = rowDataObj.phone;
+                  this.currEmail = rowDataObj.email;
+                  this.currAssignmentDt = rowDataObj.agentAssignmentDt;
 
-                this.customerDetailModalForm.controls['firstContactDt'].setValue(new Date(rowDataObj.firstContactDt));
-              break;
-              case '#leadExtensionModal':
-                this.currAssignmentStatus = assignmentStatus;
+                  //just act as a temp storage of `firstContactDt`
+                  //so as to determine if the input field of firstContactDt should display or not
+                  this.currFirstContactDt = rowDataObj.firstContactDt;
 
-                this.leadExtensionModalForm.controls['reasonOfExt'].setValue(reasonOfExt);
-                this.leadExtensionModalForm.controls['applicationExt'].setValue(extNumMapToText[rowDataObj.applicationExt - 1]);
-              break;
-              case '#upsellDetailModal':
-                this.currCustomerName = customerName;
+                  this.customerDetailModalForm.controls['firstContactDt'].setValue((rowDataObj.firstContactDt) ? new Date(rowDataObj.firstContactDt) : '');
+                break;
+                case '#leadExtensionModal':
+                  this.currAssignmentStatus = assignmentStatus;
+                  //applicationExt can only be read only
+                  this.currApplicationExt = (rowDataObj.applicationExt);
 
-                this.upsellDetailModalForm.controls['upsellLifeProd'].setValue(rowDataObj.upsellLifeProd);
-                this.upsellDetailModalForm.controls['upsellLifePolNo'].setValue(rowDataObj.upsellLifePolNo);
-                this.upsellDetailModalForm.controls['afyp'].setValue(rowDataObj.afyp);
-              break;
+                  //reasonOfExt can be either read only or write and read, depends on applied or to apply for
+                  this.currReasonOfExt = reasonOfExt;
+                  this.leadExtensionModalForm.controls['reasonOfExt'].setValue(reasonOfExt);
+                break;
+                case '#upsellDetailModal':
+                  this.currCustomerName = customerName;
+
+                  this.upsellDetailModalForm.controls['upsellLifeProd'].setValue(rowDataObj.upsellLifeProd);
+                  this.upsellDetailModalForm.controls['upsellLifePolNo'].setValue(rowDataObj.upsellLifePolNo);
+                  this.upsellDetailModalForm.controls['afyp'].setValue(rowDataObj.afyp);
+                break;
+              }
+              //in no matter which condition should polno be assigned as all post reqs need polno parameter
+              this.currPolNo = polNo;
             }
-            //in no matter which condition should polno be assigned as all post reqs need polno parameter
-            this.currPolNo = polNo;
           }
         });
       });
