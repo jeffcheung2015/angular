@@ -6,13 +6,12 @@ export default {
       AgentAssignCS: 'easAgentAssignCS',
       AgentDetail: 'easAgentDetail',
       CampaignDetail: 'easCampaignDetail',
+      ViewEmail: 'easViewEmail',
       //lead response
       AgentInterface:'easAgentInterface',
       APInterface:'easAPInterface',
       AOInterface:'easAOInterface',
-
-
-
+      
     },
     SearchRecordColumnName: [
     'Class', 'Policy No.', 'Prulife Pol. No.', 'Name of the Applicant',

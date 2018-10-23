@@ -81,6 +81,7 @@ import { AointerfaceComponent } from './components/aointerface/aointerface.compo
 import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
 import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
+import { ViewemailComponent } from './components/viewemail/viewemail.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { PddComponent } from './pages/pdd/pdd.component';
     LeadresponseComponent,
     EdmComponent,
     PddComponent,
+    ViewemailComponent,
   ],
   imports: [
     BrowserModule,

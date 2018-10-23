@@ -1,28 +1,34 @@
-<div class="table-wrapper table-responsive div-apUplineInterfaceDataTable">
-  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-apUplineInterface">
-    <thead>
-      <tr class="row1">
-          <th class="noscroll" *ngFor="let colName of displayedColumns">
-            {{colName}}
-          </th>
-      </tr>
-    </thead>
-  </table>
-  <div class="div-goToPage-showPerPage">
-    <div class="div-goToPage">
-      <span class="span-goToPage">Go to page</span>
-      <div class="div-goToPage_wrapper">
-        <input type="text" class="input-goToPage_left" [(ngModel)]="currPage" value="{{currPage}}"/>
-        <input type="text" class="input-goToPage_right" value="/ {{noOfPage}}" disabled/>
-        <input class="button-goToPage_go" value="GO" type="button" (click)="changeCurrTablePage(currPage)"/>
-      </div>
-    </div>
-    <ul class="ul-showPerPage">
-      <span>show</span>
-      <li><a [ngClass]="mapToLengthMenuNum[5]" (click)="changeTablePerPage(5)">5</a></li>
-      <li><a [ngClass]="mapToLengthMenuNum[10]" (click)="changeTablePerPage(10)">10</a></li>
-      <li><a [ngClass]="mapToLengthMenuNum[20]" (click)="changeTablePerPage(20)">20</a></li>
-      <span>per page</span>
-    </ul>
+<div class="div-apUplineInterfaceWrapper">
+
+  <div class="table-wrapper table-responsive div-apUplineInterfaceDataTable">
+    <table class="row-border hover table-apUplineInterface dataTable no-footer">
+      <thead>
+        <tr class="row1">
+            <th class="noscroll" *ngFor="let colName of displayedColumns">
+              {{colName}}
+            </th>
+        </tr>
+      </thead>
+      <tbody
+        *ngIf="!isLoading && displayedDataArray"
+        >
+        <tr *ngFor="let dataRow of displayedDataArray">
+          <td *ngFor="let key of objectKeys(dataRow)">
+            <span class="span-dataRow" *ngIf="dataRow[key]">
+              <ng-container *ngIf="key == 'assignmentDt'">{{dataRow[key] | date:'dd/MM/yyyy'}}</ng-container>
+              <ng-container *ngIf="key == 'assignmentStatus'">{{statusNumMapToText[dataRow[key]-1]}}</ng-container>
+              <ng-container *ngIf="key != 'assignmentDt' && key != 'assignmentStatus'">{{dataRow[key]}}</ng-container>
+            </span>
+            <span *ngIf="!dataRow[key]">-</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  <mat-progress-spinner
+    class="mat-progress-spinner-apUplineInterface"
+    *ngIf="isLoading"
+    color="primary"
+    mode="indeterminate"
+  ></mat-progress-spinner>
 </div>

@@ -1,10 +1,9 @@
 {
-  "name": "FN00685096 SN00685096",
-  "code": "00685096",
+  "name": "SAAM PDD Tester01",
+  "code": "utestpdd01",
   "menu":[
     "easAgentAssignGI",
     "easAgentDetail",
-    "easClientDetail",
     "easCampaignDetail",
     "easAgentInterface",
     "easAPInterface",

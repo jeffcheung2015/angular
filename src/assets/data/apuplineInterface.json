@@ -1,0 +1,227 @@
+{
+"data":[{
+  "agentCode":"00010031",
+  "agentName":"apldd",
+  "agentAssignmentDt":"2018-11-12T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010030",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010030",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010031",
+  "agentName":"apldd",
+  "agentAssignmentDt":"2018-11-12T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010030",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010030",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":"1"
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":"2"
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":"3"
+},{
+  "agentCode":"00010031",
+  "agentName":"apldd",
+  "agentAssignmentDt":"2018-11-12T04:29:15.239+0000",
+  "assignmentStatus":"4"
+},{
+  "agentCode":"00010030",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":"1"
+},{
+  "agentCode":"00010030",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":"2"
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":"3"
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":"4"
+},{
+  "agentCode":"00010029",
+  "agentName":"abcd",
+  "agentAssignmentDt":"2018-10-15T04:29:15.239+0000",
+  "assignmentStatus":"1"
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":"2"
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":"3"
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":"4"
+},{
+  "agentCode":"00010028",
+  "agentName":"qwert",
+  "agentAssignmentDt":"2018-10-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+},{
+  "agentCode":"00010027",
+  "agentName":"123123asdasd",
+  "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
+  "assignmentStatus":""
+}]}

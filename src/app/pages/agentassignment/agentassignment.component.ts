@@ -4,6 +4,7 @@ import { SearchrecordComponent } from '../../components/searchrecord/searchrecor
 import { DetailssearchrecordComponent } from '../../components/detailssearchrecord/detailssearchrecord.component';
 import { SearchcriteriaComponent } from '../../components/searchcriteria/searchcriteria.component';
 import { CampaigndetailsComponent } from '../../components/campaigndetails/campaigndetails.component';
+import { ViewemailComponent } from '../../components/viewemail/viewemail.component';
 import { get as _get, set as _set } from 'lodash';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -20,12 +21,13 @@ import { AgentassignmentService } from '../../services/agentassignment.service';
   styleUrls: ['./agentassignment.component.scss']
 })
 export class AgentassignmentComponent implements OnInit, AfterViewChecked,
- AfterViewInit, OnChanges {
+ AfterViewInit {
   //managing children component mutual reference in this component
   @ViewChild(SearchrecordComponent) searchRecordComponent;
   @ViewChild(DetailssearchrecordComponent) detailSearchRecordComponent;
   @ViewChild(SearchcriteriaComponent) searchCriteriaComponent;
   @ViewChild(CampaigndetailsComponent) campaignDetailsComponent;
+  @ViewChild(ViewemailComponent) viewemailComponent;
 
   popUpMsg : string;//for pruchat or sms btn
 
@@ -46,10 +48,6 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   setPopUpMsg(setVal){
     this.popUpMsg = setVal;
     console.log('setPopUpMsg', this.popUpMsg)
-  }
-
-  ngOnChanges(c){
-    console.log(c)
   }
 
   setCurrUrlAndSubPage(){

@@ -9068,7 +9068,7 @@ fieldset[disabled] .btn-alizarin-alt.active {
 }
 /* Containers */
 body {
-  padding-top: 40px;
+  /* padding-top: 40px; */
 }
 body.static-header {
   padding-top: 0;
@@ -15432,7 +15432,8 @@ ul.remarks-small li span {
 }
 
 #page-container{
-  min-height: 96.3%;
+  min-height: 93.2vh;
+  padding-top: 40px;
 }
 
 table thead tr{

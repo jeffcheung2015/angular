@@ -112,7 +112,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
 
   onSubmitSearchCriteria(){
     let fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,
-    agentCode,agentPhone,agentName, paramsToServer;
+    agentCode,agentPhone,agentName, queryParams;
     //angular form cannot read value of a select elm which is being controlled by div and jquery
     //has to use jquery to read the div value and overwrite the search criterias sent
     //to searchRecordComponent first
@@ -126,10 +126,10 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     }
     if(isAgentAssign){
       ({fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo} = this.searchForm.value);
-      paramsToServer = {fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};
+      queryParams = {fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};
     }else{
       ({agentCode, agentPhone, agentName} = this.searchForm.value);
-      paramsToServer = {agentCode, agentPhone, agentName};
+      queryParams = {agentCode, agentPhone, agentName};
     }
     //transform the raw date to formatted locale date string YYYY/MM/DD
     dateOfSubmissionFrom = !dateOfSubmissionFrom ? dateOfSubmissionFrom : new Date(dateOfSubmissionFrom).toLocaleDateString();
@@ -140,11 +140,11 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     [agentCode, agentPhone, agentName];
 
     let property = (isAgentAssign) ? "searchRecordComponent" : "detailSearchRecordComponent";
-
-    //request data from api via service
-    this.agentassignmentService.postSearchCriteriaRecord(paramsToServer,'searchCriteria').subscribe((resp : any) => {
-        console.log('resp : ', resp);
-    });
+    // console.log("queryParams:", queryParams)
+    // Object.keys(queryParams).forEach((elem, index)=>{
+    //   this[property].searchCriteria[index] = elem;
+    // })
+    console.log('searchCriteriaArr:', searchCriteriaArr)
 
     this[property].refreshAndReloadSearchRecordTable(searchCriteriaArr);
   }

@@ -306,7 +306,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             let closestTrObj = $(td).closest('tr');
             $(closestTrObj).attr("rowData", JSON.stringify(rowData));
 
-            html = optoutOrReassign ? `<span>` + customerName + `</span>` :
+            html = optoutOrReassign ? `<span ` + optOutReassignStyle + `>` + customerName + `</span>` :
              `<span>` + customerName + `</span>`;
             $(td).html(html);
             break;
@@ -367,7 +367,12 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
 
   aoInterfaceAjax(){ //agentCd as
     return (params, callback, settings) => {
-      this.dataTableAjaxSubscription = this.leadresponseService.getAgentInterfaceRecord(params, 'dataTable').subscribe((resp : any) => {
+      let unusedParams, draw, start, length;
+      ({draw, start, length, ...unusedParams} = params); //do without columns attr inside params
+      let queryParams = {
+        draw, start, length
+      };
+      this.dataTableAjaxSubscription = this.leadresponseService.getAgentInterfaceRecord(queryParams, 'dataTable').subscribe((resp : any) => {
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
         resp.body.data.forEach((elem,key)=>{

@@ -21,6 +21,7 @@ const appRoutes: Routes = [
   { path: 'easAgentAssignCS', component: AgentassignmentComponent },
   { path: 'easAgentDetail', component: AgentassignmentComponent },
   { path: 'easCampaignDetail', component: AgentassignmentComponent },
+  { path: 'easViewEmail', component: AgentassignmentComponent },
 
   { path: 'easAgentInterface', component: LeadresponseComponent },
   { path: 'easAPInterface', component: LeadresponseComponent },

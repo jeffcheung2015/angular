@@ -56,18 +56,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
      private router: Router,
      private renderer2: Renderer2) {
   }
-  /*@HostListener('window:resize', ['$event'])
-  onResize(event?) {
-    this.screenWidth = window.innerWidth;
-    console.log("New Screen width:" + window.innerWidth);
-    //this.dtOptions.fixedColumns.leftColumns = (this.screenWidth < 800) ? 1 : 5;
-    if(this.dTable.dtInstance){
-      this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
-    }
-  }*/
+
   ngOnChanges(){
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
@@ -77,7 +66,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
       {className : 'a-assignBtn', url: constants.route['AgentDetail']},
       {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
-      {className : 'a-viewEmail', url: "/viewEmail"},
+      {className : 'a-viewEmail', url: constants.route['ViewEmail']},
       {className : 'a-pruchatEmailBtn', callback: ()=>{this.showPopUpMsg("pruchat")} },
       {className : 'a-smsEmailBtn', callback: ()=>{this.showPopUpMsg("sms")}},
     ];
@@ -87,19 +76,18 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val, index)=>{
       colArr.push({
-        data:val,
-        width:(index == 19) ? '200px' : '5px'
+        data:val
       })
     });
     this.dtOptions = {
       fixedColumns: {
-        leftColumns: 5
+        leftColumns: 5,
+        heightMatch: 'auto'
       },
       responsive: true,
       pagingType: 'full_numbers',
       pageLength: 5,
       scrollX:true,
-      scrollY:true,
       columnDefs : this.agentAssignedColumnDef(),
       ajax : this.agentAssignedAjax(),
       processing: true,
@@ -330,7 +318,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               let dateData = new Date(data);
               tdhtml += `<p>` + convertDate(dateData, "withMins") + `</p>`;
             });
-            tdhtml += `<a class="a-viewEmail" href='viewEmail/` + rowData.lastEmailId + `'>View email</a>`;
+            tdhtml += `<a class="a-viewEmail" queryParams="lastEmailId:` + rowData.lastEmailId + `"'>View email</a>`;
           }else{
             tdhtml = 'N/A';
           }
@@ -341,11 +329,19 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   }
   agentAssignedAjax(){
     return (params, callback, settings) => {
+      let queryParams = {};
+      let draw, start, length, unusedParams;
+      ({draw, start, length, ...unusedParams} = params);
+      queryParams = {
+        draw, start, length
+      };
+      //put all the params from searchCriteria into queryParams
       this.searchCriterias.forEach((data, key)=>{
-        params[this.searchCriteriaFieldName[key]] = data;
+        if(data){
+          queryParams[this.searchCriteriaFieldName[key]] = data;
+        }
       });
-      this.agentassignmentService.getAgentAssignmentRecord(params, 'dataTable').subscribe((resp : any) => {
-          console.log('resp:', resp)
+      this.agentassignmentService.getAgentAssignmentRecord(queryParams, 'dataTable').subscribe((resp : any) => {
           this.noOfCustomer = resp.body.recordsFiltered;
           this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
 

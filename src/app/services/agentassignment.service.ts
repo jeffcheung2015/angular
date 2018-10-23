@@ -26,18 +26,12 @@ export class AgentassignmentService{
       case 'dataTable':
         sentParams =  {
           observe: "response",
-          params: {
-            draw: params.draw,
-            start: params.start,
-            length: params.length
-          }
+          params: params
         };
       break;
-      case 'searchCriteria':
       case 'sendParams':
-        sentParams =  {
-          ...params
-        };
+      case 'viewEmail':
+        sentParams = params
       break;
       case 'campaignDetails':
         sentParams =  {
@@ -45,6 +39,7 @@ export class AgentassignmentService{
         };
       break;
     }
+        console.log('#', sentParams)
     return (getOrPost === 'get') ? this.http.get(url, sentParams) : this.http.post(url, sentParams);
   }
   //dataTable
@@ -65,6 +60,13 @@ export class AgentassignmentService{
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/campaignDetail.json', params, 'get', type) :
             this.getOrPostFunc("/api/campaign/detail/" + params.campaignCode ,params, 'get', type);
   }
+  //viewEmail
+  getViewEmail(params, type){
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/email.json', params, 'get', type) :
+            this.getOrPostFunc("/api/viewemail/" + params.lastEmailId ,params, 'get', type);
+  }
+
   //sendParams
   postResetLeaveRecord(params, type){
     return this.getOrPostFunc('/submitOnLeave', params, 'post', type);
@@ -90,10 +92,6 @@ export class AgentassignmentService{
     return this.getOrPostFunc('/resendSMS', params, 'post', type);
 
   }
-  //searchCriteria
-  postSearchCriteriaRecord(params, type){
-    return this.getOrPostFunc('/searchCriteria', params, 'post', type);
 
-  }
 
 }

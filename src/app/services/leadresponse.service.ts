@@ -20,11 +20,7 @@ export class LeadresponseService {
       case 'dataTable':
         sentParams =  {
           observe: "response",
-          params: {
-            draw: params.draw,
-            start: params.start,
-            length: params.length
-          }
+          params: params
         };
       break;
       case 'sendParams':
@@ -48,10 +44,10 @@ export class LeadresponseService {
             this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
   }
   //dataTable
-  getapUplineInterfaceRecord(params, type){
+  getapUplineInterfaceRecord(){
     return (constants.localOrVm === 'local') ?
-            this.getOrPostFunc('http://localhost:4200/eas/assets/data/apUplineInterface.json', params, 'get', type) :
-            this.getOrPostFunc("/eas/api/leadresp/getAgentInterfaceList",params, 'get', type);
+            this.http.get("http://localhost:4200/eas/assets/data/apuplineInterface.json", {}) :
+            this.http.get("/eas/api/leadresp/getAgentInterfaceList", {});
   }
 
   postCustomerDtlRecord(params, type){

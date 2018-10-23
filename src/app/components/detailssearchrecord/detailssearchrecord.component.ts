@@ -350,10 +350,19 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   }
   agentDetailsAjax(){
     return (params, callback, settings) => {
+      let queryParams = {};
+      let draw, start, length, unusedParams;
+      ({draw, start, length, ...unusedParams} = params);
+      queryParams = {
+        draw, start, length
+      };
+      //put all the params from searchCriteria into queryParams
       this.searchCriterias.forEach((data, key)=>{
-        params[this.searchCriteriaFieldName[key]] = data;
+        if(data){
+          queryParams[this.searchCriteriaFieldName[key]] = data;
+        }
       });
-      this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(params, 'dataTable').subscribe((resp : any) => {
+      this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(queryParams, 'dataTable').subscribe((resp : any) => {
         this.noOfRenewals = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
         //preprocessing the resp.body.data

@@ -314,6 +314,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
         let polNo = customerInfoSplit[0];
         let customerName = customerInfoSplit[1];
         let assignmentStatus = assignmentInfoSplit[0];
+        let showExt = assignmentInfoSplit[1];
 
         //funcs
         let convertDate = (date, minsOpt) => {
@@ -363,9 +364,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
 
             if(col == 7 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
-              let datDiff : number = (new Date().getTime() - new Date(rowData.agentAssignmentDt).getTime()) / (86400000); //24*60*60*1000ms
-
-              if(rowData.upsellLifePolNo === '' && datDiff > 150){ //5 months  5*30 days
+              if(rowData.upsellLifePolNo === '' && showExt === 'true'){ //5 months  5*30 days
                 html += `<a class="a-modalLink" ` + cursorStyle + `data-toggle="modal" data-target="#leadExtensionModal" ` + `>To apply for extension</a>`;
               }
               else{
@@ -397,18 +396,24 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   }
   agentInterfaceAjax(){ //agentCd as
     return (params, callback, settings) => {
-      this.dataTableAjaxSubscription = this.leadresponseService.getAgentInterfaceRecord(params, 'dataTable').subscribe((resp : any) => {
+      let unusedParams, draw, start, length;
+      ({draw, start, length, ...unusedParams} = params); //do without columns attr inside params
+      let queryParams = {
+        draw, start, length
+      };
+      this.dataTableAjaxSubscription = this.leadresponseService.getAgentInterfaceRecord(queryParams, 'dataTable').subscribe((resp : any) => {
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
         resp.body.data.forEach((elem,key)=>{
           //separate some unwanted params from other params
-          let polNo, customerName, reasonOfExt, assignmentStatus, restAttrObj;
-          ({polNo, customerName, reasonOfExt, assignmentStatus, ...restAttrObj} = elem);
+          let polNo, customerName, reasonOfExt, assignmentStatus, showExt, restAttrObj;
+          ({polNo, customerName, reasonOfExt, assignmentStatus, showExt, ...restAttrObj} = elem);
 
           //customerInfo put both polNo and customerName into one col and later be processed in agentInterfaceColumnDef
           let customerInfo = (polNo ? polNo : '') + ":" + (customerName ? customerName : '');
           //assignmentInfo put both reasonOfExt and assignmentStatus into one col and later be processed in agentInterfaceColumnDef
-          let assignmentInfo = (assignmentStatus ? assignmentStatus : '') + ":" + (reasonOfExt ? reasonOfExt : '');
+          let assignmentInfo = (assignmentStatus ? assignmentStatus : '') + ":" +
+           (showExt ? showExt : '') + ":" + (reasonOfExt ? reasonOfExt : '');
 
           restAttrObj['customerInfo'] = customerInfo;
           restAttrObj['assignmentInfo'] = assignmentInfo;

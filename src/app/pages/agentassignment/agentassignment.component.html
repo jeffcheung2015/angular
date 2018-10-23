@@ -7,7 +7,9 @@
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
               <a href="javascript:;">Home</a>
             </li>
-            <li *ngIf="currSubPage=='easAgentAssignGI' || currSubPage =='easAgentAssignCS' || currSubPage=='easAgentDetail' || currSubPage == 'easCampaignDetail'"
+            <li *ngIf="currSubPage=='easAgentAssignGI' || currSubPage =='easAgentAssignCS' ||
+                       currSubPage=='easAgentDetail' || currSubPage == 'easCampaignDetail' ||
+                       currSubPage=='easViewEmail'"
                 [ngClass]="currSubPage=='easAgentAssignGI' || currSubPage=='easAgentAssignCS' ? 'active' : ''">
               <a routerLink="/{{agentassignmentService.currServiceName}}" (click)="changeCurrSubPage(agentassignmentService.currServiceName)">Agent Assignment</a>
             </li>
@@ -17,14 +19,17 @@
             <li *ngIf="currSubPage=='easCampaignDetail'" [ngClass]="currSubPage=='easCampaignDetail' ? 'active' : ''">
               <a>Campaign Details</a>
             </li>
+            <li *ngIf="currSubPage=='easViewEmail'" [ngClass]="currSubPage=='easViewEmail' ? 'active' : ''">
+              <a>View Email</a>
+            </li>
           </ol>
         </div>
       </div>
       <app-searchcriteria
-      *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS' || currSubPage == 'easAgentDetail'"
-      [currSubPage]="currSubPage"
-      ></app-searchcriteria>
-
+        *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS' || currSubPage == 'easAgentDetail'"
+        [currSubPage]="currSubPage"
+      >
+      </app-searchcriteria>
       <div class="row">
         <div class="col-md-12">
           <div class="panel">
@@ -32,28 +37,32 @@
               <div class="row">
                 <div class="col-md-12 clearfix">
                   <app-searchrecord
-                  *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS'"
-                  [setPopUpMsg]="setPopUpMsg"
-                  [popUpMsg]="popUpMsg"
-                  >
-                </app-searchrecord>
-                <app-detailssearchrecord
-                *ngIf="currSubPage == 'easAgentDetail'"
-                >
-              </app-detailssearchrecord>
-              <app-campaigndetails
-              *ngIf="currSubPage == 'easCampaignDetail'"
-              [gobackRouteLink]="agentassignmentService.currServiceName"
-              [campaignDetailObj]="campaignDetailObj"
-              >
-            </app-campaigndetails>
+                    *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS'"
+                    [setPopUpMsg]="setPopUpMsg"
+                    [popUpMsg]="popUpMsg"
+                    >
+                  </app-searchrecord>
+                  <app-detailssearchrecord
+                    *ngIf="currSubPage == 'easAgentDetail'"
+                    >
+                  </app-detailssearchrecord>
+                  <app-campaigndetails
+                    *ngIf="currSubPage == 'easCampaignDetail'"
+                    [gobackRouteLink]="agentassignmentService.currServiceName"
+                    [campaignDetailObj]="campaignDetailObj"
+                    >
+                  </app-campaigndetails>
+                  <app-viewemail
+                    *ngIf="currSubPage == 'easViewEmail'"
+                    >
+                  </app-viewemail>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
-</div> <!-- container -->
-</div> <!--wrap -->
+    </div> <!-- container -->
+  </div> <!--wrap -->
 </div> <!-- page-content -->
