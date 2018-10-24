@@ -1,6 +1,6 @@
 //module
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpClientModule, HttpClient  } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from "./app.routing.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,6 +8,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -82,6 +83,11 @@ import { LeadresponseComponent } from './pages/leadresponse/leadresponse.compone
 import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
 import { ViewemailComponent } from './components/viewemail/viewemail.component';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -126,8 +132,14 @@ import { ViewemailComponent } from './components/viewemail/viewemail.component';
     BrowserAnimationsModule,
     DataTablesModule,
     FormsModule,ReactiveFormsModule,
-    NgbDatepickerModule
-
+    NgbDatepickerModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: (createTranslateLoader),
+          deps: [HttpClient]
+      }
+    })
   ],
   providers: [PddcampaigntransactionService, PddcampaignService,
     AgentassignmentService, LayoutService,LeadresponseService,

@@ -33,7 +33,8 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
 
   campaignDetailObj;
 
-  constructor(private router :Router,
+  constructor(
+    private router :Router,
      private agentassignmentService : AgentassignmentService) { }
 
   ngOnInit() {

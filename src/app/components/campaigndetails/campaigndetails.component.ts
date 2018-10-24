@@ -30,13 +30,13 @@ export class CampaigndetailsComponent implements OnInit {
 
   constructor(
      private router: Router,
-     private aRoute : ActivatedRoute,
+     private activatedRoute : ActivatedRoute,
      private agentassignmentService : AgentassignmentService
    ) { }
 
   ngOnInit() {
-    let campaignCode = _get(this.aRoute, 'snapshot.queryParams.campaignCode', '');
-    if(campaignCode == ''){
+    let campaignCode = _get(this.activatedRoute, 'snapshot.queryParams.campaignCode', '');
+    if(campaignCode == ''){//to prevent user entering empty campaignCode by redirecting them back to the go back route link
       this.router.navigate(['/'+this.gobackRouteLink]); //redirect back to agentassignGI/CS page
     }else{
       let sentParams = {

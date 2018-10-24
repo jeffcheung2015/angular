@@ -15,6 +15,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import constants from '../../constants/constants';
 import convertformat from '../../utils/convertformat';
 
+import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
+
 @Component({
   selector: 'app-agentinterface',
   templateUrl: './agentinterface.component.html',
@@ -23,7 +25,7 @@ import convertformat from '../../utils/convertformat';
 export class AgentinterfaceComponent implements OnInit, OnDestroy,
  AfterViewInit,AfterViewChecked,OnChanges {
 
-  displayedColumns : string[] = constants["AgentInterfaceColumnName"];
+  //displayedColumns : string[] = constants["AgentInterfaceColumnName"];
   displayedColumnsName : string[] = constants["AgentInterfaceColumnField"];
 
   //for displaying data in modal in 3 different modals [Customer Details, Lead extension, Upsell Details]
@@ -47,6 +49,9 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
      afyp : new FormControl('')
   });
   //
+  //fetching the translated data['LEAD_RESPONSE_COMMON'] obj from en.json / zh.json
+  translateLeadRespCommon: object;
+  translateDatatableConstants : object;
 
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
@@ -55,8 +60,6 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
 
   noOfPage : number;
   currPage : number = 1;
-
-  screenWidth: number;
 
   currSelectedAgentCode: string= "";
 
@@ -70,18 +73,43 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   };
   //subscription
   dataTableAjaxSubscription;
-  //
+  translateOnLangChangeSubscription;
+
   constructor(
      private leadresponseService : LeadresponseService,
      private http: HttpClient,
-     private renderer2 : Renderer2
-   ) {}
+     private renderer2 : Renderer2,
+     public translateService : TranslateService
+   ) {
+     this.translateOnLangChangeSubscription = translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+       //for updting the variables inside the datatable with the correct language
+       this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+       this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
+       if(_get(window, 'easLang') !== event.lang){
+         this.refreshTable();
+       }
+       _set(window, 'easLang', event.lang);//tmply store lang into easLang attr of window
+     });
+
+     this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+     this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
+   }
 
   ngOnChanges(){
     this.currSelectedAgentCode = "";
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
+
+  loadObjFromLangJson(path, storeVarStr){
+    this.translateService.get(path).subscribe((resp : any)=>{
+      this[storeVarStr] = resp;
+    })
+  }
+
   ngOnInit() {
+    this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+    this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
+    let easLang = this.translateService.currentLang;
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     //this.searchCriteriaComponent.setSearchRecordComponent(this);
     let colArr = [], dataArr = [];
@@ -102,10 +130,10 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       language: {
         info: "",
         paginate: {
-          first:    '« first',
-          previous: '‹ prev',
-          next:     'next ›',
-          last:     'last »'
+          first:    (easLang === 'en') ? '« first' : '« 第一頁',
+          previous: (easLang === 'en') ? '‹ prev' : '‹ 上一頁',
+          next:     (easLang === 'en') ? 'next ›' : '下一頁 ›',
+          last:     (easLang === 'en') ? 'last »' : '最後頁 »'
         },
         //display none length Menu and add a new custom menu
         // to change the hidden length menu
@@ -169,7 +197,6 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     }, (error) => console.log(error));
   }
 
-  //called outside of this component
   refreshTable(){
     let dTableInstance = _get(this.dTable, "dtInstance");
     if(dTableInstance){
@@ -213,12 +240,6 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
               elem.callback();
             }else if(elem.type === 'modal'){
               //app ext obj map
-              let extNumMapToText = [
-                "",//blank
-                "To be reviewed",//to be reviewed
-                "Approved",//approved
-                "Rejected" //rejected
-              ];
               //
               let rowDataStr = $(event.target).closest("tr").attr("rowdata");
               let rowDataObj = JSON.parse(rowDataStr);
@@ -230,7 +251,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
               //===============
               let assignmentInfoSplit = rowDataObj.assignmentInfo.split(":");
               let assignmentStatus = assignmentInfoSplit[0];
-              let reasonOfExt = assignmentInfoSplit[1];
+              let reasonOfExt = assignmentInfoSplit[2];
               //
 
               switch(dataTarget){
@@ -250,7 +271,6 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
                   this.currAssignmentStatus = assignmentStatus;
                   //applicationExt can only be read only
                   this.currApplicationExt = (rowDataObj.applicationExt);
-
                   //reasonOfExt can be either read only or write and read, depends on applied or to apply for
                   this.currReasonOfExt = reasonOfExt;
                   this.leadExtensionModalForm.controls['reasonOfExt'].setValue(reasonOfExt);
@@ -273,8 +293,8 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   }
   ngOnDestroy(){
     this.dtTrigger.unsubscribe();
+    this.translateOnLangChangeSubscription.unsubscribe();
     this.dataTableAjaxSubscription.unsubscribe();
-
   }
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
@@ -308,6 +328,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       targets: "_all",
       orderable: false,
       createdCell: function (td, cellData, rowData, row, col) {
+        let easLang = window['easLang'];
         //datatable data [need to be preprocessed first]
         let customerInfoSplit = rowData.customerInfo.split(":");
         let assignmentInfoSplit = rowData.assignmentInfo.split(":");
@@ -327,7 +348,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
 
         //those fields that has assignmentstatus as Optout / reassigned need to be specially handled.
         //customerName, applicationStatus and applicationExt gray in color, cs remarks can be viewed
-        let optoutOrReassign = ["3", "4"].includes(assignmentStatus);
+        let optoutOrReassign = ["3", "4"].indexOf(assignmentStatus) !== -1;
         let isRejected = rowData.applicationExt === '4';
 
         let html = ``;
@@ -343,29 +364,24 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             $(td).html(html);
             break;
           case 3:case 5:case 6:
-            html = (cellData && !optoutOrReassign) ? convertDate(new Date(cellData), 'withoutMins') : '<span></span>';
+            html = (cellData && !optoutOrReassign) ? convertDate(new Date(cellData.substr(0,10)), 'withoutMins') : '<span></span>';
             $(td).html(html);
             break;
           case 7:case 8:
             html = ``;
-            let statusNumMapToText = [
-              "",//blank
-              "Applied for extension",//applied extension
-              "Opt-out from this program",//opt out
-              "Re-assigned" //reassigned
-            ];
-            let extNumMapToText = [
-              "",//blank
-              "To be reviewed",//to be reviewed
-              "Approved",//approved
-              "Rejected" //rejected
-            ];
+            let statusNumMapToText = (easLang === 'en') ?
+              ["","Applied for extension","Opt-out from this program","Re-assigned"] :
+              ["","已申請延長","拒絕顧問聯絡","已另派顧問"]
+            let extNumMapToText = (easLang === 'en') ?
+              ["","To be reviewed","Approved","Rejected"] :
+              ["","待部門審閱","已批准延長","申請被拒絕" ];
+            let toApplyForExTxt = (easLang === 'en') ? "To apply for extension" : "申請延長";
             cellData = (col == 7) ? assignmentStatus : cellData; //reassign back the extracted assignmentstatus to cellData for col == 7
             let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
 
             if(col == 7 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
               if(rowData.upsellLifePolNo === '' && showExt === 'true'){ //5 months  5*30 days
-                html += `<a class="a-modalLink" ` + cursorStyle + `data-toggle="modal" data-target="#leadExtensionModal" ` + `>To apply for extension</a>`;
+                html += `<a class="a-modalLink" ` + cursorStyle + `data-toggle="modal" data-target="#leadExtensionModal" ` + `>` + toApplyForExTxt + `</a>`;
               }
               else{
                 html += `<span></span>`;
@@ -382,7 +398,12 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             break;
           case 10:case 11:case 12:
             let aPromptText = ``;
-            aPromptText = (cellData) ? cellData : ('Please input ' + ((col == 10) ? 'Pol' : (col == 11) ? 'Product' : 'Afyp'));
+            let colPosToPrompTxt = {
+              10: (easLang === 'en') ? 'Please input Pol no.' : '請填寫保單號碼',
+              11: (easLang === 'en') ? 'Please input Product name' : '請填寫壽險產品',
+              12: (easLang === 'en') ? 'Please input AFYP' : '請填寫 AFYP'
+            }
+            aPromptText = (cellData) ? cellData : colPosToPrompTxt[col];
             html = (optoutOrReassign) ? `<span></span>` :
                     (`<a class="a-modalLink" ` + cursorStyle + ` data-toggle="modal" data-target="#upsellDetailModal">` + aPromptText + `</a>`);
             $(td).html(html);

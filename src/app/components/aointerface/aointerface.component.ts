@@ -12,6 +12,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
 
 import constants from '../../constants/constants';
 
@@ -24,7 +25,7 @@ import constants from '../../constants/constants';
 export class AointerfaceComponent implements OnInit, OnDestroy,
  AfterViewInit,AfterViewChecked,OnChanges {
 
-  displayedColumns : string[] = constants["AOInterfaceColumnName"];
+  //displayedColumns : string[] = constants["AOInterfaceColumnName"];
   displayedColumnsName : string[] = constants["AOInterfaceColumnField"];
 
   //for displaying data in modal in 3 different sub pages [Customer Details, Lead extension, Upsell Details]
@@ -54,11 +55,13 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   noOfPage : number;
   currPage : number = 1;
 
-  screenWidth: number;
-
   currSelectedAgentCode: string= "";
 
   dataTableSettings;//for changing table pages in gotopage
+
+  //fetching the translated data['LEAD_RESPONSE_COMMON'] obj from en.json / zh.json
+  translateLeadRespCommon: object;
+  translateDatatableConstants : object;
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
@@ -68,18 +71,39 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   };
   //subscription
   dataTableAjaxSubscription;
-  //
+  translateOnLangChangeSubscription;
   constructor(
      private leadresponseService : LeadresponseService,
      private http: HttpClient,
-     private renderer2 : Renderer2
-   ) {}
+     private renderer2 : Renderer2,
+     public translateService: TranslateService
+   ) {
+     this.translateOnLangChangeSubscription = translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+       //for updting the variables inside the datatable with the correct language
+       this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+       this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
+       if(_get(window, 'easLang') !== event.lang){
+         this.refreshTable();
+       }
+       _set(window, 'easLang', event.lang);//tmply store lang into easLang attr of window
+     });
 
+     this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+     this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
+   }
+   loadObjFromLangJson(path, storeVarStr){
+     this.translateService.get(path).subscribe((resp : any)=>{
+       this[storeVarStr] = resp;
+     })
+   }
   ngOnChanges(){
     this.currSelectedAgentCode = "";
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
   ngOnInit() {
+    let easLang = this.translateService.currentLang;
+    this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+    this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     //this.searchCriteriaComponent.setSearchRecordComponent(this);
     let colArr = [], dataArr = [];
@@ -100,10 +124,10 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       language: {
         info: "",
         paginate: {
-          first:    '« first',
-          previous: '‹ prev',
-          next:     'next ›',
-          last:     'last »'
+          first:    (easLang === 'en') ? '« first' : '« 第一頁',
+          previous: (easLang === 'en') ? '‹ prev' : '‹ 上一頁',
+          next:     (easLang === 'en') ? 'next ›' : '下一頁 ›',
+          last:     (easLang === 'en') ? 'last »' : '最後頁 »'
         },
         //display none length Menu and add a new custom menu
         // to change the hidden length menu
@@ -126,6 +150,16 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     ];
   }
 
+  refreshTable(){
+    let dTableInstance = _get(this.dTable, "dtInstance");
+    if(dTableInstance){
+      dTableInstance.then((dtInstance: DataTables.Api) => {
+        //redraw table only need these 2 funcs
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
+  }
   setCustomerDtl(){
     let queryParams = {
       firstContactDt: this.customerDetailModalForm.controls['firstContactDt'].value,
@@ -243,8 +277,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   }
   ngOnDestroy(){
     this.dtTrigger.unsubscribe();
+    this.translateOnLangChangeSubscription.unsubscribe();
     this.dataTableAjaxSubscription.unsubscribe();
-
   }
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
@@ -278,12 +312,14 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       targets: "_all",
       orderable: false,
       createdCell: function (td, cellData, rowData, row, col) {
+        let easLang = window['easLang'];
         //datatable data [need to be preprocessed first]
         let customerInfoSplit = rowData.customerInfo.split(":");
         let assignmentInfoSplit = rowData.assignmentInfo.split(":");
         let polNo = customerInfoSplit[0];
         let customerName = customerInfoSplit[1];
         let assignmentStatus = assignmentInfoSplit[0];
+        let showExt = assignmentInfoSplit[1];
 
         //funcs
         let convertDate = (date, minsOpt) => {
@@ -296,7 +332,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
 
         //those fields that has assignmentstatus as Optout / reassigned need to be specially handled.
         //customerName, applicationStatus and applicationExt gray in color, cs remarks can be viewed
-        let optoutOrReassign = ["3", "4"].includes(assignmentStatus);
+        let optoutOrReassign = ["3", "4"].indexOf(assignmentStatus) !== -1;
         let isRejected = rowData.applicationExt === '4';
 
         let html = ``;
@@ -311,31 +347,24 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             $(td).html(html);
             break;
           case 3:case 5:case 6:
-            html = (cellData && !optoutOrReassign) ? convertDate(new Date(cellData), 'withoutMins') : '<span></span>';
+            html = (cellData && !optoutOrReassign) ? convertDate(new Date(cellData.substr(0,10)), 'withoutMins') : '<span></span>';
             $(td).html(html);
             break;
           case 7:case 8:
             html = ``;
-            let statusNumMapToText = [
-              "",//blank
-              "Applied for extension",//applied extension
-              "Opt-out from this program",//opt out
-              "Re-assigned" //reassigned
-            ];
-            let extNumMapToText = [
-              "",//blank
-              "To be reviewed",//to be reviewed
-              "Approved",//approved
-              "Rejected" //rejected
-            ];
+            let statusNumMapToText = (easLang === 'en') ?
+              ["","Applied for extension","Opt-out from this program","Re-assigned"] :
+              ["","已申請延長","拒絕顧問聯絡","已另派顧問"]
+            let extNumMapToText = (easLang === 'en') ?
+              ["","To be reviewed","Approved","Rejected"] :
+              ["","待部門審閱","已批准延長","申請被拒絕" ];
             cellData = (col == 7) ? assignmentStatus : cellData; //reassign back the extracted assignmentstatus to cellData for col == 7
             let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
 
             if(col == 7 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
-              let datDiff : number = (new Date().getTime() - new Date(rowData.agentAssignmentDt).getTime()) / (86400000); //24*60*60*1000ms
-
-              if(rowData.upsellLifePolNo === '' && datDiff > 150){ //5 months  5*30 days
-                html += `<span>To apply for extension</span>`;
+              if(rowData.upsellLifePolNo === '' && showExt === 'true'){ //5 months  5*30 days
+                html += `<span>` +
+                ((easLang === "en") ? `To apply for extension` : `申請延長`) + `</span>`;
               }
               else{
                 html += `<span></span>`;
@@ -377,13 +406,14 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
         let resArr = {data: Array<any>()};
         resp.body.data.forEach((elem,key)=>{
           //separate some unwanted params from other params
-          let polNo, customerName, reasonOfExt, assignmentStatus, restAttrObj;
-          ({polNo, customerName, reasonOfExt, assignmentStatus, ...restAttrObj} = elem);
+          let polNo, customerName, reasonOfExt, assignmentStatus, showExt, restAttrObj;
+          ({polNo, customerName, reasonOfExt, assignmentStatus, showExt, ...restAttrObj} = elem);
 
           //customerInfo put both polNo and customerName into one col and later be processed in agentInterfaceColumnDef
           let customerInfo = (polNo ? polNo : '') + ":" + (customerName ? customerName : '');
-          //assignmentInfo put both reasonOfExt and assignmentStatus into one col and later be processed in agentInterfaceColumnDef
-          let assignmentInfo = (assignmentStatus ? assignmentStatus : '') + ":" + (reasonOfExt ? reasonOfExt : '');
+          //assignmentInfo put both reasonOfExt and assignmentStatus into one col and later be processed in agentInterfaceColumnD
+          let assignmentInfo = (assignmentStatus ? assignmentStatus : '') + ":" +
+           (showExt ? showExt : '') + ":" + (reasonOfExt ? reasonOfExt : '');
 
           restAttrObj['customerInfo'] = customerInfo;
           restAttrObj['assignmentInfo'] = assignmentInfo;

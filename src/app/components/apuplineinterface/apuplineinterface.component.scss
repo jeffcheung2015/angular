@@ -2,7 +2,12 @@
   min-height: 500px;
   .div-apUplineInterfaceDataTable{
     text-align: center;
-
+    .h4-tableHeader{
+      float: left;
+      color:black;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
 
     .table-apUplineInterface{
       width: 100% !important;

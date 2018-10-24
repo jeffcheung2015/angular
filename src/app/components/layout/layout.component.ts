@@ -80,15 +80,14 @@ export class LayoutComponent implements OnInit {
   ngOnInit() {
     this.layoutService.getLeftSideBarMenu({}, 'menuApi').subscribe((resp : any) =>{
         resp.body.menu.forEach((elem)=>{
-          if(!this.ignoredMenu.includes(elem)){ //non detail pages
-            if(['easAgentAssignCS', 'easAgentAssignGI', 'easEDM'].includes(elem)){
+          if(this.ignoredMenu.indexOf(elem) === -1){ //non detail pages
+            if(['easAgentAssignCS', 'easAgentAssignGI', 'easEDM'].indexOf(elem) !== -1){
               this[this.mapMenuLinkToTab[elem]].link = '/'+elem;
-              if(['easAgentAssignCS', 'easAgentAssignGI'].includes(elem)){
+              if(['easAgentAssignCS', 'easAgentAssignGI'].indexOf(elem) !== -1){
                 //store in it so that later be used in other component
                 this.agentassignmentService.currServiceName = elem;
               }
-            }
-            else{
+            }else{
               this[this.mapMenuLinkToTab[elem]].children.push(
                 {
                   title: this.mapSubmenuToTitle[elem],

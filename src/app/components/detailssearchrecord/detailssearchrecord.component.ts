@@ -214,7 +214,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
           if($(event.target).hasClass(elem.className)){
             //add, select, reset btn that is inside the tr row
             //only these btns have the info of the closest tr for setting currently selected row
-            if(['setCurrRow', 'setCurrRowAndSubmit'].includes(elem.type)){
+            if(['setCurrRow', 'setCurrRowAndSubmit'].indexOf(elem.type) !== -1){
               let rowDataStr = $(event.target).closest("tr").attr("rowdata");
               let rowDataObj = JSON.parse(rowDataStr);
               let leaveId = rowDataObj.onLeave ? rowDataObj.onLeave.split(":")[0] : null;

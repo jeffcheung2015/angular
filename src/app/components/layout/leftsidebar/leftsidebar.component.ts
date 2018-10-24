@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import {isEmpty as _isEmpty} from 'lodash';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import {TranslateService} from '@ngx-translate/core';
+import { set as _set } from 'lodash';
 
 @Component({
   selector: 'app-leftsidebar',
@@ -19,7 +21,16 @@ export class LeftsidebarComponent implements OnInit {
   @Input() usercode: string;
   currDate: Date;
 
-  constructor(private router :Router) { }
+  constructor(
+    private router :Router,
+    public translateService: TranslateService
+  ) {
+
+  }
+
+  changeLang(lang){
+    this.translateService.use(lang);    
+  }
 
   ngOnInit() {
     this.currDate = new Date();

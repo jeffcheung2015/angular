@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
-  AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
+  AfterViewChecked, Renderer2, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 //import { MatPaginator, MatTableDataSource } from '@angular/material';
 //import {DataSource} from '@angular/cdk/collections';
@@ -9,7 +9,7 @@ import { LeadresponseService } from '../../services/leadresponse.service';
 
 import {get as _get, set as _set, sortBy as _sortBy} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-
+import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
 import constants from '../../constants/constants';
 
 @Component({
@@ -18,9 +18,9 @@ import constants from '../../constants/constants';
   styleUrls: ['./apuplineinterface.component.scss']
 })
 export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
- AfterViewInit,AfterViewChecked,OnChanges {
+ AfterViewInit,AfterViewChecked {
   currSubPage : string;
-  displayedColumns : Array<string> = constants["APUplineInterfaceColumnName"];
+  //displayedColumns : Array<string> = constants["APUplineInterfaceColumnName"];
   displayedColumnsField : Array<string> = constants["APUplineInterfaceColumnField"];
   isLoading : boolean = true;
   //class to function it should trigger
@@ -31,25 +31,34 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
   }>;
   displayedDataArray : Array<any>;
 
-
   objectKeys = Object.keys; // for looping over all the keys the displayedDataArray's elem
 
-  statusNumMapToText = [
-    "",//blank
-    "Applied for extension",//applied extension
-    "Opt-out from this program",//opt out
-    "Re-assigned" //reassigned
-  ];;
+  statusNumMapToTextEN = ["","Applied for extension","Opt-out from this program","Re-assigned" ];
+  statusNumMapToTextZH = ["","已申請延長","拒絕顧問聯絡","已另派顧問"];
+
+  currLang : string;
+  //fetching the translated data['LEAD_RESPONSE_COMMON'] obj from en.json / zh.json
+  translateLeadRespCommon;
 
   constructor(
      private leadresponseService : LeadresponseService,
      private http: HttpClient,
-     private renderer2 : Renderer2
-   ) {}
-  ngOnChanges(){
-
-  }
-  ngOnInit() {
+     private renderer2 : Renderer2,
+     public translateService: TranslateService
+   ) {
+     translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+       _set(window, 'easLang', event.lang); //keep track of curr supported page even this comp doesnt use it
+       this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+       this.currLang = event.lang;
+     });
+   }
+   loadObjFromLangJson(path, storeVarStr){
+     this.translateService.get(path).subscribe((resp : any)=>{
+       this[storeVarStr] = resp;
+     })
+   }
+  ngOnInit() {    
+    this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
     this.classToTrigger =  [
       {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
       //

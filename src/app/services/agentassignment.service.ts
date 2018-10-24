@@ -39,7 +39,6 @@ export class AgentassignmentService{
         };
       break;
     }
-        console.log('#', sentParams)
     return (getOrPost === 'get') ? this.http.get(url, sentParams) : this.http.post(url, sentParams);
   }
   //dataTable
@@ -58,38 +57,38 @@ export class AgentassignmentService{
   getCampaignDetail(params, type){
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/campaignDetail.json', params, 'get', type) :
-            this.getOrPostFunc("/api/campaign/detail/" + params.campaignCode ,params, 'get', type);
+            this.getOrPostFunc("/eas/api/campaign/detail/" + params.campaignCode ,params, 'get', type);
   }
   //viewEmail
   getViewEmail(params, type){
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/email.json', params, 'get', type) :
-            this.getOrPostFunc("/api/viewemail/" + params.lastEmailId ,params, 'get', type);
+            this.getOrPostFunc("/eas/api/agent/viewemail/" + params.lastEmailId ,params, 'get', type);
   }
 
   //sendParams
   postResetLeaveRecord(params, type){
-    return this.getOrPostFunc('/submitOnLeave', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
 
   }
   //sendParams
   postSaveLeaveRecord(params, type){
-    return this.getOrPostFunc('/submitOnLeave', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
 
   }
   //sendParams
   postSelectYesLeaveRecord(params, type){
-    return this.getOrPostFunc('/assignAgent', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/agent/assignAgent', params, 'post', type);
 
   }
   //sendParams
   postResendPruchat(params, type){
-    return this.getOrPostFunc('/resendPruchat', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/agent/resendToAgent', params, 'post', type);
 
   }
   //sendParams
   postResendSMS(params, type){
-    return this.getOrPostFunc('/resendSMS', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/agent/resendToCust', params, 'post', type);
 
   }
 

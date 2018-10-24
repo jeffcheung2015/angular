@@ -11,7 +11,7 @@ export default {
       AgentInterface:'easAgentInterface',
       APInterface:'easAPInterface',
       AOInterface:'easAOInterface',
-      
+
     },
     SearchRecordColumnName: [
     'Class', 'Policy No.', 'Prulife Pol. No.', 'Name of the Applicant',
@@ -31,17 +31,13 @@ export default {
     "Last Assignment Date","Assign", "On Leave"],
     DetailSearchRecordColumnField:["agentCode","agentName","email",
     "agentPhone","lastAssignDate","assign", "onLeave"],
-    AgentInterfaceColumnName:["Customer Name", "Phone", "Email", "Submission Date", "Product",
-    "Date of Assignment", "First Contact", "Assignment Status", "Application of Extension",
-    "CS Remarks", "Upsell Life Pol No", "Upsell Life Product", "AFYP (HK$)"],
+  
     AgentInterfaceColumnField:["customerInfo", "phone", "email", "submissionDt", "prod",
     "agentAssignmentDt", "firstContactDt", "assignmentInfo", "applicationExt",
     "csRemarks", "upsellLifePolNo", "upsellLifeProd", "afyp"],
-    APUplineInterfaceColumnName:["Agent Code", "Agent Name", "Date of Assignment", "Assignment Status", "No. of Leads assigned"],
+  
     APUplineInterfaceColumnField:["agentCd", "agentName", "assignmentDt", "assignmentStatus", "noOfLeads"],
-    AOInterfaceColumnName:["Customer Name", "Phone", "Email", "Submission Date", "Product",
-    "Date of Assignment", "First Contact", "Assignment Status", "Application of Extension",
-    "CS Remarks", "Upsell Life Pol No", "Upsell Life Product", "AFYP (HK$)"],
+  
     AOInterfaceColumnField:["customerInfo", "phone", "email", "submissionDt", "prod",
     "agentAssignmentDt", "firstContactDt", "assignmentInfo", "applicationExt",
     "csRemarks", "upsellLifePolNo", "upsellLifeProd", "afyp"],

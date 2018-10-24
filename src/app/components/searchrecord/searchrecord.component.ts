@@ -230,7 +230,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         let agentCode = rowData.agentCode;
         let convertDate = (date, minsOpt) => {
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
-          ((minsOpt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
+          ((minsOpt == "withMins") ? (date.getHours() + ":" + date.getMinutes()) : "");
         }
         //A,D,F assign btn only
         //B val reassign pru sms
@@ -246,7 +246,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             $(td).html('-');
           }else{
             if(col === 10){//col 10 convert date str into proper format dd/MM/YYYY
-              let convertDateData = new Date(cellData);
+              let convertDateData = new Date(cellData.substr(0,10));
               $(td).html(convertDate(convertDateData, 'withoutMins'));
             }else if(col == 11){//campaign code, put campaign code as attr later
               $(td).html('<a class="a-campaignCode" queryParams="campaignCode:' + rowData.campaignCode + '">' + cellData + '</a>');
@@ -306,7 +306,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                 break;
             }
             let firstSecRowHtml = firstRow + secRow;
-            let htmlStr = (['B', 'C'].includes(rowSymbol)) ? `<table style="width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
+            let htmlStr = (['B', 'C'].indexOf(rowSymbol) !== -1) ? `<table style="width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
             $(td).html(htmlStr);
           }
         }else if(col >= 18){ //pruchat sms Section
@@ -315,8 +315,15 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
           let tdhtml = "";
           if(dataArrSrc && dataArrSrc.length != 0){
             dataArrSrc.forEach((data)=>{
-              let dateData = new Date(data);
-              tdhtml += `<p>` + convertDate(dateData, "withMins") + `</p>`;
+              //parsing the format of data in IE browser as IE browser doesnt support certain kind of format of date string
+              let year = data.substr(0,4);
+              let month = data.substr(5,2);
+              let day = data.substr(8,2);
+              let hour = data.substr(11,2);
+              let min = data.substr(14,2);
+              let processedDt = day + '/' + month + '/' + year + ' ' + hour + ":" + min;
+              //
+              tdhtml += `<p>` + processedDt + `</p>`;
             });
             tdhtml += `<a class="a-viewEmail" queryParams="lastEmailId:` + rowData.lastEmailId + `"'>View email</a>`;
           }else{
@@ -349,9 +356,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             data:resp.body.data,
             recordsTotal: resp.body.recordsTotal,
             recordsFiltered: resp.body.recordsFiltered
-            // data:resp.body.data,
-            // recordsTotal: resp.body.recordsTotal,
-            // recordsFiltered: resp.body.recordsFiltered
           });
         });
     }

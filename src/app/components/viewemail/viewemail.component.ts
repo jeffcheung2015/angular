@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AgentassignmentService } from '../../services/agentassignment.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-viewemail',
@@ -15,6 +15,8 @@ export class ViewemailComponent implements OnInit {
   receiver: string;
   status: string;
 
+  @Input()gobackRouteLink: string; //go back to AgentAssignGI / AgentAssignCS depends on parent var
+
   constructor(
     private activatedRoute : ActivatedRoute,
     private agentassignmentService : AgentassignmentService
@@ -22,6 +24,9 @@ export class ViewemailComponent implements OnInit {
 
   ngOnInit() {
     this.lastEmailId = this.activatedRoute.snapshot.queryParams.lastEmailId || "";
+    if(this.lastEmailId == ''){ //to prevent user entering empty lastemailid by redirecting them back to the go back route link
+      this.router.navigate(['/'+this.gobackRouteLink]);
+    }
     let queryParams = {
       lastEmailId: this.lastEmailId
     }

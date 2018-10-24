@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";
 import { HelloworldService } from './services/helloworld.service';
 import { LoginUserService } from './services/loginUser.service';
+import {TranslateService} from '@ngx-translate/core';
+import {set as _set} from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -16,13 +18,18 @@ export class AppComponent implements OnInit{
   constructor(private http: HttpClient,
      private router: Router,
      private helloworldService: HelloworldService,
-     private loginUserService: LoginUserService
+     private loginUserService: LoginUserService,
+     public translateService: TranslateService
   ){
+    translateService.addLangs(['en', 'zh']);
+    translateService.setDefaultLang('en');
+    translateService.use('en');
+    _set(window, 'easLang', 'en');
   }
 
   ngOnInit() {
     this.loginUserService.getAndSetPoolType(); // set the service's variable poolType
-    
+
   }
 
   getTime(): void {

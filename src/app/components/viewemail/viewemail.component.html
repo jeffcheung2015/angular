@@ -3,6 +3,8 @@
   <label class="label-receiverName">Receiver Name: {{receiverName}}</label><br/>
   <label class="label-receiverEmail">Receiver Email: {{receiver}}</label><hr/>
   <div [innerHTML]="emailContent">
-
+  </div>
+  <div class="button-box div-backBtn clearfix">
+      <input routerLink="/{{gobackRouteLink}}" type="submit" class=" btn btn-default table-btn float-left all-btn" value="Back">
   </div>
 </div>

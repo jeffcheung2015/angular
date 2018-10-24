@@ -1,12 +1,15 @@
 <div class="div-apUplineInterfaceWrapper">
 
   <div class="table-wrapper table-responsive div-apUplineInterfaceDataTable">
+    <h4 class="h4-tableHeader">{{'AP_UPLINE_INTERFACE.TABLE_TITLE' | translate}}</h4>
     <table class="row-border hover table-apUplineInterface dataTable no-footer">
       <thead>
         <tr class="row1">
-            <th class="noscroll" *ngFor="let colName of displayedColumns">
-              {{colName}}
-            </th>
+          <th class="noscroll">{{'AP_UPLINE_INTERFACE_COLS.AGENT_CD' | translate}}</th>
+          <th class="noscroll">{{'AP_UPLINE_INTERFACE_COLS.AGENT_NAME' | translate}}</th>
+          <th class="noscroll">{{'AP_UPLINE_INTERFACE_COLS.ASSIGNMENT_DT' | translate}}</th>
+          <th class="noscroll">{{'AP_UPLINE_INTERFACE_COLS.ASSIGNMENT_STATUS' | translate}}</th>
+          <th class="noscroll">{{'AP_UPLINE_INTERFACE_COLS.NO_OF_LEADS' | translate}}</th>
         </tr>
       </thead>
       <tbody
@@ -15,9 +18,9 @@
         <tr *ngFor="let dataRow of displayedDataArray">
           <td *ngFor="let key of objectKeys(dataRow)">
             <span class="span-dataRow" *ngIf="dataRow[key]">
-              <ng-container *ngIf="key == 'assignmentDt'">{{dataRow[key] | date:'dd/MM/yyyy'}}</ng-container>
-              <ng-container *ngIf="key == 'assignmentStatus'">{{statusNumMapToText[dataRow[key]-1]}}</ng-container>
-              <ng-container *ngIf="key != 'assignmentDt' && key != 'assignmentStatus'">{{dataRow[key]}}</ng-container>
+              <ng-container *ngIf="key == 'agentAssignmentDt'">{{dataRow[key] | date:'dd/MM/yyyy'}}</ng-container>
+              <ng-container *ngIf="key == 'assignmentStatus'">{{(currLang === 'en') ? statusNumMapToTextEN[dataRow[key]-1] : statusNumMapToTextZH[dataRow[key]-1]}}</ng-container>
+              <ng-container *ngIf="key != 'agentAssignmentDt' && key != 'assignmentStatus'">{{dataRow[key]}}</ng-container>
             </span>
             <span *ngIf="!dataRow[key]">-</span>
           </td>

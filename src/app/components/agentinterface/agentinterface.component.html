@@ -7,11 +7,11 @@
           <button type="button" class="btn btn-default table-btn a-closeBtn" data-dismiss="modal">X</button>
         </div>
         <div class="modal-body clearfix">
-          <label class="col-12 label-fromField">Customer Name: {{currCustomerName}}</label><br />
-          <label class="col-12 label-fromField">Phone: {{currPhone}}</label><br />
-          <label class="col-12 label-fromField">Email: {{currEmail}}</label><br />
-          <label class="col-12 label-fromField">Date and Time of Assignment: {{currAssignmentDt | date:'dd/MM/yyyy hh:mm'}}</label><br />
-          <label class="col-12 label-fromField">Date of first contact with assigned lead:
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.CUSTOMER_NAME' | translate}}: {{currCustomerName}}</label><br />
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.PHONE' | translate}}: {{currPhone}}</label><br />
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.EMAIL' | translate}}: {{currEmail}}</label><br />
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.ASSIGNMENT_DT' | translate}}: {{currAssignmentDt | date:'dd/MM/yyyy hh:mm'}}</label><br />
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.FIRST_CONTACT_DT' | translate}}:
             <ng-container *ngIf="currFirstContactDt">
               {{customerDetailModalForm.controls['firstContactDt'].value | date:'dd/MM/yyyy'}}
             </ng-container>
@@ -29,7 +29,7 @@
         </div>
         <div class="modal-footer">
           <button [disabled]="currFirstContactDt"
-            type="submit" class="btn btn-primary table-btn a-customerDtlSubmitBtn" data-dismiss="modal">Submit</button>
+            type="submit" class="btn btn-primary table-btn a-customerDtlSubmitBtn" data-dismiss="modal">{{'AGENT_INTERFACE.CUSTOMER_DTL.SUBMIT' | translate}}</button>
         </div>
       </div>
     </div>
@@ -44,21 +44,22 @@
           <button type="button" class="btn btn-default table-btn a-closeBtn" data-dismiss="modal">X</button>
         </div>
         <div class="modal-body clearfix">
-          <label class="col-12 label-fromField">I would like to extend the assigned lead for another 6 months:
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.LEAD_EXT_APPLICATION.REASON_OF_EXT' | translate}}:
             <span *ngIf="currAssignmentStatus == '2'">{{currReasonOfExt}}</span>
             <input *ngIf="currAssignmentStatus != '2'" placeholder="Please state reasons here." class="search-by-input"
             formControlName="reasonOfExt" name="reasonOfExtField">
 
           </label><br />
 
-          <label class="col-12 label-fromField">Application will be reviewed by PDD and maximum extension is 6 months
-              <button [disabled]="currAssignmentStatus == '2'" type="submit" class="btn btn-primary table-btn a-leadExtSubmitBtn" data-dismiss="modal">Submit</button>
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.LEAD_EXT_APPLICATION.APP_REVIEW_DESC' | translate}}
+              <button [disabled]="currAssignmentStatus == '2'" type="submit" class="btn btn-primary table-btn a-leadExtSubmitBtn" data-dismiss="modal">
+                {{'AGENT_INTERFACE.LEAD_EXT_APPLICATION.SUBMIT' | translate}}</button>
           </label><br />
 
-          <label class="col-12 label-fromField">Application of Extension:
-            <span *ngIf="currApplicationExt == 2" class="span-blue">To be Reviewed</span>
-            <span *ngIf="currApplicationExt == 3" class="span-green">Approved</span>
-            <span *ngIf="currApplicationExt == 4" class="span-red">Rejected</span>
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.LEAD_EXT_APPLICATION.APPLICATION_EXT' | translate}}:
+            <span *ngIf="currApplicationExt == 2" class="span-blue">{{'AGENT_INTERFACE.LEAD_EXT_APPLICATION.TO_BE_REVIEWED' | translate}}</span>
+            <span *ngIf="currApplicationExt == 3" class="span-green">{{'AGENT_INTERFACE.LEAD_EXT_APPLICATION.APPROVED' | translate}}</span>
+            <span *ngIf="currApplicationExt == 4" class="span-red">{{'AGENT_INTERFACE.LEAD_EXT_APPLICATION.REJECTED' | translate}}</span>
           </label>
         </div>
         <div class="modal-footer">
@@ -77,22 +78,22 @@
           <button type="button" class="btn btn-default table-btn a-closeBtn" data-dismiss="modal">X</button>
         </div>
         <div class="modal-body clearfix">
-          <label class="col-12 label-fromField">Customer Name: {{currCustomerName}}</label><br />
-          <label class="col-12 label-fromField">Upsell Prulife Pol No.:
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.UPSELL_DTL.CUSTOMER_NAME' | translate}}: {{currCustomerName}}</label><br />
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.UPSELL_DTL.LIFE_POL_NO' | translate}}:
             <input placeholder="Please Input Pol No." class="search-by-input"
             formControlName="upsellLifePolNo" name="upsellLifePolNoField">
           </label><br />
-          <label class="col-12 label-fromField">Upsell Life Product:
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.UPSELL_DTL.LIFE_PROD' | translate}}:
             <input placeholder="Please Input Product Name" class="search-by-input"
             formControlName="upsellLifeProd" name="upsellLifeProdField">
           </label><br />
-          <label class="col-12 label-fromField">AFYP:
+          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.UPSELL_DTL.AFYP' | translate}}:
             <input placeholder="Please Input AFYP" class="search-by-input"
             formControlName="afyp" name="afypField">
           </label>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary table-btn a-upsellDtlSubmitBtn" data-dismiss="modal">Submit</button>
+          <button type="submit" class="btn btn-primary table-btn a-upsellDtlSubmitBtn" data-dismiss="modal">{{'AGENT_INTERFACE.UPSELL_DTL.SUBMIT' | translate}}</button>
         </div>
       </div>
     </div>
@@ -100,18 +101,29 @@
 </div>
 
 <div class="table-wrapper table-responsive div-agentInterfaceDataTable">
+  <h4 class="h4-tableHeader">{{'AGENT_INTERFACE.TABLE_TITLE' | translate}}</h4>
   <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-agentInterface">
     <thead>
       <tr class="row1">
-          <th class="noscroll" *ngFor="let colName of displayedColumns">
-            {{colName}}
-          </th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.CUSTOMER_NAME' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.PHONE' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.EMAIL' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.SUBMISSION_DT' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.PROD' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.ASSIGNMENT_DT' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.FIRST_CONTACT_DT' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.ASSIGNMENT_STATUS' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.APPLICATION_EXT' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.CS_REMARKS' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.LIFE_POL_NO' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.LIFE_PROD' | translate}}</th>
+        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.AFYP' | translate}}</th>
       </tr>
     </thead>
   </table>
   <div class="div-goToPage-showPerPage">
     <div class="div-goToPage">
-      <span class="span-goToPage">Go to page</span>
+      <span class="span-goToPage">{{'DATATABLE_CONSTANTS.GO_TO_PAGE' | translate}}</span>
       <div class="div-goToPage_wrapper">
         <input type="text" class="input-goToPage_left" [(ngModel)]="currPage" value="{{currPage}}"/>
         <input type="text" class="input-goToPage_right" value="/ {{noOfPage}}" disabled/>
@@ -119,11 +131,11 @@
       </div>
     </div>
     <ul class="ul-showPerPage">
-      <span>show</span>
+      <span>{{'DATATABLE_CONSTANTS.SHOW' | translate}}</span>
       <li><a [ngClass]="mapToLengthMenuNum[5]" (click)="changeTablePerPage(5)">5</a></li>
       <li><a [ngClass]="mapToLengthMenuNum[10]" (click)="changeTablePerPage(10)">10</a></li>
       <li><a [ngClass]="mapToLengthMenuNum[20]" (click)="changeTablePerPage(20)">20</a></li>
-      <span>per page</span>
+      <span>{{'DATATABLE_CONSTANTS.PER_PAGE' | translate}}</span>
     </ul>
   </div>
 </div>

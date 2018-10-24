@@ -15,7 +15,7 @@
       width:100% !important;
       .th-textCenter{
       }
-      
+
     }
   }
   .div-goToPage-showPerPage{
@@ -24,8 +24,8 @@
     .div-goToPage{
       display: flex;
       position: relative;
-      left: 50%;
-      transform: translate(-50%,10px);
+      left: 38%;
+      // transform: translate(-50%,10px);
       .span-goToPage{
         line-height: 50px;
         color:gray;
@@ -36,7 +36,7 @@
           margin-left: 10px;
           border-radius: 10px 0px 0px 10px;
           border-right: 0px;
-          text-align: end;
+          text-align: right;
           color:gray;
         }
         .input-goToPage_right{

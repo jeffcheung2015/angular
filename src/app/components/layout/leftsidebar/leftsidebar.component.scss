@@ -1,11 +1,21 @@
 .nav-leftsidebar{
   min-height: 93.9vh;
   .acc-menu{
-
+    .li-menuheader{
+      color:white !important;
+      .span-langChange{
+        margin: 0 5px;
+        border: 2px solid white;
+        padding: 4px;
+        cursor: pointer;
+      }
+    }
   }
   .tab-active{
     font-weight: 600 !important;
     color: #FE0000 !important;
   }
+
+
 
 }

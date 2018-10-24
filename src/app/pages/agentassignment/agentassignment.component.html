@@ -54,6 +54,7 @@
                   </app-campaigndetails>
                   <app-viewemail
                     *ngIf="currSubPage == 'easViewEmail'"
+                    [gobackRouteLink]="agentassignmentService.currServiceName"
                     >
                   </app-viewemail>
                 </div>
