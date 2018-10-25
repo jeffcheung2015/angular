@@ -1,0 +1,16 @@
+.loader-overlay{
+  position: fixed;
+  z-index: 555555;
+  background: white;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  opacity: 0.9;
+  .loader{
+    width: 100px;
+    height: 100px;
+    top: 45%;
+    left: 45%;    
+  }
+}

@@ -22,7 +22,6 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
   currSubPage : string;
   //displayedColumns : Array<string> = constants["APUplineInterfaceColumnName"];
   displayedColumnsField : Array<string> = constants["APUplineInterfaceColumnField"];
-  isLoading : boolean = true;
   //class to function it should trigger
   classToTrigger : Array<{
     type: string,
@@ -40,25 +39,28 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
   //fetching the translated data['LEAD_RESPONSE_COMMON'] obj from en.json / zh.json
   translateLeadRespCommon;
 
+  translateOnLangChangeSubscription;
+
   constructor(
      private leadresponseService : LeadresponseService,
      private http: HttpClient,
      private renderer2 : Renderer2,
      public translateService: TranslateService
    ) {
-     translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-       _set(window, 'easLang', event.lang); //keep track of curr supported page even this comp doesnt use it
-       this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
-       this.currLang = event.lang;
-     });
    }
    loadObjFromLangJson(path, storeVarStr){
      this.translateService.get(path).subscribe((resp : any)=>{
        this[storeVarStr] = resp;
      })
    }
-  ngOnInit() {    
+  ngOnInit() {
+    this.translateOnLangChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      _set(window, 'easLang', event.lang); //keep track of curr supported page even this comp doesnt use it
+      this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+      this.currLang = event.lang;
+    });
     this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+    this.currLang = _get(window, 'easLang');
     this.classToTrigger =  [
       {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
       //
@@ -70,7 +72,6 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
 
   ngAfterViewInit(){ //only load data after view are initialized
     this.leadresponseService.getapUplineInterfaceRecord().subscribe((resp : any) => {
-      this.isLoading = false;
       this.displayedDataArray = this.postProcessingDisplayedData(resp.data);
     }, (error) => console.log(error));
   }
@@ -130,5 +131,6 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
   ngAfterViewChecked(){
   }
   ngOnDestroy(){
+    this.translateOnLangChangeSubscription.unsubscribe();
   }
 }

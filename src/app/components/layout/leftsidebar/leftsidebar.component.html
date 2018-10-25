@@ -6,8 +6,8 @@
         <li class="li-menuheader" id="info">
             <div><i class="icon-circle-user"></i>{{username}} ({{usercode}})</div>
             <div><i class="icon-calendar"></i>{{currDate | date:'EE, MMM d y'}}</div>
-            <div><span class="span-langChange" (click)="changeLang('en')">En</span></div>
-            <div><span class="span-langChange" (click)="changeLang('zh')">中</span></div>
+            <div><span *ngIf="currentLang=='zh'" class="span-langChange" (click)="changeLang('en')">En</span></div>
+            <div><span *ngIf="currentLang=='en'" class="span-langChange" (click)="changeLang('zh')">中</span></div>
             <div><i class="iconfont">&#xe618;</i></div>
         </li>
         <li id="min-menu" class="bg-black">

@@ -17,6 +17,12 @@
       .span-dataRow{
         white-space: nowrap;
       }
+
+      //this one is to overwrite the triangle symbol as completely
+      // disabling the ordering of the datatable is seemingly impossible
+      .sorting_asc, .sorting_desc{
+        background-image: none;
+      }
     }
   }
   .mat-progress-spinner-apUplineInterface{

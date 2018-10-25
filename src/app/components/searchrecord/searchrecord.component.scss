@@ -12,8 +12,14 @@
     text-align: center;
 
     .table-searchRecord{
-      width:100% !important;
+      //width:100% !important;
+      margin: 0px;
       .th-textCenter{
+      }
+      //this one is to overwrite the triangle symbol as completely
+      // disabling the ordering of the datatable is seemingly impossible
+      .sorting_asc, .sorting_desc{
+        background-image: none;
       }
 
     }

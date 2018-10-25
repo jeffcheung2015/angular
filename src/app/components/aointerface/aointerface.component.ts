@@ -78,18 +78,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
      private renderer2 : Renderer2,
      public translateService: TranslateService
    ) {
-     this.translateOnLangChangeSubscription = translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-       //for updting the variables inside the datatable with the correct language
-       this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
-       this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
-       if(_get(window, 'easLang') !== event.lang){
-         this.refreshTable();
-       }
-       _set(window, 'easLang', event.lang);//tmply store lang into easLang attr of window
-     });
 
-     this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
-     this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
    }
    loadObjFromLangJson(path, storeVarStr){
      this.translateService.get(path).subscribe((resp : any)=>{
@@ -101,9 +90,24 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
   ngOnInit() {
-    let easLang = this.translateService.currentLang;
+    this.translateOnLangChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      //for updting the variables inside the datatable with the correct language
+      this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
+      this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
+      if(_get(window, 'easLang') !== event.lang){
+        _set(this.dtOptions, 'oLanguage.oPaginate.sFirst', (event.lang === 'en') ? '« first' : '« 第一頁');
+        _set(this.dtOptions, 'oLanguage.oPaginate.sPrevious', (event.lang === 'en') ? '‹ prev' : '‹ 上一頁');
+        _set(this.dtOptions, 'oLanguage.oPaginate.sNext', (event.lang === 'en') ? 'next ›' : '下一頁 ›');
+        _set(this.dtOptions, 'oLanguage.oPaginate.sLast', (event.lang === 'en') ? 'last »' : '最後頁 »');
+        this.refreshTable();
+      }
+      _set(window, 'easLang', event.lang);//tmply store lang into easLang attr of window
+    });
+
     this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
     this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
+
+    let easLang = this.translateService.currentLang;    
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     //this.searchCriteriaComponent.setSearchRecordComponent(this);
     let colArr = [], dataArr = [];

@@ -31,13 +31,13 @@ export default {
     "Last Assignment Date","Assign", "On Leave"],
     DetailSearchRecordColumnField:["agentCode","agentName","email",
     "agentPhone","lastAssignDate","assign", "onLeave"],
-  
+
     AgentInterfaceColumnField:["customerInfo", "phone", "email", "submissionDt", "prod",
     "agentAssignmentDt", "firstContactDt", "assignmentInfo", "applicationExt",
     "csRemarks", "upsellLifePolNo", "upsellLifeProd", "afyp"],
-  
+
     APUplineInterfaceColumnField:["agentCd", "agentName", "assignmentDt", "assignmentStatus", "noOfLeads"],
-  
+
     AOInterfaceColumnField:["customerInfo", "phone", "email", "submissionDt", "prod",
     "agentAssignmentDt", "firstContactDt", "assignmentInfo", "applicationExt",
     "csRemarks", "upsellLifePolNo", "upsellLifeProd", "afyp"],

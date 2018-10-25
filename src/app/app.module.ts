@@ -56,7 +56,7 @@ import { EdmService } from './services/edm.service';
 import { PddService } from './services/pdd.service';
 import { AgentassignmentService } from './services/agentassignment.service';
 import { LayoutService } from './services/layout.service';
-
+import { LoaderinterceptorService } from './services/loaderinterceptor.service';
 //component
 import { LayoutComponent } from './components/layout/layout.component';
 import { SearchrecordComponent } from './components/searchrecord/searchrecord.component';
@@ -84,6 +84,10 @@ import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
 import { ViewemailComponent } from './components/viewemail/viewemail.component';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { LoaderComponent } from './components/common/loader/loader.component';
+//other
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -116,6 +120,7 @@ export function createTranslateLoader(http: HttpClient) {
     EdmComponent,
     PddComponent,
     ViewemailComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -143,7 +148,13 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [PddcampaigntransactionService, PddcampaignService,
     AgentassignmentService, LayoutService,LeadresponseService,
-    EdmService, PddService, LoginUserService],
+    EdmService, PddService, LoginUserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderinterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

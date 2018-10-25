@@ -19,6 +19,7 @@ export class ViewemailComponent implements OnInit {
 
   constructor(
     private activatedRoute : ActivatedRoute,
+    private router : Router,
     private agentassignmentService : AgentassignmentService
   ) { }
 

@@ -15,11 +15,11 @@
                                         </div>
                                         <div *ngIf="startDate" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6">Campaign Start Date</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{startDate | date:'MMM d, y'}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">{{startDate | date:'MM/dd/yyyy'}}</div>
                                         </div>
                                         <div *ngIf="endDate" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 ">Campaign End Date</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 ">{{endDate | date: 'MMM d, y'}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 ">{{endDate | date: 'MM/dd/yyyy'}}</div>
                                         </div>
                                         <div *ngIf="premiumFromAM && amEntitled" class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6">Premium Percent Off</div>

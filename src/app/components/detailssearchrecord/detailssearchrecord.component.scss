@@ -51,6 +51,11 @@
       th.noscroll{
         font-size: 12px;
       }
+      //this one is to overwrite the triangle symbol as completely
+      // disabling the ordering of the datatable is seemingly impossible
+      .sorting_asc, .sorting_desc{
+        background-image: none;
+      }
     }
   }
   .div-goToPage-showPerPage{

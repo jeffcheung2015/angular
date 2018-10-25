@@ -51,7 +51,7 @@ export class AgentassignmentService{
   getAgentDetailRecord(params, type){
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecordDetails.json', params, 'get', type) :
-            this.getOrPostFunc("/eas/api/agent/assignAgent",params, 'get', type);
+            this.getOrPostFunc("/eas/api/agent/getAgentDetails",params, 'get', type);
   }
   //campaignDetails
   getCampaignDetail(params, type){

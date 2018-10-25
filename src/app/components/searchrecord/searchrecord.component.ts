@@ -46,9 +46,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
-    "5": "active-red",
+    "5": "inactive-gray",
     "10": "inactive-gray",
-    "20": "inactive-gray",
+    "20": "active-red",
   };
   constructor(
      private agentassignmentService : AgentassignmentService,
@@ -67,8 +67,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       {className : 'a-assignBtn', url: constants.route['AgentDetail']},
       {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
       {className : 'a-viewEmail', url: constants.route['ViewEmail']},
-      {className : 'a-pruchatEmailBtn', callback: ()=>{this.showPopUpMsg("pruchat")} },
-      {className : 'a-smsEmailBtn', callback: ()=>{this.showPopUpMsg("sms")}},
+      {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
+      {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
     ];
 
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
@@ -76,18 +76,21 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val, index)=>{
       colArr.push({
-        data:val
+        data:val,
+        orderable: false,
+        width: (index <= 4) ? 80 : 130
       })
     });
     this.dtOptions = {
       fixedColumns: {
-        leftColumns: 5,
-        heightMatch: 'auto'
+        leftColumns: 5
       },
+      scrollCollapse: true,
       responsive: true,
       pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 20,
       scrollX:true,
+      scrollY:false,
       columnDefs : this.agentAssignedColumnDef(),
       ajax : this.agentAssignedAjax(),
       processing: true,
@@ -112,8 +115,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
-
-
   }
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
@@ -129,13 +130,17 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   onclickEventInit = false; //onchange would reset this back to false
   classToTrigger : Array<{className: string, url?: string, callback?: Function}>;
   //for pruchat, sms option only
-  showPopUpMsg(type){
-    let params = {};
+  showPopUpMsg(polNo, type){
+    let params = polNo;
     if(type === 'pruchat'){
       this.agentassignmentService.postResendPruchat(params, 'sendParams').subscribe((resp : any) => {
+      }, (error)=>{
+        console.log('error', error);
       });
     }else if(type === 'sms'){
       this.agentassignmentService.postResendSMS(params, 'sendParams').subscribe((resp : any) => {
+      }, (error)=>{
+        console.log('error', error);
       });
     }
     this.setPopUpMsg(type === 'pruchat' ? "PruChat and email has been sent successfully" : "SMS and email has been sent successfully");
@@ -147,6 +152,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     //make use of settings.oApi._fnPageChange to change the page
     //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
     this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
+    console.log(this.dataTableSettings)
     //for handling the btn inside datatables
     if(!this.onclickEventInit){
       this.onclickEventInit = true;
@@ -207,11 +213,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   }
   //called outside of this component
   refreshAndReloadSearchRecordTable(_searchCriteria : string[]){
-    let tmpSearchCriterias = [];
-    _searchCriteria.forEach((elem)=>{
-      if(elem !== '') tmpSearchCriterias.push(elem);
-    });
-    this.searchCriterias = tmpSearchCriterias;
+    this.searchCriterias = _searchCriteria;
     let dTableInstance = _get(this.dTable, "dtInstance");
     if(dTableInstance){
       dTableInstance.then((dtInstance: DataTables.Api) => {
@@ -224,7 +226,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   agentAssignedColumnDef(){
     return [{
       targets: "_all",
-      orderable: false,
       createdCell: function (td, cellData, rowData, row, col) {
         let assignType = rowData.assignmentType;
         let agentCode = rowData.agentCode;
@@ -236,11 +237,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         //B val reassign pru sms
         //C val pru sms
         //E sms btn only
-        let rowSymbol = (assignType === 1 && !agentCode) ? 'A' :
-                        (assignType === 1 && agentCode) ? 'B' :
-                        (assignType === 2) ? 'C' :
-                        (assignType === 3) ? 'D' :
-                        (assignType === 4) ? 'E' : 'F';
+        let rowSymbol = (assignType == 1 && !agentCode) ? 'A' :
+                        (assignType == 1 && agentCode) ? 'B' :
+                        (assignType == 2) ? 'C' :
+                        (assignType == 3) ? 'D' :
+                        (assignType == 4) ? 'E' : 'F';
         if(col < 13){
           if(!cellData){ //for those null data
             $(td).html('-');
@@ -270,16 +271,16 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
             let assignBtnHTML = `<a class="` + redBtnClass + ` a-assignBtn" queryParams="policyNo:` + rowData.polNo + `">Assign</a>`;
             let reassignBtnHTML = `<a class="` + redBtnClass + ` a-reassignBtn">Re-assign</a>`;
-            let pruchatBtnHTML = `<a class="` + grayBtnClass + ` a-pruchatEmailBtn" data-toggle="modal" data-target="#btnMsgModal" >PruChat & Email to Agent(Resend)</a>`;
-            let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" data-toggle="modal" data-target="#btnMsgModal" >SMS & Email to Customer(Resend)</a>`;
+            let pruchatBtnHTML = `<a class="` + grayBtnClass + ` a-pruchatEmailBtn" queryParams="policyNo:` + rowData.polNo + `" data-toggle="modal" data-target="#btnMsgModal" >PruChat & Email to Agent(Resend)</a>`;
+            let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" queryParams="policyNo:` + rowData.polNo + `" data-toggle="modal" data-target="#btnMsgModal" >SMS & Email to Customer(Resend)</a>`;
 
-            let agentAssignedDate = new Date(rowData.agentAssignedDate);
+            let agentAssignedDate = rowData.agentAssignedDate ? new Date(rowData.agentAssignedDate.substr(0,10)) : ``;
 
             let tdValRowHTML = `<td><p>` + rowData.agentTeam + `</p></td>
             <td><p>` + rowData.agentCode + `</p></td>
             <td><p>` + rowData.agentName + `</p></td>
             <td><p>` + rowData.agentPhone + `</p></td>
-            <td><p>` + convertDate(agentAssignedDate, 'withoutMins') + `</p></td>`;
+            <td><p>` + (agentAssignedDate ? convertDate(agentAssignedDate, 'withoutMins') : ``) + `</p></td>`;
 
             let firstRow :string = '' , secRow :string = '';
 
@@ -306,7 +307,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                 break;
             }
             let firstSecRowHtml = firstRow + secRow;
-            let htmlStr = (['B', 'C'].indexOf(rowSymbol) !== -1) ? `<table style="width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
+            let htmlStr = (['B', 'C'].indexOf(rowSymbol) !== -1) ? `<table style="table-layout:fixed;width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
             $(td).html(htmlStr);
           }
         }else if(col >= 18){ //pruchat sms Section
@@ -325,12 +326,14 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               //
               tdhtml += `<p>` + processedDt + `</p>`;
             });
-            tdhtml += `<a class="a-viewEmail" queryParams="lastEmailId:` + rowData.lastEmailId + `"'>View email</a>`;
+            tdhtml += (rowData.lastEmailId) ?
+            `<a class="a-viewEmail" queryParams="lastEmailId:` + rowData.lastEmailId + `"'>View email</a>` : ``;
           }else{
             tdhtml = 'N/A';
           }
           $(td).html(tdhtml);
         }
+
       }
     }]
   }

@@ -124,6 +124,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
         break;
       }
     }
+
     if(isAgentAssign){
       ({fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo} = this.searchForm.value);
       queryParams = {fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};

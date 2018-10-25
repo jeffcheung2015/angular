@@ -63,9 +63,9 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
-    "5": "active-red",
+    "5": "inactive-gray",
     "10": "inactive-gray",
-    "20": "inactive-gray",
+    "20": "active-red",
   };
   //subscription
   dataTableAjaxSubscription;
@@ -96,7 +96,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     });
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 20,
       scrollX:true,
       scrollY:true,
       columnDefs : this.agentDetailsColumnDef(),
@@ -261,13 +261,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   }
 
   refreshAndReloadSearchRecordTable(_searchCriteria : string[]){
-    let tmpSearchCriterias = [];
-    if(_searchCriteria){
-      _searchCriteria.forEach((elem)=>{
-        if(elem !== '') tmpSearchCriterias.push(elem);
-      });
-    }
-    this.searchCriterias = tmpSearchCriterias;
+    this.searchCriterias = _searchCriteria;
     let dTableInstance = _get(this.dTable, "dtInstance");
     if(dTableInstance){
       dTableInstance.then((dtInstance: DataTables.Api) => {
@@ -297,8 +291,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
         if(splitOnLeave){
 
           onLeaveDt = splitOnLeave[1].split(',');
-          onLeaveStartDt = new Date(onLeaveDt[0]);
-          onLeaveEndDt = new Date(onLeaveDt[1]);
+          onLeaveStartDt = new Date(onLeaveDt[0].substr(0,10));
+          onLeaveEndDt = new Date(onLeaveDt[1].substr(0,10));
           isWithinLeavePeriod = (currDate.getTime() - onLeaveStartDt.getTime() > 0 && currDate.getTime() - onLeaveEndDt.getTime() < 0);
           //compare current date with the on leave start dt and end dt
           let pStyle = `style="margin:auto;` + ((isWithinLeavePeriod) ? `color:lightgray;"` : `"`);
@@ -317,7 +311,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
             $(closestTrObj).attr("rowData", JSON.stringify(rowData));
 
             if(cellData){
-              let convertDateData = new Date(cellData);
+              let convertDateData = new Date(cellData.substr(0,10));
               $(td).html(convertDate(convertDateData, 'withoutMins'));
             }
             break;

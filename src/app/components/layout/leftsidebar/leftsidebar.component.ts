@@ -20,16 +20,17 @@ export class LeftsidebarComponent implements OnInit {
   @Input() username: string;
   @Input() usercode: string;
   currDate: Date;
-
+  currentLang: string;
   constructor(
     private router :Router,
     public translateService: TranslateService
   ) {
-
+    this.currentLang = translateService.currentLang;
   }
 
   changeLang(lang){
-    this.translateService.use(lang);    
+    this.translateService.use(lang);
+    this.currentLang = lang;
   }
 
   ngOnInit() {
