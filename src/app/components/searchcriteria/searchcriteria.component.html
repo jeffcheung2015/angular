@@ -70,7 +70,7 @@
                                                 <div class="search-by-col div-dateOfSubmissionWrapper">
                                                     <div> <span class="span-dateOfSubmissionFrom">Date of Submission From</span>
                                                         <div class="div-dateOfSubmissionFrom">
-                                                            <input class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
+                                                            <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
                                                             <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionFromPicker">
                                                               <mat-icon matDatepickerToggleIcon>apps</mat-icon>
                                                             </mat-datepicker-toggle>
@@ -80,7 +80,7 @@
                                                     <span class="span-dateOfSubmissionTo">To</span>
                                                     <div>
                                                       <div class="div-dateOfSubmissionTo">
-                                                        <input class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)" matInput [min]="minDateTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
+                                                        <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)" matInput [min]="minDateTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
                                                         <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
                                                           <mat-icon matDatepickerToggleIcon>apps</mat-icon>
                                                         </mat-datepicker-toggle>
@@ -115,8 +115,8 @@
                                         </div>
 
                                         <div class="text-left">
-                                            <input type="submit" class="btn btn-primary table-btn" value="Search">
-                                            <input type="reset" class="btn btn-default table-btn" value="Reset">
+                                            <input type="submit" class="btn-search btn btn-primary table-btn" value="Search">
+                                            <input type="reset" class="btn-reset btn btn-default table-btn" value="Reset">
                                         </div>
                                     </form>
                                     </div>

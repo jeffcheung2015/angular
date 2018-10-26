@@ -1,0 +1,91 @@
+{
+  "DATATABLE_CONSTANTS":{
+    "GO_TO_PAGE":"轉到頁面",
+    "SHOW":"顯示",
+    "PER_PAGE":"每頁"
+  },
+  "LEAD_RESP_BREAD_CRUMB":{
+    "LEAD_RESPONSE":"客戶回應",
+    "AGENT_INTERFACE":"代理界面",
+    "AP_UPLINE_INTERFACE":"Ap-upline 界面",
+    "AO_INTERFACE":"AO 界面"
+  },
+  "LEFT_SIDEBAR_MENU":{
+    "AGENT_INTERFACE":"代理界面",
+    "AP_UPLINE_INTERFACE":"Ap-upline 界面",
+    "AO_INTERFACE":"AO 界面"
+  },
+  "LEAD_RESPONSE_COMMON":{
+    "ASSIGNMENT_STATUS":{
+      "TO_APPLY_FOR_EXT":"申請延長",
+      "APPLIED_FOR_EXT":"已申請延長",
+      "REASSIGNED":"已另派顧問",
+      "OPT_OUT":"拒絕顧問聯絡"
+    },
+    "APP_EXT":{
+      "TO_BE_REVIEWED":"待部門審閱",
+      "APPROVED":"已批准延長",
+      "REJECTED":"申請被拒絕"
+    },
+    "PROMPT_TXT":{
+      "LIFE_POL_NO":"請填寫保單號碼",
+      "LIFE_PROD":"請填寫壽險產品",
+      "AFYP":"請填寫 AFYP"
+    }
+  },
+  "AGENT_AO_INTERFACE_COLS":{
+    "CUSTOMER_NAME":"客戶姓名",
+    "PHONE":"電話",
+    "EMAIL":"電郵",
+    "SUBMISSION_DT":"保單遞交日期",
+    "PROD":"購買產品",
+    "ASSIGNMENT_DT":"委派日期",
+    "FIRST_CONTACT_DT":"與客戶第一次接洽日期",
+    "ASSIGNMENT_STATUS":"客戶狀況",
+    "APPLICATION_EXT":"申請延長狀況",
+    "CS_REMARKS":"CS 備註",
+    "LIFE_POL_NO":"壽險保單號碼",
+    "LIFE_PROD":"壽險產品",
+    "AFYP":"AFYP (HK$)"
+  },
+  "AP_UPLINE_INTERFACE_COLS":{
+    "AGENT_CD":"理財顧問編號",
+    "AGENT_NAME":"顧問姓名",
+    "ASSIGNMENT_DT":"委派日期",
+    "ASSIGNMENT_STATUS":"客戶狀況",
+    "NO_OF_LEADS":"分配總數"
+  },
+  "AGENT_INTERFACE":{
+    "TABLE_TITLE":"客戶列表",
+    "CUSTOMER_DTL":{
+      "CUSTOMER_NAME":"客戶姓名",
+      "PHONE":"客戶電話",
+      "EMAIL":"客戶電郵",
+      "ASSIGNMENT_DT":"委派日期和時間",
+      "FIRST_CONTACT_DT":"與客戶第一次接洽日期",
+      "SUBMIT":"遞交"
+    },
+    "LEAD_EXT_APPLICATION":{
+      "REASON_OF_EXT":"申請延長洽談",
+      "APP_REVIEW_DESC":"申請需經由多元行銷部批准, 最多可延長6個月",
+      "APPLICATION_EXT":"延長洽談狀況",
+      "TO_BE_REVIEWED":"待部門審閱",
+      "APPROVED":"已批准延長",
+      "REJECTED":"申請被拒絕",
+      "SUBMIT":"申請延長洽談"
+    },
+    "UPSELL_DTL":{
+      "CUSTOMER_NAME":"客戶姓名",
+      "LIFE_POL_NO":"壽險保單號碼",
+      "LIFE_PROD":"壽險產品",
+      "AFYP":"AFYP",
+      "SUBMIT":"遞交"
+    }
+  },
+  "AO_INTERFACE":{
+    "TABLE_TITLE":"客戶列表"
+  },
+  "AP_UPLINE_INTERFACE":{
+    "TABLE_TITLE":"理財顧問 - 新客戶分配名單"
+  }
+}

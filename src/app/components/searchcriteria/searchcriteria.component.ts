@@ -145,7 +145,6 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     // Object.keys(queryParams).forEach((elem, index)=>{
     //   this[property].searchCriteria[index] = elem;
     // })
-    console.log('searchCriteriaArr:', searchCriteriaArr)
 
     this[property].refreshAndReloadSearchRecordTable(searchCriteriaArr);
   }

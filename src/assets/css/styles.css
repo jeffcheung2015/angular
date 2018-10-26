@@ -15425,6 +15425,7 @@ ul.remarks-small li span {
 }
 .a-viewEmail{
   border-bottom: solid 1px;
+  cursor: pointer;
 }
 .noscroll{
   background:#db0306;
@@ -15560,4 +15561,27 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 .modal-open {
     padding-right: 0px !important;
+}
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #e73c3c !important;
+}
+/* the following two classes is for disabling the ripple effect */
+.mat-ripple-element{
+  opacity: 0 !important;
+  transition: unset !important;
+}
+.mat-button-focus-overlay{
+  opacity: 0 !important;
+}
+/* datepicker button whole input area open */
+.mat-datepicker-toggle .mat-icon-button{
+  position: absolute;
+  left: 0px;
+  width: 230px;
+	border-radius: 5px;
+}
+.mat-datepicker-toggle .mat-button-wrapper{
+  right: -30px;
+	position: absolute;
+	top: 0px;
 }

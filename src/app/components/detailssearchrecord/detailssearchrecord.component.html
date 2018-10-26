@@ -28,9 +28,9 @@
         <div class="modal-body clearfix">
           <div class="col-md-6">
             <label class="label-fromField">From</label>
-            <input placeholder="DD/MM/YYYY" class="search-by-input"
+            <input readonly placeholder="DD/MM/YYYY" class="search-by-input"
             (dateChange)="onLeaveDateChange($event, 0)"
-            matInput [min]="currDate" [max]="maxDateFrom" [matDatepicker]="onLeaveFromPicker"
+            matInput [min]="currDate" [matDatepicker]="onLeaveFromPicker"
             formControlName="onLeaveFrom" name="onLeaveFromField">
             <mat-datepicker-toggle matSuffix [for]="onLeaveFromPicker">
               <mat-icon matDatepickerToggleIcon>apps</mat-icon>
@@ -39,7 +39,7 @@
           </div>
           <div class="col-md-6">
             <label class="label-toField">To</label>
-            <input placeholder="DD/MM/YYYY" class="search-by-input"
+            <input readonly placeholder="DD/MM/YYYY" class="search-by-input"
             (dateChange)="onLeaveDateChange($event, 1)"
             matInput [min]="minDateTo" [matDatepicker]="onLeaveToPicker"
             formControlName="onLeaveTo" name="onLeaveToField">

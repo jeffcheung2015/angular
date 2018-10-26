@@ -16,7 +16,7 @@
               {{customerDetailModalForm.controls['firstContactDt'].value | date:'dd/MM/yyyy'}}
             </ng-container>
             <ng-container *ngIf="!currFirstContactDt">
-              <input placeholder="DD/MM/YYYY" class="search-by-input"
+              <input readonly placeholder="DD/MM/YYYY" class="search-by-input"
               matInput [max]="maxDateFrom" [matDatepicker]="firstContactDtPicker"
               formControlName="firstContactDt" name="firstContactDtField">
 

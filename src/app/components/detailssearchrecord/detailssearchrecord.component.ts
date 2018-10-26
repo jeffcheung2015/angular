@@ -16,7 +16,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import constants from '../../constants/constants';
 import convertformat from '../../utils/convertformat';
 
-import { ActivatedRoute  } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -26,7 +26,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class DetailssearchrecordComponent implements OnInit, OnDestroy,
  AfterViewInit,AfterViewChecked,OnChanges {
-
+  @Input() gobackRouteLink: string;
   displayedColumns : string[] = constants["DetailSearchRecordColumnName"];
   displayedColumnsName : string[] = constants["DetailSearchRecordColumnField"];
   searchCriterias : string[] = ["", "" ,""];
@@ -74,7 +74,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
      private agentassignmentService : AgentassignmentService,
      private http: HttpClient,
      private renderer2 : Renderer2,
-     private activatedRoute: ActivatedRoute
+     private activatedRoute: ActivatedRoute,
+     private router: Router
    ) {}
 
   ngOnChanges(){
@@ -82,7 +83,10 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first
   }
   ngOnInit() {
-    this.currPolicyNo = this.activatedRoute.snapshot.queryParams.policyNo || "";
+    this.currPolicyNo = this.agentassignmentService.currPolNo || "";
+    if(!this.currPolicyNo){
+      this.router.navigate(['/'+this.gobackRouteLink]);
+    }
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     //this.searchCriteriaComponent.setSearchRecordComponent(this);
     let colArr = [], dataArr = [];
@@ -155,7 +159,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     try{
       let leaveStartDate = this.onLeaveModalForm.controls['onLeaveFrom'].value;
       let leaveEndDate = this.onLeaveModalForm.controls['onLeaveTo'].value;
-      if(!leaveStartDate || !leaveEndDate || leaveEndDate - leaveStartDate < 0 || leaveStartDate < this.currDate){
+      if(!leaveStartDate || !leaveEndDate || leaveEndDate - leaveStartDate < 0 || (leaveStartDate.getTime() - new Date().getTime()) < -86400000){
         throw new Error('leaveStartDt || leaveEndDt error');
       }
       let queryParams = {
@@ -217,7 +221,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
             if(['setCurrRow', 'setCurrRowAndSubmit'].indexOf(elem.type) !== -1){
               let rowDataStr = $(event.target).closest("tr").attr("rowdata");
               let rowDataObj = JSON.parse(rowDataStr);
-              let leaveId = rowDataObj.onLeave ? rowDataObj.onLeave.split(":")[0] : null;
+              let leaveId = rowDataObj.onLeave ? rowDataObj.onLeave.split(";")[0] : null;
 
               this.currLeaveId = leaveId;
               this.currAgentCode = rowDataObj.agentCode;
@@ -229,9 +233,12 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     }
   }
   ngOnDestroy(){
-    this.dtTrigger.unsubscribe();
-    this.dataTableAjaxSubscription.unsubscribe();
-
+    if(this.dtTrigger){
+      this.dtTrigger.unsubscribe();
+    }
+    if(this.dataTableAjaxSubscription){
+      this.dataTableAjaxSubscription.unsubscribe();
+    }
   }
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
@@ -283,11 +290,12 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
           date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
           ((opt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
-
         let onLeave = rowData.onLeave;
         let splitOnLeave = (onLeave) ? onLeave.split(";") : null; //[0] =leaveId, [1] =onleave start end date
         let onLeaveP, onLeaveDt, onLeaveStartDt, onLeaveEndDt, isWithinLeavePeriod = false;
         let currDate = new Date();
+        let poolType = rowData.poolType;
+
         if(splitOnLeave){
 
           onLeaveDt = splitOnLeave[1].split(',');
@@ -324,7 +332,9 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
             aOrSpanStyle += `margin:auto;`;
             let divStyle = `display:inline-flex;width:100%;`
 
-            if(!onLeave || !isWithinLeavePeriod){
+            if(poolType == '2'){ //old pool type should not have on leave func
+              $(td).html(``);
+            }else if(!onLeave || !isWithinLeavePeriod){
               $(td).html(`<div style="` + divStyle + `">` +
                    `<a style="` + aOrSpanStyle + `" class="` + grayBtnClass +
                    ` a-addBtn" data-toggle="modal" data-target="#onLeaveModal">Add</a></div>`);
@@ -356,6 +366,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
           queryParams[this.searchCriteriaFieldName[key]] = data;
         }
       });
+      queryParams["policyNo"] = this.currPolicyNo;
       this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(queryParams, 'dataTable').subscribe((resp : any) => {
         this.noOfRenewals = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);

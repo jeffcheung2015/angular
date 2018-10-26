@@ -13,12 +13,12 @@ import constants from '../constants/constants';
 })
 export class AgentassignmentService{
   constructor(private http: HttpClient){ }
-
+  //store the polno and make the get req using this var instead of using the polno from url queryParams for security reason
+  currPolNo: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
   //expected val = easAgentAssignGI | easAgentAssignGI
   //set currServiceName(name : string) {this._currServiceName = name;}
 //  get currServiceName() : string {return this._currServiceName;}
-
   //type : dataTable | searchCriteria | sendParams
   getOrPostFunc(url, params, getOrPost, type){
     let sentParams : any;

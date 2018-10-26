@@ -10,6 +10,9 @@
       left: -20px;
     }
   }
+  .btn-search, .btn-reset{
+    padding: 6px !important;
+  }
   input{
     height:40px !important;
     border-color:#cccccc;
@@ -24,6 +27,7 @@
       background: transparent;
       width: 100%;
     }
+
     .mat-icon.material-icons{
       color:red;
     }

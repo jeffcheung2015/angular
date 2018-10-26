@@ -65,9 +65,9 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
-    "5": "active-red",
+    "5": "inactive-gray",
     "10": "inactive-gray",
-    "20": "inactive-gray",
+    "20": "active-red",
   };
   //subscription
   dataTableAjaxSubscription;
@@ -107,7 +107,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
     this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
 
-    let easLang = this.translateService.currentLang;    
+    let easLang = this.translateService.currentLang;
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     //this.searchCriteriaComponent.setSearchRecordComponent(this);
     let colArr = [], dataArr = [];
@@ -118,7 +118,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     });
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 20,
       scrollX:true,
       scrollY:true,
       columnDefs : this.aoInterfaceColumnDef(),

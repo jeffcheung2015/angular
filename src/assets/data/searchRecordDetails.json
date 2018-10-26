@@ -9,7 +9,8 @@
       "email":"UATnda.so@pruhk.com",
       "agentPhone":"",
       "lastAssignDate":"2018-09-27T01:58:21.006+0000",
-      "leaveId":1231322,
+      "poolType":"1",
+      "leaveId":"1231322",
       "leaveStartDate":"2018-09-27T01:58:21.006+0000",
       "leaveEndDate":"2018-09-29T01:58:21.006+0000"
     },
@@ -19,7 +20,8 @@
       "email":"UUW3PC02@INDEV.ASDEV",
       "agentPhone":"99951678",
       "lastAssignDate":null,
-      "leaveId":0,
+      "poolType":"1",
+      "leaveId":"0",
       "leaveStartDate":null,
       "leaveEndDate":null
     },
@@ -29,7 +31,8 @@
       "email":"jessie.hui@prudential.com.hk",
       "agentPhone":"91234567",
       "lastAssignDate":null,
-      "leaveId":12313,
+      "poolType":"1",
+      "leaveId":"12313",
       "leaveStartDate":"2018-10-18T08:01:55.000+0000",
       "leaveEndDate":"2018-11-27T01:58:22.253+0000"
     },
@@ -39,7 +42,8 @@
       "email":"jessie.hui@prudential.com.hk",
       "agentPhone":"91234567",
       "lastAssignDate":null,
-      "leaveId":0,
+      "poolType":"1",
+      "leaveId":"0",
       "leaveStartDate":null,
       "leaveEndDate":null
     },
@@ -49,7 +53,8 @@
       "email":"jessie.hui@prudential.com.hk",
       "agentPhone":"91234567",
       "lastAssignDate":null,
-      "leaveId":0,
+      "poolType":"2",
+      "leaveId":"0",
       "leaveStartDate":null,
       "leaveEndDate":null
     },
@@ -59,7 +64,8 @@
       "email":"UATon.ng@pruhk.com",
       "agentPhone":"99942345",
       "lastAssignDate":null,
-      "leaveId":0,
+      "poolType":"2",
+      "leaveId":"0",
       "leaveStartDate":null,
       "leaveEndDate":null
     }

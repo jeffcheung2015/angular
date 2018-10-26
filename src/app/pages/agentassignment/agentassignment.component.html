@@ -44,6 +44,7 @@
                   </app-searchrecord>
                   <app-detailssearchrecord
                     *ngIf="currSubPage == 'easAgentDetail'"
+                    [gobackRouteLink]="agentassignmentService.currServiceName"
                     >
                   </app-detailssearchrecord>
                   <app-campaigndetails

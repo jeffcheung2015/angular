@@ -134,16 +134,21 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     let params = polNo;
     if(type === 'pruchat'){
       this.agentassignmentService.postResendPruchat(params, 'sendParams').subscribe((resp : any) => {
+        let code = (typeof resp.code === "number") ? resp.code.toString() : resp.code;
+        let msg = (code !== "00000") ? resp.errorMsg : "PruChat and email has been sent successfully";
+        this.setPopUpMsg(msg);
       }, (error)=>{
         console.log('error', error);
       });
     }else if(type === 'sms'){
       this.agentassignmentService.postResendSMS(params, 'sendParams').subscribe((resp : any) => {
+        let code = (typeof resp.code === "number") ? resp.code.toString() : resp.code;
+        let msg = (code !== "00000") ? resp.errorMsg : "SMS and email has been sent successfully";
+        this.setPopUpMsg(msg);
       }, (error)=>{
         console.log('error', error);
       });
     }
-    this.setPopUpMsg(type === 'pruchat' ? "PruChat and email has been sent successfully" : "SMS and email has been sent successfully");
   }
 
   ngAfterViewChecked(){
@@ -152,7 +157,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     //make use of settings.oApi._fnPageChange to change the page
     //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
     this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
-    console.log(this.dataTableSettings)
     //for handling the btn inside datatables
     if(!this.onclickEventInit){
       this.onclickEventInit = true;
@@ -174,7 +178,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               elem.callback(paramsToBePassed);
             }
             if(elem.url){
-              this.router.navigate([elem.url], { queryParams : paramsToBePassed });
+              this.agentassignmentService.currPolNo = paramsToBePassed['policyNo'];
+              this.router.navigate([elem.url]);
             }
           }
         });
