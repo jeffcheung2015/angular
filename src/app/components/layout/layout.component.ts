@@ -86,6 +86,8 @@ export class LayoutComponent implements OnInit {
               if(['easAgentAssignCS', 'easAgentAssignGI'].indexOf(elem) !== -1){
                 //store in it so that later be used in other component
                 this.agentassignmentService.currServiceName = elem;
+                console.log('this.agentassignmentService.currServiceName',this.agentassignmentService.currServiceName)
+                
               }
             }else{
               this[this.mapMenuLinkToTab[elem]].children.push(

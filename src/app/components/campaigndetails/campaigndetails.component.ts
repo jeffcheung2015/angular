@@ -37,7 +37,7 @@ export class CampaigndetailsComponent implements OnInit {
   ngOnInit() {
     let campaignCode = _get(this.activatedRoute, 'snapshot.queryParams.campaignCode', '');
     if(campaignCode == ''){//to prevent user entering empty campaignCode by redirecting them back to the go back route link
-      this.router.navigate(['/'+this.gobackRouteLink]); //redirect back to agentassignGI/CS page
+      this.router.navigate(['/']); //redirect back to agentassignGI/CS page
     }else{
       let sentParams = {
           campaignCode: campaignCode
