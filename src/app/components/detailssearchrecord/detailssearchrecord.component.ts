@@ -85,7 +85,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   ngOnInit() {
     this.currPolicyNo = this.agentassignmentService.currPolNo || "";
     if(!this.currPolicyNo){
-      this.router.navigate(['/'+this.gobackRouteLink]);
+      this.router.navigate(['/'+this.agentassignmentService.currServiceName]);
     }
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     //this.searchCriteriaComponent.setSearchRecordComponent(this);
