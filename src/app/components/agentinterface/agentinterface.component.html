@@ -11,12 +11,12 @@
           <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.PHONE' | translate}}: {{currPhone}}</label><br />
           <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.EMAIL' | translate}}: {{currEmail}}</label><br />
           <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.ASSIGNMENT_DT' | translate}}: {{currAssignmentDt | date:'dd/MM/yyyy hh:mm'}}</label><br />
-          <label class="col-12 label-fromField">{{'AGENT_INTERFACE.CUSTOMER_DTL.FIRST_CONTACT_DT' | translate}}:
+          <label class="col-12 label-fromField"><span>{{'AGENT_INTERFACE.CUSTOMER_DTL.FIRST_CONTACT_DT' | translate}}:</span>
             <ng-container *ngIf="currFirstContactDt">
               {{customerDetailModalForm.controls['firstContactDt'].value | date:'dd/MM/yyyy'}}
             </ng-container>
             <ng-container *ngIf="!currFirstContactDt">
-              <input readonly placeholder="DD/MM/YYYY" class="search-by-input"
+              <input placeholder="DD/MM/YYYY" class="search-by-input"
               matInput [max]="maxDateFrom" [matDatepicker]="firstContactDtPicker"
               formControlName="firstContactDt" name="firstContactDtField">
 

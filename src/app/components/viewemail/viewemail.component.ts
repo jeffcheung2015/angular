@@ -24,7 +24,7 @@ export class ViewemailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.lastEmailId = this.activatedRoute.snapshot.queryParams.lastEmailId || "";
+    this.lastEmailId = this.agentassignmentService.currEmailId || "";
     if(this.lastEmailId == ''){ //to prevent user entering empty lastemailid by redirecting them back to the go back route link
       this.router.navigate(['/']);
     }

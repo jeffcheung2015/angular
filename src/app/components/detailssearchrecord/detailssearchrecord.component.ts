@@ -42,7 +42,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   pageInfo : any = {};
 
   noOfPage : number;
-  currPage : number = 1;
+  currPage : number = 0;
 
   currDate = new Date();
 
@@ -69,7 +69,9 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   };
   //subscription
   dataTableAjaxSubscription;
-  //
+  //listener
+  bodyRendererListener;
+
   constructor(
      private agentassignmentService : AgentassignmentService,
      private http: HttpClient,
@@ -187,6 +189,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
 
     this.agentassignmentService.postSelectYesLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       console.log("resp:", resp);
+      //this.router.navigate(['/'+this.agentassignmentService.currServiceName]);
       this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
 
     }, (error) => console.log(error));
@@ -213,11 +216,12 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     //for handling the btn inside datatables
     if(!this.onclickEventInit){
       this.onclickEventInit = true;
-      this.renderer2.listen("body", 'click', (event)=>{
+      this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
           if($(event.target).hasClass(elem.className)){
             //add, select, reset btn that is inside the tr row
             //only these btns have the info of the closest tr for setting currently selected row
+            console.log("elem.className", elem.className)
             if(['setCurrRow', 'setCurrRowAndSubmit'].indexOf(elem.type) !== -1){
               let rowDataStr = $(event.target).closest("tr").attr("rowdata");
               let rowDataObj = JSON.parse(rowDataStr);
@@ -226,6 +230,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
               this.currLeaveId = leaveId;
               this.currAgentCode = rowDataObj.agentCode;
             }
+            console.log("###")
             elem.callback();
           }
         });
@@ -233,6 +238,9 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     }
   }
   ngOnDestroy(){
+    if(this.bodyRendererListener){
+      this.bodyRendererListener();
+    }
     if(this.dtTrigger){
       this.dtTrigger.unsubscribe();
     }
@@ -303,7 +311,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
           onLeaveEndDt = new Date(onLeaveDt[1].substr(0,10));
           isWithinLeavePeriod = (currDate.getTime() - onLeaveStartDt.getTime() > 0 && currDate.getTime() - onLeaveEndDt.getTime() < 0);
           //compare current date with the on leave start dt and end dt
-          let pStyle = `style="margin:auto;` + ((isWithinLeavePeriod) ? `color:lightgray;"` : `"`);
+          let pStyle = `style="margin:auto;padding:10px;` + ((isWithinLeavePeriod) ? `color:lightgray;"` : `"`);
 
           onLeaveP = `<p ` + pStyle + `>` + convertDate(onLeaveStartDt, "MMDD") + "-" + convertDate(onLeaveEndDt, "MMDD") + `</p>`;
         }
@@ -311,7 +319,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
         let aOrSpanStyle = ``; // for col 4 [lastAssignDate] and col 6 [onleave]
 
         if(col <= 4 && !cellData || cellData === ''){
-          $(td).html("<span>-</span>");
+          $(td).html(`<span ` + ((isWithinLeavePeriod) ? `style="color:lightgray"` : ``) + `>-</span>`);
         }
         switch(col){
           case 4:
@@ -324,9 +332,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
             }
             break;
           case 5:
-            if(!cellData){
-              $(td).html(`<a class="` + redBtnClass + ` a-selectBtn" data-toggle="modal" data-target="#selectBtnModal">Select</a>`);
-            }
+            $(td).html(`<a class="` + redBtnClass + ` a-selectBtn" data-toggle="modal" data-target="#selectBtnModal">Select</a>`);
             break;
           case 6:
             aOrSpanStyle += `margin:auto;`;
@@ -370,6 +376,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(queryParams, 'dataTable').subscribe((resp : any) => {
         this.noOfRenewals = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
+        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
 

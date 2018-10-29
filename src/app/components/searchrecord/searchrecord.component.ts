@@ -42,7 +42,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
   dataTableSettings : any;//for changing table pages in gotopage
   noOfPage : number;
-  currPage : number = 1;
+  currPage : number = 0;
+
+  bodyRendererListener;
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
@@ -137,16 +139,20 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         let code = (typeof resp.code === "number") ? resp.code.toString() : resp.code;
         let msg = (code !== "00000") ? resp.errorMsg : "PruChat and email has been sent successfully";
         this.setPopUpMsg(msg);
+        $("#btnMsgModal").modal('show');
       }, (error)=>{
-        console.log('error', error);
+        this.setPopUpMsg("Error occurs");
+        $("#btnMsgModal").modal('show');
       });
     }else if(type === 'sms'){
       this.agentassignmentService.postResendSMS(params, 'sendParams').subscribe((resp : any) => {
         let code = (typeof resp.code === "number") ? resp.code.toString() : resp.code;
         let msg = (code !== "00000") ? resp.errorMsg : "SMS and email has been sent successfully";
         this.setPopUpMsg(msg);
+        $("#btnMsgModal").modal('show');
       }, (error)=>{
-        console.log('error', error);
+        this.setPopUpMsg("Error occurs");
+        $("#btnMsgModal").modal('show');
       });
     }
   }
@@ -160,7 +166,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     //for handling the btn inside datatables
     if(!this.onclickEventInit){
       this.onclickEventInit = true;
-      this.renderer2.listen("body", 'click', (event)=>{
+      this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
           if($(event.target).hasClass(elem.className)){
             //read queryParams attr
@@ -178,7 +184,18 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               elem.callback(paramsToBePassed);
             }
             if(elem.url){
-              this.agentassignmentService.currPolNo = paramsToBePassed['policyNo'];
+              switch(elem.className){
+                case 'a-assignBtn':
+                case 'a-reassignBtn':
+                  this.agentassignmentService.currPolNo = paramsToBePassed['policyNo'];
+                  break;
+                case 'a-viewEmail':
+                  this.agentassignmentService.currEmailId = paramsToBePassed['lastEmailId'];
+                  break;
+                case 'a-campaignCode':
+                  this.agentassignmentService.currServiceName = paramsToBePassed['campaignCode'];
+                  break;
+              }
               this.router.navigate([elem.url]);
             }
           }
@@ -187,7 +204,12 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     }
   }
   ngOnDestroy(){
-    this.dtTrigger.unsubscribe();
+    if(this.bodyRendererListener){
+      this.bodyRendererListener();
+    }
+    if(this.dtTrigger){
+      this.dtTrigger.unsubscribe();
+    }
   }
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
@@ -275,9 +297,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let displayInlineStyle = "style='display: inline-flex;float: left;'";
 
             let assignBtnHTML = `<a class="` + redBtnClass + ` a-assignBtn" queryParams="policyNo:` + rowData.polNo + `">Assign</a>`;
-            let reassignBtnHTML = `<a class="` + redBtnClass + ` a-reassignBtn">Re-assign</a>`;
-            let pruchatBtnHTML = `<a class="` + grayBtnClass + ` a-pruchatEmailBtn" queryParams="policyNo:` + rowData.polNo + `" data-toggle="modal" data-target="#btnMsgModal" >PruChat & Email to Agent(Resend)</a>`;
-            let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" queryParams="policyNo:` + rowData.polNo + `" data-toggle="modal" data-target="#btnMsgModal" >SMS & Email to Customer(Resend)</a>`;
+            let reassignBtnHTML = `<a class="` + redBtnClass + ` a-reassignBtn" queryParams="policyNo:` + rowData.polNo + `">Re-assign</a>`;
+            let pruchatBtnHTML = `<a class="` + grayBtnClass + ` a-pruchatEmailBtn" queryParams="policyNo:` + rowData.polNo + `">PruChat & Email to Agent(Resend)</a>`;
+            let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" queryParams="policyNo:` + rowData.polNo + `">SMS & Email to Customer(Resend)</a>`;
 
             let agentAssignedDate = rowData.agentAssignedDate ? new Date(rowData.agentAssignedDate.substr(0,10)) : ``;
 
@@ -359,7 +381,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.agentassignmentService.getAgentAssignmentRecord(queryParams, 'dataTable').subscribe((resp : any) => {
           this.noOfCustomer = resp.body.recordsFiltered;
           this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
-
+          this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
           callback({
             data:resp.body.data,
             recordsTotal: resp.body.recordsTotal,

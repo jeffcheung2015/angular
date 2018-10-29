@@ -17,7 +17,14 @@
       justify-content: center;
     }
   }
+  .modal-body{
+    .mat-input-element{
+      height: 40px;
+      width: 230px;
+    }
+  }
 }
+
 .div-agentInterfaceDataTable{
   text-align: center;
   .h4-tableHeader{
@@ -45,8 +52,8 @@
     .div-goToPage{
       display: flex;
       position: relative;
-      left: 50%;
-      transform: translate(-50%,10px);
+      left: 38%;
+      // transform: translate(-50%,10px);
       .span-goToPage{
         line-height: 50px;
         color:gray;

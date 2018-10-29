@@ -53,7 +53,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   pageInfo : any = {};
 
   noOfPage : number;
-  currPage : number = 1;
+  currPage : number = 0;
 
   currSelectedAgentCode: string= "";
 
@@ -72,6 +72,9 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   //subscription
   dataTableAjaxSubscription;
   translateOnLangChangeSubscription;
+  //listener
+  bodyRendererListener;
+
   constructor(
      private leadresponseService : LeadresponseService,
      private http: HttpClient,
@@ -223,7 +226,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     //for handling the btn inside datatables
     if(!this.onclickEventInit){
       this.onclickEventInit = true;
-      this.renderer2.listen("body", 'click', (event)=>{
+      this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
           if($(event.target).hasClass(elem.className) && elem.type === 'submit'){
             elem.callback();
@@ -280,9 +283,18 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     }
   }
   ngOnDestroy(){
-    this.dtTrigger.unsubscribe();
-    this.translateOnLangChangeSubscription.unsubscribe();
-    this.dataTableAjaxSubscription.unsubscribe();
+    if(this.bodyRendererListener){
+      this.bodyRendererListener();
+    }
+    if(this.dtTrigger){
+      this.dtTrigger.unsubscribe();
+    }
+    if(this.translateOnLangChangeSubscription){
+      this.translateOnLangChangeSubscription.unsubscribe();
+    }
+    if(this.dataTableAjaxSubscription){
+      this.dataTableAjaxSubscription.unsubscribe();      
+    }
   }
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
@@ -425,6 +437,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
         });
 
         this.noOfPage = Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength);
+        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
         //
         callback({
           data:resArr.data,

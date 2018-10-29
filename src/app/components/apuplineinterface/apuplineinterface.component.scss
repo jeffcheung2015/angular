@@ -8,20 +8,24 @@
       font-weight: bold;
       margin-bottom: 30px;
     }
+    .div-apUplineInterface-wrapper{
+      max-height: 800px;
+      overflow: scroll;
+      width: 100%;
+      .table-apUplineInterface{
+        width: 100% !important;
+        th.noscroll{
+          font-size: 12px;
+        }
+        .span-dataRow{
+          white-space: nowrap;
+        }
 
-    .table-apUplineInterface{
-      width: 100% !important;
-      th.noscroll{
-        font-size: 12px;
-      }
-      .span-dataRow{
-        white-space: nowrap;
-      }
-
-      //this one is to overwrite the triangle symbol as completely
-      // disabling the ordering of the datatable is seemingly impossible
-      .sorting_asc, .sorting_desc{
-        background-image: none;
+        //this one is to overwrite the triangle symbol as completely
+        // disabling the ordering of the datatable is seemingly impossible
+        .sorting_asc, .sorting_desc{
+          background-image: none;
+        }
       }
     }
   }

@@ -1669,7 +1669,7 @@ table th[class*="col-"] {
   background-color: #fbdbdb;
 }
 .table-responsive {
-  overflow-x: auto;
+  overflow-x: hidden;
   min-height: 0.01%;
 }
 .table-wrapper {
@@ -7107,9 +7107,6 @@ pre {
 pre.prettyprint {
   margin-bottom: 10px;
 }
-.table-responsive {
-  overflow-x: auto;
-}
 @media (max-width: 767px) {
   /* Wrap your tables in `.table-flipscroll` and we'll fix the header and make the tbody scrollable */
   .table-flipscroll table:before,
@@ -9236,10 +9233,7 @@ footer .container {
 
 #page-heading .breadcrumb {
   line-height: 2rem;
-  /*padding: 12px 20px;*/
-  /*background: #fff;*/
   white-space: nowrap;
-  overflow-x: scroll;
   padding-left: 26px;
 }
 #page-heading .breadcrumb::-webkit-scrollbar,
@@ -15573,11 +15567,14 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .mat-button-focus-overlay{
   opacity: 0 !important;
 }
-/* datepicker button whole input area open */
+
+.mat-datepicker-toggle{
+  position: relative;
+}
 .mat-datepicker-toggle .mat-icon-button{
   position: absolute;
-  left: 0px;
-  width: 230px;
+  left: -232px;
+  width: 232px;
 	border-radius: 5px;
 }
 .mat-datepicker-toggle .mat-button-wrapper{
