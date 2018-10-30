@@ -289,8 +289,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
           }else{
             $(td).attr('colspan', '5');
 
-            $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
-
             let redBtnClass = "btn btn-primary table-btn";
             let grayBtnClass = "btn btn-default table-btn";
 
@@ -302,6 +300,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" queryParams="policyNo:` + rowData.polNo + `">SMS & Email to Customer(Resend)</a>`;
 
             let agentAssignedDate = rowData.agentAssignedDate ? new Date(rowData.agentAssignedDate.substr(0,10)) : ``;
+            $(td).addClass((rowSymbol === 'B' || (rowSymbol === 'F' && agentAssignedDate)) ? 're-assign' : '');
 
             let tdValRowHTML = `<td><p>` + rowData.agentTeam + `</p></td>
             <td><p>` + rowData.agentCode + `</p></td>
@@ -312,10 +311,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let firstRow :string = '' , secRow :string = '';
 
             switch(rowSymbol){
-              case 'A': case 'D': case 'F':
+              case 'A':
                 firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
                 break;
               case 'B': //val reassign pru sms (2)
+                $(td).addClass("re-assign");
                 firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
                 secRow = `<tr><td colspan="5" class="re-assign" style="padding: 8px 0px;">` +
                  `<div ` + displayInlineStyle + `><div>` +
@@ -329,16 +329,41 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                   pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
                   `</td></tr>`;
                 break;
+              case 'D':
+                if(!agentAssignedDate){
+                  firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
+                }else{
+                  firstRow = `<tr>` + tdValRowHTML + `</tr>`;
+                  secRow = `<tr><td colspan="5" style="padding: 8px 0px;">` +
+                   `<div ` + displayInlineStyle + `><div>` +
+                    pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
+                    `</td></tr>`;
+                }
+                break;
               case 'E': //sms (1)
                 firstRow = `<div ` + displayInlineStyle + `>` + smsEmailBtnHTML + `</div>`;
                 break;
+              case 'F':
+                if(!agentAssignedDate){
+                  firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
+                }else{
+                  $(td).addClass("re-assign");
+                  firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
+                  secRow = `<tr><td colspan="5" class="re-assign" style="padding: 8px 0px;">` +
+                   `<div ` + displayInlineStyle + `><div>` +
+                   reassignBtnHTML + `</div><div>` + pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div></div>` +
+                   `</td></tr>`;
+                }
+                break;
             }
             let firstSecRowHtml = firstRow + secRow;
-            let htmlStr = (['B', 'C'].indexOf(rowSymbol) !== -1) ? `<table style="table-layout:fixed;width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
+            let htmlStr = (['B', 'C'].indexOf(rowSymbol) !== -1 ||
+                          (['D', 'F'].indexOf(rowSymbol) !== -1 && agentAssignedDate)) ?
+                          `<table style="table-layout:fixed;width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
             $(td).html(htmlStr);
           }
         }else if(col >= 18){ //pruchat sms Section
-          $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
+          $(td).addClass((rowSymbol === 'B' || (rowSymbol === 'F' && rowData.agentAssignedDate)) ? 're-assign' : '');
           let dataArrSrc = (col === 18) ? rowData.agentSentDate : rowData.customerSentDate;
           let tdhtml = "";
           if(dataArrSrc && dataArrSrc.length != 0){
