@@ -1,0 +1,54 @@
+{"draw":0,
+"recordsFiltered":6,
+"recordsTotal":6,
+"data":[
+    {
+      "template": "Temp 1",
+      "communicationCode": "ABC122C01",
+      "campaignTitle": "masdkasd",
+      "lastEdit": "2018-10-15T04:29:15.239+0000",
+      "sentTime": "2018-10-15T04:29:15.239+0000",
+      "action": 1
+    },
+    {
+      "template": "Temp 2",
+      "communicationCode": "ABC122C22",
+      "campaignTitle": "masdkasd",
+      "lastEdit": "2018-10-15T04:29:15.239+0000",
+      "sentTime": "2018-10-15T04:29:15.239+0000",
+      "action": 2
+    },
+    {
+      "template": "Temp 1",
+      "communicationCode": "ABC122C01",
+      "campaignTitle": "masdkasd",
+      "lastEdit": "2018-10-15T04:29:15.239+0000",
+      "sentTime": "2018-10-15T04:29:15.239+0000",
+      "action": 2
+    },
+    {
+      "template": "Temp 1",
+      "communicationCode": "ABC122C01",
+      "campaignTitle": "masdkasd",
+      "lastEdit": "2018-10-15T04:29:15.239+0000",
+      "sentTime": null,
+      "action": 1
+    },
+    {
+      "template": "Temp 1",
+      "communicationCode": "ABC122C01",
+      "campaignTitle": "masdkasd",
+      "lastEdit": "2018-10-15T04:29:15.239+0000",
+      "sentTime": "2018-10-15T04:29:15.239+0000",
+      "action": 2
+    },
+    {
+      "template": "Temp 1",
+      "communicationCode": "ABC122C01",
+      "campaignTitle": "masdkasd",
+      "lastEdit": "2018-10-15T04:29:15.239+0000",
+      "sentTime": null,
+      "action": 1
+    }
+  ]
+}
