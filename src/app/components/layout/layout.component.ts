@@ -77,17 +77,22 @@ export class LayoutComponent implements OnInit {
 
     "easEDM" : "eDM"
   }
+  //only these 10 page name would be checked
+  menuPageName = ["easAgentAssignGI" ,"easAgentAssignCS" ,
+  "easLeadExtensionApproval","easLeadSummary","easLeadExtensionAppl",
+  "easAgentInterface" ,"easAPInterface" ,"easAOInterface" ,"easEDM" ];
+
   ngOnInit() {
     this.layoutService.getLeftSideBarMenu({}, 'menuApi').subscribe((resp : any) =>{
         resp.body.menu.forEach((elem)=>{
-          if(this.ignoredMenu.indexOf(elem) === -1){ //non detail pages
+          if(this.menuPageName.indexOf(elem) !== -1 && this.ignoredMenu.indexOf(elem) === -1){ //non detail pages
             if(['easAgentAssignCS', 'easAgentAssignGI', 'easEDM'].indexOf(elem) !== -1){
               this[this.mapMenuLinkToTab[elem]].link = '/'+elem;
               if(['easAgentAssignCS', 'easAgentAssignGI'].indexOf(elem) !== -1){
                 //store in it so that later be used in other component
                 this.agentassignmentService.currServiceName = elem;
                 console.log('this.agentassignmentService.currServiceName',this.agentassignmentService.currServiceName)
-                
+
               }
             }else{
               this[this.mapMenuLinkToTab[elem]].children.push(

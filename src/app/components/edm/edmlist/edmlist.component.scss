@@ -1,0 +1,91 @@
+.div-edmListTable{
+  text-align: center;
+
+  .div-headerWrapper{
+    .h4-tableHeader{
+      color: red;
+
+    }
+    .span-noOfETemplate{
+      color:red;
+      font-size: 20px;
+      font-weight: 400;
+      margin-right: 30px;
+    }
+    .div-noOfETemplateAndAddNewBtn{
+      
+    }
+  }
+  .table-edmList{
+    width: 100% !important;
+    th.noscroll{
+      font-size: 12px;
+    }
+
+    //this one is to overwrite the triangle symbol as completely
+    // disabling the ordering of the datatable is seemingly impossible
+    .sorting_asc, .sorting_desc{
+      background-image: none;
+    }
+  }
+
+  .div-goToPage-showPerPage{
+    display: -webkit-box;
+    position: relative;
+    .div-goToPage{
+      display: flex;
+      position: relative;
+      left: 38%;
+      // transform: translate(-50%,10px);
+      .span-goToPage{
+        line-height: 50px;
+        color:gray;
+      }
+      .div-goToPage_wrapper{
+        display:inline-block;
+        .input-goToPage_left{
+          margin-left: 10px;
+          border-radius: 10px 0px 0px 10px;
+          border-right: 0px;
+          text-align: right;
+          color:gray;
+        }
+        .input-goToPage_right{
+          position:relative;
+          left:-10px;
+          color:gray;
+          border-left: 0px;
+          border-radius: 0px;
+        }
+        input {
+          width: 80px;
+          background-color:transparent;
+        }
+        .button-goToPage_go{
+          position:relative;
+          left:-12px;
+          border-radius: 0px 10px 10px 0px;
+          background-color: rgb(200,200,200);
+          color:black;
+        }
+      }
+    }
+  }
+  .ul-showPerPage{
+    list-style: none !important;
+    display: flex;
+    position: absolute;
+    top: -26px;
+    right: 0px;
+    float: right;
+    li{
+      margin: 0px 10px;
+    }
+    .inactive-gray{
+      color:gray;
+    }
+    .active-red{
+      color:red;
+    }
+  }
+}

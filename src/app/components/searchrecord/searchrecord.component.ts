@@ -25,11 +25,10 @@ import constants from '../../constants/constants';
 export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,AfterViewChecked, OnChanges {
   @Input() setPopUpMsg : Function;
   @Input() popUpMsg : string;
-  displayedColumns : string[] = constants["SearchRecordColumnName"];
-  displayedColumnsName : string[] = constants["SearchRecordColumnField"];
-  searchCriterias : string[] = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign"];
-  searchCriteriaFieldName : string[] = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
-    "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption"];
+  @Input() currSubPage : string;
+  displayedColumnsName : string[];
+  searchCriterias : string[];
+  searchCriteriaFieldName : string[];
   searchCriteriaComponent : SearchcriteriaComponent;
   noOfCustomer : number = 0;
   noOfRenewals : number = 0;
@@ -64,15 +63,35 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   }
 
   ngOnInit() {
-    this.classToTrigger = [
-      {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
-      {className : 'a-assignBtn', url: constants.route['AgentDetail']},
-      {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
-      {className : 'a-viewEmail', url: constants.route['ViewEmail']},
-      {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
-      {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
-    ];
+    if(this.currSubPage === 'easAgentAssignGI'){
+      this.displayedColumnsName = constants["GISearchRecordColumnField"];
+      this.classToTrigger = [
+        {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
+        {className : 'a-assignBtn', url: constants.route['AgentDetail']},
+        {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
+        {className : 'a-viewEmail', url: constants.route['ViewEmail']},
+        {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
+        {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
+      ];
+      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign"];
+      this.searchCriteriaFieldName = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
+        "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption"];
+    }else{ //easAgentAssignCS
+      this.displayedColumnsName = constants["CSSearchRecordColumnField"];
+      this.classToTrigger = [
+        // {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
+        // {className : 'a-assignBtn', url: constants.route['AgentDetail']},
+        // {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
+        // {className : 'a-viewEmail', url: constants.route['ViewEmail']},
+        // {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
+        // {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
+      ];
 
+      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign", "Yes", ""];
+      this.searchCriteriaFieldName = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
+        "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption",
+        "contactCustomerOption","assignmentStatusOption"];
+    }
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
 
     let colArr = [], dataArr = [];
@@ -300,7 +319,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" queryParams="policyNo:` + rowData.polNo + `">SMS & Email to Customer(Resend)</a>`;
 
             let agentAssignedDate = rowData.agentAssignedDate ? new Date(rowData.agentAssignedDate.substr(0,10)) : ``;
-            $(td).addClass((rowSymbol === 'B' || (rowSymbol === 'F' && agentAssignedDate)) ? 're-assign' : '');
+            $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
 
             let tdValRowHTML = `<td><p>` + rowData.agentTeam + `</p></td>
             <td><p>` + rowData.agentCode + `</p></td>
@@ -315,7 +334,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                 firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
                 break;
               case 'B': //val reassign pru sms (2)
-                $(td).addClass("re-assign");
                 firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
                 secRow = `<tr><td colspan="5" class="re-assign" style="padding: 8px 0px;">` +
                  `<div ` + displayInlineStyle + `><div>` +
@@ -347,12 +365,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                 if(!agentAssignedDate){
                   firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
                 }else{
-                  $(td).addClass("re-assign");
-                  firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
-                  secRow = `<tr><td colspan="5" class="re-assign" style="padding: 8px 0px;">` +
+                  firstRow = `<tr>` + tdValRowHTML + `</tr>`;
+                  secRow = `<tr><td colspan="5" style="padding: 8px 0px;">` +
                    `<div ` + displayInlineStyle + `><div>` +
-                   reassignBtnHTML + `</div><div>` + pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div></div>` +
-                   `</td></tr>`;
+                    pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
+                    `</td></tr>`;
                 }
                 break;
             }
@@ -363,7 +380,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             $(td).html(htmlStr);
           }
         }else if(col >= 18){ //pruchat sms Section
-          $(td).addClass((rowSymbol === 'B' || (rowSymbol === 'F' && rowData.agentAssignedDate)) ? 're-assign' : '');
+          $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
           let dataArrSrc = (col === 18) ? rowData.agentSentDate : rowData.customerSentDate;
           let tdhtml = "";
           if(dataArrSrc && dataArrSrc.length != 0){
@@ -389,6 +406,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       }
     }]
   }
+  mapAssignOptionToVal = {
+    "Auto Assigned" : "AA",
+    "Assign" : "A",
+    "Re-assign" : "R"
+  }
   agentAssignedAjax(){
     return (params, callback, settings) => {
       let queryParams = {};
@@ -400,19 +422,21 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       //put all the params from searchCriteria into queryParams
       this.searchCriterias.forEach((data, key)=>{
         if(data){
-          queryParams[this.searchCriteriaFieldName[key]] = data;
+          queryParams[this.searchCriteriaFieldName[key]] = 
+          (this.searchCriteriaFieldName[key] === 'assignmentOption') ?
+           this.mapAssignOptionToVal[data] : data;
         }
       });
-      this.agentassignmentService.getAgentAssignmentRecord(queryParams, 'dataTable').subscribe((resp : any) => {
-          this.noOfCustomer = resp.body.recordsFiltered;
-          this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
-          this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
-          callback({
-            data:resp.body.data,
-            recordsTotal: resp.body.recordsTotal,
-            recordsFiltered: resp.body.recordsFiltered
-          });
+      this.agentassignmentService.getAgentAssignmentRecord(queryParams, 'dataTable', this.currSubPage).subscribe((resp : any) => {
+        this.noOfCustomer = resp.body.recordsFiltered;
+        this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
+        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
+        callback({
+          data:resp.body.data,
+          recordsTotal: resp.body.recordsTotal,
+          recordsFiltered: resp.body.recordsFiltered
         });
+      });
     }
   }
 

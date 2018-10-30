@@ -4,7 +4,7 @@
     <ul class="acc-menu" id="sidebar">
         <li id="title">Engagement Assignment System</li>
         <li class="li-menuheader" id="info">
-            <div><i class="icon-circle-user"></i>{{username}} ({{usercode}})</div>
+            <div><i class="icon-circle-user"></i>&nbsp;&nbsp;{{username}} ({{usercode}})</div>
             <div><i class="icon-calendar"></i>{{currDate | date:'EE, MMM d y'}}</div>
             <div><span *ngIf="currentLang=='zh'" class="span-langChange" (click)="changeLang('en')">En</span></div>
             <div><span *ngIf="currentLang=='en'" class="span-langChange" (click)="changeLang('zh')">中</span></div>

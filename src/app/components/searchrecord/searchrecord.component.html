@@ -44,7 +44,7 @@
     <span class="span-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</span>
   </h4>
   <div class="table-wrapper table-responsive div-searchRecordDataTable">
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
+    <table *ngIf="this.currSubPage=='easAgentAssignGI'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
       <thead>
         <tr class="row1 tr-row1">
             <th class="noscroll" rowspan="2">Class</th>
@@ -74,6 +74,44 @@
             <th class="table-subtitle">Agency Name</th>
             <th class="table-subtitle">Agency Phone</th>
             <th class="table-subtitle">Agent Assigned Date</th>
+        </tr>
+      </thead>
+    </table>
+
+    <table *ngIf="this.currSubPage=='easAgentAssignCS'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
+      <thead>
+        <tr class="row1 tr-row1">
+          <th class="noscroll" rowspan="2">Name of the Applicant</th>
+          <th class="noscroll" rowspan="2">Email Address</th>
+          <th rowspan="2">Mobile No</th>
+          <th rowspan="2">Date of Submission</th>
+          <th rowspan="2">Class</th>
+          <th rowspan="2">Policy No.</th>
+          <th rowspan="2">Date of Birth</th>
+          <th rowspan="2">ID Card No.</th>
+          <th rowspan="2">Gender</th>
+          <th rowspan="2">Opt Out customer(GI)</th>
+          <th rowspan="2">Opt Out customer(Life)</th>
+          <th rowspan="2">Campaign Code</th>
+          <th colspan="4" class="th-textCenter">Assign Agent</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr class="row2 tr-row2">
+          <th class="table-subtitle">Agent Code</th>
+          <th class="table-subtitle">Agent Name</th>
+          <th class="table-subtitle">Agent Phone</th>
+          <th class="table-subtitle">Agent Assigned Date</th>
+          <th>First Contact Date with Customer</th>
+          <th>Contact customer within 2 days</th>
+          <th>Assignment Status</th>
+          <th>Expiry Date of agent account ownership</th>
+          <th>PruChat, Email Send Date (to agent)</th>
+          <th>SMS, Email Send Date (to customer) / View Customer Email or eDM</th>
         </tr>
       </thead>
     </table>

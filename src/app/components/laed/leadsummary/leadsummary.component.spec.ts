@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PddindexComponent } from './pddindex.component';
+import { LeadsummaryComponent } from './leadsummary.component';
 
-describe('PddindexComponent', () => {
-  let component: PddindexComponent;
-  let fixture: ComponentFixture<PddindexComponent>;
+describe('LeadsummaryComponent', () => {
+  let component: LeadsummaryComponent;
+  let fixture: ComponentFixture<LeadsummaryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PddindexComponent ]
+      declarations: [ LeadsummaryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PddindexComponent);
+    fixture = TestBed.createComponent(LeadsummaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

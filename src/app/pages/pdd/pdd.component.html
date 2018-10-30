@@ -1,3 +1,41 @@
-<p>
-  pdd works!
-</p>
+<div id="page-content">
+  <div id='wrap'>
+    <div class="container">
+      <div class="row">
+        <div id="page-heading">
+          <ol class="breadcrumb">
+            <li [ngClass]="currSubPage=='home' ? 'active' : ''">
+              <a href="javascript:;">Home</a>
+            </li>
+            <li *ngIf="currSubPage=='easLeadExtensionAppl'" [ngClass]="currSubPage=='easLeadExtensionAppl' ? 'active' : ''">
+              <a>Application for Assigned Lead</a>
+            </li>
+            <li *ngIf="currSubPage=='easLeadExtensionApproval'" [ngClass]="currSubPage=='easLeadExtensionApproval' ? 'active' : ''">
+              <a>Lead extension approval</a>
+            </li>
+            <li *ngIf="currSubPage=='easLeadSummary'" [ngClass]="currSubPage=='easLeadSummary' ? 'active' : ''">
+              <a>Summary</a>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12 clearfix">
+                  <app-leadextensionappl *ngIf="currSubPage=='easLeadExtensionAppl'"></app-leadextensionappl>
+                  <app-leadextensionapproval *ngIf="currSubPage=='easLeadExtensionApproval'"></app-leadextensionapproval>
+                  <app-leadsummary *ngIf="currSubPage=='easLeadSummary'"></app-leadsummary>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

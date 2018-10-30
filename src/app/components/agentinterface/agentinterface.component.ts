@@ -116,8 +116,6 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
     let easLang = this.translateService.currentLang;
 
-    //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
-    //this.searchCriteriaComponent.setSearchRecordComponent(this);
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val)=>{
       colArr.push({
@@ -308,7 +306,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       this.translateOnLangChangeSubscription.unsubscribe();
     }
     if(this.dataTableAjaxSubscription){
-      this.dataTableAjaxSubscription.unsubscribe();      
+      this.dataTableAjaxSubscription.unsubscribe();
     }
   }
   changeTablePerPage(val){

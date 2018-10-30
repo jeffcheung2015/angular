@@ -72,10 +72,8 @@ import { AgentassignmentComponent } from './pages/agentassignment/agentassignmen
 import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
 import { DetailssearchrecordComponent } from './components/detailssearchrecord/detailssearchrecord.component';
 import { CampaigndetailsComponent } from './components/campaigndetails/campaigndetails.component';
-import { PddindexComponent } from './pages/pddindex/pddindex.component';
 import { AgentinterfaceComponent } from './components/agentinterface/agentinterface.component';
 import { CustomerdetailComponent } from './components/customerdetail/customerdetail.component';
-import { LeadextensionapplicationComponent } from './components/leadextensionapplication/leadextensionapplication.component';
 import { UpselldetailsComponent } from './components/upselldetails/upselldetails.component';
 import { ApuplineinterfaceComponent } from './components/apuplineinterface/apuplineinterface.component';
 import { AointerfaceComponent } from './components/aointerface/aointerface.component';
@@ -83,10 +81,16 @@ import { LeadresponseComponent } from './pages/leadresponse/leadresponse.compone
 import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
 import { ViewemailComponent } from './components/viewemail/viewemail.component';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoaderComponent } from './components/common/loader/loader.component';
 //other
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { EdmmanagementformComponent } from './components/edm/edmmanagementform/edmmanagementform.component';
+import { EdmhistoryComponent } from './components/edm/edmhistory/edmhistory.component';
+import { EdmlistComponent } from './components/edm/edmlist/edmlist.component';
+import { LeadextensionapplComponent } from './components/laed/leadextensionappl/leadextensionappl.component';
+import { LeadextensionapprovalComponent } from './components/laed/leadextensionapproval/leadextensionapproval.component';
+import { LeadsummaryComponent } from './components/laed/leadsummary/leadsummary.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -109,10 +113,8 @@ export function createTranslateLoader(http: HttpClient) {
     SearchcriteriaComponent,
     DetailssearchrecordComponent,
     CampaigndetailsComponent,
-    PddindexComponent,
     AgentinterfaceComponent,
     CustomerdetailComponent,
-    LeadextensionapplicationComponent,
     UpselldetailsComponent,
     ApuplineinterfaceComponent,
     AointerfaceComponent,
@@ -121,6 +123,12 @@ export function createTranslateLoader(http: HttpClient) {
     PddComponent,
     ViewemailComponent,
     LoaderComponent,
+    LeadsummaryComponent,
+    LeadextensionapprovalComponent,
+    LeadextensionapplComponent,
+    EdmmanagementformComponent,
+    EdmhistoryComponent,
+    EdmlistComponent,
   ],
   imports: [
     BrowserModule,

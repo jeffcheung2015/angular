@@ -6,11 +6,11 @@ import {PageNotFoundComponent} from "./components/notfound.component";
 import {DefaultPageComponent} from "./components/defaultpage.component";
 import {AppComponent} from "./app.component";
 import {AgentassignmentComponent} from "./pages/agentassignment/agentassignment.component";
-import {PddindexComponent} from "./pages/pddindex/pddindex.component";
 
 import { ApuplineinterfaceComponent } from './components/apuplineinterface/apuplineinterface.component';
-import { AointerfaceComponent } from './components/aointerface/aointerface.component';
 import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
+import { EdmComponent } from './pages/edm/edm.component';
+import { PddComponent } from './pages/pdd/pdd.component';
 
 
 const appRoutes: Routes = [
@@ -27,6 +27,11 @@ const appRoutes: Routes = [
   { path: 'easAPInterface', component: LeadresponseComponent },
   { path: 'easAOInterface', component: LeadresponseComponent },
 
+  { path: 'easLeadExtensionAppl', component: PddComponent },
+  { path: 'easLeadExtensionApproval', component: PddComponent },
+  { path: 'easLeadSummary', component: PddComponent },
+
+  { path: 'easEDM', component: EdmComponent },
 
   { path: '', component: DefaultPageComponent, pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

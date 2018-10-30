@@ -111,8 +111,6 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
 
     let easLang = this.translateService.currentLang;
-    //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
-    //this.searchCriteriaComponent.setSearchRecordComponent(this);
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val)=>{
       colArr.push({
@@ -293,7 +291,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       this.translateOnLangChangeSubscription.unsubscribe();
     }
     if(this.dataTableAjaxSubscription){
-      this.dataTableAjaxSubscription.unsubscribe();      
+      this.dataTableAjaxSubscription.unsubscribe();
     }
   }
   changeTablePerPage(val){
@@ -417,7 +415,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       let queryParams = {
         draw, start, length
       };
-      this.dataTableAjaxSubscription = this.leadresponseService.getAgentInterfaceRecord(queryParams, 'dataTable').subscribe((resp : any) => {
+      this.dataTableAjaxSubscription = this.leadresponseService.getaoInterfaceRecord(queryParams, 'dataTable').subscribe((resp : any) => {
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
         resp.body.data.forEach((elem,key)=>{

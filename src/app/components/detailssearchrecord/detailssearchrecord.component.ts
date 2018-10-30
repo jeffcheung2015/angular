@@ -27,7 +27,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class DetailssearchrecordComponent implements OnInit, OnDestroy,
  AfterViewInit,AfterViewChecked,OnChanges {
   @Input() gobackRouteLink: string;
-  displayedColumns : string[] = constants["DetailSearchRecordColumnName"];
+  displayedColumns: string[] = constants["DetailSearchRecordColumnName"];
   displayedColumnsName : string[] = constants["DetailSearchRecordColumnField"];
   searchCriterias : string[] = ["", "" ,""];
   searchCriteriaFieldName : string[] = ["agentCode","agentPhone","agentName"];
@@ -188,9 +188,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     };
 
     this.agentassignmentService.postSelectYesLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
-      console.log("resp:", resp);
-      //this.router.navigate(['/'+this.agentassignmentService.currServiceName]);
-      this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
+      this.router.navigate(['/'+this.agentassignmentService.currServiceName]);
 
     }, (error) => console.log(error));
   }

@@ -44,10 +44,16 @@ export class AgentassignmentService{
     return (getOrPost === 'get') ? this.http.get(url, sentParams) : this.http.post(url, sentParams);
   }
   //dataTable
-  getAgentAssignmentRecord(params, type){
-    return (constants.localOrVm === 'local') ?
-              this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecord.json', params, 'get', type) :
-              this.getOrPostFunc("/eas/api/agent/getPolicyList",params, 'get', type);
+  getAgentAssignmentRecord(params, type, currSubPage){
+    if(currSubPage === 'easAgentAssignCS'){
+      return (constants.localOrVm === 'local') ?
+                this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecordCS.json', params, 'get', type) :
+                this.getOrPostFunc("/eas/api/agent/getCSPolicyList",params, 'get', type);
+    }else{
+      return (constants.localOrVm === 'local') ?
+                this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecord.json', params, 'get', type) :
+                this.getOrPostFunc("/eas/api/agent/getPolicyList",params, 'get', type);
+    }
   }
   //dataTable
   getAgentDetailRecord(params, type){
@@ -65,7 +71,7 @@ export class AgentassignmentService{
   getViewEmail(params, type){
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/email.json', params, 'get', type) :
-            this.getOrPostFunc("/eas/api/agent/viewemail/" + params.lastEmailId ,params, 'get', type);
+            this.getOrPostFunc("/eas/api/agent/viewEmail/" + params.lastEmailId ,params, 'get', type);
   }
 
   //sendParams

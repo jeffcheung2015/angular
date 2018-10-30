@@ -39,7 +39,7 @@
                                           </div>
                                       </form>
                                     </div>
-                                    <div *ngIf="currSubPage=='easAgentAssignCS'||currSubPage=='easAgentAssignGI'">
+                                    <div *ngIf="currSubPage=='easAgentAssignGI'">
                                       <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearchCriteria()">
                                         <div>
                                             <div class="search-by-col-wrap">
@@ -91,7 +91,7 @@
                                                 <div class="search-by-col">
                                                     <div>
                                                         <label>Assignment</label>
-                                                        <div class="dropdown-redarrow search-by-dropdown">
+                                                        <div class="dropdown-redarrow search-by-dropdown div-assignmentOption">
                                                             <select formControlName="assignmentOption" name="assignmentOptionField">
                                                                 <option value=""></option>
                                                                 <option value="A">Assign</option>
@@ -100,10 +100,125 @@
                                                             </select>
                                                             <div class="select-selected"></div>
                                                             <div class="select-items select-hide"><!--same-as-selected-->
-                                                              <div></div>
+                                                              <div>&nbsp;</div>
                                                               <div>Assign</div>
                                                               <div>Auto Assigned</div>
                                                               <div>Re-assign</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-left">
+                                            <input type="submit" class="btn-search btn btn-primary table-btn" value="Search">
+                                            <input type="reset" class="btn-reset btn btn-default table-btn" value="Reset">
+                                        </div>
+                                    </form>
+                                    </div>
+                                    <div *ngIf="currSubPage=='easAgentAssignCS'">
+                                      <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearchCriteria()">
+                                        <div>
+                                            <div class="search-by-col-wrap">
+                                                <div class="search-by-col">
+                                                    <div>
+                                                        <label>Full Name</label>
+                                                        <input formControlName="fullName" name="fullNameField" class="search-by-input" type="text">
+                                                    </div>
+                                                    <div>
+                                                        <label>Policy No.</label>
+                                                        <input formControlName="policyNo" name="policyNoField" class="search-by-input" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="search-by-col">
+                                                    <div>
+                                                        <label>Mobile No.</label>
+                                                        <input formControlName="mobileNo" name="mobileNoField" class="search-by-input" type="text">
+                                                    </div>
+                                                    <div>
+                                                        <label>Email Address</label>
+                                                        <input formControlName="emailAddr" name="emailAddrField" class="search-by-input" type="email">
+                                                    </div>
+                                                    <div>
+                                                        <label>ID Card No.</label>
+                                                        <input formControlName="idCardNo" name="idCardnoField" class="search-by-input" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="search-by-col div-dateOfSubmissionWrapper">
+                                                    <div> <span class="span-dateOfSubmissionFrom">Date of Submission From</span>
+                                                        <div class="div-dateOfSubmissionFrom">
+                                                            <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
+                                                            <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionFromPicker">
+                                                              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #dateOfSubmissionFromPicker></mat-datepicker>
+                                                        </div>
+                                                    </div>
+                                                    <span class="span-dateOfSubmissionTo">To</span>
+                                                    <div>
+                                                      <div class="div-dateOfSubmissionTo">
+                                                        <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)" matInput [min]="minDateTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
+                                                        <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
+                                                          <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #dateOfSubmissionToPicker></mat-datepicker>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                                <div class="search-by-col">
+                                                    <div>
+                                                        <label>Assignment</label>
+                                                        <div class="dropdown-redarrow search-by-dropdown div-assignmentOption">
+                                                            <select formControlName="assignmentOption" name="assignmentOptionField">
+                                                                <option value=""></option>
+                                                                <option value="A">Assign</option>
+                                                                <option value="AA">Auto Assigned</option>
+                                                                <option value="R">Re-assign</option>
+                                                            </select>
+                                                            <div class="select-selected"></div>
+                                                            <div class="select-items select-hide"><!--same-as-selected-->
+                                                              <div>&nbsp;</div>
+                                                              <div>Assign</div>
+                                                              <div>Auto Assigned</div>
+                                                              <div>Re-assign</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label>Contact customer within 2 days</label>
+                                                        <div class="dropdown-redarrow search-by-dropdown div-contactCustomerOption">
+                                                            <select formControlName="contactCustomerOption" name="contactCustomerOptionField">
+                                                                <option value="Y">Yes</option>
+                                                                <option value="N">No</option>
+                                                            </select>
+                                                            <div class="select-selected"></div>
+                                                            <div class="select-items select-hide"><!--same-as-selected-->
+                                                              <div>Yes</div>
+                                                              <div>No</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label>Assignment Status</label>
+                                                        <div class="dropdown-redarrow search-by-dropdown div-assignmentStatusOption">
+                                                            <select formControlName="assignmentStatusOption" name="assignmentStatusOptionField">
+                                                                <option value="0"></option>
+                                                                <option value="1">To apply for extension</option>
+                                                                <option value="2">Applied extension</option>
+                                                                <option value="3">Opt-out from this program</option>
+                                                                <option value="4">Re-assigned</option>
+                                                            </select>
+                                                            <div class="select-selected"></div>
+                                                            <div class="select-items select-hide"><!--same-as-selected-->
+                                                              <div>&nbsp;</div>
+                                                              <div>To apply for extension</div>
+                                                              <div>Applied extension</div>
+                                                              <div>Opt-out from this program</div>
+                                                              <div>Re-assigned</div>
                                                             </div>
                                                         </div>
                                                     </div>

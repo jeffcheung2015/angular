@@ -27,8 +27,6 @@ export class LeadresponseComponent implements OnInit, AfterContentChecked {
       this.setCurrUrlAndSubPage();
       this.currSubPageJustUpdated = true;
     }
-
-
   }
 
   ngOnInit() {

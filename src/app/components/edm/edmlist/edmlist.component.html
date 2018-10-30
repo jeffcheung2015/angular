@@ -1,0 +1,89 @@
+<div class="modal fade export-list" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel" style="color: #FE0000;">Export List</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="row">
+                    <label class="radio-wrapper">Select All
+                        <input type="radio" checked="checked" name="method">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="row">
+                    <span class="float-left" style="color: #EBEBEB;">OR</span>
+                    <div class="col-md-10" style="padding-top: 8px;">
+                        <hr style="color: #EBEBEB;" align="center">
+
+                    </div>
+                </div>
+                <div class="row export-date">
+                    <label class="radio-wrapper" style="width: 20px;float: left;">
+                        <input type="radio" checked="checked" name="method">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="col-md-5">
+                        <label style="display: block">Submission Date from</label>
+                        <input placeholder="DD/MM/YYYY" class="search-by-input datepicker1" type="text">
+                    </div>
+                    <div class="col-md-5">
+                        <label style="display: block">To</label>
+                        <input placeholder="DD/MM/YYYY" class="search-by-input datepicker1" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary table-btn">Export</button>
+                <button type="button" class="btn btn-default table-btn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-wrapper table-responsive div-edmListTable">
+  <div class="row div-headerWrapper">
+      <h4 class="h4-tableHeader">eDM Management</h4>
+      <div class="div-noOfETemplateAndAddNewBtn">
+        <span class="span-noOfETemplate">Table No. Of eTemplate:
+          <ng-container *ngIf="noOfETemplate">{{noOfETemplate}}</ng-container>
+          <ng-container *ngIf="!noOfETemplate">0</ng-container>
+        </span>
+        <button data-toggle="modal" data-target="#myModal" class="export-btn add-btn">
+          <i class="fa fa-plus-circle"></i>
+          <span>Add New</span>
+        </button>
+      </div>
+  </div>
+  <div class="row table-wrapper table-responsive div-edmListWrapper">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-edmList">
+      <thead>
+        <tr class="row1 tr-row1">
+            <th>Template</th>
+            <th>Communication Code</th>
+            <th>Campaign title</th>
+            <th>Last Edit</th>
+            <th>Sent time</th>
+            <th>Action</th>
+        </tr>
+      </thead>
+    </table>
+    <div class="div-goToPage-showPerPage">
+      <div class="div-goToPage">
+        <span class="span-goToPage">Go to page</span>
+        <div class="div-goToPage_wrapper">
+          <input type="text" class="input-goToPage_left" [(ngModel)]="currPage" value="{{currPage}}"/>
+          <input type="text" class="input-goToPage_right" value="/ {{noOfPage}}" disabled/>
+          <input class="button-goToPage_go" value="GO" type="button" (click)="changeCurrTablePage(currPage)"/>
+        </div>
+      </div>
+      <ul class="ul-showPerPage">
+        <span>show</span>
+        <li><a [ngClass]="mapToLengthMenuNum[5]" (click)="changeTablePerPage(5)">5</a></li>
+        <li><a [ngClass]="mapToLengthMenuNum[10]" (click)="changeTablePerPage(10)">10</a></li>
+        <li><a [ngClass]="mapToLengthMenuNum[20]" (click)="changeTablePerPage(20)">20</a></li>
+        <span>per page</span>
+      </ul>
+    </div>
+  </div>
+</div>
