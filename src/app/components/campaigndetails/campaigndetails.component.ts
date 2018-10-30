@@ -35,9 +35,9 @@ export class CampaigndetailsComponent implements OnInit {
    ) { }
 
   ngOnInit() {
-    let campaignCode = this.agentassignmentService.currCampaignCd;
-    if(campaignCode == ''){//to prevent user entering empty campaignCode by redirecting them back to the go back route link
-      this.router.navigate(['/']); //redirect back to agentassignGI/CS page
+    let campaignCode = this.agentassignmentService.currCampaignCd || '';
+    if(campaignCode === ''){
+      this.router.navigate(['/']);
     }else{
       let sentParams = {
           campaignCode: campaignCode
@@ -50,5 +50,6 @@ export class CampaigndetailsComponent implements OnInit {
         console.log('error getting campaign details', error);
       })
     }
+    console.log('gobackRouteLink:', this.gobackRouteLink)
   }
 }

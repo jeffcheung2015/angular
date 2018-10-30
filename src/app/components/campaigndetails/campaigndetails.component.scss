@@ -1,6 +1,21 @@
-.h4-campaignDetails{
-  color: #FE0000;
-  border-bottom: 1px solid #EBEBEB;
-  padding: 20px 0px;
-  margin-left: 20px; 
+.panel-body{
+  .accordion-group{
+    .h4-campaignDetails{
+      color: #FE0000;
+      border-bottom: 1px solid #EBEBEB;
+      padding: 20px 0px;
+      margin-left: 20px;
+    }
+    .h4-promoCodeUsage{
+      color: #FE0000;
+      border-bottom: 1px solid #EBEBEB;
+      padding: 20px 0px;
+      margin-left: 20px;
+    }
+
+    .h4-remarks{
+      margin:20px 0 0 20px;
+      color: #FE0000;
+    }
+  }
 }
