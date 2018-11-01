@@ -45,10 +45,16 @@ export class EdmService {
       this.getOrPostFunc("",params, 'get', type);
   }
 
-  //sendParams
-  // postResetLeaveRecord(params, type){
-  //   return this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
-  // }
+  getManagementFormSearchRecord(params, type){
+    return (constants.localOrVm === 'local') ?
+      this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmManagementFormSearchRecord.json', params, 'get', type) :
+      this.getOrPostFunc("",params, 'get', type);
+  }
+
+  postSubmitOrSave(params, type){
+    return this.getOrPostFunc('/eas/api/edm/submitOrSave', params, 'post', type);
+  }
+
 
 
 }

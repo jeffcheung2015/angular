@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient  } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from "./app.routing.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataTablesModule } from 'angular-datatables';
@@ -46,7 +47,6 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
-
 //service
 import { LoginUserService } from './services/loginUser.service';
 import { PddcampaigntransactionService } from './services/pddcampaigntransaction.service';
@@ -72,11 +72,11 @@ import { AgentassignmentComponent } from './pages/agentassignment/agentassignmen
 import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
 import { DetailssearchrecordComponent } from './components/detailssearchrecord/detailssearchrecord.component';
 import { CampaigndetailsComponent } from './components/campaigndetails/campaigndetails.component';
-import { AgentinterfaceComponent } from './components/agentinterface/agentinterface.component';
+import { AgentinterfaceComponent } from './components/leadresponse/agentinterface/agentinterface.component';
 import { CustomerdetailComponent } from './components/customerdetail/customerdetail.component';
 import { UpselldetailsComponent } from './components/upselldetails/upselldetails.component';
-import { ApuplineinterfaceComponent } from './components/apuplineinterface/apuplineinterface.component';
-import { AointerfaceComponent } from './components/aointerface/aointerface.component';
+import { ApuplineinterfaceComponent } from './components/leadresponse/apuplineinterface/apuplineinterface.component';
+import { AointerfaceComponent } from './components/leadresponse/aointerface/aointerface.component';
 import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
 import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
@@ -88,9 +88,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EdmmanagementformComponent } from './components/edm/edmmanagementform/edmmanagementform.component';
 import { EdmhistoryComponent } from './components/edm/edmhistory/edmhistory.component';
 import { EdmlistComponent } from './components/edm/edmlist/edmlist.component';
-import { LeadextensionapplComponent } from './components/laed/leadextensionappl/leadextensionappl.component';
-import { LeadextensionapprovalComponent } from './components/laed/leadextensionapproval/leadextensionapproval.component';
-import { LeadsummaryComponent } from './components/laed/leadsummary/leadsummary.component';
+import { LeadextensionapplComponent } from './components/lead/leadextensionappl/leadextensionappl.component';
+import { LeadextensionapprovalComponent } from './components/lead/leadextensionapproval/leadextensionapproval.component';
+import { LeadsummaryComponent } from './components/lead/leadsummary/leadsummary.component';
+import { Step1Component } from './components/edm/edmmanagementform/step1/step1.component';
+import { Step2Component } from './components/edm/edmmanagementform/step2/step2.component';
+import { Step3Component } from './components/edm/edmmanagementform/step3/step3.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -129,8 +132,12 @@ export function createTranslateLoader(http: HttpClient) {
     EdmmanagementformComponent,
     EdmhistoryComponent,
     EdmlistComponent,
+    Step1Component,
+    Step2Component,
+    Step3Component,
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     HttpClientModule,
     MatAutocompleteModule,

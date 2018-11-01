@@ -10,7 +10,6 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./campaigndetails.component.scss']
 })
 export class CampaigndetailsComponent implements OnInit {
-  @Input()campaignDetailObj;
   campaignCode;
   startDate;
   endDate;

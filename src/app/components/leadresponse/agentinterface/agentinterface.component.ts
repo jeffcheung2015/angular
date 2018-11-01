@@ -5,15 +5,15 @@ import { JsonPipe, KeyValuePipe } from '@angular/common';
 //import {DataSource} from '@angular/cdk/collections';
 //import { Observable } from 'rxjs/Observable';
 //import 'rxjs/add/observable/of';
-import { LeadresponseService } from '../../services/leadresponse.service';
+import { LeadresponseService } from '../../../services/leadresponse.service';
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { FormGroup, FormControl } from '@angular/forms';
 import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
-import constants from '../../constants/constants';
-import convertformat from '../../utils/convertformat';
+import constants from '../../../constants/constants';
+import convertformat from '../../../utils/convertformat';
 
 import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
 

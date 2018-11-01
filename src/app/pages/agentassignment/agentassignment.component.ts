@@ -31,8 +31,6 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
 
   popUpMsg : string;//for pruchat or sms btn
 
-  campaignDetailObj;
-
   constructor(
     private router :Router,
      private agentassignmentService : AgentassignmentService) { }

@@ -167,8 +167,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       let queryParams = {
         leaveId: this.currLeaveId,
         agentCode: this.currAgentCode,
-        leaveStartDate: convertformat.dateToYYYYMMDD(leaveStartDate, '-'),
-        leaveEndDate: convertformat.dateToYYYYMMDD(leaveEndDate, '-')
+        leaveStartDate: convertformat.dateToYYYYMMDD(leaveStartDate, '/'),
+        leaveEndDate: convertformat.dateToYYYYMMDD(leaveEndDate, '/')
       }
 
       this.agentassignmentService.postSaveLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{

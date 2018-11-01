@@ -15817,7 +15817,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1060;
+  /* z-index: 1060; */
   display: none;
   max-width: 560px;
   padding: 1px;
@@ -15877,6 +15877,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 .step2-btn{
   padding:20px 0 ;
+  margin-top: 20px;
   border-top: 2px solid #EBEBEB;
 }
 
@@ -15922,6 +15923,21 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   color: #AAAAAA;
 }
 
-table.datatables6 thead th:nth-child(2){
+/* table.datatables6 thead th:nth-child(2){
    padding: 10px 40px;
- }
+ } */
+.a-view, .a-edit{
+  cursor: pointer;
+  color: red;
+  border-bottom: solid 1px red;
+}
+
+.th-grayCheckbox{
+  background: #5D5D5D;
+  background-image: unset !important;
+}
+
+.edm-bodyBottom{
+  background: white;
+  border-radius: 0px 0px 10px 10px;
+}

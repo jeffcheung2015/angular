@@ -5,7 +5,7 @@
         <div id="page-heading">
           <ol class="breadcrumb">
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
-              <a href="javascript:;">Home</a>
+              <a routerLink="/">Home</a>
             </li>
             <li *ngIf="currSubPage=='easAgentAssignGI' || currSubPage =='easAgentAssignCS' ||
                        currSubPage=='easAgentDetail' || currSubPage == 'easCampaignDetail' ||
@@ -51,7 +51,6 @@
                   <app-campaigndetails
                     *ngIf="currSubPage == 'easCampaignDetail'"
                     [gobackRouteLink]="agentassignmentService.currServiceName"
-                    [campaignDetailObj]="campaignDetailObj"
                     >
                   </app-campaigndetails>
                   <app-viewemail

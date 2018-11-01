@@ -37,8 +37,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   dtTrigger : Subject<any>= new Subject();
   pageInfo : any = {};
 
-  screenWidth: number;
-
   dataTableSettings : any;//for changing table pages in gotopage
   noOfPage : number;
   currPage : number = 0;
@@ -178,7 +176,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
   ngAfterViewChecked(){
     //fetch the datatable's settings
-    //since angular-datatables is not supporting changing table page in option yet
+    //since angular-datatables is not supporting changing table page in dtoption yet
     //make use of settings.oApi._fnPageChange to change the page
     //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
     this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
@@ -212,7 +210,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                   this.agentassignmentService.currEmailId = paramsToBePassed['lastEmailId'];
                   break;
                 case 'a-campaignCode':
-                  this.agentassignmentService.currServiceName = paramsToBePassed['campaignCode'];
+                  this.agentassignmentService.currCampaignCd = paramsToBePassed['campaignCode'];
                   break;
               }
               this.router.navigate([elem.url]);
@@ -406,11 +404,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       }
     }]
   }
-  mapAssignOptionToVal = {
-    "Auto Assigned" : "AA",
-    "Assign" : "A",
-    "Re-assign" : "R"
-  }
   agentAssignedAjax(){
     return (params, callback, settings) => {
       let queryParams = {};
@@ -422,9 +415,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       //put all the params from searchCriteria into queryParams
       this.searchCriterias.forEach((data, key)=>{
         if(data){
-          queryParams[this.searchCriteriaFieldName[key]] = 
-          (this.searchCriteriaFieldName[key] === 'assignmentOption') ?
-           this.mapAssignOptionToVal[data] : data;
+          queryParams[this.searchCriteriaFieldName[key]] = data;
         }
       });
       this.agentassignmentService.getAgentAssignmentRecord(queryParams, 'dataTable', this.currSubPage).subscribe((resp : any) => {

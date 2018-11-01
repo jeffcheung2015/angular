@@ -1,0 +1,196 @@
+<div class="col-md-12 step1 edm-bodyBottom" style="display: block">
+  <form [formGroup]="edmManagementStep1Form" method="POST" (ngSubmit)="onSubmitStep1()">
+    <div class="col-md-9 step1-left">
+        <div class="form-group clearfix">
+            <p class="control-label" for="inputSuccess1">Template <i class="iconfont popover1">&#xe628;</i></p>
+            <div class="inputSuccess1 dropdown-redarrow search-by-dropdown col-md-6 div-templateOption">
+                <select formControlName="templateOption" name="templateOptionField">
+                    <option value="1">Template1</option>
+                    <option value="2">Template2</option>
+                </select>
+                <div class="select-selected"></div>
+                <div class="select-items select-hide"><!--same-as-selected-->
+                  <div>Template1</div>
+                  <div>Template2</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <p class="control-label" for="inputSuccess1">Greeting Text <i class="iconfont popover1">&#xe628;</i></p>
+            <div class="inputSuccess1">
+                <textarea formControlName="greetingTxt" name="greetingTxtField" id="greet-text" cols="60" rows="10"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <p class="control-label" for="inputSuccess1">Banner Image (Main)</p>
+            <p style="color:#AAAAAA;">800W X 600H (px),  JPG / PNG / BMP </p>
+            <!--<input type="file" style="opacity: 0">-->
+            <a href="javascript:;" class="file">
+                <i class="fa fa-upload"></i>
+                Choose File...
+                <input formControlName="mainBannerImgFile" name="mainBannerImgFileField" type="file" id="uploadFile" class="uploadFile">
+            </a>
+            <a href="javascript:;" class="file filename" id="filename">
+            </a>
+        </div>
+
+        <div class="form-group clearfix">
+            <h5 style="color: #333333;">Campaign 1</h5>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Title</p>
+                <div class="inputSuccess1">
+                    <input formControlName="campaign1Title" name="campaign1TitleField" type="text" class="col-md-6">
+                </div>
+            </div>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Description <i class="iconfont popover2">&#xe628;</i></p>
+                <div class="inputSuccess1">
+                    <textarea formControlName="campaign1Desc" name="campaign1DescField" id="greet-text1" cols="60" rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <h5 style="color: #333333;">Campaign 2</h5>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Title</p>
+                <div class="inputSuccess1">
+                    <input formControlName="campaign2Title" name="campaign2TitleField" type="text" class="col-md-6">
+                </div>
+            </div>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Description <i class="iconfont popover2">&#xe628;</i></p>
+                <div class="inputSuccess1">
+                    <textarea formControlName="campaign2Desc" name="campaign2DescField" id="greet-text1" cols="60" rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Button Title (Primary)</p>
+                <div class="inputSuccess1">
+                    <input formControlName="priButtonTitle" name="priButtonTitleField" type="text" class="col-md-6">
+                </div>
+            </div>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Button Link (Primary)</p>
+                <div class="inputSuccess1">
+                    <input formControlName="priButtonLink" name="priButtonLinkField" type="text" class="col-md-6 btn-link1" placeholder="Default">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Button Title (Secondary)</p>
+                <div class="inputSuccess1">
+                    <input formControlName="secButtonTitle" name="secButtonTitleField" type="text" class="col-md-6">
+                </div>
+            </div>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Button Link (Secondary)</p>
+                <div class="inputSuccess1">
+                    <input formControlName="secButtonLink" name="secButtonLinkField" type="text" class="col-md-6" placeholder="http://">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <p class="control-label" for="inputSuccess1">Bottom Banner (B)</p>
+            <p style="color:#AAAAAA;">800W X 600H (px),  JPG / PNG / BMP </p>
+            <!--<input type="file" style="opacity: 0">-->
+            <a href="javascript:;" class="file">
+                <i class="iconfont">&#xe61c;</i>
+                Choose File...
+                <input type="file" formControlName="bottomBannerImgFile" name="bottomBannerImgFileField" id="uploadFile1" class="uploadFile">
+            </a>
+            <a href="javascript:;" class="file filename" id="filename1">
+            </a>
+        </div>
+
+        <div class="form-group clearfix">
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Button Title (Bottom Banner)</p>
+                <div class="inputSuccess1">
+                    <input type="text" formControlName="bottomBannerButtonTitle" name="bottomBannerButtonTitleField" class="col-md-6">
+                </div>
+            </div>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Button Link (Bottom Banner)</p>
+                <div class="inputSuccess1">
+                    <input type="text" formControlName="bottomBannerButtonLink" name="bottomBannerButtonLinkField" class="col-md-6" placeholder="http://">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Campaign TnC <i class="iconfont popover2">&#xe628;</i></p>
+                <div class="inputSuccess1">
+                    <textarea formControlName="campaignTnc" name="campaignTncField" id="greet-text" cols="60" rows="10"></textarea>
+                </div>
+            </div>
+
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Standard TnC <i class="iconfont popover2">&#xe628;</i></p>
+                <div class="inputSuccess1">
+                    <textarea formControlName="standardTnc" name="standardTncField" id="greet-text" cols="60" rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-md-3 step1-right">
+        <button type="button" class="width100" (click)="onSaveAndClose()"><i class="iconfont">&#xe61b;</i>
+            <span>Save and Close</span>
+        </button>
+        <button type="button" class="width100"><i class="iconfont">&#xe61d;</i>
+            <span>Preview</span></button>
+        <button type="button" class="width100" routerLink="/easEDM"><i class="iconfont">&#xe619;</i>
+            <span>Cancel</span></button>
+    </div>
+    <div class="col-md-12 step-bottom ">
+        <div class="form-group clearfix">
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Communication Code</p>
+                <div class="inputSuccess1">
+                    <input formControlName="communicationCd" name="communicationCdField" type="text" class="col-md-6">
+                </div>
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <div class="col-md-6 send-email">
+                <span class="col-md-4">Send test email</span>
+                <div class="col-md-8">
+                    <input formControlName="sendTestEmail" name="sendTestEmailField" type="text">
+                    <button>Send</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <div class="col-md-12 clearfix hidden-xs">
+               <div class="btn-left float-left">
+                   <button type="submit" class="col-xs-12 to-step2">
+                     <i class="iconfont">&#xe862;</i>
+                       <span>Next</span>
+                   </button>
+               </div>
+               <div class="btn-right float-right">
+                   <button (click)="onSaveAndClose()"><i class="iconfont">&#xe61b;</i>
+                       <span>Save and Close</span>
+                   </button>
+                   <button type="button"><i class="iconfont">&#xe61d;</i>
+                       <span>Preview</span></button>
+                   <button type="button" routerLink="/easEDM"><i class="iconfont">&#xe619;</i>
+                       <span>Cancel</span>
+                   </button>
+               </div>
+            </div>
+        </div>
+    </div>
+  </form>
+</div>

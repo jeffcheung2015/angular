@@ -56,4 +56,7 @@ export default {
     EDMListColumnField:["template", "communicationCode", "campaignTitle",
      "lastEdit", "sentTime", "action"],
 
+    EDMStep2Field:["checkbox", "customerName", "gender", "email", "birthYear","birthMonth",
+    "campaignCd", "partnerCd", "partnerName", "assignmentType", "dateOfSubmission"],
+
 };

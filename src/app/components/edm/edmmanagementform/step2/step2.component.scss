@@ -1,0 +1,104 @@
+.div-step2{
+  input{
+    line-height: 10px;
+    height:40px !important;
+    border-color:#cccccc;
+  }
+    .div-dateOfSubmissionFrom, .div-dateOfSubmissionTo{
+    position:relative;
+
+    .input-dateOfSubmissionBtn{
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      background: transparent;
+      width: 100%;
+    }
+
+    .mat-icon.material-icons{
+      color:red;
+    }
+
+    .input-dateOfSubmission{
+      width: 230px;
+      line-height: 10px;
+    }
+  }
+}
+
+.div-step2-bottom{
+
+    .div-panelBody{
+      margin-top: 15px;
+      .div-searchCriteriaList{
+        height: 40px;
+        .h4-searchCriteriaList{
+          line-height: 40px;
+        }
+      }
+      .div-edmManagementFormSearchRecordBody{
+        text-align: center;
+        .div-goToPage-showPerPage{
+          display: -webkit-box;
+          position: relative;
+          .div-goToPage{
+            display: flex;
+            position: relative;
+            left: 38%;
+            // transform: translate(-50%,10px);
+            .span-goToPage{
+              line-height: 50px;
+              color:gray;
+            }
+            .div-goToPage_wrapper{
+              display:inline-block;
+              .input-goToPage_left{
+                margin-left: 10px;
+                border-radius: 10px 0px 0px 10px;
+                border-right: 0px;
+                text-align: right;
+                color:gray;
+              }
+              .input-goToPage_right{
+                position:relative;
+                left:-10px;
+                color:gray;
+                border-left: 0px;
+                border-radius: 0px;
+              }
+              input {
+                width: 80px;
+                background-color:transparent;
+              }
+              .button-goToPage_go{
+                position:relative;
+                left:-12px;
+                border-radius: 0px 10px 10px 0px;
+                background-color: rgb(200,200,200);
+                color:black;
+              }
+            }
+          }
+          .ul-showPerPage{
+            list-style: none !important;
+            display: flex;
+            position: absolute;
+            top: -26px;
+            right: 0px;
+            float: right;
+            li{
+              margin: 0px 10px;
+            }
+            .inactive-gray{
+              color:gray;
+            }
+            .active-red{
+              color:red;
+            }
+          }
+        }
+      }
+    }
+
+
+}

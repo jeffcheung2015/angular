@@ -1,4 +1,4 @@
-<div class="modal fade export-list" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- <div class="modal fade export-list" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -39,9 +39,12 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+<div class="col-md-12">
+<div class="panel">
+<div class="panel-body">
 
-<div class="table-wrapper table-responsive div-edmListTable">
+<div class="table-wrapper div-edmListTable">
   <div class="row div-headerWrapper">
       <h4 class="h4-tableHeader">eDM Management</h4>
       <div class="div-noOfETemplateAndAddNewBtn">
@@ -49,7 +52,7 @@
           <ng-container *ngIf="noOfETemplate">{{noOfETemplate}}</ng-container>
           <ng-container *ngIf="!noOfETemplate">0</ng-container>
         </span>
-        <button data-toggle="modal" data-target="#myModal" class="export-btn add-btn">
+        <button routerLink="/easEDMManagementForm" class="export-btn add-btn">
           <i class="fa fa-plus-circle"></i>
           <span>Add New</span>
         </button>
@@ -86,4 +89,8 @@
       </ul>
     </div>
   </div>
+  </div>
+
+</div>
+</div>
 </div>

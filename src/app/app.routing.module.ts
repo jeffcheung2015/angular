@@ -7,7 +7,6 @@ import {DefaultPageComponent} from "./components/defaultpage.component";
 import {AppComponent} from "./app.component";
 import {AgentassignmentComponent} from "./pages/agentassignment/agentassignment.component";
 
-import { ApuplineinterfaceComponent } from './components/apuplineinterface/apuplineinterface.component';
 import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
 import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
@@ -32,6 +31,8 @@ const appRoutes: Routes = [
   { path: 'easLeadSummary', component: PddComponent },
 
   { path: 'easEDM', component: EdmComponent },
+  { path: 'easEDMManagementForm', component: EdmComponent },
+  { path: 'easEDMHistory', component: EdmComponent },
 
   { path: '', component: DefaultPageComponent, pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

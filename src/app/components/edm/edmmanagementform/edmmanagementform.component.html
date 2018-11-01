@@ -1,3 +1,25 @@
-<p>
-  edmmanagementform works!
-</p>
+<div class="panel div-edmmanagementForm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 clearfix">
+                <div class="col-md-12 step-bar div-stepBar">
+                  <span class="step" [ngClass]="edmPageInfo.currStep =='step1' ? 'active' : ''">
+                      <b>Step1.</b>
+                      Select and Edit Template
+                  </span>
+                  <span class="step" [ngClass]="edmPageInfo.currStep =='step2' ? 'active' : ''">
+                      <b>Step2.</b>
+                      Select eDM Receiver
+                  </span>
+                  <span class="step" [ngClass]="edmPageInfo.currStep =='step3' ? 'active' : ''">
+                      <b>Step3.</b>
+                      Send Confirmation
+                  </span>
+                </div>
+                <app-step1 [edmPageInfo]="edmPageInfo" *ngIf="edmPageInfo.currStep == 'step1'"></app-step1>
+                <app-step2 [edmPageInfo]="edmPageInfo" *ngIf="edmPageInfo.currStep == 'step2'"></app-step2>
+                <app-step3 [edmPageInfo]="edmPageInfo" *ngIf="edmPageInfo.currStep == 'step3'"></app-step3>
+            </div>
+        </div>
+    </div>
+</div>

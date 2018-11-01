@@ -5,12 +5,12 @@ import { DatePipe } from '@angular/common';
 //import {DataSource} from '@angular/cdk/collections';
 //import { Observable } from 'rxjs/Observable';
 //import 'rxjs/add/observable/of';
-import { LeadresponseService } from '../../services/leadresponse.service';
+import { LeadresponseService } from '../../../services/leadresponse.service';
 
 import {get as _get, set as _set, sortBy as _sortBy} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
-import constants from '../../constants/constants';
+import constants from '../../../constants/constants';
 
 @Component({
   selector: 'app-apuplineinterface',

@@ -8,32 +8,20 @@
               <a href="javascript:;">Home</a>
             </li>
             <li *ngIf="currSubPage=='easEDM' || currSubPage=='easEDMManagementForm' || currSubPage=='easEDMHistory'" [ngClass]="currSubPage=='easEDMList' ? 'active' : ''">
-              <a>eDM</a>
+              <a routerLink="/easEDM">eDM</a>
             </li>
             <li *ngIf="currSubPage=='easEDMManagementForm'" [ngClass]="currSubPage=='easEDMManagementForm' ? 'active' : ''">
-              <a>Send eDM</a>
+              <a routerLink="/easEDMManagementForm">Send eDM</a>
             </li>
             <li *ngIf="currSubPage=='easEDMHistory'" [ngClass]="currSubPage=='easEDMHistory' ? 'active' : ''">
-              <a>Detail</a>
+              <a routerLink="/easEDMHistory">Detail</a>
             </li>
           </ol>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="panel">
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-md-12 clearfix">
-                  <app-edmlist *ngIf="currSubPage=='easEDM'"></app-edmlist>
-                  <app-edmhistory *ngIf="currSubPage=='easEDMHistory'"></app-edmhistory>
-                  <app-edmmanagementform *ngIf="currSubPage=='easEDMManagementForm'"></app-edmmanagementform>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </div>      
+      <app-edmlist *ngIf="currSubPage=='easEDM'"></app-edmlist>
+      <app-edmhistory *ngIf="currSubPage=='easEDMHistory'"></app-edmhistory>
+      <app-edmmanagementform *ngIf="currSubPage=='easEDMManagementForm'"></app-edmmanagementform>
     </div>
   </div>
 </div>

@@ -9,6 +9,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
+import { Router } from '@angular/router';
+
 import constants from '../../../constants/constants';
 
 import { EdmService } from '../../../services/edm.service';
@@ -48,7 +50,8 @@ export class EdmlistComponent implements OnInit, OnDestroy,
   constructor(
      private http: HttpClient,
      private renderer2 : Renderer2,
-     private edmService : EdmService
+     private edmService : EdmService,
+     private router : Router
    ) {
 
    }
@@ -94,12 +97,17 @@ export class EdmlistComponent implements OnInit, OnDestroy,
     this.classToTrigger =  [
       // {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
 
-      // {type: 'submit', className: "a-customerDtlSubmitBtn", callback: ()=>{this.setCustomerDtl()}},
-      // {type: 'submit', className: "a-leadExtSubmitBtn", callback: ()=>{this.setLeadExt()}},
+      {type: 'redirect', className: "a-view", callback: ()=>{this.edmViewBtnOnClick()}},
+      {type: 'redirect', className: "a-edit", callback: ()=>{this.edmEditBtnOnClick()}},
       // {type: 'submit', className: "a-upsellDtlSubmitBtn", callback: ()=>{this.setUpsellDtl()}}
     ];
   }
-
+  edmViewBtnOnClick(){
+    this.router.navigate(['/easEDMHistory']);
+  }
+  edmEditBtnOnClick(){
+    this.router.navigate(['/easEDMManagementForm']);
+  }
   refreshTable(){
     let dTableInstance = _get(this.dTable, "dtInstance");
     if(dTableInstance){
@@ -134,7 +142,11 @@ export class EdmlistComponent implements OnInit, OnDestroy,
       this.onclickEventInit = true;
       this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
-
+          if($(event.target).hasClass(elem.className)){
+            if(elem.type === 'redirect') {
+              elem.callback();
+            }
+          }
         });
       });
     }
@@ -213,6 +225,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
         console.log("resp:", resp)
         this.noOfPage = Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength);
         this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
+        this.noOfETemplate = resp.body.recordsFiltered;
         //
         callback({
           data:resp.body.data,
