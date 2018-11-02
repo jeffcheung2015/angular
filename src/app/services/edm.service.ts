@@ -27,12 +27,16 @@ export class EdmService {
     let sentParams : any;
     switch(type){
       case 'dataTable':
+      case 'retrieve':
         sentParams =  {
           observe: "response",
           params: params
         };
       break;
       case 'sendParams':
+        sentParams = params
+      break;
+      default:
         sentParams = params
       break;
     }
@@ -51,8 +55,24 @@ export class EdmService {
       this.getOrPostFunc("",params, 'get', type);
   }
 
+  getHistoryTemplates(params, type){
+    return (constants.localOrVm === 'local') ?
+      this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmManagementFormHistoryTemplates.json', params, 'get', type) :
+      this.getOrPostFunc("",params, 'get', type);
+  }
+
+  getHistoryCustomerlist(params, type){
+    return (constants.localOrVm === 'local') ?
+      this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmHistoryCustomerlist.json', params, 'get', type) :
+      this.getOrPostFunc("",params, 'get', type);
+  }
+
   postSubmitOrSave(params, type){
     return this.getOrPostFunc('/eas/api/edm/submitOrSave', params, 'post', type);
+  }
+
+  postEdmReceiver(params, type){
+    return this.getOrPostFunc('/eas/api/edm/edmReceiver', params, 'post', type);
   }
 
 

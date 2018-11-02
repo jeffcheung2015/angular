@@ -53,7 +53,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   pageInfo : any = {};
 
   noOfPage : number;
-  currPage : number = 0;
+  currPage : number = 1;
 
   currSelectedAgentCode: string= "";
 
@@ -144,6 +144,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     $('.table-aoInterface').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
+      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
 
     this.classToTrigger =  [
@@ -435,7 +436,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
         });
 
         this.noOfPage = Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength);
-        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
+        this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;
         //
         callback({
           data:resArr.data,

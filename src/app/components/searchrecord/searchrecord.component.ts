@@ -39,7 +39,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
   dataTableSettings : any;//for changing table pages in gotopage
   noOfPage : number;
-  currPage : number = 0;
+  currPage : number = 1;
 
   bodyRendererListener;
 
@@ -71,7 +71,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
         {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
       ];
-      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign"];
+      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"A"];
       this.searchCriteriaFieldName = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
         "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption"];
     }else{ //easAgentAssignCS
@@ -133,6 +133,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     $('.table-searchRecord').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
+      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
   }
   ngAfterViewInit(){ //only load data after view are initialized
@@ -421,7 +422,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.agentassignmentService.getAgentAssignmentRecord(queryParams, 'dataTable', this.currSubPage).subscribe((resp : any) => {
         this.noOfCustomer = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
-        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
+        this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;
         callback({
           data:resp.body.data,
           recordsTotal: resp.body.recordsTotal,

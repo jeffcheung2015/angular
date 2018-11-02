@@ -24,7 +24,7 @@ import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
 })
 export class AgentinterfaceComponent implements OnInit, OnDestroy,
  AfterViewInit,AfterViewChecked,OnChanges {
-
+  currDate : Date = new Date();
   //displayedColumns : string[] = constants["AgentInterfaceColumnName"];
   displayedColumnsName : string[] = constants["AgentInterfaceColumnField"];
 
@@ -59,7 +59,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   pageInfo : any = {};
 
   noOfPage : number;
-  currPage : number = 0;
+  currPage : number = 1;
 
   currSelectedAgentCode: string= "";
 
@@ -149,6 +149,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     $('.table-agentInterface').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
+      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
 
     this.classToTrigger =  [
@@ -161,18 +162,25 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   }
   setCustomerDtl(){
     let firstContactDt = this.customerDetailModalForm.controls['firstContactDt'].value;
-    //let formattedFCD = firstContactDt.getFullYear()+"-"+(firstContactDt.getMonth()+1)+"-"+firstContactDt.getDate();
-    let queryParams = {
-      firstContactDt: convertformat.dateToYYYYMMDD(firstContactDt, '-'),
-      polNo: this.currPolNo
-    };
+    try{
+      if(firstContactDt >= new Date()){ //double check if firstContactDt >= currDate
+        throw new Error('firstContactDt error');
+      }
+      //let formattedFCD = firstContactDt.getFullYear()+"-"+(firstContactDt.getMonth()+1)+"-"+firstContactDt.getDate();
+      let queryParams = {
+        firstContactDt: convertformat.dateToYYYYMMDD(firstContactDt, '-'),
+        polNo: this.currPolNo
+      };
 
-    this.leadresponseService.postCustomerDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
-      console.log("resp:", resp);
+      this.leadresponseService.postCustomerDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
+        console.log("resp:", resp);
 
-      this.refreshTable();
+        this.refreshTable();
 
-    }, (error) => console.log(error));
+      }, (error) => console.log(error));
+    }catch(e){
+      console.log("Exception: ", e);
+    }
   }
   setLeadExt(){
     let queryParams = {
@@ -455,7 +463,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
         });
 
         this.noOfPage = Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength);
-        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
+        this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;
         //
         callback({
           data:resArr.data,

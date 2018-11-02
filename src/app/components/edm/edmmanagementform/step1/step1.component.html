@@ -5,14 +5,25 @@
             <p class="control-label" for="inputSuccess1">Template <i class="iconfont popover1">&#xe628;</i></p>
             <div class="inputSuccess1 dropdown-redarrow search-by-dropdown col-md-6 div-templateOption">
                 <select formControlName="templateOption" name="templateOptionField">
-                    <option value="1">Template1</option>
-                    <option value="2">Template2</option>
+                  <option value="0"></option>
+                  <option value="1">Template1</option>
+                  <option value="2">Template2</option>
+                  <option value="3">Template3</option>
                 </select>
                 <div class="select-selected"></div>
                 <div class="select-items select-hide"><!--same-as-selected-->
+                  <div></div>
                   <div>Template1</div>
                   <div>Template2</div>
+                  <div>Template3</div>
                 </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <p class="control-label" for="inputSuccess1">Email Subject</p>
+            <div class="inputSuccess1">
+                <input formControlName="emailSubj" name="emailSubjField" type="text" class="col-md-6">
             </div>
         </div>
 

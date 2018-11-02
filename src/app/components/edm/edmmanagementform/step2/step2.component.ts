@@ -16,7 +16,6 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   selectedRecords: Array<String> = []; //should be cleared whenever the search criteria is refreshed
   //to be converted from selectedRecords, the elem should be seperated by a delimiter ','
   //only will selectedRecords be converted into selectedRecordsStr when the form is submitted
-  selectedRecordsStr: string = ""; //should be cleared whenever the search criteria is refreshed
   edmManagementStep2Form = new FormGroup({
     surname: new FormControl(''),
     firstName: new FormControl(''),
@@ -45,32 +44,17 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   dtTrigger : Subject<any>= new Subject();
   dataTableSettings : any;//for changing table pages in gotopage
   searchCriterias : string[];
-  searchCriteriasObj : {
-    firstName: any,
-    gender: any,
-    mobileNo: any,
-    clientId: any,
-    birthdayOption: any,
-    email: any,
-    campaignCd: any,
-    partnerCd: any,
-    partnerName: any,
-    dateOfSubmissionFrom: any,
-    dateOfSubmissionTo: any,
-    selfService: any,
-    failUpsell6Months: any,
-    selfServiceWithLife: any
-  };
   searchCriteriaFieldName : string[];
   noOfPage : number;
-  currPage : number = 0;
+  currPage : number = 1;
+  bodyRendererListener;
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
     "10": "inactive-gray",
     "20": "active-red",
   };
-  //$("[name=selfServiceField]").is(":checked")
+
   constructor(
     private edmService : EdmService,
     private renderer2 : Renderer2
@@ -80,11 +64,29 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     this.edmPageInfo.currStep = "step1";
     window.scrollTo(0,0);
   }
-  onSubmitStep2(){
+  onSubmitStep2(){ //not posting via form but posting via edmService method instead
     console.log("go from step2 to step3");
+    let queryParams = {
+      selectedRecordsStr: this.convertSelectedRecordIntoArray(this.selectedRecords)
+    };
+    this.edmService.postEdmReceiver(queryParams, 'sendParams').subscribe((resp: any) =>{
+      console.log(resp);
+    }, (error) => {
+      console.log('>>> postEdmReceiver error:', error)
+    });
     this.edmPageInfo.currStep = "step3";
     window.scrollTo(0,0);
   }
+
+  convertSelectedRecordIntoArray(selectedRecords){
+    let selectedRecordsStr = "";
+    selectedRecords.forEach((elem, key)=>{
+      selectedRecordsStr += (key !== selectedRecords.length - 1) ? (elem + ",") : elem;
+    });
+    console.log(selectedRecordsStr);
+    return selectedRecordsStr;
+  }
+
   onSubmitSearchCriteria(){
     console.log("submitting search criteria");
     let params = {
@@ -112,9 +114,6 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     this.refreshAndReloadSearchRecordTable();
   }
 
-  updSelectedRecords(){
-
-  }
   ngOnInit() {
     this.searchCriterias = ["" ,"" ,"" ,
       "" ,"" ,"" ,
@@ -169,14 +168,16 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     $('.table-edmManagementForm').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
+      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
+
   }
   ngAfterViewInit(){//only load data after view are initialized
     this.initDropdown();
     this.dtTrigger.next();
-    this.thCheckboxChange();
+    this.relistenThCheckbox();
 
-    this.renderer2.listen("body", 'change', (event)=>{
+    this.bodyRendererListener = this.renderer2.listen("body", 'change', (event)=>{
       if($(event.target).hasClass('a-checkbox')){ //only check the checkbox with class a-checkbox
         let queryParams = $(event.target).attr("queryParams");
         let personId = queryParams.split(":")[1];
@@ -206,6 +207,9 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
 
   }
   ngOnDestroy(){
+    if(this.bodyRendererListener){
+      this.bodyRendererListener();
+    }
     if(this.dtTrigger){
       this.dtTrigger.unsubscribe();
     }
@@ -229,24 +233,39 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     this.noOfPage = Math.ceil(this.noOfRecords/this.dtOptions.pageLength);
     this.currPage = 1;
 
-    this.thCheckboxChange();
+    this.relistenThCheckbox();
   }
 
-  thCheckboxChange(){
+  relistenThCheckbox(){
     $('.th-grayCheckbox').off();
     $('.th-grayCheckbox').on('change', ()=>{
       //a-checkbox happens to be doubled due to the fact that angular-datatable create an extra copy of col and put it on
       //the cols that are specified as fixed by fixedColumns option, so the size needs to be divided by 2
-      //the first half and sec half are referring the same group of elements so we are going to take first half here
-      let aCheckboxSize = $(".a-checkbox").length / 2;
-      _range(aCheckboxSize).forEach((elem)=>{
-        //check all the checkboxes in this page
-        $('.a-checkbox:eq(' + elem + ')').prop('checked', !$(".a-checkbox").prop('checked'));
+      //the first half and sec half are referring the same group of elements
+      //but the clickable checkboxes are the sec half which is placed on top of first half
+      //so we are going to take sec half here
+      let aCheckboxSize = $(".a-checkbox").length;
+      _range(aCheckboxSize/2, aCheckboxSize).forEach((elem, key)=>{
+        //store the init checked info of the current .a-checkbox
+        let currACheckboxChecked = $(".a-checkbox:eq(" + elem + ")").prop('checked');
+
+        //[! check] all the checkboxes in this page
+        $('.a-checkbox:eq(' + elem + ')').prop('checked', !currACheckboxChecked);
+
         //push all the personIds that attached in the checkboxes into selectedRecords array
         let queryParamsAttr = $('.a-checkbox:eq(' + elem + ')').attr('queryParams');
         let personId = queryParamsAttr.split(":")[1];
-        this.selectedRecords.push(personId);
+        if(currACheckboxChecked){
+          let indexOfPersonId = this.selectedRecords.indexOf(personId);
+          if(indexOfPersonId !== -1){ //the personId should be exist, otherwise should be an error
+            this.selectedRecords.splice(indexOfPersonId, 1);
+          }
+          //
+        }else{
+          this.selectedRecords.push(personId);
+        }
       });
+      console.log(this.selectedRecords);
     });
   }
 
@@ -255,10 +274,10 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       console.log('Change to page: ' + page);
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
-      this.currPage = page;
+      this.currPage = parseInt(page);
     }
 
-    this.thCheckboxChange();
+    this.relistenThCheckbox();
   }
   //refresh and reload inside this component
   refreshAndReloadSearchRecordTable(){
@@ -271,7 +290,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       });
     }
 
-    this.thCheckboxChange();
+    this.relistenThCheckbox();
   }
 
   edmManagementFormRecordColumnDef(){
@@ -313,14 +332,29 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       this.edmService.getManagementFormSearchRecord(queryParams, 'dataTable').subscribe((resp : any) => {
         this.noOfRecords = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfRecords/this.dtOptions.pageLength);
-        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
-
-        //[variable: checkbox = 1 [checked] according to the this.selectedRecords variable]
+        this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;
         let respDataArr = [];
+
+        //local convert json into server page changing mode
+        /*let startPt = (this.currPage-1) * this.dtOptions.pageLength;
+        let endPt = startPt + this.dtOptions.pageLength;
+        //[variable: checkbox = 1 [checked] according to the this.selectedRecords variable]
+        resp.body.data.forEach((elem, key)=>{
+          if(key >= startPt && key < endPt){
+          //if the personid is found inside the selectedRecords, then the checkbox attr should be 1 and should be checked
+            _set(elem, "checkbox", (this.selectedRecords.indexOf(elem.personId) === -1) ? 0 : 1);
+            respDataArr.push(elem);
+          }
+        }, (error)=>{
+          console.log(">>> getManagementFormSearchRecord error:", error);
+        });*/
+
+        //local json would not work, this is for vm only
+        //[variable: checkbox = 1 [checked] according to the this.selectedRecords variable]
         resp.body.data.forEach((elem, key)=>{
           //if the personid is found inside the selectedRecords, then the checkbox attr should be 1 and should be checked
-          _set(elem, "checkbox", (this.selectedRecords.indexOf(elem.personId) === -1) ? 0 : 1);
-          respDataArr.push(elem);
+            _set(elem, "checkbox", (this.selectedRecords.indexOf(elem.personId) === -1) ? 0 : 1);
+            respDataArr.push(elem);
         });
 
         callback({
@@ -333,6 +367,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       });
     }
   }
+
 
 
   initDropdown(){

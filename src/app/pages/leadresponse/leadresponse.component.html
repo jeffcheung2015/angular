@@ -5,7 +5,7 @@
         <div id="page-heading">
           <ol class="breadcrumb">
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
-              <a href="javascript:;">Home</a>
+              <a routerLink="/">Home</a>
             </li>
             <li *ngIf="currSubPage=='easAgentInterface'" [ngClass]="currSubPage=='easAgentInterface' ? 'active' : ''">
               <a>Agent interface</a>

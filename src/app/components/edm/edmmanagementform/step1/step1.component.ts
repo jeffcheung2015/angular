@@ -12,6 +12,7 @@ import { EdmService } from '../../../../services/edm.service';
 export class Step1Component implements OnInit, AfterViewInit {
   edmManagementStep1Form = new FormGroup({
     templateOption: new FormControl(''),
+    emailSubj: new FormControl(''),
     greetingTxt: new FormControl(''),
     mainBannerImgFile: new FormControl(''),
     campaign1Title: new FormControl(''),
@@ -30,7 +31,7 @@ export class Step1Component implements OnInit, AfterViewInit {
     communicationCd: new FormControl(''),
     sendTestEmail: new FormControl('')
   });
-  @Input()edmPageInfo : {
+  @Input()edmPageInfo : { //fetched from edmManagementForm parent component
     currStep: String
   };
   constructor(
@@ -59,6 +60,7 @@ export class Step1Component implements OnInit, AfterViewInit {
   fetchFormParamsAndPost(){
     let params = {
       templateOption: this.edmManagementStep1Form.controls['templateOption'].value,
+      emailSubj: this.edmManagementStep1Form.controls['emailSubj'].value,
       greetingTxt: this.edmManagementStep1Form.controls['greetingTxt'].value,
       mainBannerImgFile: this.edmManagementStep1Form.controls['mainBannerImgFile'].value,
       campaign1Title: this.edmManagementStep1Form.controls['campaign1Title'].value,

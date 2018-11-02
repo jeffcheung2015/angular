@@ -62,7 +62,8 @@ export class EdmlistComponent implements OnInit, OnDestroy,
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val)=>{
       colArr.push({
-        data: val
+        data: val,
+        orderable: false,
       });
     });
     this.dtOptions = {

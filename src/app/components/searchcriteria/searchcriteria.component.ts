@@ -26,32 +26,37 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
 
   ngOnChanges(changes: SimpleChanges){
     console.log('Info: Search Criteria component onchanges, ', changes, "this.currSubPage:", this.currSubPage);
-    let phoneNoValidator = [Validators.pattern('[0-9]+'), Validators.maxLength(8), Validators.minLength(8)];
+    let numValidator = [Validators.pattern('[0-9]+'), Validators.maxLength(8), Validators.minLength(8)];
+    let numEngValidator = [Validators.pattern('[0-9a-zA-Z]+')];
+    let numEngSpaceValidator = [Validators.pattern('[0-9a-zA-Z ]+')];
+    let assignmentOptionValidator = [Validators.pattern('\b(A{1,2}|R)\b')];
+    let contactCustomerValidator = [Validators.pattern('\b(Y|N)\b')];
+    let assignmentStatusValidator = [Validators.pattern('\b[1-4]\b')];
     this.searchForm = (this.currSubPage === 'easAgentAssignGI') ?
     new FormGroup({
-      fullName : new FormControl(''),
-      policyNo : new FormControl(''),
-      mobileNo : new FormControl('',phoneNoValidator),
+      fullName : new FormControl('', numEngSpaceValidator),
+      policyNo : new FormControl('', numValidator),
+      mobileNo : new FormControl('',numValidator),
       emailAddr : new FormControl('', Validators.email),
-      idCardNo : new FormControl(''),
+      idCardNo : new FormControl('',numEngSpaceValidator),
       dateOfSubmissionFrom : new FormControl(''),
       dateOfSubmissionTo : new FormControl(''),
-      assignmentOption : new FormControl('')
+      assignmentOption : new FormControl('',assignmentOptionValidator)
     }) : (this.currSubPage === 'easAgentAssignCS') ? new FormGroup({
-      fullName : new FormControl(''),
-      policyNo : new FormControl(''),
-      mobileNo : new FormControl('',phoneNoValidator),
+      fullName : new FormControl('',numEngSpaceValidator),
+      policyNo : new FormControl('',numValidator),
+      mobileNo : new FormControl('',numValidator),
       emailAddr : new FormControl('', Validators.email),
-      idCardNo : new FormControl(''),
+      idCardNo : new FormControl('',numEngSpaceValidator),
       dateOfSubmissionFrom : new FormControl(''),
       dateOfSubmissionTo : new FormControl(''),
-      assignmentOption : new FormControl(''),
-      contactCustomerOption : new FormControl(''),
-      assignmentStatusOption : new FormControl('')
+      assignmentOption : new FormControl('',assignmentOptionValidator),
+      contactCustomerOption : new FormControl('',contactCustomerValidator),
+      assignmentStatusOption : new FormControl('',assignmentStatusValidator)
     }) : new FormGroup({
-     agentCode : new FormControl(''),
-     agentPhone : new FormControl('',phoneNoValidator),
-     agentName : new FormControl('')
+     agentCode : new FormControl('', numEngValidator),
+     agentPhone : new FormControl('',numValidator),
+     agentName : new FormControl('', numEngSpaceValidator)
    });
    this.dropDownInitialized = (['easAgentAssignCS','easAgentAssignGI'].indexOf(this.currSubPage) !== -1) ?
     false : this.dropDownInitialized;
@@ -126,6 +131,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   onSubmitSearchCriteria(){
+    console.log(this.searchForm)
     let fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,
     contactCustomerOption,assignmentStatusOption,
     agentCode,agentPhone,agentName, queryParams;

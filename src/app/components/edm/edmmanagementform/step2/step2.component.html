@@ -189,23 +189,20 @@
                         </ul>
                       </div>
                   </div>
-                  <form [formGroup]="edmManagementStep2Form" class="form-edmManagementStep2Form" method="POST" (ngSubmit)="onSubmitStep2()">
-                    <div class="col-md-12 clearfix hidden-xs step2-btn">
-                        <div class="btn-left float-left">
-                            <button type="submit" class="to-step3" style="background: #FE0000; color: #ffffff;"><i class="iconfont">&#xe61f;</i>
-                                <span>Send</span>
-                            </button>
-                            <button (click)="goBackStep1()" class="to-step1" style="background: #EFEFEF; color: #333333;"><i class="iconfont">&#xe620;</i>
-                                <span>Back</span>
-                            </button>
-                        </div>
-                        <div class="btn-right float-right">
-                            <button routerLink="/easEDM"><i class="iconfont">&#xe619;</i>
-                                <span>Cancel</span></button>
-                        </div>
-                    </div>
-                    <input type="hidden" value="selectedRecordsStr"/>
-                  </form>
+                  <div class="col-md-12 clearfix hidden-xs step2-btn">
+                      <div class="btn-left float-left">
+                          <button (click)="onSubmitStep2()" class="to-step3" style="background: #FE0000; color: #ffffff;"><i class="iconfont">&#xe61f;</i>
+                              <span>Send</span>
+                          </button>
+                          <button (click)="goBackStep1()" class="to-step1" style="background: #EFEFEF; color: #333333;"><i class="iconfont">&#xe620;</i>
+                              <span>Back</span>
+                          </button>
+                      </div>
+                      <div class="btn-right float-right">
+                          <button routerLink="/easEDM"><i class="iconfont">&#xe619;</i>
+                              <span>Cancel</span></button>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>

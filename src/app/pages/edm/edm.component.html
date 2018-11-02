@@ -5,7 +5,7 @@
         <div id="page-heading">
           <ol class="breadcrumb">
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
-              <a href="javascript:;">Home</a>
+              <a routerLink="/">Home</a>
             </li>
             <li *ngIf="currSubPage=='easEDM' || currSubPage=='easEDMManagementForm' || currSubPage=='easEDMHistory'" [ngClass]="currSubPage=='easEDMList' ? 'active' : ''">
               <a routerLink="/easEDM">eDM</a>
@@ -18,7 +18,7 @@
             </li>
           </ol>
         </div>
-      </div>      
+      </div>
       <app-edmlist *ngIf="currSubPage=='easEDM'"></app-edmlist>
       <app-edmhistory *ngIf="currSubPage=='easEDMHistory'"></app-edmhistory>
       <app-edmmanagementform *ngIf="currSubPage=='easEDMManagementForm'"></app-edmmanagementform>

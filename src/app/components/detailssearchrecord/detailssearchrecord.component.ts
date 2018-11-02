@@ -42,7 +42,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   pageInfo : any = {};
 
   noOfPage : number;
-  currPage : number = 0;
+  currPage : number = 1;
 
   currDate = new Date();
 
@@ -127,6 +127,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     $('.table-detailSearchRecord').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
+      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
     //all the following btns are placed inside the agentassignment.component.html
     this.classToTrigger =  [
@@ -374,7 +375,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(queryParams, 'dataTable').subscribe((resp : any) => {
         this.noOfRenewals = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
-        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
+        this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
 

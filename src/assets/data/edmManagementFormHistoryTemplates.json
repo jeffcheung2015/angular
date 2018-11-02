@@ -1,0 +1,22 @@
+{
+  "templateOption": "1",
+  "emailSubj":"Hello ~~~",
+  "greetingTxt":"i am greeting txt",
+  "mainBannerImgFile":"assets/img/boat-daylight-lake-675764.png",
+  "mainBannerImgName":"boat-daylight-lake-675764.png",
+  "campaign1Title":"asdsad",
+  "campaign1Desc":"asdasd",
+  "campaign2Title":"123213",
+  "campaign2Desc":"asdasdasd",
+  "priButtonTitle":"asdasdasd",
+  "priButtonLink":"asdasdasd",
+  "secButtonTitle":"asdadsdas",
+  "secButtonLink":"213312",
+  "bottomBannerImgFile":"assets/img/adult-book-business-297755.png",
+  "bottomBannerImgName":"adult-book-business-297755.jpg",
+  "bottomBannerButtonTitle":"sdfdfs",
+  "bottomBannerButtonLink":"sdfsdf",
+  "campaignTnc":"sdfdsf",
+  "standardTnc":"cvbcvb",
+  "communicationCd":"cvbcvbcb"
+}

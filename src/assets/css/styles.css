@@ -11367,7 +11367,7 @@ body.collapse-leftbar #sidebar li li li li a {
   border-bottom: 1px solid #dddddd;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  height: 40px;
+  height: 60px;
   line-height: 2em;
 }
 .panel-heading:before,
@@ -11784,22 +11784,26 @@ body.collapse-leftbar #sidebar li li li li a {
 }
 [class*="panel-"].panel .panel-heading {
   padding: 0;
-  border-bottom: none;
+  border-bottom: 2px solid #EBEBEB;
+  padding-left: 45px;
+  padding-top: 20px;
 }
 [class*="panel-"].panel .panel-heading.rounded-bottom {
   border-bottom-right-radius: 1px;
   border-bottom-left-radius: 1px;
 }
 [class*="panel-"].panel .panel-heading .nav.nav-tabs > li a {
-  color: #fff;
-  color: rgba(255, 255, 255, 0.75);
+  color: #848484;
+  font-size: 18px;
 }
 [class*="panel-"].panel .panel-heading .nav.nav-tabs > li a:hover {
   color: #fff;
 }
 [class*="panel-"].panel .panel-heading .nav.nav-tabs > li.active a {
-  color: #000;
+  color: #FE0000;
   background: #fff;
+  border-bottom: 2px solid #FE0000;
+  font-size: 18px;
 }
 [class*="panel-"].panel .panel-heading .options a {
   color: #fff;
@@ -11862,7 +11866,7 @@ body.collapse-leftbar #sidebar li li li li a {
 [class*="panel-"].panel .panel-heading > h4 > ul.nav.nav-tabs > li > a {
   border: none;
   padding: 0 10px;
-  line-height: 40px;
+  line-height: 37px;
   margin-top: 0px;
 }
 .panel-body > .list-group {

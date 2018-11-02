@@ -59,4 +59,5 @@ export default {
     EDMStep2Field:["checkbox", "customerName", "gender", "email", "birthYear","birthMonth",
     "campaignCd", "partnerCd", "partnerName", "assignmentType", "dateOfSubmission"],
 
+    EDMHistoryCustomerList:["customerName","email","status","sentTime"],
 };

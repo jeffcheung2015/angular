@@ -17,7 +17,7 @@
             </ng-container>
             <ng-container *ngIf="!currFirstContactDt">
               <input placeholder="DD/MM/YYYY" class="search-by-input"
-              matInput [max]="maxDateFrom" [matDatepicker]="firstContactDtPicker"
+              matInput [max]="currDate" [matDatepicker]="firstContactDtPicker"
               formControlName="firstContactDt" name="firstContactDtField">
 
               <mat-datepicker-toggle matSuffix [for]="firstContactDtPicker">
