@@ -2288,7 +2288,7 @@ select[multiple].form-group-lg .form-control {
 }
 .search-by-col-wrap .dropdown-redarrow,
 .search-by-col-wrap .search-by-input {
-  width: 240px;
+  max-width: 240px;
   display: block;
   margin:0 8px 15px 0;
 }
@@ -10791,7 +10791,7 @@ body.collapse-leftbar #sidebar li li li li a {
     box-shadow: none;
   }
   #info>div:nth-child(1){
-    padding-right: 20px;
+    padding-right: 5px;
   }
   #info>div:nth-child(2){
     min-width: 145px;
@@ -15355,7 +15355,7 @@ ul.remarks-small li span {
   .search-by-col > div,
   .search-by-col-wrap .dropdown-redarrow,
   .search-by-col-wrap .search-by-input {
-    width: 290px;
+    /* width: 290px; */
   }
   .mobile-no-padding {
     padding-right: 30px;
@@ -15537,7 +15537,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 #remarkDiv{
   padding: 10px 10px 10px 20px;
   background: #EBEBEB;
-  margin-left: 20px;
+  margin-left: 15px;
   margin-top: 10px;
   border-radius: 4px;
 }
@@ -15765,7 +15765,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   border:none;
   border-radius: 6px;
   margin: 5px 0 ;
-  width: 158px;
+  width: 178px;
   text-align: left;
 }
 .step1-right{
@@ -15930,12 +15930,16 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /* table.datatables6 thead th:nth-child(2){
    padding: 10px 40px;
  } */
-.a-view, .a-edit{
+.a-view, .a-edit, .a-customerName{
   cursor: pointer;
   color: red;
   border-bottom: solid 1px red;
 }
-
+.span-csremarks{
+  cursor: pointer;
+  color:#c3c3c3;
+  border-bottom: solid 1px #c3c3c3;
+}
 .th-grayCheckbox{
   background: #5D5D5D;
   background-image: unset !important;

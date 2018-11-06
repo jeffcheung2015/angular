@@ -31,7 +31,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   searchCriteriaFieldName : string[];
   searchCriteriaComponent : SearchcriteriaComponent;
   noOfCustomer : number = 0;
-  noOfRenewals : number = 0;
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
   dtTrigger : Subject<any>= new Subject();
@@ -43,6 +42,18 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
   bodyRendererListener;
 
+  mapOptionTextIntoVal = {
+    "" : "",
+    "A" : "Assign",
+    "AA" : "Auto Assigned",
+    "R" : "Re-assign",
+    "Y" : "Yes",
+    "N" : "No",
+    "1" : "To apply for extension",
+    "2" : "Applied extension",
+    "3" : "Opt-out from this program",
+    "4" : "Re-assigned"
+  }
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
@@ -85,7 +96,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         // {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
       ];
 
-      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"Assign", "Yes", ""];
+      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"A", "", ""];
       this.searchCriteriaFieldName = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
         "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption",
         "contactCustomerOption","assignmentStatusOption"];
@@ -155,7 +166,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     if(type === 'pruchat'){
       this.agentassignmentService.postResendPruchat(params, 'sendParams').subscribe((resp : any) => {
         let code = (typeof resp.code === "number") ? resp.code.toString() : resp.code;
-        let msg = (code !== "00000") ? resp.errorMsg : "PruChat and email has been sent successfully";
+        let msg = (code !== "00000") ? resp.errMsg : "PruChat and email has been sent successfully";
         this.setPopUpMsg(msg);
         $("#btnMsgModal").modal('show');
       }, (error)=>{
@@ -165,7 +176,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     }else if(type === 'sms'){
       this.agentassignmentService.postResendSMS(params, 'sendParams').subscribe((resp : any) => {
         let code = (typeof resp.code === "number") ? resp.code.toString() : resp.code;
-        let msg = (code !== "00000") ? resp.errorMsg : "SMS and email has been sent successfully";
+        let msg = (code !== "00000") ? resp.errMsg : "SMS and email has been sent successfully";
         this.setPopUpMsg(msg);
         $("#btnMsgModal").modal('show');
       }, (error)=>{
@@ -311,6 +322,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let grayBtnClass = "btn btn-default table-btn";
 
             let displayInlineStyle = "style='display: inline-flex;float: left;'";
+            let pStyle = `style="word-break: break-word;white-space: normal;"`;
 
             let assignBtnHTML = `<a class="` + redBtnClass + ` a-assignBtn" queryParams="policyNo:` + rowData.polNo + `">Assign</a>`;
             let reassignBtnHTML = `<a class="` + redBtnClass + ` a-reassignBtn" queryParams="policyNo:` + rowData.polNo + `">Re-assign</a>`;
@@ -320,11 +332,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let agentAssignedDate = rowData.agentAssignedDate ? new Date(rowData.agentAssignedDate.substr(0,10)) : ``;
             $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
 
-            let tdValRowHTML = `<td><p>` + rowData.agentTeam + `</p></td>
-            <td><p>` + rowData.agentCode + `</p></td>
-            <td><p>` + rowData.agentName + `</p></td>
-            <td><p>` + rowData.agentPhone + `</p></td>
-            <td><p>` + (agentAssignedDate ? convertDate(agentAssignedDate, 'withoutMins') : ``) + `</p></td>`;
+            let tdValRowHTML = `<td><p ` + pStyle + `>` + rowData.agentTeam + `</p></td>
+            <td><p ` + pStyle + `>` + rowData.agentCode + `</p></td>
+            <td><p ` + pStyle + `>` + rowData.agentName + `</p></td>
+            <td><p ` + pStyle + `>` + rowData.agentPhone + `</p></td>
+            <td><p ` + pStyle + `>` + (agentAssignedDate ? convertDate(agentAssignedDate, 'withoutMins') : ``) + `</p></td>`;
 
             let firstRow :string = '' , secRow :string = '';
 
@@ -405,6 +417,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       }
     }]
   }
+
   agentAssignedAjax(){
     return (params, callback, settings) => {
       let queryParams = {};

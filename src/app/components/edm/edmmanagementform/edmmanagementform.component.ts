@@ -10,7 +10,7 @@ export class EdmmanagementformComponent implements OnInit{
   constructor() { }
   //pass by ref so that child can trigger the upd of this page
   edmPageInfo: object = {
-    currStep : "step1" //hardcode here the starting step of this management form
+    currStep : "step2" //hardcode here the starting step of this management form
   }
 
   ngOnInit() {

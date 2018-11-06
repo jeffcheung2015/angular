@@ -1,17 +1,12 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
   AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
-//import { MatPaginator, MatTableDataSource } from '@angular/material';
-//import {DataSource} from '@angular/cdk/collections';
-//import { Observable } from 'rxjs/Observable';
-//import 'rxjs/add/observable/of';
 import { LeadresponseService } from '../../../services/leadresponse.service';
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import {get as _get, set as _set} from 'lodash';
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
 
 import constants from '../../../constants/constants';
@@ -77,17 +72,15 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
 
   constructor(
      private leadresponseService : LeadresponseService,
-     private http: HttpClient,
      private renderer2 : Renderer2,
      public translateService: TranslateService
    ) {
-
    }
-   loadObjFromLangJson(path, storeVarStr){
-     this.translateService.get(path).subscribe((resp : any)=>{
-       this[storeVarStr] = resp;
-     })
-   }
+  loadObjFromLangJson(path, storeVarStr){
+    this.translateService.get(path).subscribe((resp : any)=>{
+      this[storeVarStr] = resp;
+    });
+  }
   ngOnChanges(){
     this.currSelectedAgentCode = "";
     this.onclickEventInit = false; //no matter what whenever any changes happen, reset false first

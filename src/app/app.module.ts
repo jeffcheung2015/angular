@@ -88,12 +88,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EdmmanagementformComponent } from './components/edm/edmmanagementform/edmmanagementform.component';
 import { EdmhistoryComponent } from './components/edm/edmhistory/edmhistory.component';
 import { EdmlistComponent } from './components/edm/edmlist/edmlist.component';
-import { LeadextensionapplComponent } from './components/lead/leadextensionappl/leadextensionappl.component';
-import { LeadextensionapprovalComponent } from './components/lead/leadextensionapproval/leadextensionapproval.component';
-import { LeadsummaryComponent } from './components/lead/leadsummary/leadsummary.component';
 import { Step1Component } from './components/edm/edmmanagementform/step1/step1.component';
 import { Step2Component } from './components/edm/edmmanagementform/step2/step2.component';
 import { Step3Component } from './components/edm/edmmanagementform/step3/step3.component';
+import { PddlistComponent } from './components/pdd/pddlist/pddlist.component';
+import { PddsummaryComponent } from './components/pdd/pddsummary/pddsummary.component';
+import { PddleadextapprovalComponent } from './components/pdd/pddleadextapproval/pddleadextapproval.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -126,15 +126,15 @@ export function createTranslateLoader(http: HttpClient) {
     PddComponent,
     ViewemailComponent,
     LoaderComponent,
-    LeadsummaryComponent,
-    LeadextensionapprovalComponent,
-    LeadextensionapplComponent,
     EdmmanagementformComponent,
     EdmhistoryComponent,
     EdmlistComponent,
     Step1Component,
     Step2Component,
     Step3Component,
+    PddlistComponent,
+    PddsummaryComponent,
+    PddleadextapprovalComponent,
   ],
   imports: [
     NgbModule,

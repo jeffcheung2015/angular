@@ -92,8 +92,9 @@
             formControlName="afyp" name="afypField">
           </label>
         </div>
+
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary table-btn a-upsellDtlSubmitBtn" data-dismiss="modal">{{'AGENT_INTERFACE.UPSELL_DTL.SUBMIT' | translate}}</button>
+          <button [disabled]="!upsellDetailModalForm.valid" type="submit" class="btn btn-primary table-btn a-upsellDtlSubmitBtn" data-dismiss="modal">{{'AGENT_INTERFACE.UPSELL_DTL.SUBMIT' | translate}}</button>
         </div>
       </div>
     </div>
@@ -105,19 +106,19 @@
   <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-agentInterface">
     <thead>
       <tr class="row1">
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.CUSTOMER_NAME' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.PHONE' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.EMAIL' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.SUBMISSION_DT' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.PROD' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.ASSIGNMENT_DT' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.FIRST_CONTACT_DT' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.ASSIGNMENT_STATUS' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.APPLICATION_EXT' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.CS_REMARKS' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.LIFE_POL_NO' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.LIFE_PROD' | translate}}</th>
-        <th class="noscroll">{{'AGENT_AO_INTERFACE_COLS.AFYP' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.CUSTOMER_NAME' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.PHONE' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.EMAIL' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.SUBMISSION_DT' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.PROD' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.ASSIGNMENT_DT' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.FIRST_CONTACT_DT' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.ASSIGNMENT_STATUS' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.APPLICATION_EXT' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.CS_REMARKS' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.LIFE_POL_NO' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.LIFE_PROD' | translate}}</th>
+        <th>{{'AGENT_AO_INTERFACE_COLS.AFYP' | translate}}</th>
       </tr>
     </thead>
   </table>

@@ -1,8 +1,8 @@
-<div class="row"><div class="col-md-12">
+<div class="row div-campaignDetails">
     <div class="panel">
         <div class="panel-body slide-body">
             <div class="row">
-                <div class="col-md-12 clearfix">
+                <div class="clearfix">
                     <div id="accordioninpanel" class="accordion-group clearfix">
                         <div class="accordion-item col-lg-12 col-md-12">
                             <a><h4 class="h4-campaignDetails">Campaign Details</h4></a>
@@ -10,46 +10,46 @@
                                 <div class="client-detail compaign-detail">
                                     <div class="col-lg-6 col-md-6 detail-box">
                                         <div *ngIf="campaignCode" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6 ">Campaign Code</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 ">{{campaignCode}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">Campaign Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">{{campaignCode}}</div>
                                         </div>
                                         <div *ngIf="startDate" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6">Campaign Start Date</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{startDate | date:'MM/dd/yyyy'}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Campaign Start Date</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{startDate | date:'MM/dd/yyyy'}}</div>
                                         </div>
                                         <div *ngIf="endDate" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6 ">Campaign End Date</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 ">{{endDate | date: 'MM/dd/yyyy'}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">Campaign End Date</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">{{endDate | date: 'MM/dd/yyyy'}}</div>
                                         </div>
                                         <div *ngIf="premiumFromAM && amEntitled" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6">Premium Percent Off</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">HK${{premiumFromAM}} = {{amEntitled}} Mile</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Premium Percent Off</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">HK${{premiumFromAM}} = {{amEntitled}} Mile</div>
                                         </div>
                                         <div *ngIf="genericCode" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6">Generic Code</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{genericCode}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Generic Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{genericCode}}</div>
                                         </div>
                                         <div *ngIf="promoPool" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6">Promotion Code Pool</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{promoPool}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Promotion Code Pool</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{promoPool}}</div>
                                         </div>
                                         <div *ngIf="promoUnit" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6">Promotion Code Unit</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{promoUnit}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Promotion Code Unit</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{promoUnit}}</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 detail-box">
                                         <div *ngIf="partnerCode" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6">Partner Code</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{partnerCode}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Partner Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{partnerCode}}</div>
                                         </div>
                                         <div *ngIf="partnerName" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6 ">Partner Name</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{partnerName}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Partner Name</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{partnerName}}</div>
                                         </div>
                                         <div *ngIf="prodSubType" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6">Product Subtype</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6">{{prodSubType}}</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Product Subtype</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{prodSubType}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                             <a><h4 class="h4-promoCodeUsage">Promotion Code Usage</h4></a>
                             <div id="my-policy-diary" class="clearfix">
                                 <div class="client-detail">
-                                    <div class="col-lg-12 detail-box">
+                                    <div class="col-lg-12 detail-box div-promoContainer">
                                         <p>{{promoUsage}}</p>
                                     </div>
                                 </div>
@@ -84,4 +84,4 @@
             </div>
         </div>
     </div>
-</div></div>
+</div>

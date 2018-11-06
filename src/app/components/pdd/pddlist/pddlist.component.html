@@ -1,0 +1,32 @@
+<div class="table-wrapper table-responsive div-pddListWrapper">
+  <div class="div-pddListHeader">
+    <h4 class="h4-tableHeader">Application for Assigned Lead Extension</h4>
+    <h4 class="h4-noOfApplications">Total No.of Application: {{noOfApplications}}</h4>
+  </div>
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-pddList">
+    <thead>
+      <tr class="row1">
+        <th class="noscroll" *ngFor="let colName of displayedColumns">
+          {{colName}}
+        </th>
+      </tr>
+    </thead>
+  </table>
+  <div class="div-goToPage-showPerPage">
+    <div class="div-goToPage">
+      <span class="span-goToPage">Go to page</span>
+      <div class="div-goToPage_wrapper">
+        <input type="text" class="input-goToPage_left" [(ngModel)]="currPage" value="{{currPage}}"/>
+        <input type="text" class="input-goToPage_right" value="/ {{noOfPage}}" disabled/>
+        <input class="button-goToPage_go" value="GO" type="button" (click)="changeCurrTablePage(currPage)"/>
+      </div>
+    </div>
+    <ul class="ul-showPerPage">
+      <span>Show</span>
+      <li><a [ngClass]="mapToLengthMenuNum[5]" (click)="changeTablePerPage(5)">5</a></li>
+      <li><a [ngClass]="mapToLengthMenuNum[10]" (click)="changeTablePerPage(10)">10</a></li>
+      <li><a [ngClass]="mapToLengthMenuNum[20]" (click)="changeTablePerPage(20)">20</a></li>
+      <span>per page</span>
+    </ul>
+  </div>
+</div>

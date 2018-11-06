@@ -25,18 +25,18 @@ export class ViewemailComponent implements OnInit {
 
   ngOnInit() {
     this.lastEmailId = this.agentassignmentService.currEmailId || "";
-    if(this.lastEmailId == ''){ 
+    if(this.lastEmailId == ''){
       this.router.navigate(['/']);
     }
     let queryParams = {
       lastEmailId: this.lastEmailId
     }
     this.agentassignmentService.getViewEmail(queryParams, 'viewEmail').subscribe((resp: any)=>{
-      this.emailSubject = resp.emailSubject;
-      this.emailContent = resp.emailContent;
-      this.receiverName = resp.receiverName;
-      this.receiver = resp.receiver;
-      this.status = resp.status;
+      this.emailSubject = resp.body.emailSubject;
+      this.emailContent = resp.body.emailContent;
+      this.receiverName = resp.body.receiverName;
+      this.receiver = resp.body.receiver;
+      this.status = resp.body.status;
     }, (error) => console.log(error));
   }
 

@@ -1,33 +1,19 @@
-#leadExtensionModal{
-  .span-blue{
-    color: lightskyblue;
-  }
-  .span-green{
-    color: mediumseagreen;
-  }
-  .span-red{
-    color: red;
-  }
-}
-.modal{
-  .modal-topPart{
-    .a-closeBtn{
-      display: flex;
+.div-pddListWrapper{
+  .div-pddListHeader{
+    display: inline-flex;
+    width: 100%;
+    .h4-tableHeader{
+      color: red;
+    }
+    .h4-noOfApplications{
+      color: red;
       margin-left: auto;
-      justify-content: center;
     }
   }
-}
-.div-aoInterfaceDataTable{
-  text-align: center;
-  .h4-tableHeader{
-    float: left;
-    color:black;
-    font-weight: bold;
-  }
 
-  .table-aoInterface{
+  .table-pddList{
     width: 100% !important;
+    text-align: center;
     //this one is to overwrite the triangle symbol as completely
     // disabling the ordering of the datatable is seemingly impossible
     .sorting_asc, .sorting_desc{
@@ -77,22 +63,24 @@
         }
       }
     }
+    .ul-showPerPage{
+      list-style: none !important;
+      display: flex;
+      position: absolute;
+      top: -26px;
+      right: 0px;
+      float: right;
+      li{
+        margin: 0px 10px;
+      }
+      .inactive-gray{
+        color:gray;
+      }
+      .active-red{
+        color:red;
+      }
+    }
   }
-  .ul-showPerPage{
-    list-style: none !important;
-    display: flex;
-    position: absolute;
-    top: -26px;
-    right: 0px;
-    float: right;
-    li{
-      margin: 0px 10px;
-    }
-    .inactive-gray{
-      color:gray;
-    }
-    .active-red{
-      color:red;
-    }
-  }
+
+
 }

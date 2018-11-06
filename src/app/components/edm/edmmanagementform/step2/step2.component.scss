@@ -4,24 +4,28 @@
     height:40px !important;
     border-color:#cccccc;
   }
+  .div-dateOfSubmissionWrapper{
+    .span-dateOfSubmissionText{
+      margin: 0px 20px;
+    }
     .div-dateOfSubmissionFrom, .div-dateOfSubmissionTo{
-    position:relative;
+      position:relative;
+      .input-dateOfSubmissionBtn{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background: transparent;
+        width: 100%;
+      }
 
-    .input-dateOfSubmissionBtn{
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      background: transparent;
-      width: 100%;
-    }
+      .mat-icon.material-icons{
+        color:red;
+      }
 
-    .mat-icon.material-icons{
-      color:red;
-    }
-
-    .input-dateOfSubmission{
-      width: 230px;
-      line-height: 10px;
+      .input-dateOfSubmission{
+        width: 230px;
+        line-height: 10px;
+      }
     }
   }
 }
@@ -33,7 +37,9 @@
       .div-searchCriteriaList{
         height: 40px;
         .h4-searchCriteriaList{
-          line-height: 40px;
+        }
+        .h4-noOfRecords{
+          color:red;
         }
       }
       .div-edmManagementFormSearchRecordBody{

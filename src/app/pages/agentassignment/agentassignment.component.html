@@ -7,10 +7,8 @@
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
               <a routerLink="/">Home</a>
             </li>
-            <li *ngIf="currSubPage=='easAgentAssignGI' || currSubPage =='easAgentAssignCS' ||
-                       currSubPage=='easAgentDetail' || currSubPage == 'easCampaignDetail' ||
-                       currSubPage=='easViewEmail'"
-                [ngClass]="currSubPage=='easAgentAssignGI' || currSubPage=='easAgentAssignCS' ? 'active' : ''">
+            <li *ngIf="['easAgentAssignGI','easAgentAssignCS','easAgentDetail','easCampaignDetail','easViewEmail'].indexOf(currSubPage) !== -1"
+                [ngClass]="['easAgentAssignGI','easAgentAssignCS'].indexOf(currSubPage) !== -1 ? 'active' : ''">
               <a routerLink="/{{agentassignmentService.currServiceName}}" (click)="changeCurrSubPage(agentassignmentService.currServiceName)">Agent Assignment</a>
             </li>
             <li *ngIf="currSubPage=='easAgentDetail'" [ngClass]="currSubPage=='easAgentDetail' ? 'active' : ''">
@@ -26,7 +24,7 @@
         </div>
       </div>
       <app-searchcriteria
-        *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS' || currSubPage == 'easAgentDetail'"
+        *ngIf="['easAgentAssignGI','easAgentAssignCS','easAgentDetail'].indexOf(currSubPage) !== -1"
         [currSubPage]="currSubPage"
       >
       </app-searchcriteria>
@@ -37,7 +35,7 @@
               <div class="row">
                 <div class="col-md-12 clearfix">
                   <app-searchrecord
-                    *ngIf="currSubPage == 'easAgentAssignGI' || currSubPage == 'easAgentAssignCS'"
+                    *ngIf="['easAgentAssignGI','easAgentAssignCS'].indexOf(currSubPage) !== -1"
                     [setPopUpMsg]="setPopUpMsg"
                     [popUpMsg]="popUpMsg"
                     [currSubPage]="currSubPage"

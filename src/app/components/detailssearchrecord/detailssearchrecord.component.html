@@ -1,22 +1,3 @@
-<!--<h4>Search Criteria:
-  <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
-    “{{criteria}}”<span *ngIf="i < searchCriterias.length-1">,</span>
-  </ng-container>
-</h4>
-<div class="table-wrapper table-responsive table-container">
-    <mat-table mat-table [dataSource]="dataSource" class="table-searchRecord">
-      <ng-container *ngFor="let dcol of displayedColumns; let i = index">
-        <ng-container matColumnDef={{dcol}}>
-          <th mat-header-cell *matHeaderCellDef>{{displayedColumns[i]}}-{{displayedColumnsName[i]}}</th>
-          <td mat-cell *matCellDef="let searchrecord"> {{searchrecord[displayedColumnsName[i]]}} </td>
-        </ng-container>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </mat-table>
-    <mat-paginator [pageSizeOptions]="[3,6,9]" showFirstLastButtons></mat-paginator>
-
-</div>-->
 <!-- modal in subpage agent details -->
 <div class="modal fade " id="onLeaveModal" tabindex="-1" role="dialog" aria-labelledby="onLeaveModalLabel">
   <form [formGroup]="onLeaveModalForm" class="onLeaveModalForm">
@@ -64,9 +45,6 @@
       <div class="modal-header">
         <h4 class="modal-title" id="selectBtnModalLabel">Are you sure to assign?</h4>
       </div>
-      <div class="modal-body clearfix">
-
-      </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary table-btn a-selectYesBtn" data-dismiss="modal">Yes</button>
         <button type="button" class="btn btn-default table-btn" data-dismiss="modal">No</button>
@@ -76,14 +54,17 @@
 </div>
 
 <div class="div-detailSearchRecord">
-  <h4>Search Criteria:
-    <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
-      <span *ngIf="criteria">“{{criteria}}”
-        <span *ngIf="i < searchCriterias.length-1">,</span>
-      </span>
-    </ng-container>
-    <span class="span-noOfRenewals">Table No. Of Renewals: {{noOfRenewals}}</span>
-  </h4>
+  <div class="div-detailSearchRecordCriteria">
+    <h4 class="h4-searchCriteriaText">Search Criteria:</h4>
+    <h4 class="h4-criteriaText">
+      <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
+        <ng-container *ngIf="criteria">“{{criteria}}”
+          <ng-container *ngIf="i < searchCriterias.length-1 && criteria">,</ng-container>
+        </ng-container>
+      </ng-container>
+    </h4>
+    <h4 class="h4-noOfRenewals">Table No. Of Renewals: {{noOfRenewals}}</h4>
+  </div>
   <div class="table-wrapper table-responsive div-detailSearchRecordDataTable">
     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-detailSearchRecord">
       <thead>

@@ -1,13 +1,23 @@
 .div-searchCriteria{
+  .ng-invalid{
+    border-color:red !important;
+  }
   .div-dateOfSubmissionWrapper{
     margin-bottom: 10px;
+    display: inline-flex;
     .span-dateOfSubmissionFrom{
       margin-bottom: 10px;
-
+    }
+    .div-dateOfSubmissionFrom{
+      margin-right: 65px;
     }
     .span-dateOfSubmissionTo{
       position: relative;
       left: -20px;
+      margin-top: 30px;
+    }
+    .div-dateOfSubmissionTo{
+      margin-top: 20px;
     }
   }
   .btn-search, .btn-reset{

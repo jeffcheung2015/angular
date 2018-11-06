@@ -7,9 +7,9 @@
     "easAPInterface",
     "easAOInterface",
     "easClientDetail",
-    "easLeadExtensionAppl",
     "easLeadExtensionApproval",
     "easLeadSummary",
+    "easLeadExtensionAppl",
     "easEDM"
   ]
 }

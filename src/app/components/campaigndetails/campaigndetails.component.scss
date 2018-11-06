@@ -1,21 +1,42 @@
-.panel-body{
-  .accordion-group{
-    .h4-campaignDetails{
-      color: #FE0000;
-      border-bottom: 1px solid #EBEBEB;
-      padding: 20px 0px;
-      margin-left: 20px;
-    }
-    .h4-promoCodeUsage{
-      color: #FE0000;
-      border-bottom: 1px solid #EBEBEB;
-      padding: 20px 0px;
-      margin-left: 20px;
+.div-campaignDetails{
+
+  .panel-body{
+    padding:0px !important;
+    .accordion-group{
+      .accordion-item{
+        padding: 0px !important;
+      }
+      .h4-campaignDetails{
+        color: #FE0000;
+        border-bottom: 1px solid #EBEBEB;
+        padding: 20px 0px;
+        margin-left: 14px;
+      }
+      .h4-promoCodeUsage{
+        color: #FE0000;
+        border-bottom: 1px solid #EBEBEB;
+        padding: 20px 0px;
+        margin-left: 14px;
+      }
+
+      .h4-remarks{
+        margin:20px 0 0 14px;
+        color: #FE0000;
+      }
+
+      .div-fieldContainer{
+        padding-left: 5px !important;
+      }
+
+      .div-promoContainer{
+        padding-left: 16px !important;
+      }
+
+
     }
 
-    .h4-remarks{
-      margin:20px 0 0 20px;
-      color: #FE0000;
+    .button-box{
+      padding-left: 10px !important;
     }
   }
 }

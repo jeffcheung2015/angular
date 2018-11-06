@@ -14,8 +14,8 @@
       width: 100%;
       .table-apUplineInterface{
         width: 100% !important;
-        th.noscroll{
-          font-size: 12px;
+        .th-apUplineInterface{
+          background: #db0306;
         }
         .span-dataRow{
           white-space: nowrap;

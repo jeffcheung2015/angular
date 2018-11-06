@@ -1,6 +1,6 @@
 <div class="col-md-12 step1 edm-bodyBottom" style="display: block">
   <form [formGroup]="edmManagementStep1Form" method="POST" (ngSubmit)="onSubmitStep1()">
-    <div class="col-md-9 step1-left">
+    <div class="col-md-9 step1-left ">
         <div class="form-group clearfix">
             <p class="control-label" for="inputSuccess1">Template <i class="iconfont popover1">&#xe628;</i></p>
             <div class="inputSuccess1 dropdown-redarrow search-by-dropdown col-md-6 div-templateOption">
@@ -155,14 +155,31 @@
 
 
     </div>
-    <div class="col-md-3 step1-right">
-        <button type="button" class="width100" (click)="onSaveAndClose()"><i class="iconfont">&#xe61b;</i>
+    <div class="col-md-3 step1-right div-step1RightPart">
+        <button type="button" class="width100" (click)="onSaveAndClose()">
+          <div class="div-iconTextWrapper">
+            <div class="div-step1RightPartBtn">
+              <i class="iconfont">&#xe61b;</i>
+            </div>
             <span>Save and Close</span>
+          </div>
         </button>
-        <button type="button" class="width100"><i class="iconfont">&#xe61d;</i>
-            <span>Preview</span></button>
-        <button type="button" class="width100" routerLink="/easEDM"><i class="iconfont">&#xe619;</i>
-            <span>Cancel</span></button>
+        <button type="button" class="width100">
+          <div class="div-iconTextWrapper">
+            <div class="div-step1RightPartBtn">
+              <i class="iconfont">&#xe61d;</i>
+            </div>
+            <span>Preview</span>
+          </div>
+        </button>
+        <button type="button" class="width100" routerLink="/easEDM">
+          <div class="div-iconTextWrapper">
+            <div class="div-step1RightPartBtn">
+              <i class="iconfont">&#xe619;</i>
+            </div>
+            <span>Cancel</span>
+          </div>
+        </button>
     </div>
     <div class="col-md-12 step-bottom ">
         <div class="form-group clearfix">

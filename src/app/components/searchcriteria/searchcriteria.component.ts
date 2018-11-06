@@ -26,7 +26,8 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
 
   ngOnChanges(changes: SimpleChanges){
     console.log('Info: Search Criteria component onchanges, ', changes, "this.currSubPage:", this.currSubPage);
-    let numValidator = [Validators.pattern('[0-9]+'), Validators.maxLength(8), Validators.minLength(8)];
+    let mobileNoValidator = [Validators.pattern('[0-9]+'), Validators.maxLength(8), Validators.minLength(8)];
+    let numValidator = [Validators.pattern('[0-9]+')];
     let numEngValidator = [Validators.pattern('[0-9a-zA-Z]+')];
     let numEngSpaceValidator = [Validators.pattern('[0-9a-zA-Z ]+')];
     let assignmentOptionValidator = [Validators.pattern('\b(A{1,2}|R)\b')];
@@ -36,7 +37,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     new FormGroup({
       fullName : new FormControl('', numEngSpaceValidator),
       policyNo : new FormControl('', numValidator),
-      mobileNo : new FormControl('',numValidator),
+      mobileNo : new FormControl('',mobileNoValidator),
       emailAddr : new FormControl('', Validators.email),
       idCardNo : new FormControl('',numEngSpaceValidator),
       dateOfSubmissionFrom : new FormControl(''),
@@ -45,7 +46,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     }) : (this.currSubPage === 'easAgentAssignCS') ? new FormGroup({
       fullName : new FormControl('',numEngSpaceValidator),
       policyNo : new FormControl('',numValidator),
-      mobileNo : new FormControl('',numValidator),
+      mobileNo : new FormControl('',mobileNoValidator),
       emailAddr : new FormControl('', Validators.email),
       idCardNo : new FormControl('',numEngSpaceValidator),
       dateOfSubmissionFrom : new FormControl(''),
@@ -55,7 +56,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
       assignmentStatusOption : new FormControl('',assignmentStatusValidator)
     }) : new FormGroup({
      agentCode : new FormControl('', numEngValidator),
-     agentPhone : new FormControl('',numValidator),
+     agentPhone : new FormControl('',mobileNoValidator),
      agentName : new FormControl('', numEngSpaceValidator)
    });
    this.dropDownInitialized = (['easAgentAssignCS','easAgentAssignGI'].indexOf(this.currSubPage) !== -1) ?
@@ -66,12 +67,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   //and should be called when the subpage has just changed
   initDropdown(fieldName){
     let divFieldName = `.div-` + fieldName + ` `;
-    let defaultValMap = {
-      'assignmentOption' : 'A',
-      'contactCustomerOption' : 'Y',
-      'assignmentStatusOption' : '0'
-    };
-    $("[name=" + fieldName + "Field]").val(defaultValMap[fieldName]); //initialize the select into default val first
+
     $(divFieldName + ".select-items div:eq(0)").addClass("same-as-selected");
     $(divFieldName + ".select-selected").text($(divFieldName + ".select-items div:eq(0)").text());
     //select-selected select-arrow-active
@@ -131,7 +127,21 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   onSubmitSearchCriteria(){
-    console.log(this.searchForm)
+    if(this.searchForm.status === 'VALID'){
+      //date validation
+      if((this.searchForm.value.dateOfSubmissionFrom &&
+         !new Date(this.searchForm.value.dateOfSubmissionFrom).getTime()) ||
+          (this.searchForm.value.dateOfSubmissionTo &&
+         !new Date(this.searchForm.value.dateOfSubmissionTo).getTime())){
+        console.error('>>> Invalid input received');
+        return null;
+      }
+    }
+    else{
+      console.error('>>> Invalid input received');
+      return null;
+    }
+
     let fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,
     contactCustomerOption,assignmentStatusOption,
     agentCode,agentPhone,agentName, queryParams;

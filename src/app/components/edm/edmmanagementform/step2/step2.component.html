@@ -3,7 +3,7 @@
     <div id="accordioninpanel" class="accordion-group">
         <div class="accordion-item">
             <a class="accordion-title collapsed" data-toggle="collapse" data-parent="#accordioninpanel" href="#my-policy-diary"><h4>Input Customer Search Criteria(s)</h4></a>
-            <div id="my-policy-diary" class="collapse in" style="">
+            <div id="my-policy-diary" class="collapse in">
                 <div class="accordion-body">
                       <div>
                           <div class="search-by-col-wrap">
@@ -85,7 +85,7 @@
                                       <input formControlName="partnerName" name="partnerNameField" class="search-by-input" type="text">
                                   </div>
                               </div>
-                              <div class="search-by-col">
+                              <div class="search-by-col div-dateOfSubmissionWrapper">
                                   <div>
                                       <label>Date of Submission From</label>
                                       <div class="div-dateOfSubmissionFrom">
@@ -95,7 +95,8 @@
                                           </mat-datepicker-toggle>
                                           <mat-datepicker #dateOfSubmissionFromPicker></mat-datepicker>
                                       </div>
-                                  </div> To &nbsp;
+                                  </div>
+                                  <span class="span-dateOfSubmissionText">To &nbsp;</span>
                                   <div>
                                     <div class="div-dateOfSubmissionTo">
                                       <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)" matInput [min]="minDateTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
@@ -107,11 +108,6 @@
                                   </div>
                               </div>
                               <div class="search-by-col" style="margin:20px 0 ">
-                                      <!--<div class="checkbox ">-->
-                                      <!--<label>-->
-                                      <!--<input type="checkbox"> Check me out-->
-                                      <!--</label>-->
-                                      <!--</div>-->
                                   <span class="checkbox-wrapper">
                                     <input formControlName="selfService" name="selfServiceField" class="chkaction" type="checkbox" id="catrgory-1">
                                     <label for="catrgory-1" class="checkbox-uncheck"><img src="assets/img/icon_checkbox.png">Self Service</label>
@@ -149,10 +145,17 @@
                 <div class="row">
                   <div class="clearfix div-searchCriteriaList" >
                       <h4 class="float-left h4-searchCriteriaList">Search Criteria: </h4>
-                      <h5 class="float-right add-bottom">Total No. of Records: {{noOfRecords}}</h5>
+                      <h4 class="h4-criteriaText">
+                        <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
+                          <ng-container *ngIf="criteria">“{{criteria}}”
+                            <ng-container *ngIf="i < searchCriterias.length-1 && criteria">,</ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </h4>
+                      <h4 class="float-right add-bottom h4-noOfRecords">Total No. of Records: {{noOfRecords}}</h4>
                   </div>
                   <div class="col-md-12 clearfix div-edmManagementFormSearchRecordBody">
-                      <div class="table-wrapper">
+                      <div>
                           <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered no-search datatables6 table-edmManagementForm">
                               <thead>
                               <tr class="row1">

@@ -7,8 +7,9 @@
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
               <a routerLink="/">Home</a>
             </li>
-            <li *ngIf="currSubPage=='easLeadExtensionAppl'" [ngClass]="currSubPage=='easLeadExtensionAppl' ? 'active' : ''">
-              <a>Application for Assigned Lead</a>
+            <li *ngIf="['easLeadExtensionAppl', 'easLeadExtensionApproval', 'easLeadSummary'].indexOf(currSubPage) !== -1"
+                [ngClass]="currSubPage === 'easLeadExtensionAppl' ? 'active' : ''">
+              <a routerLink="/easLeadExtensionAppl" (click)="changeCurrSubPage('easLeadExtensionAppl')">PDD</a>
             </li>
             <li *ngIf="currSubPage=='easLeadExtensionApproval'" [ngClass]="currSubPage=='easLeadExtensionApproval' ? 'active' : ''">
               <a>Lead extension approval</a>
@@ -26,9 +27,9 @@
             <div class="panel-body">
               <div class="row">
                 <div class="col-md-12 clearfix">
-                  <app-leadextensionappl *ngIf="currSubPage=='easLeadExtensionAppl'"></app-leadextensionappl>
-                  <app-leadextensionapproval *ngIf="currSubPage=='easLeadExtensionApproval'"></app-leadextensionapproval>
-                  <app-leadsummary *ngIf="currSubPage=='easLeadSummary'"></app-leadsummary>
+                  <app-pddlist *ngIf="currSubPage=='easLeadExtensionAppl'"></app-pddlist>
+                  <app-pddleadextapproval *ngIf="currSubPage=='easLeadExtensionApproval'"></app-pddleadextapproval>
+                  <app-pddsummary *ngIf="currSubPage=='easLeadSummary'"></app-pddsummary>
                 </div>
               </div>
             </div>

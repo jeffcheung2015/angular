@@ -1,5 +1,5 @@
 export default {
-    localOrVm: 'local', //local || vm
+    localOrVm: 'local', //local || vm    [check all services, and guards/main.guard.ts]
     route:{
       //agent assignment
       AgentAssignGI: 'easAgentAssignGI',
@@ -43,6 +43,12 @@ export default {
     DetailSearchRecordColumnField:["agentCode","agentName","email",
     "agentPhone","lastAssignDate","assign", "onLeave"],
 
+    DetailSearchRecordOldPoolTypeColumnName:["Agent Code","Agent Name","Email Address","Agent Phone",
+        "Last Assignment Date","Assign"],
+
+    DetailSearchRecordOldPoolTypeColumnField:["agentCode","agentName","email",
+    "agentPhone","lastAssignDate","assign"],
+
     AgentInterfaceColumnField:["customerInfo", "phone", "email", "submissionDt", "prod",
     "agentAssignmentDt", "firstContactDt", "assignmentInfo", "applicationExt",
     "csRemarks", "upsellLifePolNo", "upsellLifeProd", "afyp"],
@@ -60,4 +66,23 @@ export default {
     "campaignCd", "partnerCd", "partnerName", "assignmentType", "dateOfSubmission"],
 
     EDMHistoryCustomerList:["customerName","email","status","sentTime"],
+
+    PDDList:["Application Date","Agent Name","Agent Code","Customer Name","Customer Phone no.",
+    "Customer email","Assignment Date","First Contact Date","Approval Status","Remarks"],
+
+    PDDListField:["applicationDt","agentName","agentCode","customerName","customerPhone",
+    "customerEmail","assignmentDt","firstContactDt","approvalStatus","remarks"],
+
+    PDDSummary:["Customer Name", "Customer Phone no.", "Customer email", "Submission date",
+    "Product", "Agent Name", "Agent Code", "Date of Assignment", "First Contact Date",
+    "Assignment Status", "Application of Extension", "CS Remarks", "Upsell Prulife Pol No",
+    "Upsell Life Product", "APE (HK$)"],
+
+    PDDSummaryField:["customerName", "customerPhone", "customerEmail", "submissionDt",
+    "prodClass", "agentName", "agentCode", "assignmentDt", "firstContactDt",
+    "assignmentStatus", "applicationExt", "csRemarks", "upsellLifePolNo",
+    "upsellLifeProd", "ape"],
+
+    NEW_POOL_TYPE: 1,
+    OLD_POOL_TYPE: 2
 };

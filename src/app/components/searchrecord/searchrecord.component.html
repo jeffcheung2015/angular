@@ -35,14 +35,20 @@
 
 <!-- modal in agent assignment -->
 <div class="div-searchRecord">
-  <h4>Search Criteria:
-    <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
-      <span *ngIf="criteria">“{{criteria}}”
-        <span *ngIf="i < searchCriterias.length-1 && criteria">,</span>
-      </span>
-    </ng-container>
-    <span class="span-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</span>
-  </h4>
+  <div class="div-searchRecordCriteria">
+    <h4 class="h4-searchCriteriaText">Search Criteria:</h4>
+    <h4 class="h4-criteriaText">
+      <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
+        <ng-container *ngIf="criteria && i < 7">“{{criteria}}”
+          <ng-container *ngIf="i < searchCriterias.length-1 && criteria">,</ng-container>
+        </ng-container>
+        <ng-container *ngIf="criteria && i >= 7">“{{mapOptionTextIntoVal[criteria]}}”
+          <ng-container *ngIf="i < searchCriterias.length-1 && criteria">,</ng-container>
+        </ng-container>
+      </ng-container>
+    </h4>
+    <h4 class="h4-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</h4>
+  </div>
   <div class="table-wrapper table-responsive div-searchRecordDataTable">
     <table *ngIf="this.currSubPage=='easAgentAssignGI'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
       <thead>

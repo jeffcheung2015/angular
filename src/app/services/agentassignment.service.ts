@@ -26,19 +26,20 @@ export class AgentassignmentService{
     let sentParams : any;
     switch(type){
       case 'dataTable':
+      case 'viewEmail':
+      case 'getPoolType':
         sentParams =  {
           observe: "response",
           params: params
         };
       break;
-      case 'sendParams':
-      case 'viewEmail':
-        sentParams = params
-      break;
       case 'campaignDetails':
         sentParams =  {
           observe: "response"
         };
+      break;
+      case 'sendParams':
+        sentParams = params;
       break;
     }
     return (getOrPost === 'get') ? this.http.get(url, sentParams) : this.http.post(url, sentParams);
@@ -60,6 +61,12 @@ export class AgentassignmentService{
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecordDetails.json', params, 'get', type) :
             this.getOrPostFunc("/eas/api/agent/getAgentDetails",params, 'get', type);
+  }
+  //currAgentPoolType
+  getCurrAgentPoolType(params, type){
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/agentPoolType.txt', params, 'get', type) :
+            this.getOrPostFunc("/eas/api/agent/getCurrAgentPoolType",params, 'get', type);
   }
   //campaignDetails
   getCampaignDetail(params, type){

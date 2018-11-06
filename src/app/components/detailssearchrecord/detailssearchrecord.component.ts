@@ -1,10 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
   AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
-//import { MatPaginator, MatTableDataSource } from '@angular/material';
-//import {DataSource} from '@angular/cdk/collections';
-//import { Observable } from 'rxjs/Observable';
-//import 'rxjs/add/observable/of';
 import { AgentassignmentService } from '../../services/agentassignment.service';
 import { AgentAssignmentRecord } from '../../models/agentassignmentrecord.model';
 import { Subject} from 'rxjs';
@@ -27,8 +23,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class DetailssearchrecordComponent implements OnInit, OnDestroy,
  AfterViewInit,AfterViewChecked,OnChanges {
   @Input() gobackRouteLink: string;
-  displayedColumns: string[] = constants["DetailSearchRecordColumnName"];
-  displayedColumnsName : string[] = constants["DetailSearchRecordColumnField"];
+  displayedColumns: string[];
+  displayedColumnsName : string[];
   searchCriterias : string[] = ["", "" ,""];
   searchCriteriaFieldName : string[] = ["agentCode","agentPhone","agentName"];
 
@@ -45,6 +41,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   currPage : number = 1;
 
   currDate = new Date();
+  currAgentListPoolType : number;
+  dataTableJustInitialized : boolean = false;
 
   dataTableSettings;//for changing table pages in gotopage
 
@@ -89,41 +87,56 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     if(this.currPolicyNo === ''){
       this.router.navigate(['/']);
     }
-    //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
-    //this.searchCriteriaComponent.setSearchRecordComponent(this);
-    let colArr = [], dataArr = [];
-    this.displayedColumnsName.forEach((val, index)=>{
-      colArr.push((index === 6) ? {
-        data: val,
-        width: '15%'  // bigger width for [onLeave] col
-      } : {
-        data: val
+    //to check if curr full agent list's agent are old agent type / new agent Type
+    this.agentassignmentService.getCurrAgentPoolType({policyNo: this.currPolicyNo}, 'getPoolType').subscribe((resp : any) => {
+      console.log('>>> poolType == ', resp.body == 1 ? "NEW_POOL_TYPE" : "OLD_POOL_TYPE");
+      this.currAgentListPoolType = parseInt(resp.body);
+      if(this.currAgentListPoolType === constants.OLD_POOL_TYPE){
+        this.displayedColumns = constants["DetailSearchRecordOldPoolTypeColumnName"];
+        this.displayedColumnsName = constants["DetailSearchRecordOldPoolTypeColumnField"];
+      }else{
+        this.displayedColumns = constants["DetailSearchRecordColumnName"];
+        this.displayedColumnsName = constants["DetailSearchRecordColumnField"];
+      }
+      let colArr = [], dataArr = [];
+      this.displayedColumnsName.forEach((val, index)=>{
+        colArr.push(this.currAgentListPoolType === constants.OLD_POOL_TYPE || index != 6 ? {
+          data: val
+        } : {
+          data: val,
+          width: '15%'  // bigger width for [onLeave] col
+        });
       });
-    });
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 20,
-      scrollX:true,
-      scrollY:true,
-      columnDefs : this.agentDetailsColumnDef(),
-      ajax : this.agentDetailsAjax(),
-      processing: true,
-      serverSide: true,
-      language: {
-        info: "",
-        paginate: {
-          first:    '« first',
-          previous: '‹ prev',
-          next:     'next ›',
-          last:     'last »'
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        pageLength: 20,
+        scrollX:true,
+        scrollY:true,
+        columnDefs : this.agentDetailsColumnDef(),
+        ajax : this.agentDetailsAjax(),
+        processing: true,
+        serverSide: true,
+        language: {
+          info: "",
+          paginate: {
+            first:    '« first',
+            previous: '‹ prev',
+            next:     'next ›',
+            last:     'last »'
+          },
+          //display none length Menu and add a new custom menu
+          // to change the hidden length menu
+          lengthMenu: ``,
         },
-        //display none length Menu and add a new custom menu
-        // to change the hidden length menu
-        lengthMenu: ``,
-      },
-      searching: false,
-      columns: colArr,
-    }
+        searching: false,
+        columns: colArr
+      };
+      this.initDatatableAndClassToTrigger();
+      this.dataTableJustInitialized = true;
+    }, (error)=>{console.error(error)});
+  }
+
+  initDatatableAndClassToTrigger(){
     $('.table-detailSearchRecord').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
@@ -178,7 +191,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
 
       }, (error) => console.log(error));
     }catch(e){
-      console.log('Exception: ', e);
+      console.error('Exception: ', e);
     }
   }
 
@@ -195,7 +208,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   }
 
   ngAfterViewInit(){ //only load data after view are initialized
-    this.dtTrigger.next();
+
   }
   //for handling the datatables's link
   //use router.navigate instead of href in dom 'a', as href will refresh whole page
@@ -207,33 +220,36 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     callback?: any
   }>;
   ngAfterViewChecked(){
-    //fetch the datatable's settings
-    //since angular-datatables is not supporting changing table page in option yet
-    //make use of settings.oApi._fnPageChange to change the page
-    //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
-    this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
-    //for handling the btn inside datatables
-    if(!this.onclickEventInit){
-      this.onclickEventInit = true;
-      this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
-        this.classToTrigger.forEach((elem, key)=>{
-          if($(event.target).hasClass(elem.className)){
-            //add, select, reset btn that is inside the tr row
-            //only these btns have the info of the closest tr for setting currently selected row
-            console.log("elem.className", elem.className)
-            if(['setCurrRow', 'setCurrRowAndSubmit'].indexOf(elem.type) !== -1){
-              let rowDataStr = $(event.target).closest("tr").attr("rowdata");
-              let rowDataObj = JSON.parse(rowDataStr);
-              let leaveId = rowDataObj.onLeave ? rowDataObj.onLeave.split(";")[0] : null;
+    if(this.dataTableJustInitialized){
+      this.dtTrigger.next();
+      //fetch the datatable's settings
+      //since angular-datatables is not supporting changing table page in option yet
+      //make use of settings.oApi._fnPageChange to change the page
+      //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
+      this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
+      //for handling the btn inside datatables
+      if(!this.onclickEventInit){
+        this.onclickEventInit = true;
+        this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
+          this.classToTrigger.forEach((elem, key)=>{
+            if($(event.target).hasClass(elem.className)){
+              //add, select, reset btn that is inside the tr row
+              //only these btns have the info of the closest tr for setting currently selected row
+              if(['setCurrRow', 'setCurrRowAndSubmit'].indexOf(elem.type) !== -1){
+                let rowDataStr = $(event.target).closest("tr").attr("rowdata");
+                let rowDataObj = JSON.parse(rowDataStr);
+                let leaveId = rowDataObj.onLeave ? rowDataObj.onLeave.split(";")[0] : null;
 
-              this.currLeaveId = leaveId;
-              this.currAgentCode = rowDataObj.agentCode;
+                this.currLeaveId = leaveId;
+                this.currAgentCode = rowDataObj.agentCode;
+              }
+
+              elem.callback();
             }
-            console.log("###")
-            elem.callback();
-          }
+          });
         });
-      });
+      }
+      this.dataTableJustInitialized = false;
     }
   }
   ngOnDestroy(){
@@ -373,6 +389,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       });
       queryParams["policyNo"] = this.currPolicyNo;
       this.dataTableAjaxSubscription = this.agentassignmentService.getAgentDetailRecord(queryParams, 'dataTable').subscribe((resp : any) => {
+
         this.noOfRenewals = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
         this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;
@@ -383,11 +400,14 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
           let leaveId, leaveStartDate, leaveEndDate, restAttrObj;
           ({leaveId,leaveStartDate,leaveEndDate,...restAttrObj} = elem);
           _set(restAttrObj,"assign",null);
-          let dateStr = (!leaveId || leaveId === 0) ? null :
-            leaveId + ";" + leaveStartDate + "," + leaveEndDate;
 
-          //the leaveId should be later split out
-          _set(restAttrObj,"onLeave", dateStr);
+          if(this.currAgentListPoolType === constants.NEW_POOL_TYPE){ //only new pool type has on leave col
+            let dateStr = (!leaveId || leaveId === 0) ? null :
+              leaveId + ";" + leaveStartDate + "," + leaveEndDate;
+            //the leaveId should be later split out
+            _set(restAttrObj,"onLeave", dateStr);
+          }
+
           resArr.data.push(restAttrObj);
         });
         //

@@ -34,7 +34,7 @@
                                           </div>
 
                                           <div class="text-left">
-                                              <input type="submit" class="btn btn-primary table-btn" value="Search">
+                                              <input [disabled]="!searchForm.valid" type="submit" class="btn btn-primary table-btn" value="Search">
                                               <input type="reset" class="btn btn-default table-btn" value="Reset">
                                           </div>
                                       </form>
@@ -46,7 +46,7 @@
                                                 <div class="search-by-col">
                                                     <div>
                                                         <label>Full Name</label>
-                                                        <input formControlName="fullName" name="fullNameField" class="search-by-input" type="text">
+                                                        <input formControlName="fullName" class="search-by-input" name="fullNameField"type="text">
                                                     </div>
                                                     <div>
                                                         <label>Policy No.</label>
@@ -67,7 +67,7 @@
                                                         <input formControlName="idCardNo" name="idCardnoField" class="search-by-input" type="text">
                                                     </div>
                                                 </div>
-                                                <div class="search-by-col div-dateOfSubmissionWrapper">
+                                                <div class="div-dateOfSubmissionWrapper">
                                                     <div> <span class="span-dateOfSubmissionFrom">Date of Submission From</span>
                                                         <div class="div-dateOfSubmissionFrom">
                                                             <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
@@ -108,18 +108,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
-
                                         <div class="text-left">
-                                            <input type="submit" class="btn-search btn btn-primary table-btn" value="Search">
+                                            <input type="submit" [disabled]="!searchForm.valid" class="btn-search btn btn-primary table-btn" value="Search">
                                             <input type="reset" class="btn-reset btn btn-default table-btn" value="Reset">
-                                        </div>
-                                        <div >
-                                          
                                         </div>
                                     </form>
                                     </div>
@@ -151,7 +145,7 @@
                                                         <input formControlName="idCardNo" name="idCardnoField" class="search-by-input" type="text">
                                                     </div>
                                                 </div>
-                                                <div class="search-by-col div-dateOfSubmissionWrapper">
+                                                <div class="div-dateOfSubmissionWrapper">
                                                     <div> <span class="span-dateOfSubmissionFrom">Date of Submission From</span>
                                                         <div class="div-dateOfSubmissionFrom">
                                                             <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
@@ -180,14 +174,12 @@
                                                                 <option value=""></option>
                                                                 <option value="A">Assign</option>
                                                                 <option value="AA">Auto Assigned</option>
-                                                                <option value="R">Re-assign</option>
                                                             </select>
                                                             <div class="select-selected"></div>
                                                             <div class="select-items select-hide"><!--same-as-selected-->
                                                               <div>&nbsp;</div>
                                                               <div>Assign</div>
                                                               <div>Auto Assigned</div>
-                                                              <div>Re-assign</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -195,11 +187,13 @@
                                                         <label>Contact customer within 2 days</label>
                                                         <div class="dropdown-redarrow search-by-dropdown div-contactCustomerOption">
                                                             <select formControlName="contactCustomerOption" name="contactCustomerOptionField">
+                                                                <option value=""></option>
                                                                 <option value="Y">Yes</option>
                                                                 <option value="N">No</option>
                                                             </select>
                                                             <div class="select-selected"></div>
                                                             <div class="select-items select-hide"><!--same-as-selected-->
+                                                              <div>&nbsp;</div>
                                                               <div>Yes</div>
                                                               <div>No</div>
                                                             </div>
@@ -226,14 +220,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
-
                                         <div class="text-left">
-                                            <input type="submit" class="btn-search btn btn-primary table-btn" value="Search">
+                                            <input type="submit" [disabled]="!searchForm.valid" class="btn-search btn btn-primary table-btn" value="Search">
                                             <input type="reset" class="btn-reset btn btn-default table-btn" value="Reset">
                                         </div>
                                     </form>

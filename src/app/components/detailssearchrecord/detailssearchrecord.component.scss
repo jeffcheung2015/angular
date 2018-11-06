@@ -34,9 +34,22 @@
   }
 }
 
+
 .div-detailSearchRecord{
-  .span-noOfCustomer, .span-noOfRenewals{
-    float:right;
+  .div-detailSearchRecordCriteria{
+    width: 100%;
+    display: inline-flex;
+    .h4-searchCriteriaText{
+      white-space: pre;
+    }
+    .h4-criteriaText{
+      word-break: break-all;
+    }
+
+    .h4-noOfRenewals{
+      white-space: nowrap;
+      margin-left: auto;
+    }
   }
   .dataTables_wrapper{
     .dataTables_info{
@@ -45,12 +58,10 @@
   }
   .div-detailSearchRecordDataTable{
     text-align: center;
-
+    padding-top: 0px;
     .table-detailSearchRecord{
       width: 100% !important;
-      th.noscroll{
-        font-size: 12px;
-      }
+
       //this one is to overwrite the triangle symbol as completely
       // disabling the ordering of the datatable is seemingly impossible
       .sorting_asc, .sorting_desc{

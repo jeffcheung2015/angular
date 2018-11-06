@@ -105,9 +105,14 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       failUpsell6Months: this.edmManagementStep2Form.controls['failUpsell6Months'].value,
       selfServiceWithLife: this.edmManagementStep2Form.controls['selfServiceWithLife'].value
     }
-    Object.keys(params).forEach((elem, key)=>{
-      this.searchCriterias.push(params[elem]);
-    });
+    let firstName, gender, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
+    partnerName, dateOfSubmissionFrom, dateOfSubmissionTo, selfService, failUpsell6Months, selfServiceWithLife;
+    ({firstName, gender, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
+    partnerName, dateOfSubmissionFrom, dateOfSubmissionTo, selfService, failUpsell6Months, selfServiceWithLife} =
+    params);
+    this.searchCriterias = [firstName, gender, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
+    partnerName, dateOfSubmissionFrom, dateOfSubmissionTo, selfService, failUpsell6Months, selfServiceWithLife];
+
     //clear all the elem in selectedRecords array
     this.selectedRecords.length = 0;
 

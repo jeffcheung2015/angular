@@ -37,7 +37,6 @@ export class LayoutComponent implements OnInit {
 
     easLeadSummary:"pddTab",
     easLeadExtensionAppl:"pddTab",
-    easLeadExtensionApproval:"pddTab",
 
     easEDM:"eDMTab"
   }
@@ -67,9 +66,8 @@ export class LayoutComponent implements OnInit {
     "easAgentAssignGI" : "Agent Assignment",
     "easAgentAssignCS" : "Agent Assignment",
 
-    "easLeadExtensionApproval":"Lead extension approval",
+    "easLeadExtensionAppl":"Lead extension approval",
     "easLeadSummary":"Summary",
-    "easLeadExtensionAppl":"Application for Assigned Lead",
 
     "easAgentInterface" : "Agent interface",
     "easAPInterface" : "Ap-upline interface",
@@ -79,13 +77,18 @@ export class LayoutComponent implements OnInit {
   }
   //only these 10 page name would be checked
   menuPageName = ["easAgentAssignGI" ,"easAgentAssignCS" ,
-  "easLeadExtensionApproval","easLeadSummary","easLeadExtensionAppl",
+  "easLeadExtensionAppl","easLeadSummary",
   "easAgentInterface" ,"easAPInterface" ,"easAOInterface" ,"easEDM" ];
+
+  //later be stored in layoutservice for global accessing purpose
+  allowedRoutes : Array<String> = []; //the access allowed routes array is determined by the menu retrieved
 
   ngOnInit() {
     this.layoutService.getLeftSideBarMenu({}, 'menuApi').subscribe((resp : any) =>{
         resp.body.menu.forEach((elem)=>{
-          if(this.menuPageName.indexOf(elem) !== -1 && this.ignoredMenu.indexOf(elem) === -1){ //non detail pages
+          if(this.menuPageName.indexOf(elem) !== -1 && this.ignoredMenu.indexOf(elem) === -1){ //is eas menu Page and non detail pages
+            //keep an record in allowedRoutes so as to determine the accessibility of routes
+            this.allowedRoutes.push(elem);
             if(['easAgentAssignCS', 'easAgentAssignGI', 'easEDM'].indexOf(elem) !== -1){
               this[this.mapMenuLinkToTab[elem]].link = '/'+elem;
               if(['easAgentAssignCS', 'easAgentAssignGI'].indexOf(elem) !== -1){
@@ -109,14 +112,14 @@ export class LayoutComponent implements OnInit {
             this.menu.push(this[elem]);
           }
         });
+        this.loginUserService.setAllowedRoutes(this.allowedRoutes);
 
         this.username = resp.body.name;
         this.usercode = resp.body.code;
         this.loginUserService.setCurrentLoginUserInfo(resp.body.name, resp.body.code);
-
         this.leftsidebar.setLeftsidebarMenuNameCode(this.menu);
       }, (error : any) => {
-        console.log('error:', error)
+        console.error('error:', error)
       }
     );
   }

@@ -1,14 +1,10 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
   AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
-//import { MatPaginator, MatTableDataSource } from '@angular/material';
-//import {DataSource} from '@angular/cdk/collections';
-//import { Observable } from 'rxjs/Observable';
-//import 'rxjs/add/observable/of';
 import { LeadresponseService } from '../../../services/leadresponse.service';
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
@@ -44,9 +40,9 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
      reasonOfExt : new FormControl('')
   });
   upsellDetailModalForm = new FormGroup({
-     upsellLifePolNo : new FormControl(''),
-     upsellLifeProd : new FormControl(''),
-     afyp : new FormControl('')
+     upsellLifePolNo : new FormControl('', [Validators.pattern('[0-9a-zA-Z ]+')]),
+     upsellLifeProd : new FormControl('', [Validators.pattern('[0-9a-zA-Z ]+')]),
+     afyp : new FormControl('', [Validators.pattern('[0-9]+')])
   });
   //
   //fetching the translated data['LEAD_RESPONSE_COMMON'] obj from en.json / zh.json
@@ -195,10 +191,15 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     }, (error) => console.log(error));
   }
   setUpsellDtl(){
+    let upsellDetailModalForm = this.upsellDetailModalForm;
+    if(upsellDetailModalForm.status !== 'VALID'){
+      console.error(">>> Upsell detail invalid input");
+      return null;
+    }
     let queryParams = {
-      lifePolNo: this.upsellDetailModalForm.controls['upsellLifePolNo'].value,
-      lifePolCls: this.upsellDetailModalForm.controls['upsellLifeProd'].value,
-      lifeAfyp: this.upsellDetailModalForm.controls['afyp'].value,
+      lifePolNo: upsellDetailModalForm.controls['upsellLifePolNo'].value,
+      lifePolCls: upsellDetailModalForm.controls['upsellLifeProd'].value,
+      lifeAfyp: upsellDetailModalForm.controls['afyp'].value,
       polNo: this.currPolNo
     };
     this.leadresponseService.postUpsellDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
