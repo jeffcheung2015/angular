@@ -54,8 +54,8 @@
 </div>
 
 <div class="div-detailSearchRecord">
-  <div class="div-detailSearchRecordCriteria">
-    <h4 class="h4-searchCriteriaText">Search Criteria:</h4>
+  <div class="clearfix div-detailSearchRecordCriteria">
+    <h4 class="float-left h4-searchCriteriaText">Search Criteria:</h4>
     <h4 class="h4-criteriaText">
       <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
         <ng-container *ngIf="criteria">“{{criteria}}”
@@ -63,7 +63,7 @@
         </ng-container>
       </ng-container>
     </h4>
-    <h4 class="h4-noOfRenewals">Table No. Of Renewals: {{noOfRenewals}}</h4>
+    <h4 class="float-right add-bottom h4-noOfRenewals">Table No. Of Renewals: {{noOfRenewals}}</h4>
   </div>
   <div class="table-wrapper table-responsive div-detailSearchRecordDataTable">
     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-detailSearchRecord">

@@ -90,19 +90,13 @@ export class PddlistComponent  implements OnInit, OnDestroy,
     });
 
     this.classToTrigger =  [
-      {type: 'redirect', className: "a-customerName", callback: ()=>{this.redirectToApproval()}}
-      // {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
-      //
-      // {type: 'submit', className: "a-customerDtlSubmitBtn", callback: ()=>{this.setCustomerDtl()}},
-      // {type: 'submit', className: "a-leadExtSubmitBtn", callback: ()=>{this.setLeadExt()}},
-      // {type: 'submit', className: "a-upsellDtlSubmitBtn", callback: ()=>{this.setUpsellDtl()}}
+      {type: 'redirect', className: "a-customerName", callback: (queryParams)=>{this.redirectToApproval(queryParams)}}
     ];
   }
 
-  redirectToApproval(){
-    //to be done [put some param into pdd service to retrieve the easLeadExtensionApproval's data not using queryparams]
-
-
+  redirectToApproval(queryParams){
+    //[put some param into pdd service to retrieve the easLeadExtensionApproval's data not using query params in req header]
+    this.pddService.currAgentCode = queryParams.agentCode;
     this.router.navigate(['easLeadExtensionApproval']);
   }
 
@@ -141,7 +135,22 @@ export class PddlistComponent  implements OnInit, OnDestroy,
       this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
           if($(event.target).hasClass(elem.className)){
-            elem.callback();
+            if(elem.type === 'redirect'){
+              //read queryParams attr
+              //e.g. queryParams="abc:2,ddd:4" ...
+              let paramsToBePassed = {};
+              let queryParamsStr = $(event.target).attr("queryParams");
+              if(queryParamsStr){
+                let queryParamsArray = queryParamsStr.split(',');
+                queryParamsArray.forEach((elem, key)=>{
+                  let elemPair = elem.split(':');
+                  _set(paramsToBePassed, elemPair[0], elemPair[1]);
+                });
+              }
+              if(elem.callback){
+                elem.callback(paramsToBePassed);
+              }
+            }
           }
         });
       });
@@ -199,7 +208,7 @@ export class PddlistComponent  implements OnInit, OnDestroy,
 
         switch(col){
           case 1:
-            $(td).html(`<a class="a-customerName">` + cellData + `</a>`);
+            $(td).html(`<a class="a-customerName" queryParams="agentCode:` + rowData.agentCode + `">` + cellData + `</a>`);
           break;
           case 0: case 6: case 7:
             if(cellData){

@@ -1,3 +1,96 @@
-<p>
-  pddleadextapproval works!
-</p>
+<div class="row div-clientDetails">
+    <div class="col-md-12">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="accordion-item col-lg-12 col-md-12">
+                        <a><h4 class="h4-clientDetailsTitle">Client Details</h4></a>
+                        <div id="my-policy-diary" class="clearfix">
+                            <div class="client-detail div-clientDetailDisplay">
+                                <div class="col-lg-6 col-md-6 detail-box">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6 ">Agent Name</div>
+                                        <div class="col-lg-6 col-md-6 col-xs-6 ">{{pddLeadExtApprovalInfo.agentName}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6">Agent Code</div>
+                                        <div class="col-lg-6 col-md-6 col-xs-6">{{pddLeadExtApprovalInfo.agentCode}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6 ">Assignment Date</div>
+                                        <div class="col-lg-6 col-md-6 col-xs-6 ">{{pddLeadExtApprovalInfo.assignmentDate | date:'MM/dd/yyyy'}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6">Date of Submission</div>
+                                        <div class="col-lg-6 col-md-6 col-xs-6">{{pddLeadExtApprovalInfo.dateOfSubmission | date:'MM/dd/yyyy'}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6">First Contact Date</div>
+                                        <div class="col-lg-6 col-md-6 col-xs-6">{{pddLeadExtApprovalInfo.firstContactDt | date:'MM/dd/yyyy'}}</div>
+                                    </div>
+                                    <div class="row div-leadExtReason">
+                                        <div class=" col-lg-12 col-md-12 col-xs-12">
+                                            <div class="div-leadExtReasonName">Lead Extension Reason</div>
+                                            <div class="col-md-12 div-leadExtReasonDisplay" id="remarkDiv">
+                                                {{pddLeadExtApprovalInfo.leadExtReason}}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <form [formGroup]="clientDtlsForm" class="form-clientDetailsForm" (ngSubmit)="onSubmitClientDetailsForm()">
+                                      <div class="row div-pddApproval">
+                                          <div class="col-md-12 input-section">
+                                              <div class="radio-box">
+                                                  <label>PDD Approval</label>
+                                                  <div>
+                                                    <label class="radio-wrapper">Approve
+                                                      <input type="radio" value="1" formControlName="pddApproval">
+                                                      <span class="checkmark"></span>
+                                                    </label>
+                                                    <label class="radio-wrapper">Reject
+                                                      <input type="radio" value="2" formControlName="pddApproval">
+                                                      <span class="checkmark"></span>
+                                                    </label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="row">
+                                          <div class=" col-lg-12 col-md-12 col-xs-12">
+                                              <div>Remarks</div>
+                                                  <textarea name="remarksField" formControlName="remarks" cols="60"
+                                                            rows="10"></textarea>
+
+                                          </div>
+                                      </div>
+                                      <div class="row div-submitCancelBtnSection">
+                                          <div class="text-left div-btnWrapper">
+                                              <input type="submit" class="btn btn-primary table-btn" value="Submit">
+                                              <input routerLink="/easLeadExtensionAppl" class="btn btn-default table-btn" value="Cancel">
+                                          </div>
+                                      </div>
+                                    </form>
+                                </div>
+                                <div class="col-lg-6 col-md-6 detail-box">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6" >Customer Name </div>
+                                        <div class="col-lg-6 col-md-6 col-xs-6" >{{pddLeadExtApprovalInfo.customerName}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6 " >Customer Phone No.</div>
+                                        <div class="col-lg-6 col-md-6 col-xs-6" >{{pddLeadExtApprovalInfo.customerPhoneNo}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-xs-6" >Customer email</div>
+                                        <div class="col-lg-6 col-md-6 col-xs-6" >{{pddLeadExtApprovalInfo.customerEmail}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,6 +13,7 @@ import constants from '../constants/constants';
 })
 export class PddService {
   constructor(private http: HttpClient){ }
+  currAgentCode : String = "";
   //set currServiceName(name : string) {this._currServiceName = name;}
   //  get currServiceName() : string {return this._currServiceName;}
   //type : dataTable | searchCriteria | sendParams
@@ -20,9 +21,14 @@ export class PddService {
     let sentParams : any;
     switch(type){
       case 'dataTable':
-        sentParams =  {
+        sentParams = {
           observe: "response",
           params: params
+        };
+      break;
+      case 'clientDetails':
+        sentParams = {
+          observe: "response"
         };
       break;
       case 'sendParams':
@@ -46,9 +52,16 @@ export class PddService {
             this.getOrPostFunc("/eas/api/pdd/getPddSummary",params, 'get', type);
   }
 
+  //clientDetails
+  getPddClientDetails(params, type){
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/pddClientDtls.json', params, 'get', type) :
+            this.getOrPostFunc("/eas/api/pdd/getPddClientDetails/"+params.agentCode ,params, 'get', type);
+  }
+
   //sendParams
-  postResetLeaveRecord(params, type){
-    return this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
+  postPddApproval(params, type){
+    return this.getOrPostFunc('/eas/api/pdd/postPddApproval', params, 'post', type);
 
   }
 

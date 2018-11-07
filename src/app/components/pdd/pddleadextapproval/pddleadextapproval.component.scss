@@ -1,0 +1,28 @@
+.div-clientDetails{
+  .div-clientDetailDisplay{
+    .div-leadExtReason{
+      .div-leadExtReasonName{
+        color: #333333;
+        font-size: 16px;
+      }
+      .div-leadExtReasonDisplay{
+        margin: 10px 0 0 0 !important;
+      }
+    }
+    .div-pddApproval{
+      margin-top: 30px;
+    }
+    .div-submitCancelBtnSection{
+      .div-btnWrapper{
+        margin-left: 5px;
+      }
+    }
+
+  }
+  .h4-clientDetailsTitle{
+    color: #FE0000;
+    border-bottom: 1px solid #EBEBEB;
+    padding: 20px 0px;
+    margin-left: 20px;
+  }
+}

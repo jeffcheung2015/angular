@@ -1,30 +1,8 @@
-<!--<h4>Search Criteria:
-  <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
-    “{{criteria}}”<span *ngIf="i < searchCriterias.length-1">,</span>
-  </ng-container>
-</h4>
-<div class="table-wrapper table-responsive table-container">
-    <mat-table mat-table [dataSource]="dataSource" class="table-searchRecord">
-      <ng-container *ngFor="let dcol of displayedColumns; let i = index">
-        <ng-container matColumnDef={{dcol}}>
-          <th mat-header-cell *matHeaderCellDef>{{displayedColumns[i]}}-{{displayedColumnsName[i]}}</th>
-          <td mat-cell *matCellDef="let searchrecord"> {{searchrecord[displayedColumnsName[i]]}} </td>
-        </ng-container>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </mat-table>
-    <mat-paginator [pageSizeOptions]="[3,6,9]" showFirstLastButtons></mat-paginator>
-
-</div>-->
-<!-- modal in agent assignment -->
 <div class="modal fade " id="btnMsgModal" tabindex="-1" role="dialog" aria-labelledby="btnMsgModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="btnMsgModalLabel">{{popUpMsg}}</h4>
-      </div>
-      <div class="modal-body clearfix">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default table-btn btn-ok" data-dismiss="modal">OK</button>
@@ -35,8 +13,8 @@
 
 <!-- modal in agent assignment -->
 <div class="div-searchRecord">
-  <div class="div-searchRecordCriteria">
-    <h4 class="h4-searchCriteriaText">Search Criteria:</h4>
+  <div class="clearfix div-searchRecordCriteria">
+    <h4 class="float-left  h4-searchCriteriaText">Search Criteria:</h4>
     <h4 class="h4-criteriaText">
       <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
         <ng-container *ngIf="criteria && i < 7">“{{criteria}}”
@@ -47,7 +25,7 @@
         </ng-container>
       </ng-container>
     </h4>
-    <h4 class="h4-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</h4>
+    <h4 class="float-right add-bottom h4-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</h4>
   </div>
   <div class="table-wrapper table-responsive div-searchRecordDataTable">
     <table *ngIf="this.currSubPage=='easAgentAssignGI'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
@@ -75,10 +53,10 @@
             <th>Date of Submission</th>
             <th>Campaign Code</th>
             <th>Assignment Type</th>
-            <th class="table-subtitle">Agency Team Name</th>
-            <th class="table-subtitle">Agency Code</th>
-            <th class="table-subtitle">Agency Name</th>
-            <th class="table-subtitle">Agency Phone</th>
+            <th class="table-subtitle">Agent Team Name</th>
+            <th class="table-subtitle">Agent Code</th>
+            <th class="table-subtitle">Agent Name</th>
+            <th class="table-subtitle">Agent Phone</th>
             <th class="table-subtitle">Agent Assigned Date</th>
         </tr>
       </thead>

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, AfterViewInit, ViewChild, AfterViewChecked, R
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EdmService } from '../../../../services/edm.service';
 import constants from '../../../../constants/constants';
+import convertformat from '../../../../utils/convertformat';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject} from 'rxjs';
 import {get as _get, set as _set, range as _range} from 'lodash';
@@ -19,7 +20,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   edmManagementStep2Form = new FormGroup({
     surname: new FormControl(''),
     firstName: new FormControl(''),
-    gender: new FormControl(''),
+    genderOption: new FormControl(''),
     mobileNo: new FormControl(''),
     clientId: new FormControl(''),
     birthdayOption: new FormControl(''),
@@ -44,6 +45,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   dtTrigger : Subject<any>= new Subject();
   dataTableSettings : any;//for changing table pages in gotopage
   searchCriterias : string[];
+  searchCriteriasDisplay : string[];//for display purpose only, preprocessing the searchCriteria and display understandable strs
   searchCriteriaFieldName : string[];
   noOfPage : number;
   currPage : number = 1;
@@ -89,29 +91,36 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
 
   onSubmitSearchCriteria(){
     console.log("submitting search criteria");
-    let params = {
-      firstName: this.edmManagementStep2Form.controls['firstName'].value,
-      gender: this.edmManagementStep2Form.controls['gender'].value,
-      mobileNo: this.edmManagementStep2Form.controls['mobileNo'].value,
-      clientId: this.edmManagementStep2Form.controls['clientId'].value,
-      birthdayOption: this.edmManagementStep2Form.controls['birthdayOption'].value,
-      email: this.edmManagementStep2Form.controls['email'].value,
-      campaignCd: this.edmManagementStep2Form.controls['campaignCd'].value,
-      partnerCd: this.edmManagementStep2Form.controls['partnerCd'].value,
-      partnerName: this.edmManagementStep2Form.controls['partnerName'].value,
-      dateOfSubmissionFrom: this.edmManagementStep2Form.controls['dateOfSubmissionFrom'].value,
-      dateOfSubmissionTo: this.edmManagementStep2Form.controls['dateOfSubmissionTo'].value,
-      selfService: this.edmManagementStep2Form.controls['selfService'].value,
-      failUpsell6Months: this.edmManagementStep2Form.controls['failUpsell6Months'].value,
-      selfServiceWithLife: this.edmManagementStep2Form.controls['selfServiceWithLife'].value
-    }
-    let firstName, gender, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
-    partnerName, dateOfSubmissionFrom, dateOfSubmissionTo, selfService, failUpsell6Months, selfServiceWithLife;
-    ({firstName, gender, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
-    partnerName, dateOfSubmissionFrom, dateOfSubmissionTo, selfService, failUpsell6Months, selfServiceWithLife} =
-    params);
-    this.searchCriterias = [firstName, gender, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
-    partnerName, dateOfSubmissionFrom, dateOfSubmissionTo, selfService, failUpsell6Months, selfServiceWithLife];
+    let surname = this.edmManagementStep2Form.controls['surname'].value;
+    let firstName = this.edmManagementStep2Form.controls['firstName'].value;
+    let genderOption = $("[name=genderOptionField]").val();
+    let mobileNo = this.edmManagementStep2Form.controls['mobileNo'].value;
+    let clientId = this.edmManagementStep2Form.controls['clientId'].value;
+    let birthdayOption = $("[name=birthdayOptionField]").val();
+    let email = this.edmManagementStep2Form.controls['email'].value;
+    let campaignCd = this.edmManagementStep2Form.controls['campaignCd'].value;
+    let partnerCd = this.edmManagementStep2Form.controls['partnerCd'].value;
+    let partnerName = this.edmManagementStep2Form.controls['partnerName'].value;
+    let dateOfSubmissionFrom = this.edmManagementStep2Form.controls['dateOfSubmissionFrom'].value;
+    let dateOfSubmissionTo = this.edmManagementStep2Form.controls['dateOfSubmissionTo'].value;
+    let selfService = this.edmManagementStep2Form.controls['selfService'].value;
+    let failUpsell6Months = this.edmManagementStep2Form.controls['failUpsell6Months'].value;
+    let selfServiceWithLife = this.edmManagementStep2Form.controls['selfServiceWithLife'].value;
+
+    let selfServiceStr = selfService ? 'Self Service: true' : 'Self Service: false';
+    let failUpsell6MonthsStr = failUpsell6Months ? 'Unsuccessful Upsell in 6 months: true' : 'Unsuccessful Upsell in 6 months: false';
+    let selfServiceWithLifeStr = selfServiceWithLife ? 'Self Service with life: true' : 'Self Service with life: false';
+    let birthdayOptionStr = birthdayOption ? $('[name=birthdayOptionField] option:eq(' + birthdayOption + ')').attr("monthName") : '';
+
+    this.searchCriterias = [surname, firstName, genderOption, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
+      partnerName, convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionFrom), '/', ''),
+      convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionTo), '/', ''),
+      selfService, failUpsell6Months, selfServiceWithLife];
+
+    this.searchCriteriasDisplay = [surname, firstName, genderOption, mobileNo, clientId, birthdayOptionStr, email, campaignCd, partnerCd,
+      partnerName, convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionFrom), '/', ''),
+      convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionTo), '/', ''),
+      selfServiceStr, failUpsell6MonthsStr, selfServiceWithLifeStr];
 
     //clear all the elem in selectedRecords array
     this.selectedRecords.length = 0;
@@ -126,7 +135,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       "", "", "",
       "", "",
       "", "", ""];
-    this.searchCriteriaFieldName = ["surname","firstName","gender",
+    this.searchCriteriaFieldName = ["surname","firstName","genderOption",
       "mobileNo","clientId", "birthdayOption",
       "email",
       "campaignCd","partnerCd","partnerName",
@@ -178,7 +187,8 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
 
   }
   ngAfterViewInit(){//only load data after view are initialized
-    this.initDropdown();
+    this.initDropdown("birthdayOption");
+    this.initDropdown("genderOption");
     this.dtTrigger.next();
     this.relistenThCheckbox();
 
@@ -329,8 +339,12 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       };
       //put all the params from searchCriteria into queryParams
       this.searchCriterias.forEach((data, key)=>{
-        if(data){
+        if(key >= 12){ //checkbox fields. even the field return false should be posted to server
           queryParams[this.searchCriteriaFieldName[key]] = data;
+        }else{
+          if(data){
+            queryParams[this.searchCriteriaFieldName[key]] = data;
+          }
         }
       });
 
@@ -375,36 +389,36 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
 
 
 
-  initDropdown(){
-    $("[name=birthdayOptionField]").val("1"); //initialize the select into default val first
-    $(".div-birthdayOption .select-items div:eq(0)").addClass("same-as-selected");
-    $(".div-birthdayOption .select-selected").text($(".div-birthdayOption .select-items div:eq(0)").text());
+  initDropdown(fieldName){
+    $("[name=" + fieldName + "Field]").val($(`[name="` + fieldName + `Field"] option:eq(0)`).val()); //initialize the select into default val first
+    $(".div-" + fieldName + " .select-items div:eq(0)").addClass("same-as-selected");
+    $(".div-" + fieldName + " .select-selected").text($(".div-" + fieldName + " .select-items div:eq(0)").text());
     //select-selected select-arrow-active
     //select-hide, same-as-selected
-    $(".div-birthdayOption .select-selected").on("click", (event)=>{
-      $(".div-birthdayOption .select-items").removeClass("select-hide");
-      $(".div-birthdayOption .select-selected").addClass("select-arrow-active");
+    $(".div-" + fieldName +" .select-selected").on("click", (event)=>{
+      $(".div-" + fieldName +" .select-items").removeClass("select-hide");
+      $(".div-" + fieldName +" .select-selected").addClass("select-arrow-active");
     });
 
     //
     let selectOptionNameMapVal = {}; //select option name map to val
-    for(var i = 0; i < $("[name=birthdayOptionField] option").length; i++){
-      let currOption = $("[name=birthdayOptionField] option:eq(" + i + ")");
+    for(var i = 0; i < $("[name=" + fieldName + "Field] option").length; i++){
+      let currOption = $("[name=" + fieldName + "Field] option:eq(" + i + ")");
       selectOptionNameMapVal[currOption.html()] = currOption.val();
     }
-    let selectItemsChildren = $('.div-birthdayOption .select-items').children();
+    let selectItemsChildren = $('.div-' + fieldName + ' .select-items').children();
     for(var j = 0; j < selectItemsChildren.length; j++){
-      $(".div-birthdayOption .select-items div:eq(" + j + ")").on('click', (e)=>{
+      $(".div-" + fieldName + " .select-items div:eq(" + j + ")").on('click', (e)=>{
 
-        $(".div-birthdayOption .select-selected").removeClass("select-arrow-active");
-        $(".div-birthdayOption .select-selected").text($(e.target).text());
-        $(".div-birthdayOption .select-items").addClass("select-hide");
+        $(".div-" + fieldName + " .select-selected").removeClass("select-arrow-active");
+        $(".div-" + fieldName + " .select-selected").text($(e.target).text());
+        $(".div-" + fieldName + " .select-items").addClass("select-hide");
         for(var k = 0; k < selectItemsChildren.length; k++){
-          $(".div-birthdayOption .select-items div:eq(" + k + ")").removeClass("same-as-selected");
+          $(".div-" + fieldName + " .select-items div:eq(" + k + ")").removeClass("same-as-selected");
         }
         $(e.target).addClass("same-as-selected");
 
-        $("[name=birthdayOptionField]").val(
+        $("[name=" + fieldName + "Field]").val(
           selectOptionNameMapVal[$(e.target).text()]
         );
       });

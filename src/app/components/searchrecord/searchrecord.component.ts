@@ -1,10 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener,
    OnDestroy,AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
-//import { MatPaginator, MatTableDataSource } from '@angular/material';
-//import {DataSource} from '@angular/cdk/collections';
-//import { Observable } from 'rxjs/Observable';
-//import 'rxjs/add/observable/of';
 import { AgentassignmentService } from '../../services/agentassignment.service';
 import { AgentAssignmentRecord } from '../../models/agentassignmentrecord.model';
 import { Subject} from 'rxjs';
@@ -113,7 +109,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     });
     this.dtOptions = {
       fixedColumns: {
-        leftColumns: 5
+        leftColumns: 5,
+        heightMatch: 'auto'
       },
       scrollCollapse: true,
       responsive: true,
@@ -262,6 +259,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
       console.log('Change to page: ' + page);
+      console.log(this.dataTableSettings)
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
       this.currPage = page;
@@ -322,7 +320,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let grayBtnClass = "btn btn-default table-btn";
 
             let displayInlineStyle = "style='display: inline-flex;float: left;'";
-            let pStyle = `style="word-break: break-word;white-space: normal;"`;
+            let pStyle = `style="word-break: break-all;white-space: normal;"`;
 
             let assignBtnHTML = `<a class="` + redBtnClass + ` a-assignBtn" queryParams="policyNo:` + rowData.polNo + `">Assign</a>`;
             let reassignBtnHTML = `<a class="` + redBtnClass + ` a-reassignBtn" queryParams="policyNo:` + rowData.polNo + `">Re-assign</a>`;

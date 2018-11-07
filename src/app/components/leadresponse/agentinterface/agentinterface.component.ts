@@ -277,8 +277,9 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
                   //just act as a temp storage of `firstContactDt`
                   //so as to determine if the input field of firstContactDt should display or not
                   this.currFirstContactDt = rowDataObj.firstContactDt;
-
-                  this.customerDetailModalForm.controls['firstContactDt'].setValue((rowDataObj.firstContactDt) ? new Date(rowDataObj.firstContactDt) : '');
+                  let firstContactDtStr = rowDataObj.firstContactDt.substr(0,10);
+                  this.customerDetailModalForm.controls['firstContactDt'].setValue((rowDataObj.firstContactDt) ?
+                  new Date(firstContactDtStr) : '');
                 break;
                 case '#leadExtensionModal':
                   this.currAssignmentStatus = assignmentStatus;

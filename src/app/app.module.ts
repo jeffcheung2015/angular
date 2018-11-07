@@ -74,7 +74,6 @@ import { DetailssearchrecordComponent } from './components/detailssearchrecord/d
 import { CampaigndetailsComponent } from './components/campaigndetails/campaigndetails.component';
 import { AgentinterfaceComponent } from './components/leadresponse/agentinterface/agentinterface.component';
 import { CustomerdetailComponent } from './components/customerdetail/customerdetail.component';
-import { UpselldetailsComponent } from './components/upselldetails/upselldetails.component';
 import { ApuplineinterfaceComponent } from './components/leadresponse/apuplineinterface/apuplineinterface.component';
 import { AointerfaceComponent } from './components/leadresponse/aointerface/aointerface.component';
 import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
@@ -118,7 +117,6 @@ export function createTranslateLoader(http: HttpClient) {
     CampaigndetailsComponent,
     AgentinterfaceComponent,
     CustomerdetailComponent,
-    UpselldetailsComponent,
     ApuplineinterfaceComponent,
     AointerfaceComponent,
     LeadresponseComponent,

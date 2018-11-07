@@ -18,7 +18,17 @@
                                   </div>
                                   <div>
                                       <label>Gender</label>
-                                      <input formControlName="gender" name="genderField" class="search-by-input" type="text">
+                                      <div class="dropdown-redarrow search-by-dropdown div-genderOption">
+                                          <select formControlName="genderOption" name="genderOptionField" >
+                                              <option value="M">Male</option>
+                                              <option value="F">Female</option>
+                                          </select>
+                                          <div class="select-selected"></div>
+                                          <div class="select-items select-hide">
+                                            <div>Male</div>
+                                            <div>Female</div>
+                                          </div>
+                                      </div>
                                   </div>
                               </div>
                               <div class="search-by-col">
@@ -34,18 +44,18 @@
                                       <label>Birthday Month (Jan - Dec)</label>
                                       <div class="dropdown-redarrow search-by-dropdown div-birthdayOption">
                                           <select formControlName="birthdayOption" name="birthdayOptionField" >
-                                              <option value="1">January</option>
-                                              <option value="2">February</option>
-                                              <option value="3">March</option>
-                                              <option value="4">April</option>
-                                              <option value="5">May</option>
-                                              <option value="6">June</option>
-                                              <option value="7">July</option>
-                                              <option value="8">August</option>
-                                              <option value="9">September</option>
-                                              <option value="10">October</option>
-                                              <option value="11">November</option>
-                                              <option value="12">December</option>
+                                              <option value="0" monthName="January">January</option>
+                                              <option value="1" monthName="February">February</option>
+                                              <option value="2" monthName="March">March</option>
+                                              <option value="3" monthName="April">April</option>
+                                              <option value="4" monthName="May">May</option>
+                                              <option value="5" monthName="June">June</option>
+                                              <option value="6" monthName="July">July</option>
+                                              <option value="7" monthName="August">August</option>
+                                              <option value="8" monthName="September">September</option>
+                                              <option value="9" monthName="October">October</option>
+                                              <option value="10" monthName="November">November</option>
+                                              <option value="11" monthName="December">December</option>
                                           </select>
                                           <div class="select-selected"></div>
                                           <div class="select-items select-hide"><!--same-as-selected-->
@@ -146,9 +156,9 @@
                   <div class="clearfix div-searchCriteriaList" >
                       <h4 class="float-left h4-searchCriteriaList">Search Criteria: </h4>
                       <h4 class="h4-criteriaText">
-                        <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
+                        <ng-container *ngFor="let criteria of searchCriteriasDisplay; let i = index;">
                           <ng-container *ngIf="criteria">“{{criteria}}”
-                            <ng-container *ngIf="i < searchCriterias.length-1 && criteria">,</ng-container>
+                            <ng-container *ngIf="i < searchCriteriasDisplay.length-1 && criteria">,</ng-container>
                           </ng-container>
                         </ng-container>
                       </h4>

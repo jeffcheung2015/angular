@@ -37,9 +37,15 @@
       .div-searchCriteriaList{
         height: 40px;
         .h4-searchCriteriaList{
+          white-space: pre;
+        }
+        .h4-criteriaText{
+          word-break: break-all;
         }
         .h4-noOfRecords{
           color:red;
+          margin-left: auto;
+          white-space: nowrap;
         }
       }
       .div-edmManagementFormSearchRecordBody{

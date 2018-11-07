@@ -15949,3 +15949,11 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   background: white;
   border-radius: 0px 0px 10px 10px;
 }
+
+.DTFC_LeftBodyLiner{
+  overflow: hidden !important;
+}
+
+.DTFC_LeftWrapper{
+  width: auto !important;
+}
