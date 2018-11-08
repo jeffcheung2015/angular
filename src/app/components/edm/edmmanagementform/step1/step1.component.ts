@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Renderer2, OnDestroy } from '@angular/core';
 import { get as _get } from 'lodash';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -36,11 +36,32 @@ export class Step1Component implements OnInit, AfterViewInit {
   };
   constructor(
     private router : Router,
-    private edmService : EdmService
+    private edmService : EdmService,
+    private renderer2 : Renderer2
   ) { }
-
+  bodyRendererListener;
+  dropdownDivArray : Array<String> = ["div-"];
+  closeAllDropDown(){
+    this.dropdownDivArray.forEach((elem,key)=>{
+      if($("." + elem + " .select-selected").hasClass("select-arrow-active")){
+        $("." + elem + " .select-selected").removeClass("select-arrow-active");
+        $("." + elem + " .select-items").addClass("select-hide");
+      }
+    });
+  }
   ngOnInit() {
+    this.dropdownDivArray = ["div-templateOption"];
 
+    this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
+      if(!$(event.target).hasClass("select-selected")){
+        this.closeAllDropDown();
+      }
+    });
+  }
+  ngOnDestroy(){
+    if(this.bodyRendererListener){
+      this.bodyRendererListener();
+    }
   }
   ngAfterViewInit(){
     this.initPopoverChooseFileJquery();

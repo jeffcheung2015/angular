@@ -17,6 +17,7 @@ export class AgentassignmentService{
   currPolNo: string;
   currEmailId: string;
   currCampaignCd: string;
+  currClientCd: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
   //expected val = easAgentAssignGI | easAgentAssignGI
   //set currServiceName(name : string) {this._currServiceName = name;}
@@ -34,6 +35,7 @@ export class AgentassignmentService{
         };
       break;
       case 'campaignDetails':
+      case 'clientDetails':
         sentParams =  {
           observe: "response"
         };
@@ -74,6 +76,12 @@ export class AgentassignmentService{
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/campaignDetail.json', params, 'get', type) :
             this.getOrPostFunc("/eas/api/campaign/detail/" + params.campaignCode ,params, 'get', type);
   }
+  //clientDetails
+  getClientDetail(params, type){
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/clientDetail.json', params, 'get', type) :
+            this.getOrPostFunc("/eas/api/client/detail/" + params.clientCode ,params, 'get', type);
+  }
   //viewEmail
   getViewEmail(params, type){
     return (constants.localOrVm === 'local') ?
@@ -104,7 +112,10 @@ export class AgentassignmentService{
   //sendParams
   postResendSMS(params, type){
     return this.getOrPostFunc('/eas/api/agent/resendToCust', params, 'post', type);
-
+  }
+  //sendParams
+  postClientDetail(params, type){
+    return this.getOrPostFunc('/eas/api/agent/saveClientDetail', params, 'post', type);
   }
 
 

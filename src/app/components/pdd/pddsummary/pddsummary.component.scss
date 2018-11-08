@@ -1,3 +1,38 @@
+.div-exportListModal{
+  .modal-dialog{
+    width: 690px;
+    .modal-header{
+      color: #FE0000;
+    }
+    .modal-body{
+      .div-splitLineWrapper{
+        .span-or{
+          color: #EBEBEB;
+        }
+        .div-splitLine{
+          padding-top: 8px;
+          .hr-splitLine{
+            color: #EBEBEB;
+          }
+        }
+      }
+      .div-exportDateWrapper{
+        .label-dateOfSubmissionFromTo{
+          width: 20px;
+          float: left;
+        }
+        .label-dateOfSubmissionFrom, .label-dateOfSubmissionTo{
+          display: block;
+        }
+        input{
+          width: 232px;
+        }
+      }
+    }
+  }
+}
+
+
 .div-pddSummaryWrapper{
   .div-pddSummaryHeader{
     display: inline-flex;
@@ -7,7 +42,7 @@
     }
     .h4-noOfApplications{
       color: red;
-      margin-left: auto;
+      margin: auto 0px auto auto;
     }
   }
 

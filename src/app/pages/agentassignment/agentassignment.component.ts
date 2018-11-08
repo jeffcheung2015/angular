@@ -1,10 +1,9 @@
 import { Component, OnInit, AfterViewInit, AfterContentInit, ViewChild, AfterViewChecked, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { SearchrecordComponent } from '../../components/searchrecord/searchrecord.component';
-import { DetailssearchrecordComponent } from '../../components/detailssearchrecord/detailssearchrecord.component';
-import { SearchcriteriaComponent } from '../../components/searchcriteria/searchcriteria.component';
-import { CampaigndetailsComponent } from '../../components/campaigndetails/campaigndetails.component';
-import { ViewemailComponent } from '../../components/viewemail/viewemail.component';
+import { SearchrecordComponent } from '../../components/agentAssign/searchrecord/searchrecord.component';
+import { DetailssearchrecordComponent } from '../../components/agentAssign/detailssearchrecord/detailssearchrecord.component';
+import { SearchcriteriaComponent } from '../../components/agentAssign/searchcriteria/searchcriteria.component';
+import { ViewemailComponent } from '../../components/agentAssign/viewemail/viewemail.component';
 import { get as _get, set as _set } from 'lodash';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -26,7 +25,6 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   @ViewChild(SearchrecordComponent) searchRecordComponent;
   @ViewChild(DetailssearchrecordComponent) detailSearchRecordComponent;
   @ViewChild(SearchcriteriaComponent) searchCriteriaComponent;
-  @ViewChild(CampaigndetailsComponent) campaignDetailsComponent;
   @ViewChild(ViewemailComponent) viewemailComponent;
 
   popUpMsg : string;//for pruchat or sms btn
@@ -56,7 +54,6 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   //updating currSubPage in order to update the child component when url addr get changed
   currUrl : string = "";
   //refers to the current page the visitor is visiting, maybe subpage
-  //agentHome, agentAssign, agentDetails, campaignDetails
   currSubPage : string = '';
   currSubPageJustUpdated : boolean = false;
   ngAfterContentChecked(){
@@ -64,10 +61,6 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
       this.currUrl = this.router.url;
       this.setCurrUrlAndSubPage();
       this.currSubPageJustUpdated = true;
-      //set the policyNo before passing forward to the child detailSearchRecordComponent
-      // if(this.currSubPage === 'easAgentDetail'){
-      //   this.policyNo = _get(this.router, "rawUrlTree.queryParams.policyNo", null);
-      // }
     }
   }
   ngAfterViewChecked(){
@@ -88,9 +81,6 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
       case 'easAgentDetail':
         _set(this, 'searchCriteriaComponent.detailSearchRecordComponent', this.detailSearchRecordComponent);
         _set(this, 'detailSearchRecordComponent.searchCriteriaComponent', this.searchCriteriaComponent);
-      break;
-      case 'campaignDetails':
-        //_set(this, 'campaignDetailsComponent.searchCriteriaComponent', this.searchCriteriaComponent);
       break;
     }
   }

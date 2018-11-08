@@ -20,6 +20,7 @@ const appRoutes: Routes = [
   { path: 'easAgentAssignCS', component: AgentassignmentComponent , canActivate: [MenuGuard]},
   { path: 'easAgentDetail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
   { path: 'easCampaignDetail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
+  { path: 'easClientDetail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
   { path: 'easViewEmail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
 
   { path: 'easAgentInterface', component: LeadresponseComponent , canActivate: [MenuGuard]},

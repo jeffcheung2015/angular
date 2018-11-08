@@ -7,7 +7,7 @@
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
               <a routerLink="/">Home</a>
             </li>
-            <li *ngIf="['easAgentAssignGI','easAgentAssignCS','easAgentDetail','easCampaignDetail','easViewEmail'].indexOf(currSubPage) !== -1"
+            <li *ngIf="['easAgentAssignGI','easAgentAssignCS','easAgentDetail','easCampaignDetail','easClientDetail','easViewEmail'].indexOf(currSubPage) !== -1"
                 [ngClass]="['easAgentAssignGI','easAgentAssignCS'].indexOf(currSubPage) !== -1 ? 'active' : ''">
               <a routerLink="/{{agentassignmentService.currServiceName}}" (click)="changeCurrSubPage(agentassignmentService.currServiceName)">Agent Assignment</a>
             </li>
@@ -16,6 +16,9 @@
             </li>
             <li *ngIf="currSubPage=='easCampaignDetail'" [ngClass]="currSubPage=='easCampaignDetail' ? 'active' : ''">
               <a>Campaign Details</a>
+            </li>
+            <li *ngIf="currSubPage=='easClientDetail'" [ngClass]="currSubPage=='easClientDetail' ? 'active' : ''">
+              <a>Client Details</a>
             </li>
             <li *ngIf="currSubPage=='easViewEmail'" [ngClass]="currSubPage=='easViewEmail' ? 'active' : ''">
               <a>View Email</a>
@@ -46,11 +49,12 @@
                     [gobackRouteLink]="agentassignmentService.currServiceName"
                     >
                   </app-detailssearchrecord>
-                  <app-campaigndetails
-                    *ngIf="currSubPage == 'easCampaignDetail'"
+                  <app-clientcampaigndetails
+                    *ngIf="currSubPage == 'easCampaignDetail' || currSubPage == 'easClientDetail'"
+                    [currSubPage]="currSubPage"
                     [gobackRouteLink]="agentassignmentService.currServiceName"
                     >
-                  </app-campaigndetails>
+                  </app-clientcampaigndetails>
                   <app-viewemail
                     *ngIf="currSubPage == 'easViewEmail'"
                     [gobackRouteLink]="agentassignmentService.currServiceName"

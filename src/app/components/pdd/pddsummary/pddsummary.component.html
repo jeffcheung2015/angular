@@ -1,7 +1,64 @@
+<div class="modal fade export-list div-exportListModal" id="exportListModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <form [formGroup]="exportListForm" class="form-exportListForm" method="GET" (ngSubmit)="exportRecordList()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exportListModalLabel">Export List</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="row">
+                    <label class="radio-wrapper">Select All
+                        <input formControlName="selectedOption" value="all" type="radio" checked="checked" (click)="triggerAndClearSubmissionDate('disable')" name="method">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="row div-splitLineWrapper">
+                    <span class="float-left span-or">OR</span>
+                    <div class="col-md-10 div-splitLine">
+                        <hr class="hr-splitLine" align="center">
+                    </div>
+                </div>
+                <div class="row export-date div-exportDateWrapper">
+                    <label class="radio-wrapper label-dateOfSubmissionFromTo">
+                        <input formControlName="selectedOption" value="range" type="radio" (click)="triggerAndClearSubmissionDate('enable')" name="method">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="col-md-5">
+                        <label class="label-dateOfSubmissionFrom">Submission Date from</label>
+                        <div class="div-dateOfSubmissionFrom">
+                            <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
+                            <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionFromPicker">
+                              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #dateOfSubmissionFromPicker></mat-datepicker>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="label-dateOfSubmissionTo">To</label>
+                        <div class="div-dateOfSubmissionTo">
+                          <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)" matInput [min]="minDateTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
+                          <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
+                            <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                          </mat-datepicker-toggle>
+                          <mat-datepicker #dateOfSubmissionToPicker></mat-datepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary table-btn" data-dismiss="modal">Export</button>
+                <button type="button" class="btn btn-default table-btn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+      </form>
+    </div>
+</div>
+
 <div class="table-wrapper table-responsive div-pddSummaryWrapper">
   <div class="div-pddSummaryHeader">
     <h4 class="h4-tableHeader">Assigned Leads</h4>
     <h4 class="h4-noOfApplications">Total No.of Application: {{noOfApplications}}</h4>
+    <button data-toggle="modal" data-target="#exportListModal" class="export-btn"><i class="iconfont">&#xe6e9;</i><span>Export</span></button>
   </div>
   <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-pddSummary">
     <thead>

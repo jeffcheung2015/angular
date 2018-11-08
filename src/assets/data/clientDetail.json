@@ -1,0 +1,29 @@
+{
+  "fullName": "HO MING",
+  "mobileNo": "1234567",
+  "idCardNo": "A1234567(0)",
+  "dateOfSubmission": "2017-11-30T16:00:00.000+0000",
+  "campaignCode": "ASM1802AS01",
+  "communicationCode": "ASASA",
+  "email":"mingho@gmail.com",
+  "birthDate":"2017-11-30T16:00:00.000+0000",
+  "gender":"F",
+  "prodClass":"Travel",
+
+  "agentCode":"1234567",
+  "consultantName":"chan siu ming",
+  "consultantPhone":"97488599",
+  "assignedDate":"2017-11-30T16:00:00.000+0000",
+  "smsEmailSentDate":"2017-11-30T16:00:00.000+0000",
+  "firstContactDt":"2017-11-30T16:00:00.000+0000",
+  "assignmentStatus":"1",
+  "accountExpiryDate":"2017-11-30T16:00:00.000+0000",
+  "refuseContact":"1",
+  "remarksToConsultant":"asdkalsd",
+
+  "reAgentCode":"ASDAS12313",
+  "reConsultantName":"asdasda",
+  "reConsultantPhone":"65455555",
+  "reAssignedDate":"2017-11-30T16:00:00.000+0000"
+
+}

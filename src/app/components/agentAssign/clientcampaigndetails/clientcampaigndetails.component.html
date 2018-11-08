@@ -1,0 +1,244 @@
+<div *ngIf="currSubPage == 'easCampaignDetail'" class="row div-campaignDetails">
+    <div class="panel">
+        <div class="panel-body slide-body">
+            <div class="row">
+                <div class="clearfix">
+                    <div id="accordioninpanel" class="accordion-group clearfix">
+                        <div class="accordion-item col-lg-12 col-md-12">
+                            <a><h4 class="h4-campaignDetails">Campaign Details</h4></a>
+                            <div id="my-policy-diary" class="clearfix">
+                                <div class="client-detail compaign-detail">
+                                    <div class="col-lg-6 col-md-6 detail-box">
+                                        <div *ngIf="campaignDetailInfo.campaignCode" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">Campaign Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">{{campaignDetailInfo.campaignCode}}</div>
+                                        </div>
+                                        <div *ngIf="campaignDetailInfo.startDate" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Campaign Start Date</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.startDate | date:'MM/dd/yyyy'}}</div>
+                                        </div>
+                                        <div *ngIf="campaignDetailInfo.endDate" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">Campaign End Date</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">{{campaignDetailInfo.endDate | date: 'MM/dd/yyyy'}}</div>
+                                        </div>
+                                        <div *ngIf="campaignDetailInfo.premiumFromAM && campaignDetailInfo.amEntitled" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Premium Percent Off</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">HK${{campaignDetailInfo.premiumFromAM}} = {{campaignDetailInfo.amEntitled}} Mile</div>
+                                        </div>
+                                        <div *ngIf="campaignDetailInfo.genericCode" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Generic Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.genericCode}}</div>
+                                        </div>
+                                        <div *ngIf="campaignDetailInfo.promoPool" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Promotion Code Pool</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.promoPool}}</div>
+                                        </div>
+                                        <div *ngIf="campaignDetailInfo.promoUnit" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Promotion Code Unit</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.promoUnit}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 detail-box">
+                                        <div *ngIf="campaignDetailInfo.partnerCode" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Partner Code</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.partnerCode}}</div>
+                                        </div>
+                                        <div *ngIf="campaignDetailInfo.partnerName" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Partner Name</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.partnerName}}</div>
+                                        </div>
+                                        <div *ngIf="campaignDetailInfo.prodSubType" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Product Subtype</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.prodSubType}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="campaignDetailInfo.promoUsage" class="accordion-item col-lg-6 col-md-6">
+                            <a><h4 class="h4-promoCodeUsage">Promotion Code Usage</h4></a>
+                            <div id="my-policy-diary" class="clearfix">
+                                <div class="client-detail">
+                                    <div class="col-lg-12 detail-box div-promoContainer">
+                                        <p>{{campaignDetailInfo.promoUsage}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div *ngIf="campaignDetailInfo.remarks" class="accordion-item col-lg-12 col-md-12 col-xs-12">
+                            <h4 class="h4-remarks">Remarks</h4>
+                            <div class="col-md-6" id="remarkDiv">
+                              {{campaignDetailInfo.remarks}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-box clearfix">
+                        <input routerLink="/{{gobackRouteLink}}" type="submit" class=" btn btn-default table-btn float-left all-btn" value="Back">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="currSubPage == 'easClientDetail'" class="row div-clientDetails">
+  <div class="col-md-12">
+      <div class="panel">
+          <div class="panel-body slide-body">
+              <div class="row">
+                  <div class="col-md-12 clearfix">
+                    <form [formGroup]="clientDetailForm" method="POST" (ngSubmit)="onSubmitSaveClientDetail()">
+                      <div id="accordioninpanel" class="accordion-group clearfix">
+                          <div class="accordion-item col-lg-12 col-md-12">
+                              <a><h4 class="h4-clientDetailSubTitle">Client Details</h4></a>
+                              <div id="my-policy-diary" class="clearfix">
+                                  <div class="client-detail">
+                                      <div class="col-lg-6 col-md-6 detail-box">
+                                        <div *ngIf="clientDetailInfo.fullName" class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 " >Full Name</div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6 " >{{clientDetailInfo.fullName}}</div>
+                                        </div>
+                                          <div *ngIf="clientDetailInfo.mobileNo" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Mobile no.</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.mobileNo}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.idCardNo" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6 " >ID card No.</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6 " >{{clientDetailInfo.idCardNo}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.dateOfSubmission" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Date of Submission</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.dateOfSubmission | date:'MM/dd/yyyy'}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.campaignCode" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Campaign Code</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.campaignCode}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.communicationCode" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Communication Code</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.communicationCode}}</div>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-6 col-md-6 detail-box">
+                                          <div *ngIf="clientDetailInfo.email" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Email Address</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.email}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.birthDate" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6 " >Date of Birth</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.birthDate | date:'MM/dd/yyyy'}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.gender" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Gender</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.gender}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.prodClass" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Class</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.prodClass}}</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="accordion-item col-lg-6 col-md-6">
+                              <a><h4 class="h4-clientDetailSubTitle">Assigned Financial Consultant</h4></a>
+                              <div id="my-policy-diary" class="clearfix">
+                                  <div class="client-detail">
+                                      <div class="col-lg-12 detail-box">
+                                          <div *ngIf="clientDetailInfo.agentCode" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6 " >Agent Code</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.agentCode}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.consultantName" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Name</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.consultantName}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.consultantPhone" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Phone</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.consultantPhone}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.assignedDate" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Assigned Date</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.assignedDate | date:'MM/dd/yyyy'}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.smsEmailSentDate" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Date & Time of SMS/ email sent</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.smsEmailSentDate | date:'MM/dd/yyyy'}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.firstContactDt" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >First Contact Date with
+                                                  Customer</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.firstContactDt | date:'MM/dd/yyyy'}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.assignmentStatus" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Assignment Status</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{assignmentStatusMapToText[clientDetailInfo.assignmentStatus]}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.accountExpiryDate" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Expiry Date of Financial
+                                                  Consultant account ownership</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.accountExpiryDate | date:'MM/dd/yyyy'}}</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="accordion-item col-lg-6 col-md-6">
+                              <a><h4 class="h4-clientDetailSubTitle">Re-assigned Financial Consultant</h4></a>
+                              <div id="my-policy-diary" class="clearfix">
+                                  <div class="client-detail">
+                                      <div class="col-lg-12 detail-box">
+                                          <div *ngIf="clientDetailInfo.reAgentCode" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Agent Code</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reAgentCode}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.reConsultantName" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Name</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantName}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.reConsultantphone" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Phone</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantphone}}</div>
+                                          </div>
+                                          <div *ngIf="clientDetailInfo.reAssignedDate" class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Assigned Date</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reAssignedDate | date:'MM/dd/yyyy'}}</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="accordion-item col-lg-12 col-md-12 col-xs-12">
+                            <span class="checkbox-wrapper one-line span-refuseContact">
+                              <input formControlName="refuseContact" [checked]="refuseContactMapToBool[clientDetailInfo.refuseContact] ? 'checked' : ''" class="chkaction" type="checkbox" id="catrgory-1" value="b87d7dae7ebdb27dd14a48059495d52d1f" name="category[]">
+                              <label for="catrgory-1" class="checkbox-uncheck"><img src="assets/img/icon_checkbox.png">Refuse financial consultant to contact (拒絕顧問聯絡)</label>
+                              <label for="catrgory-1" class="checkbox-checked"><img src="assets/img/icon_checkbox_checked.png">Refuse financial consultant to contact (拒絕顧問聯絡)</label>
+                            </span>
+                          </div>
+                          <div *ngIf="clientDetailInfo.remarksToConsultant" class="div-consultantRemarks accordion-item col-lg-12 col-md-12 col-xs-12">
+                            <h5 class="h5-remarksTitle">Remarks to Financial Consultant</h5>
+                             <textarea formControlName="remarksToConsultant" class="col-md-6 textarea-remarks">{{clientDetailInfo.remarksToConsultant}}</textarea>
+                          </div>
+
+                      </div>
+
+                      <div class="button-box clearfix">
+                          <input type="submit" class=" btn btn-primary table-btn float-left all-btn" value="Save">
+                          <input routerLink="/{{gobackRouteLink}}" class=" btn btn-default table-btn float-right all-btn" value="Close">
+                      </div>
+                    </form>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

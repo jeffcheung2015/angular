@@ -18,7 +18,6 @@ export class LeadresponseComponent implements OnInit, AfterContentChecked {
   //updating currSubPage in order to update the child component when url addr get changed
   currUrl : string = "";
   //refers to the current page the visitor is visiting, maybe subpage
-  //agentHome, agentAssign, agentDetails, campaignDetails
   currSubPage : string = '';
   currSubPageJustUpdated : boolean = false;
   ngAfterContentChecked(){

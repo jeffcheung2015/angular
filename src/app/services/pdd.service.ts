@@ -21,6 +21,7 @@ export class PddService {
     let sentParams : any;
     switch(type){
       case 'dataTable':
+      case 'getExportList':
         sentParams = {
           observe: "response",
           params: params
@@ -57,6 +58,13 @@ export class PddService {
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/pddClientDtls.json', params, 'get', type) :
             this.getOrPostFunc("/eas/api/pdd/getPddClientDetails/"+params.agentCode ,params, 'get', type);
+  }
+
+  //getExportList
+  getPddSummaryList(params, type){
+    return (constants.localOrVm === 'local') ?
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/pddSummaryList.json', params, 'get', type) :
+            this.getOrPostFunc("/eas/api/pdd/getPddSummaryList" ,params, 'get', type);
   }
 
   //sendParams

@@ -15423,7 +15423,7 @@ ul.remarks-small li span {
   background:#db0306;
   color: #fff !important;
 }
-.a-viewEmail{
+.a-viewEmail, .a-viewEmailOrEDM, .a-clientDetail, .a-campaignCode{
   border-bottom: solid 1px;
   cursor: pointer;
 }
@@ -15600,9 +15600,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .export-btn{
   background: #333333;
   color: #ffffff;
+  padding: 5px 10px;
   border-radius: 10px;
   margin-left: 10px;
-  border: transparent;
 }
 
 .export-btn span{

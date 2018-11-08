@@ -6,6 +6,7 @@ export default {
       AgentAssignCS: 'easAgentAssignCS',
       AgentDetail: 'easAgentDetail',
       CampaignDetail: 'easCampaignDetail',
+      ClientDetail: 'easClientDetail',
       ViewEmail: 'easViewEmail',
       //lead response
       AgentInterface:'easAgentInterface',
@@ -20,22 +21,22 @@ export default {
 
     },
     CSSearchRecordColumnField: [
-    'applicantName','emailAddr','mobileNo','submissionDate',
-    'prodClass','policyNo','birthDate',
-    'idCardNo', 'gender', 'optOutCustomerGI',
-    'optOutCustomerLife','campaignCode','agentCode',
-    'agentName','agentPhone','agentAssignedDate',
-    'firstContactDate','contactCustomer',
-    'assignmentStatus', 'agentAccountExpiryDate',
-    'pruchatEmailSendDate',
-    'SMSEmailSendDate'],
+      'fullName','emailAddr','mobileNo','submissionDate',
+      'prodClass','policyNo','birthDate',
+      'idCardNo', 'gender', 'optOutCustomerGI',
+      'optOutCustomerLife','campaignCode','agentCode',
+      'agentName','agentPhone','agentAssignedDate',
+      'firstContactDate','contactCustomer',
+      'assignmentStatus', 'agentAccountExpiryDate',
+      'pruchatEmailSendDate',
+      'SMSEmailSendDate'],
     GISearchRecordColumnField: [
-    'prodClass','polNo','lifePolNo','applicantName',
-    'idNo','giOptOut','lifeOptOut','currentAgentName',
-    'currentAgentCode','currentAgentPhone','dateOfSubmission',
-    'campaignCode','assignmentType','agentTeam',
-    'agentCode','agentName','agentPhone',
-    'agentAssignedDate','agentSentDate','customerSentDate'],
+      'prodClass','polNo','lifePolNo','applicantName',
+      'idNo','giOptOut','lifeOptOut','currentAgentName',
+      'currentAgentCode','currentAgentPhone','dateOfSubmission',
+      'campaignCode','assignmentType','agentTeam',
+      'agentCode','agentName','agentPhone',
+      'agentAssignedDate','agentSentDate','customerSentDate'],
 
     DetailSearchRecordColumnName:["Agent Code","Agent Name","Email Address","Agent Phone",
         "Last Assignment Date","Assign", "On Leave"],
@@ -65,7 +66,9 @@ export default {
     EDMStep2Field:["checkbox", "customerName", "gender", "email", "birthYear","birthMonth",
     "campaignCd", "partnerCd", "partnerName", "assignmentType", "dateOfSubmission"],
 
-    EDMHistoryCustomerList:["customerName","email","status","sentTime"],
+    EDMHistoryCustomerField:["customerName","email","status","sentTime"],
+
+    EDMHistoryCustomer:["Customer Name", "Email Address", "Status", "Sent Time"],
 
     PDDList:["Application Date","Agent Name","Agent Code","Customer Name","Customer Phone no.",
     "Customer email","Assignment Date","First Contact Date","Approval Status","Remarks"],

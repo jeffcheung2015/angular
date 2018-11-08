@@ -39,8 +39,6 @@ export class LeftsidebarComponent implements OnInit {
 
   setLeftsidebarMenuNameCode(_menu){
     this.menu = _menu;
-    // this.username = _name;
-    // this.usercode = _code;
   }
 
 

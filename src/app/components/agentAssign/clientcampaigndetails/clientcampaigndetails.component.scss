@@ -40,3 +40,23 @@
     }
   }
 }
+
+.div-clientDetails{
+  .span-refuseContact{
+    margin-left: 20px;
+  }
+  .h4-clientDetailSubTitle{
+    color: #FE0000;
+    border-bottom: 1px solid #EBEBEB;
+    padding: 20px 0px;
+    margin-left: 20px;
+  }
+  .div-consultantRemarks{
+    .h5-remarksTitle{
+      margin:20px 0 0 20px;
+    }
+    .textarea-remarks{
+      margin-left: 20px;
+    }
+  }
+}

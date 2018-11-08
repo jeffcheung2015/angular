@@ -3,7 +3,7 @@ import { EdmService } from '../../../services/edm.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject} from 'rxjs';
 import constants from '../../../constants/constants';
-import { set as _set } from 'lodash';
+import { set as _set, get as _get } from 'lodash';
 
 @Component({
   selector: 'app-edmhistory',
@@ -20,8 +20,8 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
   dtOptions :any = {};
   dtTrigger : Subject<any>= new Subject();
   dataTableSettings : any;//for changing table pages in gotopage
-
-  displayedColumnsName : String[] = constants["EDMHistoryCustomerList"];
+  displayedColumns: String[] = constants["EDMHistoryCustomer"];
+  displayedColumnsName : String[] = constants["EDMHistoryCustomerField"];
 
   bodyRendererListener;
 
@@ -54,7 +54,7 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
       colArr.push({
         data:val,
         orderable: false,
-        width: '25%'        
+        width: '25%'
       })
     });
     this.dtOptions = {
@@ -102,7 +102,22 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dtTrigger.unsubscribe();
     }
   }
-
+  customerListHasBeenDisplayed = false;
+  refreshTable(){
+    //for some reason the customer list table hidden on load once displayed when `Customer List` tab is clicked,
+    //the table header's width isnt calculated correctly. so it is fixed whenever the `Customer List` is clicked
+    if(!this.customerListHasBeenDisplayed){
+      let dTableInstance = _get(this.dTable, "dtInstance");
+      if(dTableInstance){
+        dTableInstance.then((dtInstance: DataTables.Api) => {
+          //redraw table only need these 2 funcs
+          dtInstance.destroy();
+          this.dtTrigger.next();
+        });
+      }
+      this.customerListHasBeenDisplayed = true;
+    }
+  }
 
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
@@ -114,12 +129,14 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapToLengthMenuNum[parseInt(val)] = "active-red";
     //reset the datatable after changing dtOptions to redraw the table
     this.dtOptions.pageLength = val;//change table's no of records
-
-    this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
-      //redraw table only need these 2 funcs
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
+    let dTableInstance = _get(this.dTable, "dtInstance");
+    if(dTableInstance){
+      this.dTable.dtInstance.then((dtInstance: DataTables.Api) => {
+        //redraw table only need these 2 funcs
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
     this.noOfPage = Math.ceil(this.noOfCustomers/this.dtOptions.pageLength);
     this.currPage = 1;
 

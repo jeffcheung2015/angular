@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener,
    OnDestroy,AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
-import { AgentassignmentService } from '../../services/agentassignment.service';
-import { AgentAssignmentRecord } from '../../models/agentassignmentrecord.model';
+import { AgentassignmentService } from '../../../services/agentassignment.service';
+import { AgentAssignmentRecord } from '../../../models/agentassignmentrecord.model';
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
@@ -10,9 +10,9 @@ import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { SearchcriteriaComponent } from '../../components/searchcriteria/searchcriteria.component';
+import { SearchcriteriaComponent } from '../searchcriteria/searchcriteria.component';
 
-import constants from '../../constants/constants';
+import constants from '../../../constants/constants';
 @Component({
   selector: 'app-searchrecord',
   templateUrl: './searchrecord.component.html',
@@ -84,12 +84,13 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     }else{ //easAgentAssignCS
       this.displayedColumnsName = constants["CSSearchRecordColumnField"];
       this.classToTrigger = [
-        // {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
-        // {className : 'a-assignBtn', url: constants.route['AgentDetail']},
-        // {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
-        // {className : 'a-viewEmail', url: constants.route['ViewEmail']},
-        // {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
-        // {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
+        {className : 'a-clientDetail', url: constants.route['ClientDetail']},
+        {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
+        {className : 'a-assignBtn', url: constants.route['AgentDetail']},
+        {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
+        {className : 'a-viewEmailOrEDM', url: constants.route['ViewEmail']},
+        {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
+        {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
       ];
 
       this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"A", "", ""];
@@ -98,18 +99,18 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         "contactCustomerOption","assignmentStatusOption"];
     }
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
-
+    let fixedColumnsMaxIndex = (this.currSubPage === 'easAgentAssignGI') ? 4 : 1;
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val, index)=>{
       colArr.push({
         data:val,
         orderable: false,
-        width: (index <= 4) ? 80 : 130
+        width: (index <= fixedColumnsMaxIndex) ? 80 : 130
       })
     });
     this.dtOptions = {
       fixedColumns: {
-        leftColumns: 5,
+        leftColumns: (this.currSubPage === 'easAgentAssignGI') ? 5 : 2,
         heightMatch: 'auto'
       },
       scrollCollapse: true,
@@ -118,7 +119,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       pageLength: 20,
       scrollX:true,
       scrollY:false,
-      columnDefs : this.agentAssignedColumnDef(),
+      columnDefs : (this.currSubPage === 'easAgentAssignGI') ? this.agentAssignedGIColumnDef() : this.agentAssignedCSColumnDef(),
       ajax : this.agentAssignedAjax(),
       processing: true,
       serverSide: true,
@@ -190,7 +191,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     //this.dataTableSettings.oApi(this.dataTableSettings, [page: string / int], true)
     this.dataTableSettings = _get($.fn['dataTable'], 'settings[0]');
     //for handling the btn inside datatables
+    //should be called here as datatable's btns and links are initialized only after [ngAfterViewInit/ngAfterViewChecked]
     if(!this.onclickEventInit){
+      if(this.bodyRendererListener){ this.bodyRendererListener(); }
       this.onclickEventInit = true;
       this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
         this.classToTrigger.forEach((elem, key)=>{
@@ -215,11 +218,15 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                 case 'a-reassignBtn':
                   this.agentassignmentService.currPolNo = paramsToBePassed['policyNo'];
                   break;
-                case 'a-viewEmail':
-                  this.agentassignmentService.currEmailId = paramsToBePassed['lastEmailId'];
+                case 'a-viewEmail':case 'a-viewEmailOrEDM':
+                  this.agentassignmentService.currEmailId = (this.currSubPage === 'easAgentAssignCS') ?
+                    paramsToBePassed['lastEmailOrEDMId'] : paramsToBePassed['lastEmailId'];
                   break;
                 case 'a-campaignCode':
                   this.agentassignmentService.currCampaignCd = paramsToBePassed['campaignCode'];
+                  break;
+                case 'a-clientDetail':
+                  this.agentassignmentService.currClientCd = paramsToBePassed['policyNo'];
                   break;
               }
               this.router.navigate([elem.url]);
@@ -265,8 +272,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.currPage = page;
     }
   }
-  //called outside of this component
-  refreshAndReloadSearchRecordTable(_searchCriteria : string[]){
+  //called outside of this component via this obj's reference
+  refreshAndReloadSearchRecordTable(_searchCriteria : string[] = []){
     this.searchCriterias = _searchCriteria;
     let dTableInstance = _get(this.dTable, "dtInstance");
     if(dTableInstance){
@@ -277,15 +284,146 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       });
     }
   }
-  agentAssignedColumnDef(){
+  agentAssignedCSColumnDef(){
     return [{
       targets: "_all",
       createdCell: function (td, cellData, rowData, row, col) {
         let assignType = rowData.assignmentType;
         let agentCode = rowData.agentCode;
-        let convertDate = (date, minsOpt) => {
-          return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
-          ((minsOpt == "withMins") ? (date.getHours() + ":" + date.getMinutes()) : "");
+        let convertDate = (date) => {
+          return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " ";
+        }
+        //A,D,F assign btn only
+        //B val reassign pru sms
+        //C val pru sms
+        //E sms btn only
+        let rowSymbol = (assignType == 1 && !agentCode) ? 'A' :
+                        (assignType == 1 && agentCode) ? 'B' :
+                        (assignType == 2) ? 'C' :
+                        (assignType == 3) ? 'D' :
+                        (assignType == 4) ? 'E' : 'F';
+        if(col == 0){//client dtls
+          //to be done split eng chinese name
+          $(td).html(`<a class="a-clientDetail" queryParams="policyNo:` + rowData.policyNo +  `">` + cellData + `</a>`);
+        }else if([3,6,16,19].indexOf(col) !== -1){
+          let cellDataStr = cellData.substr(0,10);
+          $(td).html(`<span>` + convertDate(new Date(cellDataStr)) + `</span>`);
+        }else if(col == 11){ //campaign dtls
+          $(td).html(`<a class="a-campaignCode" queryParams="campaignCode:` + cellData + `">` + cellData + `</a>`);
+        }else if(col >= 12 && col <= 15){ //assign agent col
+          if(col !== 14){
+            $(td).remove();
+          }else{
+            $(td).attr('colspan', '4');
+
+            let redBtnClass = "btn btn-primary table-btn";
+            let grayBtnClass = "btn btn-default table-btn";
+
+            let displayInlineStyle = "style='display: inline-flex;float: left;'";
+            let pStyle = `style="word-break: break-all;white-space: normal;"`;
+
+            let assignBtnHTML = `<a class="` + redBtnClass + ` a-assignBtn" queryParams="policyNo:` + rowData.polNo + `">Assign</a>`;
+            let reassignBtnHTML = `<a class="` + redBtnClass + ` a-reassignBtn" queryParams="policyNo:` + rowData.polNo + `">Re-assign</a>`;
+            let pruchatBtnHTML = `<a class="` + grayBtnClass + ` a-pruchatEmailBtn" queryParams="policyNo:` + rowData.polNo + `">PruChat & Email to Agent(Resend)</a>`;
+            let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" queryParams="policyNo:` + rowData.polNo + `">SMS & Email to Customer(Resend)</a>`;
+
+            let agentAssignedDate = rowData.agentAssignedDate ? new Date(rowData.agentAssignedDate.substr(0,10)) : ``;
+            $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
+
+            let tdValRowHTML = `<td><p ` + pStyle + `>` + rowData.agentCode + `</p></td>
+            <td><p ` + pStyle + `>` + rowData.agentName + `</p></td>
+            <td><p ` + pStyle + `>` + rowData.agentPhone + `</p></td>
+            <td><p ` + pStyle + `>` + (agentAssignedDate ? convertDate(agentAssignedDate) : ``) + `</p></td>`;
+
+            let firstRow :string = '' , secRow :string = '';
+
+            switch(rowSymbol){
+              case 'A':
+                firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
+                break;
+              case 'B': //val reassign pru sms (2)
+                firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
+                secRow = `<tr><td colspan="4" class="re-assign" style="padding: 8px 0px;">` +
+                 `<div ` + displayInlineStyle + `><div>` +
+                 reassignBtnHTML + `</div><div>` + pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div></div>` +
+                 `</td></tr>`;
+                break;
+              case 'C': //val pru sms (2)
+                firstRow = `<tr>` + tdValRowHTML + `</tr>`;
+                secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
+                 `<div ` + displayInlineStyle + `><div>` +
+                  pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
+                  `</td></tr>`;
+                break;
+              case 'D':
+                if(!agentAssignedDate){
+                  firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
+                }else{
+                  firstRow = `<tr>` + tdValRowHTML + `</tr>`;
+                  secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
+                   `<div ` + displayInlineStyle + `><div>` +
+                    pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
+                    `</td></tr>`;
+                }
+                break;
+              case 'E': //sms (1)
+                firstRow = `<div ` + displayInlineStyle + `>` + smsEmailBtnHTML + `</div>`;
+                break;
+              case 'F':
+                if(!agentAssignedDate){
+                  firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
+                }else{
+                  firstRow = `<tr>` + tdValRowHTML + `</tr>`;
+                  secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
+                   `<div ` + displayInlineStyle + `><div>` +
+                    pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
+                    `</td></tr>`;
+                }
+                break;
+            }
+
+            let firstSecRowHtml = firstRow + secRow;
+            let htmlStr = (['B', 'C'].indexOf(rowSymbol) !== -1 ||
+                          (['D', 'F'].indexOf(rowSymbol) !== -1 && agentAssignedDate)) ?
+                          `<table style="table-layout:fixed;width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
+            $(td).html(htmlStr);
+          }
+        }else if([20,21].indexOf(col) !== -1){ //pruchat and SMS col
+          $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
+          let dataArrSrc = (col == 20) ? rowData.pruchatEmailSendDate : rowData.SMSEmailSendDate;
+          let tdhtml = "";
+          if(dataArrSrc && dataArrSrc.length != 0){
+            dataArrSrc.forEach((data)=>{
+              //parsing the format of data in IE browser as IE browser doesnt support certain kind of format of date string
+              let year = data.substr(0,4);
+              let month = data.substr(5,2);
+              let day = data.substr(8,2);
+              let hour = data.substr(11,2);
+              let min = data.substr(14,2);
+              let processedDt = day + '/' + month + '/' + year + ' ' + hour + ":" + min;
+              //
+              tdhtml += `<p>` + processedDt + `</p>`;
+            });
+            tdhtml += (rowData.lastEmailOrEDMId) ?
+            `<a class="a-viewEmailOrEDM" queryParams="lastEmailOrEDMId:` + rowData.lastEmailOrEDMId + `"'>View email or EDM</a>` : ``;
+          }else{
+            tdhtml = 'N/A';
+          }
+          $(td).html(tdhtml);
+        }else{
+          $(td).html(cellData);
+        }
+      }
+    }]
+  }
+  agentAssignedGIColumnDef(){
+    return [{
+      targets: "_all",
+      createdCell: function (td, cellData, rowData, row, col) {
+        let assignType = rowData.assignmentType;
+        let agentCode = rowData.agentCode;
+        let convertDate = (date) => {
+          return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " ";
         }
         //A,D,F assign btn only
         //B val reassign pru sms
@@ -302,7 +440,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
           }else{
             if(col === 10){//col 10 convert date str into proper format dd/MM/YYYY
               let convertDateData = new Date(cellData.substr(0,10));
-              $(td).html(convertDate(convertDateData, 'withoutMins'));
+              $(td).html(convertDate(convertDateData));
             }else if(col == 11){//campaign code, put campaign code as attr later
               $(td).html('<a class="a-campaignCode" queryParams="campaignCode:' + rowData.campaignCode + '">' + cellData + '</a>');
             }else if(col == 12){
@@ -334,7 +472,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             <td><p ` + pStyle + `>` + rowData.agentCode + `</p></td>
             <td><p ` + pStyle + `>` + rowData.agentName + `</p></td>
             <td><p ` + pStyle + `>` + rowData.agentPhone + `</p></td>
-            <td><p ` + pStyle + `>` + (agentAssignedDate ? convertDate(agentAssignedDate, 'withoutMins') : ``) + `</p></td>`;
+            <td><p ` + pStyle + `>` + (agentAssignedDate ? convertDate(agentAssignedDate) : ``) + `</p></td>`;
 
             let firstRow :string = '' , secRow :string = '';
 
@@ -439,7 +577,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
           recordsTotal: resp.body.recordsTotal,
           recordsFiltered: resp.body.recordsFiltered
         });
-      });
+      },error => console.error('>>> agentAssignmentRecord GET request fails.'));
     }
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AgentassignmentService } from '../../services/agentassignment.service';
+import { AgentassignmentService } from '../../../services/agentassignment.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

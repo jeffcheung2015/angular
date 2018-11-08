@@ -44,7 +44,7 @@ export class PddleadextapprovalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let agentCode = this.pddService.currAgentCode || "A123123";
+    let agentCode = this.pddService.currAgentCode || "";
     if(agentCode === ''){
       this.router.navigate(['/']);
     }else{
@@ -69,6 +69,7 @@ export class PddleadextapprovalComponent implements OnInit {
     }
     this.pddService.postPddApproval(queryParams,'sentParams').subscribe((resp: any) =>{
       console.log("resp: ", resp);
+      this.router.navigate(['/easLeadExtensionAppl']);
     },(error) => {
       console.error("error: ", error);
     });

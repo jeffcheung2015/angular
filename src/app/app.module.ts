@@ -59,7 +59,7 @@ import { LayoutService } from './services/layout.service';
 import { LoaderinterceptorService } from './services/loaderinterceptor.service';
 //component
 import { LayoutComponent } from './components/layout/layout.component';
-import { SearchrecordComponent } from './components/searchrecord/searchrecord.component';
+import { SearchrecordComponent } from './components/agentAssign/searchrecord/searchrecord.component';
 import { AppComponent } from './app.component';
 import { PddcampaigntransactiontableComponent } from './components/pddcampaigntransactiontable/pddcampaigntransactiontable.component';
 import { PddcampaigntableComponent } from './components/pddcampaigntable/pddcampaigntable.component';
@@ -69,17 +69,15 @@ import { GlobalheaderComponent } from './components/layout/globalheader/globalhe
 import { GlobalfooterComponent } from './components/layout/globalfooter/globalfooter.component';
 import { LeftsidebarComponent } from './components/layout/leftsidebar/leftsidebar.component';
 import { AgentassignmentComponent } from './pages/agentassignment/agentassignment.component';
-import { SearchcriteriaComponent } from './components/searchcriteria/searchcriteria.component';
-import { DetailssearchrecordComponent } from './components/detailssearchrecord/detailssearchrecord.component';
-import { CampaigndetailsComponent } from './components/campaigndetails/campaigndetails.component';
+import { SearchcriteriaComponent } from './components/agentAssign/searchcriteria/searchcriteria.component';
+import { DetailssearchrecordComponent } from './components/agentAssign/detailssearchrecord/detailssearchrecord.component';
 import { AgentinterfaceComponent } from './components/leadresponse/agentinterface/agentinterface.component';
-import { CustomerdetailComponent } from './components/customerdetail/customerdetail.component';
 import { ApuplineinterfaceComponent } from './components/leadresponse/apuplineinterface/apuplineinterface.component';
 import { AointerfaceComponent } from './components/leadresponse/aointerface/aointerface.component';
 import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
 import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
-import { ViewemailComponent } from './components/viewemail/viewemail.component';
+import { ViewemailComponent } from './components/agentAssign/viewemail/viewemail.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoaderComponent } from './components/common/loader/loader.component';
 //other
@@ -93,6 +91,7 @@ import { Step3Component } from './components/edm/edmmanagementform/step3/step3.c
 import { PddlistComponent } from './components/pdd/pddlist/pddlist.component';
 import { PddsummaryComponent } from './components/pdd/pddsummary/pddsummary.component';
 import { PddleadextapprovalComponent } from './components/pdd/pddleadextapproval/pddleadextapproval.component';
+import { ClientcampaigndetailsComponent } from './components/agentAssign/clientcampaigndetails/clientcampaigndetails.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -114,9 +113,7 @@ export function createTranslateLoader(http: HttpClient) {
     SearchrecordComponent,
     SearchcriteriaComponent,
     DetailssearchrecordComponent,
-    CampaigndetailsComponent,
     AgentinterfaceComponent,
-    CustomerdetailComponent,
     ApuplineinterfaceComponent,
     AointerfaceComponent,
     LeadresponseComponent,
@@ -133,6 +130,7 @@ export function createTranslateLoader(http: HttpClient) {
     PddlistComponent,
     PddsummaryComponent,
     PddleadextapprovalComponent,
+    ClientcampaigndetailsComponent,
   ],
   imports: [
     NgbModule,

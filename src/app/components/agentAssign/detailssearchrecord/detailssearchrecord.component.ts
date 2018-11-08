@@ -1,16 +1,16 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
   AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
-import { AgentassignmentService } from '../../services/agentassignment.service';
-import { AgentAssignmentRecord } from '../../models/agentassignmentrecord.model';
+import { AgentassignmentService } from '../../../services/agentassignment.service';
+import { AgentAssignmentRecord } from '../../../models/agentassignmentrecord.model';
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
 import {get as _get, set as _set} from 'lodash';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
-import constants from '../../constants/constants';
-import convertformat from '../../utils/convertformat';
+import constants from '../../../constants/constants';
+import convertformat from '../../../utils/convertformat';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';

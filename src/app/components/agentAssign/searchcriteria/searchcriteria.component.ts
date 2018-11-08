@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, AfterViewChecked, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AgentassignmentService } from '../../services/agentassignment.service';
+import { AgentassignmentService } from '../../../services/agentassignment.service';
 
 @Component({
   selector: 'app-searchcriteria',
@@ -18,11 +18,33 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   maxDateFrom;
   @Input()currSubPage;
 
+  bodyRendererListener;
+
   constructor(
-    private agentassignmentService : AgentassignmentService
+    private agentassignmentService : AgentassignmentService,
+    private renderer2 : Renderer2
   ) {}
 
-  ngOnInit() {}
+  dropdownDivArray : Array<String>;
+
+  closeAllDropDown(){
+    this.dropdownDivArray.forEach((elem,key)=>{
+      if($("." + elem + " .select-selected").hasClass("select-arrow-active")){
+        $("." + elem + " .select-selected").removeClass("select-arrow-active");
+        $("." + elem + " .select-items").addClass("select-hide");
+      }
+    });
+  }
+  ngOnInit() {
+    this.dropdownDivArray = this.currSubPage === 'easAgentAssignCS' ?
+      ["div-assignmentOption", "div-contactCustomerOption", "div-assignmentStatusOption"] : ["div-assignmentOption"];
+
+    this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
+      if(!$(event.target).hasClass("select-selected")){
+        this.closeAllDropDown();
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges){
     console.log('Info: Search Criteria component onchanges, ', changes, "this.currSubPage:", this.currSubPage);
@@ -133,12 +155,12 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
          !new Date(this.searchForm.value.dateOfSubmissionFrom).getTime()) ||
           (this.searchForm.value.dateOfSubmissionTo &&
          !new Date(this.searchForm.value.dateOfSubmissionTo).getTime())){
-        console.error('>>> Invalid input received');
+        console.error('>>> Invalid searchCriteria inputs');
         return null;
       }
     }
     else{
-      console.error('>>> Invalid input received');
+      console.error('>>> Invalid searchCriteria inputs');
       return null;
     }
 
@@ -149,12 +171,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     //has to use jquery to read the div value and overwrite the search criterias that sent
     //to searchRecordComponent first
     assignmentOption = "",contactCustomerOption = "",assignmentStatusOption = "";
-    // for(var i = 0 ; i < $('.select-items div').length; i++){
-    //   if($('.select-items div:eq(' + i + ')').hasClass('same-as-selected')){
-    //     assignmentOption = $('[name="assignmentOptionField"] option:eq('+ i +')').html();
-    //     break;
-    //   }
-    // }
+
     if(this.currSubPage === 'easAgentAssignGI'){
       assignmentOption = $('[name=assignmentOptionField]').val();
     }else if(this.currSubPage === 'easAgentAssignCS'){

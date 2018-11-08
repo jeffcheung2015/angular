@@ -24,9 +24,19 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
   noOfPage : number;
   currPage : number = 1;
 
+  minDateTo;
+  maxDateFrom;
+
   noOfApplications : number = 1;
+  exportListArray : Array<any>;
 
   dataTableSettings;//for changing table pages in gotopage
+
+  exportListForm = new FormGroup({
+    selectedOption: new FormControl('all'),
+    dateOfSubmissionFrom: new FormControl(''),
+    dateOfSubmissionTo: new FormControl('')
+  })
 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
@@ -50,6 +60,10 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
   }
 
   ngOnInit() {
+    //disable by default as select all is the default option of exportListForm
+    this.exportListForm.controls['dateOfSubmissionFrom'].disable();
+    this.exportListForm.controls['dateOfSubmissionTo'].disable();
+
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val)=>{
       colArr.push({
@@ -95,6 +109,36 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
     ];
   }
 
+  exportRecordList(){
+    let sentParams = {
+      selectedOption: this.exportListForm.controls['']
+    };
+    this.pddService.getPddSummaryList(sentParams, 'getExportList').subscribe((resp: any) => {
+      console.log(resp);
+      this.exportListArray = resp.body.data;
+      //to be done [export the list into excel format]
+
+
+      //
+
+
+    }, (error) => {
+      console.error('>>> Error getting export list in pddSummary');
+    });
+  }
+
+  triggerAndClearSubmissionDate(isEnableOrDisable){
+    if(isEnableOrDisable === 'disable'){
+      this.exportListForm.controls['dateOfSubmissionFrom'].disable();
+      this.exportListForm.controls['dateOfSubmissionTo'].disable();
+      this.exportListForm.controls['dateOfSubmissionFrom'].reset();
+      this.exportListForm.controls['dateOfSubmissionTo'].reset();
+    }else{
+      this.exportListForm.controls['dateOfSubmissionFrom'].enable();
+      this.exportListForm.controls['dateOfSubmissionTo'].enable();
+    }
+  }
+
   refreshTable(){
     let dTableInstance = _get(this.dTable, "dtInstance");
     if(dTableInstance){
@@ -105,6 +149,7 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
       });
     }
   }
+
 
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
@@ -145,6 +190,12 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
       this.dataTableAjaxSubscription.unsubscribe();
     }
   }
+
+  //to set the min, max date of from / to once submissionfrom / to is changed
+  dateOfSubmissionChange(e, fromOrTo){
+    this[(fromOrTo == 0) ? "minDateTo" : "maxDateFrom"] = e.value;
+  }
+
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
     this.mapToLengthMenuNum = {
@@ -218,7 +269,7 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
             $(td).html(`<span ` + txtColorStyle + `>` + mapExtToText[parseInt(cellData)] + `</span>`);
           break;
           case 11:
-            $(td).html(`<span class="span-csRemarks">` + cellData + `</span>`);
+            $(td).html(`<span class="span-csremarks">` + cellData + `</span>`);
           break;
           default:
             $(td).html(`<span>` + cellData + `</span>`);
