@@ -1,15 +1,26 @@
 .div-step2{
+  .ng-invalid{
+    border-color:red !important;
+  }
+  textarea{
+    resize: none;
+  }
   input{
     line-height: 10px;
     height:40px !important;
     border-color:#cccccc;
   }
   .div-dateOfSubmissionWrapper{
+    display: inline-flex;
     .span-dateOfSubmissionText{
-      margin: 0px 20px;
+      margin: 40px 20px 0px 30px;
+    }
+    .div-labelDivDateOfSubmissionFrom{
+      width:230px !important;
     }
     .div-dateOfSubmissionFrom, .div-dateOfSubmissionTo{
       position:relative;
+      display: inline-flex;
       .input-dateOfSubmissionBtn{
         position: absolute;
         top: 0px;
@@ -26,6 +37,11 @@
         width: 230px;
         line-height: 10px;
       }
+    }
+
+    .div-dateOfSubmissionTo{
+      margin-top:30px;
+      width: 230px;
     }
   }
 }
@@ -50,6 +66,9 @@
       }
       .div-edmManagementFormSearchRecordBody{
         text-align: center;
+        .table-edmManagementForm{
+          width: 100% !important;
+        }
         .div-goToPage-showPerPage{
           display: -webkit-box;
           position: relative;

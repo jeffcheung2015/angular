@@ -75,6 +75,8 @@ export class EdmService {
     return this.getOrPostFunc('/eas/api/edm/edmReceiver', params, 'post', type);
   }
 
-
+  postSendTestEmail(params, type){
+    return this.getOrPostFunc('/eas/api/edm/sendTestEmail', params, 'post', type);
+  }
 
 }

@@ -93,8 +93,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
       ];
 
-      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"A", "", ""];
-      this.searchCriteriaFieldName = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
+      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"A", "", ""];
+      this.searchCriteriaFieldName = ["fullName","mobileNo","emailAddr","idCardNo",
         "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption",
         "contactCustomerOption","assignmentStatusOption"];
     }
@@ -288,20 +288,13 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     return [{
       targets: "_all",
       createdCell: function (td, cellData, rowData, row, col) {
-        let assignType = rowData.assignmentType;
         let agentCode = rowData.agentCode;
         let convertDate = (date) => {
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " ";
         }
-        //A,D,F assign btn only
-        //B val reassign pru sms
-        //C val pru sms
-        //E sms btn only
-        let rowSymbol = (assignType == 1 && !agentCode) ? 'A' :
-                        (assignType == 1 && agentCode) ? 'B' :
-                        (assignType == 2) ? 'C' :
-                        (assignType == 3) ? 'D' :
-                        (assignType == 4) ? 'E' : 'F';
+        //F re-assign btn
+        //G assign btn
+        let rowSymbol = (agentCode) ? 'F' : 'G';
         if(col == 0){//client dtls
           //to be done split eng chinese name
           $(td).html(`<a class="a-clientDetail" queryParams="policyNo:` + rowData.policyNo +  `">` + cellData + `</a>`);
@@ -328,7 +321,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let smsEmailBtnHTML = `<a class="` + grayBtnClass + ` a-smsEmailBtn" queryParams="policyNo:` + rowData.polNo + `">SMS & Email to Customer(Resend)</a>`;
 
             let agentAssignedDate = rowData.agentAssignedDate ? new Date(rowData.agentAssignedDate.substr(0,10)) : ``;
-            $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
+            $(td).addClass((rowSymbol === 'F') ? 're-assign' : '');
 
             let tdValRowHTML = `<td><p ` + pStyle + `>` + rowData.agentCode + `</p></td>
             <td><p ` + pStyle + `>` + rowData.agentName + `</p></td>
@@ -338,53 +331,20 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let firstRow :string = '' , secRow :string = '';
 
             switch(rowSymbol){
-              case 'A':
+              case 'G':
                 firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
                 break;
-              case 'B': //val reassign pru sms (2)
+              case 'F': //val reassign pru sms (2)
                 firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
                 secRow = `<tr><td colspan="4" class="re-assign" style="padding: 8px 0px;">` +
                  `<div ` + displayInlineStyle + `><div>` +
                  reassignBtnHTML + `</div><div>` + pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div></div>` +
                  `</td></tr>`;
                 break;
-              case 'C': //val pru sms (2)
-                firstRow = `<tr>` + tdValRowHTML + `</tr>`;
-                secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
-                 `<div ` + displayInlineStyle + `><div>` +
-                  pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
-                  `</td></tr>`;
-                break;
-              case 'D':
-                if(!agentAssignedDate){
-                  firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
-                }else{
-                  firstRow = `<tr>` + tdValRowHTML + `</tr>`;
-                  secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
-                   `<div ` + displayInlineStyle + `><div>` +
-                    pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
-                    `</td></tr>`;
-                }
-                break;
-              case 'E': //sms (1)
-                firstRow = `<div ` + displayInlineStyle + `>` + smsEmailBtnHTML + `</div>`;
-                break;
-              case 'F':
-                if(!agentAssignedDate){
-                  firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
-                }else{
-                  firstRow = `<tr>` + tdValRowHTML + `</tr>`;
-                  secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
-                   `<div ` + displayInlineStyle + `><div>` +
-                    pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
-                    `</td></tr>`;
-                }
-                break;
             }
 
             let firstSecRowHtml = firstRow + secRow;
-            let htmlStr = (['B', 'C'].indexOf(rowSymbol) !== -1 ||
-                          (['D', 'F'].indexOf(rowSymbol) !== -1 && agentAssignedDate)) ?
+            let htmlStr = (rowSymbol === 'F') ?
                           `<table style="table-layout:fixed;width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
             $(td).html(htmlStr);
           }

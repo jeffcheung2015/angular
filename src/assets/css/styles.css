@@ -15936,7 +15936,6 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   border-bottom: solid 1px red;
 }
 .span-csremarks{
-  cursor: pointer;
   color:#c3c3c3;
   border-bottom: solid 1px #c3c3c3;
 }

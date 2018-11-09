@@ -1,6 +1,6 @@
 <div class="modal fade export-list div-exportListModal" id="exportListModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-      <form [formGroup]="exportListForm" class="form-exportListForm" method="GET" (ngSubmit)="exportRecordList()">
+      <form [formGroup]="exportListForm" class="form-exportListForm" (ngSubmit)="exportRecordList()">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exportListModalLabel">Export List</h4>
@@ -8,7 +8,7 @@
             <div class="modal-body clearfix">
                 <div class="row">
                     <label class="radio-wrapper">Select All
-                        <input formControlName="selectedOption" value="all" type="radio" checked="checked" (click)="triggerAndClearSubmissionDate('disable')" name="method">
+                        <input formControlName="selectedOption" value="all" type="radio" checked="checked" (click)="triggerAndClearSubmissionDate('disable')">
                         <span class="checkmark"></span>
                     </label>
                 </div>
@@ -20,7 +20,7 @@
                 </div>
                 <div class="row export-date div-exportDateWrapper">
                     <label class="radio-wrapper label-dateOfSubmissionFromTo">
-                        <input formControlName="selectedOption" value="range" type="radio" (click)="triggerAndClearSubmissionDate('enable')" name="method">
+                        <input formControlName="selectedOption" value="range" type="radio" (click)="triggerAndClearSubmissionDate('enable')">
                         <span class="checkmark"></span>
                     </label>
                     <div class="col-md-5">
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary table-btn" data-dismiss="modal">Export</button>
+                <button type="submit" class="btn btn-primary table-btn">Export</button>
                 <button type="button" class="btn btn-default table-btn" data-dismiss="modal">Cancel</button>
             </div>
         </div>

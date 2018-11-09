@@ -57,6 +57,7 @@ import { PddService } from './services/pdd.service';
 import { AgentassignmentService } from './services/agentassignment.service';
 import { LayoutService } from './services/layout.service';
 import { LoaderinterceptorService } from './services/loaderinterceptor.service';
+import { ExcelService } from './services/excel.service';
 //component
 import { LayoutComponent } from './components/layout/layout.component';
 import { SearchrecordComponent } from './components/agentAssign/searchrecord/searchrecord.component';
@@ -159,7 +160,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [PddcampaigntransactionService, PddcampaignService,
     AgentassignmentService, LayoutService,LeadresponseService,
-    EdmService, PddService, LoginUserService,
+    EdmService, PddService, LoginUserService, ExcelService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderinterceptorService,

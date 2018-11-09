@@ -1,10 +1,26 @@
 .edm-bodyBottom{
+  textarea{
+    resize: none;
+  }
+
   .div-step1RightPart{
     .div-iconTextWrapper{
       display: inline-flex;
       .div-step1RightPartBtn{
         width: 35px;
         margin-right: 0px;
+      }
+    }
+  }
+  .div-stepBottom{
+    .div-sendTestEmail{
+      padding-left: 0px !important;
+      display: inline-flex;
+      span{
+        padding-left: 0px !important;
+      }
+      .div-sendTestEmailInputBtnGroup{
+        display: inline-flex;
       }
     }
   }

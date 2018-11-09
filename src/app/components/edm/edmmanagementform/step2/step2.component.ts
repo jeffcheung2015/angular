@@ -18,16 +18,16 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   //to be converted from selectedRecords, the elem should be seperated by a delimiter ','
   //only will selectedRecords be converted into selectedRecordsStr when the form is submitted
   edmManagementStep2Form = new FormGroup({
-    surname: new FormControl(''),
-    firstName: new FormControl(''),
+    surname: new FormControl('', [Validators.pattern('[0-9a-zA-Z ]+')]),
+    firstName: new FormControl('', [Validators.pattern('[0-9a-zA-Z ]+')]),
     genderOption: new FormControl(''),
-    mobileNo: new FormControl(''),
-    clientId: new FormControl(''),
+    mobileNo: new FormControl('',[Validators.pattern('[0-9]+'), Validators.maxLength(8), Validators.minLength(8)]),
+    clientId: new FormControl('',[Validators.pattern('[0-9a-zA-Z]+')]),
     birthdayOption: new FormControl(''),
-    email: new FormControl(''),
-    campaignCd: new FormControl(''),
-    partnerCd: new FormControl(''),
-    partnerName: new FormControl(''),
+    email: new FormControl('', Validators.email),
+    campaignCd: new FormControl('',[Validators.pattern('[0-9a-zA-Z]+')]),
+    partnerCd: new FormControl('',[Validators.pattern('[0-9a-zA-Z]+')]),
+    partnerName: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
     dateOfSubmissionFrom: new FormControl(''),
     dateOfSubmissionTo: new FormControl(''),
     selfService: new FormControl(''),
@@ -49,7 +49,8 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   searchCriteriaFieldName : string[];
   noOfPage : number;
   currPage : number = 1;
-  bodyRendererListener;
+  bodyRendererChangeListener;
+  bodyRendererClickListener;
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
@@ -90,7 +91,22 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   }
 
   onSubmitSearchCriteria(){
-    console.log("submitting search criteria");
+
+    if(this.edmManagementStep2Form.status === 'VALID'){
+      //date validation
+      if((this.edmManagementStep2Form.value.dateOfSubmissionFrom &&
+         !new Date(this.edmManagementStep2Form.value.dateOfSubmissionFrom).getTime()) ||
+          (this.edmManagementStep2Form.value.dateOfSubmissionTo &&
+         !new Date(this.edmManagementStep2Form.value.dateOfSubmissionTo).getTime())){
+        console.error('>>> Invalid searchCriteria inputs');
+        return null;
+      }
+    }
+    else{
+      console.error('>>> Invalid searchCriteria inputs');
+      return null;
+    }
+
     let surname = this.edmManagementStep2Form.controls['surname'].value;
     let firstName = this.edmManagementStep2Form.controls['firstName'].value;
     let genderOption = $("[name=genderOptionField]").val();
@@ -122,12 +138,20 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionTo), '/', ''),
       selfServiceStr, failUpsell6MonthsStr, selfServiceWithLifeStr];
 
-    //clear all the elem in selectedRecords array
+    //clear all the elems in selectedRecords array
     this.selectedRecords.length = 0;
 
     this.refreshAndReloadSearchRecordTable();
   }
-
+  dropdownDivArray : Array<String> = ["div-birthdayOption", "div-genderOption"];
+  closeAllDropDown(){
+    this.dropdownDivArray.forEach((elem,key)=>{
+      if($("." + elem + " .select-selected").hasClass("select-arrow-active")){
+        $("." + elem + " .select-selected").removeClass("select-arrow-active");
+        $("." + elem + " .select-items").addClass("select-hide");
+      }
+    });
+  }
   ngOnInit() {
     this.searchCriterias = ["" ,"" ,"" ,
       "" ,"" ,"" ,
@@ -147,7 +171,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       colArr.push({
         data:val,
         orderable: false,
-        width:(index === 0) ? '50px' : '100px'
+        width:(index === 0) ? '30px' : '100px'
       })
     });
     this.dtOptions = {
@@ -192,7 +216,13 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     this.dtTrigger.next();
     this.relistenThCheckbox();
 
-    this.bodyRendererListener = this.renderer2.listen("body", 'change', (event)=>{
+    this.bodyRendererClickListener = this.renderer2.listen("body", "click", (event)=>{
+      if(!$(event.target).hasClass("select-selected")){
+        this.closeAllDropDown();
+      }
+    });
+
+    this.bodyRendererChangeListener = this.renderer2.listen("body", 'change', (event)=>{
       if($(event.target).hasClass('a-checkbox')){ //only check the checkbox with class a-checkbox
         let queryParams = $(event.target).attr("queryParams");
         let personId = queryParams.split(":")[1];
@@ -222,8 +252,8 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
 
   }
   ngOnDestroy(){
-    if(this.bodyRendererListener){
-      this.bodyRendererListener();
+    if(this.bodyRendererChangeListener){
+      this.bodyRendererChangeListener();
     }
     if(this.dtTrigger){
       this.dtTrigger.unsubscribe();

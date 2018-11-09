@@ -67,7 +67,6 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
       assignmentOption : new FormControl('',assignmentOptionValidator)
     }) : (this.currSubPage === 'easAgentAssignCS') ? new FormGroup({
       fullName : new FormControl('',numEngSpaceValidator),
-      policyNo : new FormControl('',numValidator),
       mobileNo : new FormControl('',mobileNoValidator),
       emailAddr : new FormControl('', Validators.email),
       idCardNo : new FormControl('',numEngSpaceValidator),
@@ -181,8 +180,13 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     }
     let isAgentAssign = ['easAgentAssignGI', 'easAgentAssignCS'].indexOf(this.currSubPage) !== -1;
     if(isAgentAssign){
-      ({fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo} = this.searchForm.value);
-      queryParams = {fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};
+      if(this.currSubPage === 'easAgentAssignGI'){
+        ({fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo} = this.searchForm.value);
+        queryParams = {fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};
+      }else{
+        ({fullName,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo} = this.searchForm.value);
+        queryParams = {fullName,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};
+      }
     }else{
       ({agentCode, agentPhone, agentName} = this.searchForm.value);
       queryParams = {agentCode, agentPhone, agentName};
@@ -195,7 +199,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     (this.currSubPage === 'easAgentAssignGI') ?
     [fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption] :
     (this.currSubPage === 'easAgentAssignCS') ?
-    [fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,contactCustomerOption,assignmentStatusOption] :
+    [fullName,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,contactCustomerOption,assignmentStatusOption] :
     [agentCode, agentPhone, agentName];
     let property = (isAgentAssign) ? "searchRecordComponent" : "detailSearchRecordComponent";
 

@@ -28,8 +28,7 @@ export class Step1Component implements OnInit, AfterViewInit {
     bottomBannerButtonLink: new FormControl(''),
     campaignTnc: new FormControl(''),
     standardTnc: new FormControl(''),
-    communicationCd: new FormControl(''),
-    sendTestEmail: new FormControl('')
+    communicationCd: new FormControl('')
   });
   @Input()edmPageInfo : { //fetched from edmManagementForm parent component
     currStep: String
@@ -40,7 +39,7 @@ export class Step1Component implements OnInit, AfterViewInit {
     private renderer2 : Renderer2
   ) { }
   bodyRendererListener;
-  dropdownDivArray : Array<String> = ["div-"];
+  dropdownDivArray : Array<String> = ["div-templateOption"];
   closeAllDropDown(){
     this.dropdownDivArray.forEach((elem,key)=>{
       if($("." + elem + " .select-selected").hasClass("select-arrow-active")){
@@ -50,8 +49,6 @@ export class Step1Component implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    this.dropdownDivArray = ["div-templateOption"];
-
     this.bodyRendererListener = this.renderer2.listen("body", 'click', (event)=>{
       if(!$(event.target).hasClass("select-selected")){
         this.closeAllDropDown();
@@ -97,15 +94,25 @@ export class Step1Component implements OnInit, AfterViewInit {
       bottomBannerButtonLink: this.edmManagementStep1Form.controls['bottomBannerButtonLink'].value,
       campaignTnc: this.edmManagementStep1Form.controls['campaignTnc'].value,
       standardTnc: this.edmManagementStep1Form.controls['standardTnc'].value,
-      communicationCd: this.edmManagementStep1Form.controls['communicationCd'].value,
-      sendTestEmail: this.edmManagementStep1Form.controls['sendTestEmail'].value
-    }
+      communicationCd: this.edmManagementStep1Form.controls['communicationCd'].value
+    };
     this.edmService.postSubmitOrSave(params, 'sendParams').subscribe((resp : any) => {
       console.log("resp: ", resp);
 
     }, (error) => {
-      console.log("error: ", error);
+      console.error("error: ", error);
     });
+  }
+
+  sendTestEmail(event){
+    let params = {
+      testEmail: $("[name=sendTestEmailField]").val()
+    };
+    this.edmService.postSendTestEmail(params, 'sendParams').subscribe((resp: any) => {
+      console.log("resp: ", resp);
+    }, (error) => {
+      console.error("error: ", error);
+    })
   }
 
   initDropdown(){
@@ -165,20 +172,24 @@ export class Step1Component implements OnInit, AfterViewInit {
     }
     let popover1 :any= $(".popover1");
     let popover2 :any= $(".popover2");
+
+
     popover1.popover({
         html: true,
-        title: '',
         content: function() {
             return keywords_content('popover1');
-        }
+        },
+        trigger: 'hover'
     });
     popover2.popover({
         html: true,
-        title: '',
         content: function() {
             return keywords_content('popover2');
-        }
+        },
+        trigger: 'hover'
     });
+
+
   }
 
 }

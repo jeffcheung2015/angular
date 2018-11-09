@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
   AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import constants from '../../../constants/constants';
 import { PddService } from '../../../services/pdd.service';
+import { ExcelService } from '../../../services/excel.service';
+
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -52,7 +54,8 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
 
   constructor(
     private pddService : PddService,
-    private renderer2 : Renderer2
+    private renderer2 : Renderer2,
+    private excelService : ExcelService
   ) { }
 
   ngOnChanges(){
@@ -110,18 +113,16 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
   }
 
   exportRecordList(){
+    //having data-dismiss attr in <button type="submit"> will prevent the exportListForm from submitting
+    $("#exportListModal").modal('toggle'); //so have to dismiss the "#exportListModal" modal here
     let sentParams = {
-      selectedOption: this.exportListForm.controls['']
+      selectedOption: this.exportListForm.controls['selectedOption'].value,
+      dateOfSubmissionFrom: this.exportListForm.controls['dateOfSubmissionFrom'].value || "",
+      dateOfSubmissionTo: this.exportListForm.controls['dateOfSubmissionTo'].value || ""
     };
     this.pddService.getPddSummaryList(sentParams, 'getExportList').subscribe((resp: any) => {
       console.log(resp);
-      this.exportListArray = resp.body.data;
-      //to be done [export the list into excel format]
-
-
-      //
-
-
+      this.excelService.jsonExportAsExcelFile(resp.body.data, 'PDDSummary');
     }, (error) => {
       console.error('>>> Error getting export list in pddSummary');
     });
