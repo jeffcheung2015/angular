@@ -27,7 +27,7 @@ const appRoutes: Routes = [
   { path: 'easAPInterface', component: LeadresponseComponent , canActivate: [MenuGuard]},
   { path: 'easAOInterface', component: LeadresponseComponent , canActivate: [MenuGuard]},
 
-  { path: 'easLeadExtensionAppl', component: PddComponent , canActivate: [MenuGuard]},
+  { path: 'easLeadExtensionAppl', component: PddComponent},
   { path: 'easLeadExtensionApproval', component: PddComponent , canActivate: [MenuGuard]},
   { path: 'easLeadSummary', component: PddComponent , canActivate: [MenuGuard]},
 

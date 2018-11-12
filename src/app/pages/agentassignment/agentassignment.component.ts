@@ -84,8 +84,5 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
       break;
     }
   }
-  changeCurrSubPage(newCurrSubPage){
-    this.currSubPage = newCurrSubPage;
-  }
 
 }

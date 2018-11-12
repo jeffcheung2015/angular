@@ -9,7 +9,7 @@
             </li>
             <li *ngIf="['easAgentAssignGI','easAgentAssignCS','easAgentDetail','easCampaignDetail','easClientDetail','easViewEmail'].indexOf(currSubPage) !== -1"
                 [ngClass]="['easAgentAssignGI','easAgentAssignCS'].indexOf(currSubPage) !== -1 ? 'active' : ''">
-              <a routerLink="/{{agentassignmentService.currServiceName}}" (click)="changeCurrSubPage(agentassignmentService.currServiceName)">Agent Assignment</a>
+              <a routerLink="/{{agentassignmentService.currServiceName}}">Agent Assignment</a>
             </li>
             <li *ngIf="currSubPage=='easAgentDetail'" [ngClass]="currSubPage=='easAgentDetail' ? 'active' : ''">
               <a>Agent Details</a>

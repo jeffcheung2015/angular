@@ -23,8 +23,8 @@ export default {
     CSSearchRecordColumnField: [
       'fullName','emailAddr','mobileNo','submissionDate',
       'prodClass','polNo','birthDate',
-      'idCardNo', 'gender', 'optOutCustomerGI',
-      'optOutCustomerLife','campaignCode','agentCode',
+      'idCardNo', 'gender', 'giOptOut',
+      'lifeOptOut','campaignCode','agentCode',
       'agentName','agentPhone','agentAssignedDate',
       'firstContactDate','contactCustomer',
       'assignmentStatus', 'agentAccountExpiryDate',

@@ -9,7 +9,7 @@
             </li>
             <li *ngIf="['easLeadExtensionAppl', 'easLeadExtensionApproval', 'easLeadSummary'].indexOf(currSubPage) !== -1"
                 [ngClass]="currSubPage === 'easLeadExtensionAppl' ? 'active' : ''">
-              <a routerLink="/easLeadExtensionAppl" (click)="changeCurrSubPage('easLeadExtensionAppl')">PDD</a>
+              <a routerLink="/easLeadExtensionAppl">PDD</a>
             </li>
             <li *ngIf="currSubPage=='easLeadExtensionApproval'" [ngClass]="currSubPage=='easLeadExtensionApproval' ? 'active' : ''">
               <a>Lead extension approval</a>

@@ -25,7 +25,7 @@ export class MenuGuard implements CanActivate {
     let currUrl = state.url.substr(1);
     let matchAllowedRoutesFound = false, matchDetailPageFound = false;
 
-    // *** _forEach would be broken when return false within ***
+    // *** _forEach would be broken when returning false within ***
     //check if currurl is one of the main menu pages
     _forEach(allowedRoutes, (elem, key)=>{
       if(elem === currUrl){
@@ -44,12 +44,12 @@ export class MenuGuard implements CanActivate {
               matchDetailPageFound = true;
               return false;//to break out of _forEach loop but wouldnt return this func yet
             }
-          }else if(['easEDMManagementForm', 'easEDMHistory'].indexOf(elem) !== -1){ //edm
+          }else if(['easEDMManagementForm', 'easEDMHistory'].indexOf(elem) !== -1){ //edm's detail page
             if(allowedRoutes.indexOf('easEDM') !== -1){
               matchDetailPageFound = true;
               return false;//to break out of _forEach loop but wouldnt return this func yet
             }
-          }else if(elem === 'easLeadExtensionApproval'){// pdd
+          }else if(elem === 'easLeadExtensionApproval'){// pdd's detail page
             if(allowedRoutes.indexOf('easLeadExtensionAppl') !== -1){
               matchDetailPageFound = true;
               return false;//to break out of _forEach loop but wouldnt return this func yet
