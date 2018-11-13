@@ -11,18 +11,20 @@
             <div><i class="iconfont">&#xe618;</i></div>
         </li>
         <li id="min-menu" class="bg-black">
-            <i class="icon-mini-menu"></i> <span>Minimize Menu</span>
+            <i class="icon-mini-menu"></i>
+            <span >{{'LEFT_SIDEBAR_MENU.MINIMIZE_MENU' | translate}}</span>
+            
         </li>
         <ng-container *ngIf="menu">
           <li *ngFor="let tabElem of menu" >
-            <ng-container *ngIf="tabElem.enabled">
+            <ng-container *ngIf="tabElem.enabled && tabElem.title != 'Lead Response'">
               <a *ngIf="tabElem.link" routerLink="/{{tabElem.link}}" routerLinkActive="tab-active"><!--agentAssignment , edm-->
                 <i *ngIf="tabElem.title=='Agent Assignment'" class="iconfont">&#xe615;</i>
                 <i *ngIf="tabElem.title=='eDM'" class="iconfont">&#xe616;</i>
                 <span>{{tabElem.title}}</span>
               </a>
               <ng-container *ngIf="!tabElem.link">
-                <a href="javascript:;" *ngIf="tabElem.title=='PDD' || tabElem.title=='Lead Response'">
+                <a href="javascript:;" *ngIf="tabElem.title=='PDD'">
                   <i class="iconfont">&#xe617;</i><span>{{tabElem.title}}</span>
                 </a>
                 <ul class="acc-menu" style="display: none;">
@@ -32,6 +34,23 @@
                 </ul>
               </ng-container>
             </ng-container>
+            <ng-container *ngIf="tabElem.enabled && tabElem.title == 'Lead Response'">
+              <a href="javascript:;">
+                <i class="iconfont">&#xe617;</i><span>{{'LEFT_SIDEBAR_MENU.LEAD_RESPONSE' | translate }}</span>
+              </a>
+              <ul class="acc-menu" style="display: none;">
+                <li *ngIf="leadResponseTab.agentInterface">
+                  <a routerLink="/agentInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AGENT_INTERFACE' | translate }}</span></a>
+                </li>
+                <li *ngIf="leadResponseTab.apUplineInterface">
+                  <a routerLink="/apuplineinterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AP_UPLINE_INTERFACE' | translate }}</span></a>
+                </li>
+                <li *ngIf="leadResponseTab.aoInterface">
+                  <a routerLink="/aoInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AO_INTERFACE' | translate }}</span></a>
+                </li>
+              </ul>
+            </ng-container>
+
           </li>
         </ng-container>
     </ul>

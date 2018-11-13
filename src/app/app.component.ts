@@ -20,9 +20,9 @@ export class AppComponent implements OnInit{
      public translateService: TranslateService
   ){
     translateService.addLangs(['en', 'zh']);
-    translateService.setDefaultLang('en');
-    translateService.use('en');
-    _set(window, 'easLang', 'en');
+    translateService.setDefaultLang('zh');
+    translateService.use('zh');
+    _set(window, 'easLang', 'zh');
   }
 
   ngOnInit() {

@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
-//import 'rxjs/add/operator/map';
 import { of } from 'rxjs';
-
 import {BehaviorSubject} from 'rxjs';
-
 import constants from '../constants/constants';
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +16,7 @@ export class EdmService {
   currPolNo: string;
   currEmailId: string;
   currCampaignCd: string;
+  currCommunicationCode: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
   //expected val = easAgentAssignGI | easAgentAssignGI
   //set currServiceName(name : string) {this._currServiceName = name;}
@@ -44,35 +43,38 @@ export class EdmService {
   }
   //dataTable
   getEdmList(params, type){
+    let localParams = {communicationCd: this.currCommunicationCode };
     return (constants.localOrVm === 'local') ?
       this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmList.json', params, 'get', type) :
-      this.getOrPostFunc("",params, 'get', type);
+      this.getOrPostFunc("/eas/api/edm/getEdmList",localParams, 'get', type);
+  }
+
+  getHistoryCustomerlist(params, type){
+    let localParams = {communicationCd: this.currCommunicationCode };
+    return (constants.localOrVm === 'local') ?
+      this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmHistoryCustomerlist.json', params, 'get', type) :
+      this.getOrPostFunc("/eas/api/edm/getEdmHistoryCustomerList",localParams, 'get', type);
   }
 
   getManagementFormSearchRecord(params, type){
     return (constants.localOrVm === 'local') ?
       this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmManagementFormSearchRecord.json', params, 'get', type) :
-      this.getOrPostFunc("",params, 'get', type);
+      this.getOrPostFunc("/eas/api/edm/",params, 'get', type);
   }
 
   getHistoryTemplates(params, type){
     return (constants.localOrVm === 'local') ?
       this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmManagementFormHistoryTemplates.json', params, 'get', type) :
-      this.getOrPostFunc("",params, 'get', type);
+      this.getOrPostFunc("/eas/api/edm/",params, 'get', type);
   }
 
-  getHistoryCustomerlist(params, type){
-    return (constants.localOrVm === 'local') ?
-      this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmHistoryCustomerlist.json', params, 'get', type) :
-      this.getOrPostFunc("",params, 'get', type);
-  }
 
   postSubmitOrSave(params, type){
-    return this.getOrPostFunc('/eas/api/edm/submitOrSave', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/edm/saveEdmTemplate', params, 'post', type);
   }
 
   postEdmReceiver(params, type){
-    return this.getOrPostFunc('/eas/api/edm/edmReceiver', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/edm/saveEdmReceiver', params, 'post', type);
   }
 
   postSendTestEmail(params, type){

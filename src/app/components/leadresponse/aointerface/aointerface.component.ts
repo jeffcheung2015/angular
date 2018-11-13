@@ -91,6 +91,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
       this.loadObjFromLangJson("DATATABLE_CONSTANTS", "translateDatatableConstants");
       if(_get(window, 'easLang') !== event.lang){
+        _set(this.dtOptions, 'oLanguage.sEmptyTable', (event.lang === 'en') ? "No data available in table" : "列表中沒有可用數據");
+        _set(this.dtOptions, 'oLanguage.sInfoEmpty', (event.lang === 'en') ?  "Showing 0 to 0 of 0 entries" : "顯示由 0 到 0 在 0個數據中");
         _set(this.dtOptions, 'oLanguage.oPaginate.sFirst', (event.lang === 'en') ? '« first' : '« 第一頁');
         _set(this.dtOptions, 'oLanguage.oPaginate.sPrevious', (event.lang === 'en') ? '‹ prev' : '‹ 上一頁');
         _set(this.dtOptions, 'oLanguage.oPaginate.sNext', (event.lang === 'en') ? 'next ›' : '下一頁 ›');
@@ -120,6 +122,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
       processing: true,
       serverSide: true,
       language: {
+        emptyTable: (easLang === 'en') ? "No data available in table" : "列表中沒有可用數據",
+        infoEmpty: (easLang === 'en') ?  "Showing 0 to 0 of 0 entries" : "顯示由 0 到 0 在 0個數據中",
         info: "",
         paginate: {
           first:    (easLang === 'en') ? '« first' : '« 第一頁',

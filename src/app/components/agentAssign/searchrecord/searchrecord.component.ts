@@ -348,6 +348,14 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                           `<table style="table-layout:fixed;width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
             $(td).html(htmlStr);
           }
+        }else if(col == 18){
+          let mapStatusToText = {
+            "1" : "To apply for extension",
+            "2" : "Applied extension",
+            "3" : "Opt-out from this program",
+            "4" : "Re-assigned"
+          };
+          $(td).html(mapStatusToText[cellData.toString()]);          
         }else if([20,21].indexOf(col) !== -1){ //pruchat and SMS col
           $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
           let dataArrSrc = (col == 20) ? rowData.pruchatEmailSendDate : rowData.SMSEmailSendDate;

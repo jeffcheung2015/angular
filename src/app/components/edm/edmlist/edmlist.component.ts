@@ -98,15 +98,17 @@ export class EdmlistComponent implements OnInit, OnDestroy,
     this.classToTrigger =  [
       // {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
 
-      {type: 'redirect', className: "a-view", callback: ()=>{this.edmViewBtnOnClick()}},
-      {type: 'redirect', className: "a-edit", callback: ()=>{this.edmEditBtnOnClick()}},
+      {type: 'redirect', className: "a-view", callback: (paramsToBePassed)=>{this.edmViewBtnOnClick(paramsToBePassed)}},
+      {type: 'redirect', className: "a-edit", callback: (paramsToBePassed)=>{this.edmEditBtnOnClick(paramsToBePassed)}},
       // {type: 'submit', className: "a-upsellDtlSubmitBtn", callback: ()=>{this.setUpsellDtl()}}
     ];
   }
-  edmViewBtnOnClick(){
+  edmViewBtnOnClick(paramsToBePassed){
+    this.edmService.currCommunicationCode = paramsToBePassed.commCode;
     this.router.navigate(['/easEDMHistory']);
   }
-  edmEditBtnOnClick(){
+  edmEditBtnOnClick(paramsToBePassed){
+    this.edmService.currCommunicationCode = paramsToBePassed.commCode;
     this.router.navigate(['/easEDMManagementForm']);
   }
   refreshTable(){
@@ -145,7 +147,18 @@ export class EdmlistComponent implements OnInit, OnDestroy,
         this.classToTrigger.forEach((elem, key)=>{
           if($(event.target).hasClass(elem.className)){
             if(elem.type === 'redirect') {
-              elem.callback();
+              //read queryParams attr
+              //e.g. queryParams="abc:2,ddd:4" ...
+              let paramsToBePassed = {};
+              let queryParamsStr = $(event.target).attr("queryParams");
+              if(queryParamsStr){
+                let queryParamsArray = queryParamsStr.split(',');
+                queryParamsArray.forEach((elem, key)=>{
+                  let elemPair = elem.split(':');
+                  _set(paramsToBePassed, elemPair[0], elemPair[1]);
+                });
+              }
+              elem.callback(paramsToBePassed);
             }
           }
         });
@@ -205,7 +218,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
           case 5:
             let actionStr = (cellData === 1) ? "View" : "Edit";
             $(td).html(`<span class="` +
-                ((cellData === 1) ? `a-view` : `a-edit`) + `">` + actionStr + `</span>`)
+                ((cellData === 1) ? `a-view` : `a-edit`) + `" queryParams="commCode:` + rowData.communicationCode + `">` + actionStr + `</span>`)
           break;
           default:
             $(td).html(`<span>` + cellData + `</span>`);

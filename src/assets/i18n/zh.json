@@ -4,15 +4,23 @@
     "SHOW":"顯示",
     "PER_PAGE":"每頁"
   },
+  "FOOTER":{
+    "DISCLAIMER_AND_RIGHT":"免責聲明和知識產權",
+    "SECURITY_POLICY":"安全政策",
+    "PRIVACY_POLICY":"隱私政策"
+  },
   "LEAD_RESP_BREAD_CRUMB":{
     "LEAD_RESPONSE":"客戶回應",
+    "HOME":"主頁",
     "AGENT_INTERFACE":"代理界面",
-    "AP_UPLINE_INTERFACE":"Ap-upline 界面",
+    "AP_UPLINE_INTERFACE":"AP-上線 界面",
     "AO_INTERFACE":"AO 界面"
   },
   "LEFT_SIDEBAR_MENU":{
+    "MINIMIZE_MENU":"菜單最小化",
+    "LEAD_RESPONSE":"客戶回應",
     "AGENT_INTERFACE":"代理界面",
-    "AP_UPLINE_INTERFACE":"Ap-upline 界面",
+    "AP_UPLINE_INTERFACE":"AP-上線 界面",
     "AO_INTERFACE":"AO 界面"
   },
   "LEAD_RESPONSE_COMMON":{

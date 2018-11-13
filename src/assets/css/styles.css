@@ -15956,3 +15956,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .DTFC_LeftWrapper{
   width: auto !important;
 }
+
+.ul-showPerPage li a{
+  cursor: pointer;
+}

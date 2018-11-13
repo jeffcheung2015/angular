@@ -36,7 +36,7 @@ export class ClientcampaigndetailsComponent implements OnInit {
     dateOfSubmission: "",
     campaignCode:"",
     communicationCode: "",
-    email:"",
+    emailAddr:"",
     birthDate:"",
     gender:"",
     prodClass:"",
@@ -46,7 +46,7 @@ export class ClientcampaigndetailsComponent implements OnInit {
     consultantPhone:"",
     assignedDate:"",
     smsEmailSentDate:"",
-    firstContactDt:"",
+    firstContactDate:"",
     assignmentStatus:"",
     accountExpiryDate:"",
     refuseContact:"",
@@ -112,8 +112,9 @@ export class ClientcampaigndetailsComponent implements OnInit {
         };
         this.agentassignmentService.getClientDetail(sentParams, 'clientDetails').subscribe((resp : any) => {
           for(var prop in resp.body){
-            this.clientDetailInfo[prop] = resp.body[prop];
+            this.clientDetailInfo[prop] = resp.body[prop] || "N/A";
           }
+
         },(error : any) =>{
           console.log('>>> Error getting client details', error);
         })

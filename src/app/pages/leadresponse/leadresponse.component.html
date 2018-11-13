@@ -5,16 +5,16 @@
         <div id="page-heading">
           <ol class="breadcrumb">
             <li [ngClass]="currSubPage=='home' ? 'active' : ''">
-              <a routerLink="/">Home</a>
+              <a routerLink="/">{{'LEAD_RESP_BREAD_CRUMB.HOME' | translate}}</a>
             </li>
             <li *ngIf="currSubPage=='easAgentInterface'" [ngClass]="currSubPage=='easAgentInterface' ? 'active' : ''">
-              <a>Agent interface</a>
+              <a>{{'LEAD_RESP_BREAD_CRUMB.AGENT_INTERFACE' | translate}}</a>
             </li>
             <li *ngIf="currSubPage=='easAPInterface'" [ngClass]="currSubPage=='easAPInterface' ? 'active' : ''">
-              <a>Ap-upline interface</a>
+              <a>{{'LEAD_RESP_BREAD_CRUMB.AP_UPLINE_INTERFACE' | translate}}</a>
             </li>
             <li *ngIf="currSubPage=='easAOInterface'" [ngClass]="currSubPage=='easAOInterface' ? 'active' : ''">
-              <a>AO interface</a>
+              <a>{{'LEAD_RESP_BREAD_CRUMB.AO_INTERFACE' | translate}}</a>
             </li>
           </ol>
         </div>

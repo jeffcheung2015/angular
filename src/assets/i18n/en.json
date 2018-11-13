@@ -4,13 +4,21 @@
     "SHOW":"show",
     "PER_PAGE":"per page"
   },
+  "FOOTER":{
+    "DISCLAIMER_AND_RIGHT":"Disclaimer and Intellectual Property Rights",
+    "SECURITY_POLICY":"Security Policy",
+    "PRIVACY_POLICY":"Privacy Policy"
+  },
   "LEAD_RESP_BREAD_CRUMB":{
     "LEAD_RESPONSE":"Lead Response",
+    "HOME":"Home",
     "AGENT_INTERFACE":"Agent interface",
     "AP_UPLINE_INTERFACE":"Ap-upline interface",
     "AO_INTERFACE":"AO interface"
   },
   "LEFT_SIDEBAR_MENU":{
+    "MINIMIZE_MENU":"Minimize Menu",
+    "LEAD_RESPONSE":"Lead Response",
     "AGENT_INTERFACE":"Agent interface",
     "AP_UPLINE_INTERFACE":"Ap-upline interface",
     "AO_INTERFACE":"AO interface"

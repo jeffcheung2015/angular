@@ -125,9 +125,9 @@
                                           </div>
                                       </div>
                                       <div class="col-lg-6 col-md-6 detail-box">
-                                          <div *ngIf="clientDetailInfo.email" class="row">
+                                          <div *ngIf="clientDetailInfo.emailAddr" class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Email Address</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.email}}</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.emailAddr}}</div>
                                           </div>
                                           <div *ngIf="clientDetailInfo.birthDate" class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6 " >Date of Birth</div>
@@ -171,10 +171,10 @@
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Date & Time of SMS/ email sent</div>
                                               <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.smsEmailSentDate | date:'MM/dd/yyyy'}}</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.firstContactDt" class="row">
+                                          <div *ngIf="clientDetailInfo.firstContactDate" class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >First Contact Date with
                                                   Customer</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.firstContactDt | date:'MM/dd/yyyy'}}</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.firstContactDate | date:'MM/dd/yyyy'}}</div>
                                           </div>
                                           <div *ngIf="clientDetailInfo.assignmentStatus" class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Assignment Status</div>
@@ -203,9 +203,9 @@
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Name</div>
                                               <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantName}}</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.reConsultantphone" class="row">
+                                          <div *ngIf="clientDetailInfo.reConsultantPhone" class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Phone</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantphone}}</div>
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantPhone}}</div>
                                           </div>
                                           <div *ngIf="clientDetailInfo.reAssignedDate" class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Assigned Date</div>

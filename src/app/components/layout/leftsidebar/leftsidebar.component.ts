@@ -37,7 +37,36 @@ export class LeftsidebarComponent implements OnInit {
     this.currDate = new Date();
   }
 
+  //hard code in html, using this obj to check existence of all three pages
+  leadResponseTab = {
+    agentInterface: false,
+    apUplineInterface: false,
+    aoInterface: false
+  };
+  isLeadResponseRole = false;
+
   setLeftsidebarMenuNameCode(_menu){
+    //hardcode the lead response tab pages
+    _menu.forEach((elem, key) => {
+      if(elem.title === 'Lead Response'){
+        this.isLeadResponseRole = true;
+        console.log(this.isLeadResponseRole)
+        elem.children.forEach((elem, key) => {
+          switch(elem.title){
+            case 'Agent interface':
+              this.leadResponseTab.agentInterface = true;
+            break;
+            case 'Ap-upline interface':
+              this.leadResponseTab.apUplineInterface = true;
+            break;
+            case 'AO interface':
+              this.leadResponseTab.aoInterface = true;
+            break;
+          }
+        });
+      }
+    })
+
     this.menu = _menu;
   }
 

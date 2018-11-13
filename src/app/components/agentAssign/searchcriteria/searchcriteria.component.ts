@@ -89,8 +89,8 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   initDropdown(fieldName){
     let divFieldName = `.div-` + fieldName + ` `;
 
-    $(divFieldName + ".select-items div:eq(0)").addClass("same-as-selected");
-    $(divFieldName + ".select-selected").text($(divFieldName + ".select-items div:eq(0)").text());
+    $(divFieldName + ".select-items div:eq(" + ((fieldName !== 'assignmentOption') ? '0' : '1') + ")").addClass("same-as-selected");
+    $(divFieldName + ".select-selected").text($(divFieldName + ".select-items div:eq(" + ((fieldName !== 'assignmentOption') ? '0' : '1') + ")").text());
     //select-selected select-arrow-active
     //select-hide, same-as-selected
     $(divFieldName + ".select-selected").on("click", ()=>{
