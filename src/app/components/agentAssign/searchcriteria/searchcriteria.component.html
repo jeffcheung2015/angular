@@ -113,7 +113,7 @@
                                         </div>
                                         <div class="text-left">
                                             <input type="submit" [disabled]="!searchForm.valid" class="btn-search btn btn-primary table-btn" value="Search">
-                                            <input type="reset" class="btn-reset btn btn-default table-btn" value="Reset">
+                                            <input (click)="resetDateRangeRestrictAndDropDownOption()" type="reset" class="btn-reset btn btn-default table-btn" value="Reset">
                                         </div>
                                     </form>
                                     </div>
@@ -221,7 +221,7 @@
                                         </div>
                                         <div class="text-left">
                                             <input type="submit" [disabled]="!searchForm.valid" class="btn-search btn btn-primary table-btn" value="Search">
-                                            <input type="reset" class="btn-reset btn btn-default table-btn" value="Reset">
+                                            <input (click)="resetDateRangeRestrictAndDropDownOption()" type="reset" class="btn-reset btn btn-default table-btn" value="Reset">
                                         </div>
                                     </form>
                                     </div>

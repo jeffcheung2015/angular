@@ -17,10 +17,10 @@
     <h4 class="float-left  h4-searchCriteriaText">Search Criteria:</h4>
     <h4 class="h4-criteriaText">
       <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
-        <ng-container *ngIf="criteria && i < 7">“{{criteria}}”
+        <ng-container *ngIf="(currSubPage=='easAgentAssignGI' && criteria && i < 7) || (currSubPage=='easAgentAssignCS' && criteria && i < 6)">“{{criteria}}”
           <ng-container *ngIf="i < searchCriterias.length-1 && criteria">,</ng-container>
         </ng-container>
-        <ng-container *ngIf="criteria && i >= 7">“{{mapOptionTextIntoVal[criteria]}}”
+        <ng-container *ngIf="(currSubPage=='easAgentAssignGI' && criteria && i >= 7) || (currSubPage=='easAgentAssignCS' && criteria && i >= 6)">“{{mapOptionTextIntoVal[criteria]}}”
           <ng-container *ngIf="i < searchCriterias.length-1 && criteria">,</ng-container>
         </ng-container>
       </ng-container>
@@ -28,7 +28,7 @@
     <h4 class="float-right add-bottom h4-noOfCustomer">Table No. Of Customers: {{noOfCustomer}}</h4>
   </div>
   <div class="table-wrapper table-responsive div-searchRecordDataTable">
-    <table *ngIf="this.currSubPage=='easAgentAssignGI'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
+    <table *ngIf="currSubPage=='easAgentAssignGI'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
       <thead>
         <tr class="row1 tr-row1">
             <th class="noscroll" rowspan="2">Class</th>
@@ -62,7 +62,7 @@
       </thead>
     </table>
 
-    <table *ngIf="this.currSubPage=='easAgentAssignCS'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
+    <table *ngIf="currSubPage=='easAgentAssignCS'" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-searchRecord">
       <thead>
         <tr class="row1 tr-row1">
           <th class="noscroll" rowspan="2">Full Name</th>

@@ -105,10 +105,12 @@ export class EdmlistComponent implements OnInit, OnDestroy,
   }
   edmViewBtnOnClick(paramsToBePassed){
     this.edmService.currCommunicationCode = paramsToBePassed.commCode;
+    this.edmService.currEdmId = paramsToBePassed.edmId;
     this.router.navigate(['/easEDMHistory']);
   }
   edmEditBtnOnClick(paramsToBePassed){
     this.edmService.currCommunicationCode = paramsToBePassed.commCode;
+    this.edmService.currEdmId = paramsToBePassed.edmId;    
     this.router.navigate(['/easEDMManagementForm']);
   }
   refreshTable(){
@@ -218,7 +220,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
           case 5:
             let actionStr = (cellData === 1) ? "View" : "Edit";
             $(td).html(`<span class="` +
-                ((cellData === 1) ? `a-view` : `a-edit`) + `" queryParams="commCode:` + rowData.communicationCode + `">` + actionStr + `</span>`)
+                ((cellData === 1) ? `a-view` : `a-edit`) + `" queryParams="commCode:` + rowData.communicationCode + `,edmId:` + rowData.edmId + `">` + actionStr + `</span>`)
           break;
           default:
             $(td).html(`<span>` + cellData + `</span>`);

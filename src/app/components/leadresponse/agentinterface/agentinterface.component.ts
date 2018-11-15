@@ -169,9 +169,9 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       if(firstContactDt >= new Date()){ //double check if firstContactDt >= currDate
         throw new Error('firstContactDt error');
       }
-      //let formattedFCD = firstContactDt.getFullYear()+"-"+(firstContactDt.getMonth()+1)+"-"+firstContactDt.getDate();
+
       let queryParams = {
-        firstContactDt: convertformat.dateToYYYYMMDD(firstContactDt, '-'),
+        firstContactDt: convertformat.dateToDDMMYYYY(firstContactDt),
         polNo: this.currPolNo
       };
 
@@ -284,9 +284,8 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
                   //just act as a temp storage of `firstContactDt`
                   //so as to determine if the input field of firstContactDt should display or not
                   this.currFirstContactDt = rowDataObj.firstContactDt;
-                  let firstContactDtStr = rowDataObj.firstContactDt.substr(0,10);
                   this.customerDetailModalForm.controls['firstContactDt'].setValue((rowDataObj.firstContactDt) ?
-                  new Date(firstContactDtStr) : '');
+                  new Date(rowDataObj.firstContactDt.substr(0,10)) : '');
                 break;
                 case '#leadExtensionModal':
                   this.currAssignmentStatus = assignmentStatus;

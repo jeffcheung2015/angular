@@ -2407,7 +2407,7 @@ label[for="checkbox-office"] {
   padding: 16px 20px;
   border: 0;
   cursor: pointer;
-  height: 50px;
+  height: 40px;
   font-size: 16px;
 }
 .select-items div:last-child {
@@ -10583,12 +10583,12 @@ body.collapse-leftbar #sidebar #min-menu:hover i {
 }
 body.collapse-leftbar #sidebar > li:hover,
 body.collapse-leftbar #sidebar > li.keep-open {
-  box-shadow: inset -1px 0 0 0 rgba(0, 0, 0, 0.1);
+  /* box-shadow: inset -1px 0 0 0 rgba(0, 0, 0, 0.1);
   background: #fff;
-  width: 264px;
+  width: 264px; */
 }
 body.collapse-leftbar #sidebar > li#info:hover {
-  width: 80%;
+  /* width: 80%; */
 }
 body.collapse-leftbar #sidebar > li#min-menu {
   width: 60px;
@@ -10783,12 +10783,8 @@ body.collapse-leftbar #sidebar li li li li a {
     color: #ffffff;
     /*width: calc(100% - 440px);*/
   }
-  .collapse-leftbar #sidebar > li#info {
-    /*left: 60px;*/
-    /*width: calc(100% - 230px);*/
-  }
   #sidebar > li#info:hover {
-    box-shadow: none;
+    /* box-shadow: none; */
   }
   #info>div:nth-child(1){
     padding-right: 5px;

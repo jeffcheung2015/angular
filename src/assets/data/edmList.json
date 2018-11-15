@@ -3,6 +3,7 @@
 "recordsTotal":6,
 "data":[
     {
+      "edmId":"623534",
       "template": "Temp 1",
       "communicationCode": "ABC122C01",
       "campaignTitle": "masdkasd",
@@ -11,6 +12,7 @@
       "action": 1
     },
     {
+      "edmId":"523253",
       "template": "Temp 2",
       "communicationCode": "ABC122C22",
       "campaignTitle": "masdkasd",
@@ -19,6 +21,7 @@
       "action": 2
     },
     {
+      "edmId":"4424",
       "template": "Temp 1",
       "communicationCode": "ABC122C01",
       "campaignTitle": "masdkasd",
@@ -27,6 +30,7 @@
       "action": 2
     },
     {
+      "edmId":"2322323",
       "template": "Temp 1",
       "communicationCode": "ABC122C01",
       "campaignTitle": "masdkasd",
@@ -35,6 +39,7 @@
       "action": 1
     },
     {
+      "edmId":"32323",
       "template": "Temp 1",
       "communicationCode": "ABC122C01",
       "campaignTitle": "masdkasd",
@@ -43,6 +48,7 @@
       "action": 2
     },
     {
+      "edmId":"123123",
       "template": "Temp 1",
       "communicationCode": "ABC122C01",
       "campaignTitle": "masdkasd",

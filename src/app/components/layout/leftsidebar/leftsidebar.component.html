@@ -6,14 +6,21 @@
         <li class="li-menuheader" id="info">
             <div><i class="icon-circle-user"></i>&nbsp;&nbsp;{{username}} ({{usercode}})</div>
             <div><i class="icon-calendar"></i>{{currDate | date:'EE, MMM d y'}}</div>
-            <div><span *ngIf="currentLang=='zh'" class="span-langChange" (click)="changeLang('en')">En</span></div>
-            <div><span *ngIf="currentLang=='en'" class="span-langChange" (click)="changeLang('zh')">中</span></div>
+            <div><p *ngIf="loginUserService.isLeadResponseRole && currentLang=='zh'" class="p-langChange" (click)="changeLang('en')">En</p></div>
+            <div><p *ngIf="loginUserService.isLeadResponseRole && currentLang=='en'" class="p-langChange" (click)="changeLang('zh')">中</p></div>
             <div><i class="iconfont">&#xe618;</i></div>
         </li>
-        <li id="min-menu" class="bg-black">
-            <i class="icon-mini-menu"></i>
-            <span >{{'LEFT_SIDEBAR_MENU.MINIMIZE_MENU' | translate}}</span>
-            
+        <li id="min-menu" class="bg-black" (click)="minimizeMenu()">
+            <i *ngIf="menuMinimized" class="icon-max-menu"></i>
+            <i *ngIf="!menuMinimized" class="icon-mini-menu"></i>
+            <ng-container *ngIf="loginUserService.isLeadResponseRole">
+              <span *ngIf="menuMinimized">{{'LEFT_SIDEBAR_MENU.MAXMIZE_MENU' | translate }}</span>
+              <span *ngIf="!menuMinimized">{{'LEFT_SIDEBAR_MENU.MINIMIZE_MENU' | translate }}</span>
+            </ng-container>
+            <ng-container *ngIf="!loginUserService.isLeadResponseRole">
+              <span *ngIf="menuMinimized">Minimize Menu</span>
+              <span *ngIf="!menuMinimized">Maxmize Menu</span>
+            </ng-container>
         </li>
         <ng-container *ngIf="menu">
           <li *ngFor="let tabElem of menu" >
@@ -40,13 +47,13 @@
               </a>
               <ul class="acc-menu" style="display: none;">
                 <li *ngIf="leadResponseTab.agentInterface">
-                  <a routerLink="/agentInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AGENT_INTERFACE' | translate }}</span></a>
+                  <a routerLink="/easAgentInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AGENT_INTERFACE' | translate }}</span></a>
                 </li>
                 <li *ngIf="leadResponseTab.apUplineInterface">
-                  <a routerLink="/apuplineinterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AP_UPLINE_INTERFACE' | translate }}</span></a>
+                  <a routerLink="/easAPInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AP_UPLINE_INTERFACE' | translate }}</span></a>
                 </li>
                 <li *ngIf="leadResponseTab.aoInterface">
-                  <a routerLink="/aoInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AO_INTERFACE' | translate }}</span></a>
+                  <a routerLink="/easAOInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AO_INTERFACE' | translate }}</span></a>
                 </li>
               </ul>
             </ng-container>

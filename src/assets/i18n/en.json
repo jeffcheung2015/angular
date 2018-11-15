@@ -18,6 +18,7 @@
   },
   "LEFT_SIDEBAR_MENU":{
     "MINIMIZE_MENU":"Minimize Menu",
+    "MAXMIZE_MENU":"Maxmize Menu",
     "LEAD_RESPONSE":"Lead Response",
     "AGENT_INTERFACE":"Agent interface",
     "AP_UPLINE_INTERFACE":"Ap-upline interface",
@@ -42,6 +43,7 @@
     }
   },
   "AGENT_AO_INTERFACE_COLS":{
+    "AGENT_CD":"Agent Code",
     "CUSTOMER_NAME":"Customer Name",
     "PHONE":"Phone",
     "EMAIL":"Email",

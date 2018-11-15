@@ -9,6 +9,7 @@ export class LoginUserService {
    //to be fetched in layout and within router-outlet
    username;
    usercode;
+   isLeadResponseRole;
 
    allowedRoutes : Array<String> = []; //retrieved from LayoutComponent
 
@@ -22,6 +23,10 @@ export class LoginUserService {
 
    setAllowedRoutes(_allowedRoutes){
      this.allowedRoutes = _allowedRoutes;
+   }
+
+   setIsLeadRespRole(_isLeadRespRole){
+     this.isLeadResponseRole = _isLeadRespRole;
    }
 
    //to be done router guard

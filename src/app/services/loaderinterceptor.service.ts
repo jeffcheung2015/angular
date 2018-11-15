@@ -1,7 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable, pipe } from 'rxjs';
+import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { get as _get } from 'lodash';
 
 import {LoaderService} from './loader.service';
 
@@ -10,7 +12,10 @@ import {LoaderService} from './loader.service';
 })
 export class LoaderinterceptorService implements HttpInterceptor {
 
-  constructor(private loaderService: LoaderService) { }
+  constructor(
+    private loaderService: LoaderService,
+    private router : Router
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.showLoader();
@@ -20,6 +25,10 @@ export class LoaderinterceptorService implements HttpInterceptor {
       }
     },
       (err: any) => {
+        let status = _get(event, 'status');
+        if([302,401].indexOf(status) !== -1){
+          this.router.navigate(['/saml/logout']);
+        }
         this.onEnd();
     }));
   }

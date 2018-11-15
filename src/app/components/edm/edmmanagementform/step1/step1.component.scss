@@ -1,4 +1,8 @@
 .edm-bodyBottom{
+  .ng-invalid.ng-dirty, .div-templateOption .ng-invalid{
+    border-color:red !important;
+  }
+
   textarea{
     resize: none;
   }
@@ -13,6 +17,17 @@
     }
   }
   .div-stepBottom{
+    .div-commCodeErrorWrapper{
+      .span-communicationCodeErrorMsg{
+        color:red;
+      }
+      .span-communicationCodeErrorMsg-show{
+        display: block;
+      }
+      .span-communicationCodeErrorMsg-hide{
+        display: none;
+      }
+    }
     .div-sendTestEmail{
       padding-left: 0px !important;
       display: inline-flex;

@@ -9,69 +9,90 @@
                             <div id="my-policy-diary" class="clearfix">
                                 <div class="client-detail compaign-detail">
                                     <div class="col-lg-6 col-md-6 detail-box">
-                                        <div *ngIf="campaignDetailInfo.campaignCode" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">Campaign Code</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">{{campaignDetailInfo.campaignCode}}</div>
+                                            <div *ngIf="campaignDetailInfo.campaignCode" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">{{campaignDetailInfo.campaignCode}}</div>
+                                            <div *ngIf="!campaignDetailInfo.campaignCode" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">N/A</div>
                                         </div>
-                                        <div *ngIf="campaignDetailInfo.startDate" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Campaign Start Date</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.startDate | date:'MM/dd/yyyy'}}</div>
+                                            <div *ngIf="campaignDetailInfo.startDate" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.startDate | date:'MM/dd/yyyy'}}</div>
+                                            <div *ngIf="!campaignDetailInfo.startDate" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">N/A</div>
                                         </div>
-                                        <div *ngIf="campaignDetailInfo.endDate" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">Campaign End Date</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">{{campaignDetailInfo.endDate | date: 'MM/dd/yyyy'}}</div>
+                                            <div *ngIf="campaignDetailInfo.endDate" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">{{campaignDetailInfo.endDate | date: 'MM/dd/yyyy'}}</div>
+                                            <div *ngIf="!campaignDetailInfo.endDate" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer ">N/A</div>
                                         </div>
-                                        <div *ngIf="campaignDetailInfo.premiumFromAM && campaignDetailInfo.amEntitled" class="row">
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Premium Percent Off</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">HK${{campaignDetailInfo.premiumFromAM}} = {{campaignDetailInfo.amEntitled}} Mile</div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Asia Miles to Premium Rate</div>
+                                            <div *ngIf="campaignDetailInfo.premiumFromAM && campaignDetailInfo.amEntitled" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">HK${{campaignDetailInfo.premiumFromAM}} = {{campaignDetailInfo.amEntitled}} Mile</div>
+                                            <div *ngIf="!campaignDetailInfo.premiumFromAM || !campaignDetailInfo.amEntitled" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">HK${{campaignDetailInfo.premiumFromAM}} = {{campaignDetailInfo.amEntitled}} Mile</div>
                                         </div>
-                                        <div *ngIf="campaignDetailInfo.genericCode" class="row">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Premium Percent off</div>
+                                            <div *ngIf="campaignDetailInfo.premiumDisc" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.premiumDisc}}%</div>
+                                            <div *ngIf="!campaignDetailInfo.premiumDisc" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">N/A</div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Generic Code</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.genericCode}}</div>
+                                            <div *ngIf="campaignDetailInfo.genericCode" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.genericCode}}</div>
+                                            <div *ngIf="!campaignDetailInfo.genericCode" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">N/A</div>
                                         </div>
-                                        <div *ngIf="campaignDetailInfo.promoPool" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Promotion Code Pool</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.promoPool}}</div>
+                                            <div *ngIf="campaignDetailInfo.promoPool" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.promoPool}}</div>
+                                            <div *ngIf="!campaignDetailInfo.promoPool" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">N/A</div>
                                         </div>
-                                        <div *ngIf="campaignDetailInfo.promoUnit" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Promotion Code Unit</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.promoUnit}}</div>
+                                            <div *ngIf="campaignDetailInfo.promoUnit" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.promoUnit}}</div>
+                                            <div *ngIf="!campaignDetailInfo.promoUnit" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">N/A</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 detail-box">
-                                        <div *ngIf="campaignDetailInfo.partnerCode" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Partner Code</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.partnerCode}}</div>
+                                            <div *ngIf="campaignDetailInfo.partnerCode" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.partnerCode}}</div>
+                                            <div *ngIf="!campaignDetailInfo.partnerCode" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">N/A</div>
                                         </div>
-                                        <div *ngIf="campaignDetailInfo.partnerName" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Partner Name</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.partnerName}}</div>
+                                            <div *ngIf="campaignDetailInfo.partnerName" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.partnerName}}</div>
+                                            <div *ngIf="!campaignDetailInfo.partnerName" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">N/A</div>
                                         </div>
-                                        <div *ngIf="campaignDetailInfo.prodSubType" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">Product Subtype</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.prodSubType}}</div>
+                                            <div *ngIf="campaignDetailInfo.prodSubType" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">{{campaignDetailInfo.prodSubType}}</div>
+                                            <div *ngIf="!campaignDetailInfo.prodSubType" class="col-lg-6 col-md-6 col-xs-6 div-fieldContainer">N/A</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div *ngIf="campaignDetailInfo.promoUsage" class="accordion-item col-lg-6 col-md-6">
+                        <div class="accordion-item col-lg-6 col-md-6">
                             <a><h4 class="h4-promoCodeUsage">Promotion Code Usage</h4></a>
                             <div id="my-policy-diary" class="clearfix">
                                 <div class="client-detail">
-                                    <div class="col-lg-12 detail-box div-promoContainer">
-                                        <p>{{campaignDetailInfo.promoUsage}}</p>
-                                    </div>
+                                  <div *ngIf="campaignDetailInfo.promoUsage" class="col-lg-12 detail-box div-promoContainer">
+                                      <p>{{campaignDetailInfo.promoUsage}}</p>
+                                  </div>
+                                  <div *ngIf="!campaignDetailInfo.promoUsage" class="col-lg-12 detail-box div-promoContainer">
+                                      <p>N/A</p>
+                                  </div>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div *ngIf="campaignDetailInfo.remarks" class="accordion-item col-lg-12 col-md-12 col-xs-12">
+                        <div class="accordion-item col-lg-12 col-md-12 col-xs-12">
                             <h4 class="h4-remarks">Remarks</h4>
-                            <div class="col-md-6" id="remarkDiv">
+                            <div *ngIf="campaignDetailInfo.remarks" class="col-md-6" id="remarkDiv">
                               {{campaignDetailInfo.remarks}}
+                            </div>
+                            <div *ngIf="!campaignDetailInfo.endDate" class="col-md-6" id="remarkDiv">
+                              N/A
                             </div>
                         </div>
                     </div>
@@ -99,47 +120,57 @@
                               <div id="my-policy-diary" class="clearfix">
                                   <div class="client-detail">
                                       <div class="col-lg-6 col-md-6 detail-box">
-                                        <div *ngIf="clientDetailInfo.fullName" class="row">
+                                        <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-6 " >Full Name</div>
-                                            <div class="col-lg-6 col-md-6 col-xs-6 " >{{clientDetailInfo.fullName}}</div>
+                                            <div *ngIf="clientDetailInfo.fullName" class="col-lg-6 col-md-6 col-xs-6 " >{{clientDetailInfo.fullName}}</div>
+                                            <div *ngIf="!clientDetailInfo.fullName" class="col-lg-6 col-md-6 col-xs-6 " >N/A</div>
                                         </div>
-                                          <div *ngIf="clientDetailInfo.mobileNo" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Mobile no.</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.mobileNo}}</div>
+                                              <div *ngIf="clientDetailInfo.mobileNo" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.mobileNo}}</div>
+                                              <div *ngIf="!clientDetailInfo.mobileNo" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.idCardNo" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6 " >ID card No.</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6 " >{{clientDetailInfo.idCardNo}}</div>
+                                              <div *ngIf="clientDetailInfo.idCardNo" class="col-lg-6 col-md-6 col-xs-6 " >{{clientDetailInfo.idCardNo}}</div>
+                                              <div *ngIf="!clientDetailInfo.idCardNo" class="col-lg-6 col-md-6 col-xs-6 " >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.dateOfSubmission" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Date of Submission</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.dateOfSubmission | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="clientDetailInfo.dateOfSubmission" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.dateOfSubmission | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="!clientDetailInfo.dateOfSubmission" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.campaignCode" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Campaign Code</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.campaignCode}}</div>
+                                              <div *ngIf="clientDetailInfo.campaignCode" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.campaignCode}}</div>
+                                              <div *ngIf="!clientDetailInfo.campaignCode" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.campaignCode}}</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.communicationCode" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Communication Code</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.communicationCode}}</div>
+                                              <div *ngIf="clientDetailInfo.communicationCode" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.communicationCode}}</div>
+                                              <div *ngIf="!clientDetailInfo.communicationCode" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
                                       </div>
                                       <div class="col-lg-6 col-md-6 detail-box">
-                                          <div *ngIf="clientDetailInfo.emailAddr" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Email Address</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.emailAddr}}</div>
+                                              <div *ngIf="clientDetailInfo.emailAddr" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.emailAddr}}</div>
+                                              <div *ngIf="!clientDetailInfo.emailAddr" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.birthDate" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6 " >Date of Birth</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.birthDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="clientDetailInfo.birthDate" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.birthDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="!clientDetailInfo.birthDate" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.gender" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Gender</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.gender}}</div>
+                                              <div *ngIf="clientDetailInfo.gender" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.gender}}</div>
+                                              <div *ngIf="!clientDetailInfo.gender" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.prodClass" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Class</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.prodClass}}</div>
+                                              <div *ngIf="clientDetailInfo.prodClass" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.prodClass}}</div>
+                                              <div *ngIf="!clientDetailInfo.prodClass" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
                                       </div>
                                   </div>
@@ -151,39 +182,45 @@
                               <div id="my-policy-diary" class="clearfix">
                                   <div class="client-detail">
                                       <div class="col-lg-12 detail-box">
-                                          <div *ngIf="clientDetailInfo.agentCode" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6 " >Agent Code</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.agentCode}}</div>
+                                              <div *ngIf="clientDetailInfo.agentCode" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.agentCode}}</div>
+                                              <div *ngIf="!clientDetailInfo.agentCode" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.consultantName" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Name</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.consultantName}}</div>
+                                              <div *ngIf="clientDetailInfo.consultantName" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.consultantName}}</div>
+                                              <div *ngIf="!clientDetailInfo.consultantName" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.consultantPhone" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Phone</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.consultantPhone}}</div>
+                                              <div *ngIf="clientDetailInfo.consultantPhone" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.consultantPhone}}</div>
+                                              <div *ngIf="!clientDetailInfo.consultantPhone" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.assignedDate" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Assigned Date</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.assignedDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="clientDetailInfo.assignedDate" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.assignedDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="!clientDetailInfo.assignedDate" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.smsEmailSentDate" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Date & Time of SMS/ email sent</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.smsEmailSentDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="clientDetailInfo.smsEmailSentDate" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.smsEmailSentDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="!clientDetailInfo.smsEmailSentDate" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.firstContactDate" class="row">
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >First Contact Date with
-                                                  Customer</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.firstContactDate | date:'MM/dd/yyyy'}}</div>
+                                          <div class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >First Contact Date with Customer</div>
+                                              <div *ngIf="clientDetailInfo.firstContactDate" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.firstContactDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="!clientDetailInfo.firstContactDate" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.assignmentStatus" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Assignment Status</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{assignmentStatusMapToText[clientDetailInfo.assignmentStatus]}}</div>
+                                              <div *ngIf="clientDetailInfo.assignmentStatus" class="col-lg-6 col-md-6 col-xs-6" >{{assignmentStatusMapToText[clientDetailInfo.assignmentStatus]}}</div>
+                                              <div *ngIf="!clientDetailInfo.assignmentStatus" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.accountExpiryDate" class="row">
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >Expiry Date of Financial
-                                                  Consultant account ownership</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.accountExpiryDate | date:'MM/dd/yyyy'}}</div>
+                                          <div class="row">
+                                              <div class="col-lg-6 col-md-6 col-xs-6" >Expiry Date of Financial Consultant account ownership</div>
+                                              <div *ngIf="clientDetailInfo.accountExpiryDate" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.accountExpiryDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="!clientDetailInfo.accountExpiryDate" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
                                       </div>
                                   </div>
@@ -195,21 +232,25 @@
                               <div id="my-policy-diary" class="clearfix">
                                   <div class="client-detail">
                                       <div class="col-lg-12 detail-box">
-                                          <div *ngIf="clientDetailInfo.reAgentCode" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Agent Code</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reAgentCode}}</div>
+                                              <div *ngIf="clientDetailInfo.reAgentCode" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reAgentCode}}</div>
+                                              <div *ngIf="!clientDetailInfo.reAgentCode" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.reConsultantName" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Name</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantName}}</div>
+                                              <div *ngIf="clientDetailInfo.reConsultantName" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantName}}</div>
+                                              <div *ngIf="!clientDetailInfo.reConsultantName" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.reConsultantPhone" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Financial Consultant Phone</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantPhone}}</div>
+                                              <div *ngIf="clientDetailInfo.reConsultantPhone" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reConsultantPhone}}</div>
+                                              <div *ngIf="!clientDetailInfo.reConsultantPhone" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
-                                          <div *ngIf="clientDetailInfo.reAssignedDate" class="row">
+                                          <div class="row">
                                               <div class="col-lg-6 col-md-6 col-xs-6" >Assigned Date</div>
-                                              <div class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reAssignedDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="clientDetailInfo.reAssignedDate" class="col-lg-6 col-md-6 col-xs-6" >{{clientDetailInfo.reAssignedDate | date:'MM/dd/yyyy'}}</div>
+                                              <div *ngIf="!clientDetailInfo.reAssignedDate" class="col-lg-6 col-md-6 col-xs-6" >N/A</div>
                                           </div>
                                       </div>
                                   </div>
@@ -223,9 +264,9 @@
                               <label for="catrgory-1" class="checkbox-checked"><img src="assets/img/icon_checkbox_checked.png">Refuse financial consultant to contact (拒絕顧問聯絡)</label>
                             </span>
                           </div>
-                          <div *ngIf="clientDetailInfo.remarksToConsultant" class="div-consultantRemarks accordion-item col-lg-12 col-md-12 col-xs-12">
+                          <div class="div-consultantRemarks accordion-item col-lg-12 col-md-12 col-xs-12">
                             <h5 class="h5-remarksTitle">Remarks to Financial Consultant</h5>
-                             <textarea formControlName="remarksToConsultant" class="col-md-6 textarea-remarks">{{clientDetailInfo.remarksToConsultant}}</textarea>
+                            <textarea formControlName="remarksToConsultant" class="col-md-6 textarea-remarks">{{clientDetailInfo.remarksToConsultant}}</textarea>
                           </div>
 
                       </div>

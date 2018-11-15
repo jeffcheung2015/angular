@@ -89,8 +89,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     }
     //to check if curr full agent list's agent are old agent type / new agent Type
     this.agentassignmentService.getCurrAgentPoolType({policyNo: this.currPolicyNo}, 'getPoolType').subscribe((resp : any) => {
-      console.log('>>> poolType == ', resp.body == 1 ? "NEW_POOL_TYPE" : "OLD_POOL_TYPE");
-      this.currAgentListPoolType = parseInt(resp.body);
+      console.log('>>> poolType == ', resp.body.poolType == 1 ? "NEW_POOL_TYPE" : "OLD_POOL_TYPE");
+      this.currAgentListPoolType = parseInt(resp.body.poolType);
       if(this.currAgentListPoolType === constants.OLD_POOL_TYPE){
         this.displayedColumns = constants["DetailSearchRecordOldPoolTypeColumnName"];
         this.displayedColumnsName = constants["DetailSearchRecordOldPoolTypeColumnField"];
@@ -181,8 +181,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       let queryParams = {
         leaveId: this.currLeaveId,
         agentCode: this.currAgentCode,
-        leaveStartDate: convertformat.dateToYYYYMMDD(leaveStartDate, '/'),
-        leaveEndDate: convertformat.dateToYYYYMMDD(leaveEndDate, '/')
+        leaveStartDate: convertformat.dateToDDMMYYYY(leaveStartDate),
+        leaveEndDate: convertformat.dateToDDMMYYYY(leaveEndDate)
       }
 
       this.agentassignmentService.postSaveLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{

@@ -56,7 +56,7 @@ export default {
 
     APUplineInterfaceColumnField:["agentCd", "agentName", "assignmentDt", "assignmentStatus", "noOfLeads"],
 
-    AOInterfaceColumnField:["customerInfo", "phone", "email", "submissionDt", "prod",
+    AOInterfaceColumnField:["agentCode", "customerInfo", "phone", "email", "submissionDt", "prod",
     "agentAssignmentDt", "firstContactDt", "assignmentInfo", "applicationExt",
     "csRemarks", "upsellLifePolNo", "upsellLifeProd", "afyp"],
 

@@ -3,10 +3,10 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 //import 'rxjs/add/operator/map';
 import { of } from 'rxjs';
-
 import {BehaviorSubject} from 'rxjs';
-
 import constants from '../constants/constants';
+
+import {GISearchCriteria, CSSearchCriteria} from '../models/agentassignment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,15 @@ export class AgentassignmentService{
   currCampaignCd: string;
   currClientCd: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
+
+  currGISearchCriteria : GISearchCriteria;
+  currCSSearchCriteria : CSSearchCriteria;
+
+  setCurrCriteria(varName, criteriaObj){
+    this[varName] = criteriaObj;
+    console.log(this)
+  }
+
   //expected val = easAgentAssignGI | easAgentAssignGI
   //set currServiceName(name : string) {this._currServiceName = name;}
 //  get currServiceName() : string {return this._currServiceName;}
@@ -67,7 +76,7 @@ export class AgentassignmentService{
   //currAgentPoolType
   getCurrAgentPoolType(params, type){
     return (constants.localOrVm === 'local') ?
-            this.getOrPostFunc('http://localhost:4200/eas/assets/data/agentPoolType.txt', params, 'get', type) :
+            this.getOrPostFunc('http://localhost:4200/eas/assets/data/agentPoolType.json', params, 'get', type) :
             this.getOrPostFunc("/eas/api/agent/getCurrAgentPoolType",params, 'get', type);
   }
   //campaignDetails

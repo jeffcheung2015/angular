@@ -355,7 +355,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             "3" : "Opt-out from this program",
             "4" : "Re-assigned"
           };
-          $(td).html(mapStatusToText[cellData.toString()]);          
+          $(td).html(mapStatusToText[cellData.toString()]);
         }else if([20,21].indexOf(col) !== -1){ //pruchat and SMS col
           $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
           let dataArrSrc = (col == 20) ? rowData.pruchatEmailSendDate : rowData.SMSEmailSendDate;
@@ -510,7 +510,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               //
               tdhtml += `<p>` + processedDt + `</p>`;
             });
-            tdhtml += (rowData.lastEmailId) ?
+            tdhtml += (rowData.lastEmailId && col === 19) ?
             `<a class="a-viewEmail" queryParams="lastEmailId:` + rowData.lastEmailId + `"'>View email</a>` : ``;
           }else{
             tdhtml = 'N/A';
@@ -537,6 +537,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         }
       });
       this.agentassignmentService.getAgentAssignmentRecord(queryParams, 'dataTable', this.currSubPage).subscribe((resp : any) => {
+        console.log(resp)
         this.noOfCustomer = resp.body.recordsFiltered;
         this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
         this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;

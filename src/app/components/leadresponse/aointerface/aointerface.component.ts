@@ -349,7 +349,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
 
         let html = ``;
         switch(col){
-          case 0:
+          case 1:
+
             //store the whole row's data into closest tr of this cell
             let closestTrObj = $(td).closest('tr');
             $(closestTrObj).attr("rowData", JSON.stringify(rowData));
@@ -358,11 +359,11 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
              `<span>` + customerName + `</span>`;
             $(td).html(html);
             break;
-          case 3:case 5:case 6:
+          case 4:case 6:case 7:
             html = (cellData && !optoutOrReassign) ? convertDate(new Date(cellData.substr(0,10)), 'withoutMins') : '<span></span>';
             $(td).html(html);
             break;
-          case 7:case 8:
+          case 8:case 9:
             html = ``;
             let statusNumMapToText = (easLang === 'en') ?
               ["","Applied for extension","Opt-out from this program","Re-assigned"] :
@@ -370,10 +371,10 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             let extNumMapToText = (easLang === 'en') ?
               ["","To be reviewed","Approved","Rejected"] :
               ["","待部門審閱","已批准延長","申請被拒絕" ];
-            cellData = (col == 7) ? assignmentStatus : cellData; //reassign back the extracted assignmentstatus to cellData for col == 7
-            let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
+            cellData = (col == 8) ? assignmentStatus : cellData; //reassign back the extracted assignmentstatus to cellData for col == 7
+            let text = (col == 8) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
 
-            if(col == 7 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
+            if(col == 8 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
               if(rowData.upsellLifePolNo === '' && showExt === 'true'){ //5 months  5*30 days
                 html += `<span>` +
                 ((easLang === "en") ? `To apply for extension` : `申請延長`) + `</span>`;
@@ -381,9 +382,9 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
               else{
                 html += `<span></span>`;
               }
-            }else if(col == 7 && cellData == 2){ //applied extension
+            }else if(col == 8 && cellData == 2){ //applied extension
               html += `<span>` + text + `</span>`;
-            }else if(col == 8 && (cellData == 2 || cellData == 3)){ //To be reviewed || Approved
+            }else if(col == 9 && (cellData == 2 || cellData == 3)){ //To be reviewed || Approved
               html += (optoutOrReassign) ? `<span ` + optOutReassignStyle + `>` + text + `</span>` : //optout or reassign then this cell should be in gray color
                         `<span>` + text + `</span>`;
             }else{ //opt-out || reassigned || rejected
@@ -391,7 +392,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             }
             $(td).html((cellData) ? html : `<span></span>`);
             break;
-          case 10:case 11:case 12:
+          case 11:case 12:case 13:
             let aPromptText = ``;
             aPromptText = (cellData) ? cellData : "";
             html = (optoutOrReassign) ? `<span></span>` :

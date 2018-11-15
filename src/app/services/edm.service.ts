@@ -17,6 +17,7 @@ export class EdmService {
   currEmailId: string;
   currCampaignCd: string;
   currCommunicationCode: string;
+  currEdmId: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
   //expected val = easAgentAssignGI | easAgentAssignGI
   //set currServiceName(name : string) {this._currServiceName = name;}
@@ -43,16 +44,15 @@ export class EdmService {
   }
   //dataTable
   getEdmList(params, type){
-    let localParams = {communicationCd: this.currCommunicationCode };
     return (constants.localOrVm === 'local') ?
       this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmList.json', params, 'get', type) :
-      this.getOrPostFunc("/eas/api/edm/getEdmList",localParams, 'get', type);
+      this.getOrPostFunc("/eas/api/edm/getEdmList",params, 'get', type);
   }
 
   getHistoryCustomerlist(params, type){
-    let localParams = {communicationCd: this.currCommunicationCode };
+    let localParams = {edmId: this.currEdmId };
     return (constants.localOrVm === 'local') ?
-      this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmHistoryCustomerlist.json', params, 'get', type) :
+      this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmHistoryCustomerlist.json', localParams, 'get', type) :
       this.getOrPostFunc("/eas/api/edm/getEdmHistoryCustomerList",localParams, 'get', type);
   }
 
@@ -63,9 +63,10 @@ export class EdmService {
   }
 
   getHistoryTemplates(params, type){
+
     return (constants.localOrVm === 'local') ?
       this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmManagementFormHistoryTemplates.json', params, 'get', type) :
-      this.getOrPostFunc("/eas/api/edm/",params, 'get', type);
+      this.getOrPostFunc("/eas/api/edm/getEdmHistory",params, 'get', type);
   }
 
 

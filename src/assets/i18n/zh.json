@@ -18,6 +18,7 @@
   },
   "LEFT_SIDEBAR_MENU":{
     "MINIMIZE_MENU":"菜單最小化",
+    "MAXMIZE_MENU":"菜單最大化",
     "LEAD_RESPONSE":"客戶回應",
     "AGENT_INTERFACE":"代理界面",
     "AP_UPLINE_INTERFACE":"AP-上線 界面",
@@ -42,6 +43,7 @@
     }
   },
   "AGENT_AO_INTERFACE_COLS":{
+    "AGENT_CD":"理財顧問編號",
     "CUSTOMER_NAME":"客戶姓名",
     "PHONE":"電話",
     "EMAIL":"電郵",

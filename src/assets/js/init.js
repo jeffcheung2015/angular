@@ -9,9 +9,7 @@ $(document).ready(function(){
   });
 
   // minimize Btn
-  MinimizeBtn();
   $('#min-menu').click(function(event) {
-    MinimizeBtn();
     if ($('body').hasClass('collapse-leftbar')) {
       $(this).removeClass('opened');
       $('#min-menu span').css('display','none');
@@ -141,9 +139,7 @@ $(window).scroll(function() {
 
 });
 
-$(document).resize(function(event) {
-  MinimizeBtn();
-});
+
 
 
 function closeAllSelect(elmnt) {
@@ -212,12 +208,4 @@ function datepicker() {
     format: "dd/mm/yyyy",
     autoclose: true
   });
-}
-
-function MinimizeBtn() {
-  if ( $('body').hasClass('collapse-leftbar') ) {
-    $('#min-menu').html('<i class="icon-max-menu"></i> <span>Maximize Menu</span>');
-  } else {
-    $('#min-menu').html('<i class="icon-mini-menu"></i> <span>Minimize Menu</span>');
-  }
 }

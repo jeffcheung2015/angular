@@ -11,28 +11,30 @@ import { EdmService } from '../../../../services/edm.service';
 })
 export class Step1Component implements OnInit, AfterViewInit {
   edmManagementStep1Form = new FormGroup({
-    templateOption: new FormControl(''),
-    emailSubj: new FormControl(''),
-    greetingTxt: new FormControl(''),
+    templateOption: new FormControl('0',[Validators.pattern('[1-3]')]),
+    emailSubj: new FormControl('',[Validators.required, Validators.email]),
+    greetingTxt: new FormControl('',[Validators.required, Validators.pattern('[0-9a-zA-Z ]+')]),
     mainBannerImgFile: new FormControl(''),
-    campaign1Title: new FormControl(''),
-    campaign1Desc: new FormControl(''),
-    campaign2Title: new FormControl(''),
-    campaign2Desc: new FormControl(''),
-    priButtonTitle: new FormControl(''),
+    campaign1Title: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    campaign1Desc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    campaign2Title: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    campaign2Desc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    priButtonTitle: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
     priButtonLink: new FormControl(''),
-    secButtonTitle: new FormControl(''),
+    secButtonTitle: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
     secButtonLink: new FormControl(''),
     bottomBannerImgFile: new FormControl(''),
-    bottomBannerButtonTitle: new FormControl(''),
+    bottomBannerButtonTitle: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
     bottomBannerButtonLink: new FormControl(''),
-    campaignTnc: new FormControl(''),
-    standardTnc: new FormControl(''),
-    communicationCd: new FormControl('')
+    campaignTnc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    standardTnc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    communicationCd: new FormControl('',[Validators.required, Validators.pattern('[0-9a-zA-Z]+')])
   });
+  edmStep1FormSubmitted = false;
   @Input()edmPageInfo : { //fetched from edmManagementForm parent component
     currStep: String
   };
+  commCodeMsg : String;
   constructor(
     private router : Router,
     private edmService : EdmService,
@@ -66,12 +68,12 @@ export class Step1Component implements OnInit, AfterViewInit {
   }
   onSubmitStep1(){
     console.log("go from step1 to step2");
+    this.edmStep1FormSubmitted = true;
     this.fetchFormParamsAndPost();
-    this.edmPageInfo.currStep = "step2";
-    window.scrollTo(0,0);
   }
   onSaveAndClose(){
     this.fetchFormParamsAndPost();
+    this.edmStep1FormSubmitted = true;
     this.router.navigate(['/easEDM']);
   }
 
@@ -98,7 +100,19 @@ export class Step1Component implements OnInit, AfterViewInit {
     };
     this.edmService.postSubmitOrSave(params, 'sendParams').subscribe((resp : any) => {
       console.log("resp: ", resp);
-
+      let DEFAULT_CODE = "00009";
+      let statusCode = _get(resp, 'body.statusCode', DEFAULT_CODE); //statusCode doesnt found in server side response
+      if(statusCode == "00001"){//dup communicationCode found, should remain in the same page
+        this.edmManagementStep1Form.controls['communicationCd'].setErrors({'incorrect': true});
+        $(".span-communicationCodeErorrMsg").removeClass("span-communicationCodeErrorMsg-show");
+        $(".span-communicationCodeErorrMsg").addClass("span-communicationCodeErrorMsg-hide");
+        this.commCodeMsg = _get(resp, 'body.statusCode', 'N/A');
+      }else if(statusCode == DEFAULT_CODE){//statusCode doesnt found in server side response
+        console.error(">>> statusCode isnt found in server side's response.");
+      }else{
+        this.edmPageInfo.currStep = "step2";
+        window.scrollTo(0,0);
+      }
     }, (error) => {
       console.error("error: ", error);
     });
@@ -147,6 +161,7 @@ export class Step1Component implements OnInit, AfterViewInit {
         $("[name=templateOptionField]").val(
           selectOptionNameMapVal[$(e.target).text()]
         );
+        this.edmManagementStep1Form.controls['templateOption'].setValue(selectOptionNameMapVal[$(e.target).text()]);
       });
     }
   }

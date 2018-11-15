@@ -2,7 +2,7 @@
   <form [formGroup]="edmManagementStep1Form" method="POST" (ngSubmit)="onSubmitStep1()">
     <div class="col-md-8 step1-left ">
         <div class="form-group clearfix">
-            <p class="control-label" for="inputSuccess1">Template <i class="iconfont popover1">&#xe628;</i></p>
+            <p class="control-label" for="inputSuccess1">Template<i class="iconfont popover1">&#xe628;</i></p>
             <div class="inputSuccess1 dropdown-redarrow search-by-dropdown col-md-6 div-templateOption">
                 <select formControlName="templateOption" name="templateOptionField">
                   <option value="0"></option>
@@ -10,7 +10,8 @@
                   <option value="2">Template2</option>
                   <option value="3">Template3</option>
                 </select>
-                <div class="select-selected"></div>
+                <div class="select-selected"
+                [style.border-color]="edmManagementStep1Form.get('templateOption').invalid && edmStep1FormSubmitted ? 'red' : '#CCCCCC'"></div>
                 <div class="select-items select-hide"><!--same-as-selected-->
                   <div></div>
                   <div>Template1</div>
@@ -139,14 +140,14 @@
 
         <div class="form-group clearfix">
             <div class="clearfix form-block">
-                <p class="control-label" for="inputSuccess1">Campaign TnC <i  data-trigger="focus" class="iconfont popover2">&#xe628;</i></p>
+                <p class="control-label" for="inputSuccess1">Campaign T&C <i  data-trigger="focus" class="iconfont popover2">&#xe628;</i></p>
                 <div class="inputSuccess1">
                     <textarea formControlName="campaignTnc" name="campaignTncField" id="greet-text" cols="60" rows="10"></textarea>
                 </div>
             </div>
 
             <div class="clearfix form-block">
-                <p class="control-label" for="inputSuccess1">Standard TnC <i class="iconfont popover2">&#xe628;</i></p>
+                <p class="control-label" for="inputSuccess1">Standard T&C <i class="iconfont popover2">&#xe628;</i></p>
                 <div class="inputSuccess1">
                     <textarea formControlName="standardTnc" name="standardTncField" id="greet-text" cols="60" rows="10"></textarea>
                 </div>
@@ -183,10 +184,13 @@
     </div>
     <div class="col-md-12 step-bottom div-stepBottom">
         <div class="form-group clearfix">
-            <div class="clearfix form-block">
+            <div class="clearfix form-block div-commCodeErrorWrapper">
                 <p class="control-label" for="inputSuccess1">Communication Code</p>
+                <span class="span-communicationCodeErrorMsg span-communicationCodeErrorMsg-hide">
+                  {{ commCodeMsg ? commCodeMsg : 'Please enter comm. code'}}
+                </span>
                 <div class="inputSuccess1">
-                    <input formControlName="communicationCd" name="communicationCdField" type="text" class="col-md-6">
+                  <input formControlName="communicationCd" name="communicationCdField" type="text" class="col-md-6">
                 </div>
             </div>
         </div>

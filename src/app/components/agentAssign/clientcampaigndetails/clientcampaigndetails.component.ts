@@ -86,7 +86,7 @@ export class ClientcampaigndetailsComponent implements OnInit {
 
   ngOnInit() {
     if(this.currSubPage === 'easCampaignDetail'){
-      let campaignCode = this.agentassignmentService.currCampaignCd || 'A1112409';
+      let campaignCode = this.agentassignmentService.currCampaignCd || '';
       if(campaignCode === ''){
         this.router.navigate(['/']);
       }else{
@@ -95,7 +95,9 @@ export class ClientcampaigndetailsComponent implements OnInit {
         };
         this.agentassignmentService.getCampaignDetail(sentParams, 'campaignDetails').subscribe((resp : any) => {
           for(var prop in resp.body){
-            this.campaignDetailInfo[prop] = resp.body[prop];
+            let isDateType = ['startDate', 'endDate'].indexOf(prop) !== -1;
+            this.campaignDetailInfo[prop] = (isDateType) ? resp.body[prop].substr(0,10) :
+              (resp.body[prop] || "N/A");
           }
           console.log(resp.body, this.campaignDetailInfo)
         },(error : any) =>{
@@ -103,7 +105,7 @@ export class ClientcampaigndetailsComponent implements OnInit {
         })
       }
     }else{
-      let clientCode = this.agentassignmentService.currClientCd || 'A1112409';
+      let clientCode = this.agentassignmentService.currClientCd || '';
       if(clientCode === ''){
         this.router.navigate(['/']);
       }else{
@@ -112,7 +114,11 @@ export class ClientcampaigndetailsComponent implements OnInit {
         };
         this.agentassignmentService.getClientDetail(sentParams, 'clientDetails').subscribe((resp : any) => {
           for(var prop in resp.body){
-            this.clientDetailInfo[prop] = resp.body[prop] || "N/A";
+            let isDateType = ['dateOfSubmission', 'birthDate','assignedDate',
+              'smsEmailSentDate','firstContactDate','accountExpiryDate',
+              'reAssignedDate'].indexOf(prop) !== -1;
+            this.clientDetailInfo[prop] = (isDateType) ? resp.body[prop].substr(0,10) :
+              (resp.body[prop] || "N/A");
           }
 
         },(error : any) =>{
@@ -128,7 +134,6 @@ export class ClientcampaigndetailsComponent implements OnInit {
       remarksToConsultant: this.clientDetailForm.controls['remarksToConsultant'].value
     };
     this.agentassignmentService.postClientDetail(sentParams, 'sendParams').subscribe((resp : any)=>{
-      console.log("post client detail resp:", resp);
     }, (error) => {
       console.error('>>> Error occurs while posting client details');
     });

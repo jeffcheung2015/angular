@@ -13,7 +13,7 @@ import {get as _get, set as _set, range as _range} from 'lodash';
   styleUrls: ['./step2.component.scss']
 })
 export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
-  //use personId as unique id to get the user selected records
+  //use policyNo as unique id to get the user selected records
   selectedRecords: Array<String> = []; //should be cleared whenever the search criteria is refreshed
   //to be converted from selectedRecords, the elem should be seperated by a delimiter ','
   //only will selectedRecords be converted into selectedRecordsStr when the form is submitted
@@ -129,13 +129,13 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     let birthdayOptionStr = birthdayOption ? $('[name=birthdayOptionField] option:eq(' + birthdayOption + ')').attr("monthName") : '';
 
     this.searchCriterias = [surname, firstName, genderOption, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
-      partnerName, convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionFrom), '/', ''),
-      convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionTo), '/', ''),
+      partnerName, convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionFrom)),
+      convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionTo)),
       selfService, failUpsell6Months, selfServiceWithLife];
 
     this.searchCriteriasDisplay = [surname, firstName, genderOption, mobileNo, clientId, birthdayOptionStr, email, campaignCd, partnerCd,
-      partnerName, convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionFrom), '/', ''),
-      convertformat.dateToYYYYMMDD(new Date(dateOfSubmissionTo), '/', ''),
+      partnerName, convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionFrom)),
+      convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionTo)),
       selfServiceStr, failUpsell6MonthsStr, selfServiceWithLifeStr];
 
     //clear all the elems in selectedRecords array
@@ -171,7 +171,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       colArr.push({
         data:val,
         orderable: false,
-        width:(index === 0) ? '30px' : '100px'
+        width:(index === 0) ? '10px' : '100px'
       })
     });
     this.dtOptions = {
@@ -225,15 +225,15 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     this.bodyRendererChangeListener = this.renderer2.listen("body", 'change', (event)=>{
       if($(event.target).hasClass('a-checkbox')){ //only check the checkbox with class a-checkbox
         let queryParams = $(event.target).attr("queryParams");
-        let personId = queryParams.split(":")[1];
+        let policyNo = queryParams.split(":")[1];
 
-        if($(event.target).prop('checked')){ //when checkbox is checked, add personid into selectedRecords
-          //only add into the selectedRecords array if the personId doesnt exist in selectedRecords
-          if(this.selectedRecords.indexOf(personId) === -1){
-            this.selectedRecords.push(personId);
+        if($(event.target).prop('checked')){ //when checkbox is checked, add policyNo into selectedRecords
+          //only add into the selectedRecords array if the policyNo doesnt exist in selectedRecords
+          if(this.selectedRecords.indexOf(policyNo) === -1){
+            this.selectedRecords.push(policyNo);
           }
-        }else{//when checkbox isnt checked, remove personid from selectedRecords
-          let theIndexOfTargetPersonId = this.selectedRecords.indexOf(personId);
+        }else{//when checkbox isnt checked, remove policyNo from selectedRecords
+          let theIndexOfTargetPersonId = this.selectedRecords.indexOf(policyNo);
           if(theIndexOfTargetPersonId !== -1){
             //remove the specific elem from the selectedRecords
             this.selectedRecords.splice(theIndexOfTargetPersonId, 1);
@@ -297,17 +297,17 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
         //[! check] all the checkboxes in this page
         $('.a-checkbox:eq(' + elem + ')').prop('checked', !currACheckboxChecked);
 
-        //push all the personIds that attached in the checkboxes into selectedRecords array
+        //push all the policyNos that attached in the checkboxes into selectedRecords array
         let queryParamsAttr = $('.a-checkbox:eq(' + elem + ')').attr('queryParams');
-        let personId = queryParamsAttr.split(":")[1];
+        let policyNo = queryParamsAttr.split(":")[1];
         if(currACheckboxChecked){
-          let indexOfPersonId = this.selectedRecords.indexOf(personId);
-          if(indexOfPersonId !== -1){ //the personId should be exist, otherwise should be an error
+          let indexOfPersonId = this.selectedRecords.indexOf(policyNo);
+          if(indexOfPersonId !== -1){ //the policyNo should be exist, otherwise should be an error
             this.selectedRecords.splice(indexOfPersonId, 1);
           }
           //
         }else{
-          this.selectedRecords.push(personId);
+          this.selectedRecords.push(policyNo);
         }
       });
       console.log(this.selectedRecords);
@@ -346,8 +346,8 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
         }
         if(col === 0){
-          return $(td).html(`<input type="checkbox" class="a-checkbox" queryParams="personId:` +
-            rowData.personId
+          return $(td).html(`<input type="checkbox" class="a-checkbox" queryParams="policyNo:` +
+            rowData.policyNo
            + `" ` + (cellData === 1 ? "checked" : "") + `/>`);
         }else if(col === 10){
           let convertDateData = cellData ? new Date(cellData.substr(0,10)) : undefined;
@@ -390,8 +390,8 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
         //[variable: checkbox = 1 [checked] according to the this.selectedRecords variable]
         resp.body.data.forEach((elem, key)=>{
           if(key >= startPt && key < endPt){
-          //if the personid is found inside the selectedRecords, then the checkbox attr should be 1 and should be checked
-            _set(elem, "checkbox", (this.selectedRecords.indexOf(elem.personId) === -1) ? 0 : 1);
+          //if the policyNo is found inside the selectedRecords, then the checkbox attr should be 1 and should be checked
+            _set(elem, "checkbox", (this.selectedRecords.indexOf(elem.policyNo) === -1) ? 0 : 1);
             respDataArr.push(elem);
           }
         }, (error)=>{
@@ -401,8 +401,8 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
         //local json would not work, this is for vm only
         //[variable: checkbox = 1 [checked] according to the this.selectedRecords variable]
         resp.body.data.forEach((elem, key)=>{
-          //if the personid is found inside the selectedRecords, then the checkbox attr should be 1 and should be checked
-            _set(elem, "checkbox", (this.selectedRecords.indexOf(elem.personId) === -1) ? 0 : 1);
+          //if the policyNo is found inside the selectedRecords, then the checkbox attr should be 1 and should be checked
+            _set(elem, "checkbox", (this.selectedRecords.indexOf(elem.policyNo) === -1) ? 0 : 1);
             respDataArr.push(elem);
         });
 
