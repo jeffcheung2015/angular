@@ -101,12 +101,12 @@ export class Step1Component implements OnInit, AfterViewInit {
     this.edmService.postSubmitOrSave(params, 'sendParams').subscribe((resp : any) => {
       console.log("resp: ", resp);
       let DEFAULT_CODE = "00009";
-      let statusCode = _get(resp, 'body.statusCode', DEFAULT_CODE); //statusCode doesnt found in server side response
+      let statusCode = _get(resp, 'body.code', DEFAULT_CODE); //statusCode doesnt found in server side response
       if(statusCode == "00001"){//dup communicationCode found, should remain in the same page
         this.edmManagementStep1Form.controls['communicationCd'].setErrors({'incorrect': true});
         $(".span-communicationCodeErorrMsg").removeClass("span-communicationCodeErrorMsg-show");
         $(".span-communicationCodeErorrMsg").addClass("span-communicationCodeErrorMsg-hide");
-        this.commCodeMsg = _get(resp, 'body.statusCode', 'N/A');
+        this.commCodeMsg = _get(resp, 'body.errMsg', '');
       }else if(statusCode == DEFAULT_CODE){//statusCode doesnt found in server side response
         console.error(">>> statusCode isnt found in server side's response.");
       }else{
