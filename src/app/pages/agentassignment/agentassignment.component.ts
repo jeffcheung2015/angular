@@ -26,7 +26,7 @@ export class AgentassignmentComponent implements OnInit, AfterViewChecked,
   @ViewChild(DetailssearchrecordComponent) detailSearchRecordComponent;
   @ViewChild(SearchcriteriaComponent) searchCriteriaComponent;
   @ViewChild(ViewemailComponent) viewemailComponent;
-
+  
   popUpMsg : string;//for pruchat or sms btn
 
   constructor(

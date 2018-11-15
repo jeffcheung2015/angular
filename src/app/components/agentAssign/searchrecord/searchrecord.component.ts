@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, HostListener,
    OnDestroy,AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 import { AgentassignmentService } from '../../../services/agentassignment.service';
-import { AgentAssignmentRecord } from '../../../models/agentassignmentrecord.model';
+import { CSSearchCriteria, GISearchCriteria } from '../../../models/agentassignment.model';
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
@@ -11,7 +11,6 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { SearchcriteriaComponent } from '../searchcriteria/searchcriteria.component';
-
 import constants from '../../../constants/constants';
 @Component({
   selector: 'app-searchrecord',
@@ -53,8 +52,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
-    "10": "inactive-gray",
-    "20": "active-red",
+    "10": "active-red",
+    "20": "inactive-gray",
   };
   constructor(
      private agentassignmentService : AgentassignmentService,
@@ -73,7 +72,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.classToTrigger = [
         {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
         {className : 'a-assignBtn', url: constants.route['AgentDetail']},
-        {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
+        {className : 'a-reassignBtn', url: constants.route['AgentDetail'], callback: ()=>{this.onClickReassign()}},
         {className : 'a-viewEmail', url: constants.route['ViewEmail']},
         {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
         {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
@@ -87,7 +86,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         {className : 'a-clientDetail', url: constants.route['ClientDetail']},
         {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
         {className : 'a-assignBtn', url: constants.route['AgentDetail']},
-        {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
+        {className : 'a-reassignBtn', url: constants.route['AgentDetail'], callback: ()=>{this.onClickReassign()}},
         {className : 'a-viewEmailOrEDM', url: constants.route['ViewEmail']},
         {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
         {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
@@ -98,6 +97,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption",
         "contactCustomerOption","assignmentStatusOption"];
     }
+    this.initSearchCriteriaBasedOnSearchHistory();
+
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
     let fixedColumnsMaxIndex = (this.currSubPage === 'easAgentAssignGI') ? 4 : 1;
     let colArr = [], dataArr = [];
@@ -116,7 +117,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       scrollCollapse: true,
       responsive: true,
       pagingType: 'full_numbers',
-      pageLength: 20,
+      pageLength: 10,
       scrollX:true,
       scrollY:false,
       columnDefs : (this.currSubPage === 'easAgentAssignGI') ? this.agentAssignedGIColumnDef() : this.agentAssignedCSColumnDef(),
@@ -145,6 +146,19 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
   }
+
+  //init the search criteria based on the search history
+  initSearchCriteriaBasedOnSearchHistory(){
+    let criteria = (this.currSubPage == 'easAgentAssignCS') ? this.agentassignmentService.currCSSearchCriteria : this.agentassignmentService.currGISearchCriteria;
+    let resArr = [];
+    for(var key in criteria){
+      if(criteria.hasOwnProperty(key)){
+        resArr.push(criteria[key]);
+      }
+    }
+    this.searchCriterias = resArr;
+  }
+
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
   }
@@ -153,6 +167,12 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   ngAfterContentInit(){
   //this.searchCriteriaComponent.setSearchRecordComponent(this);
 
+  }
+  onClickReassign(){
+    let currServiceName = this.agentassignmentService.currServiceName;
+    let varField = currServiceName === "easAgentAssignCS" ? "currCSSearchCriteria" : "currGISearchCriteria";
+    this.agentassignmentService.setCurrCriteria(varField,
+       (currServiceName === "easAgentAssignCS") ? new CSSearchCriteria() : new GISearchCriteria());
   }
   //for handling the datatables's link,
   //use router.navigate instead of href in dom 'a', as href will refresh whole page
@@ -372,7 +392,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               //
               tdhtml += `<p>` + processedDt + `</p>`;
             });
-            tdhtml += (rowData.lastEmailOrEDMId) ?
+            tdhtml += (rowData.lastEmailOrEDMId && col == 21) ?
             `<a class="a-viewEmailOrEDM" queryParams="lastEmailOrEDMId:` + rowData.lastEmailOrEDMId + `"'>View email or EDM</a>` : ``;
           }else{
             tdhtml = 'N/A';

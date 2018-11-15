@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
-//import 'rxjs/add/operator/map';
 import { of } from 'rxjs';
 import {BehaviorSubject} from 'rxjs';
 import constants from '../constants/constants';
@@ -20,12 +19,12 @@ export class AgentassignmentService{
   currClientCd: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
 
-  currGISearchCriteria : GISearchCriteria;
-  currCSSearchCriteria : CSSearchCriteria;
+  currGISearchCriteria : GISearchCriteria = new GISearchCriteria();
+  currCSSearchCriteria : CSSearchCriteria = new CSSearchCriteria();
 
   setCurrCriteria(varName, criteriaObj){
     this[varName] = criteriaObj;
-    console.log(this)
+    console.log(this[varName])
   }
 
   //expected val = easAgentAssignGI | easAgentAssignGI

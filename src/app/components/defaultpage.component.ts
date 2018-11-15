@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
 @Component({
-  template: '&nbsp'
+  template: '&nbsp;'
 })
 export class DefaultPageComponent {}

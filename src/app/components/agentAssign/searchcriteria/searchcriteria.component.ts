@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, AfterViewChecked, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AgentassignmentService } from '../../../services/agentassignment.service';
+import { GISearchCriteria, CSSearchCriteria } from '../../../models/agentassignment.model';
 import convertFormat from '../../../utils/convertformat';
 @Component({
   selector: 'app-searchcriteria',
@@ -17,6 +18,8 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   minDateTo;
   maxDateFrom;
   @Input()currSubPage;
+
+  criteriaObj: any;
 
   bodyRendererListener;
 
@@ -53,29 +56,28 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     let numValidator = [Validators.pattern('[0-9]+')];
     let numEngValidator = [Validators.pattern('[0-9a-zA-Z]+')];
     let numEngSpaceValidator = [Validators.pattern('[0-9a-zA-Z ]+')];
-    let assignmentOptionValidator = [Validators.pattern('\b(A{1,2}|R)\b')];
-    let contactCustomerValidator = [Validators.pattern('\b(Y|N)\b')];
-    let assignmentStatusValidator = [Validators.pattern('\b[1-4]\b')];
+    this.criteriaObj = this.currSubPage === 'easAgentAssignGI' ? this.agentassignmentService.currGISearchCriteria :
+    this.currSubPage === 'easAgentAssignCS' ? this.agentassignmentService.currCSSearchCriteria : {};
     this.searchForm = (this.currSubPage === 'easAgentAssignGI') ?
     new FormGroup({
-      fullName : new FormControl('', numEngSpaceValidator),
-      policyNo : new FormControl('', numValidator),
-      mobileNo : new FormControl('',mobileNoValidator),
-      emailAddr : new FormControl('', Validators.email),
-      idCardNo : new FormControl('',numEngSpaceValidator),
-      dateOfSubmissionFrom : new FormControl(''),
-      dateOfSubmissionTo : new FormControl(''),
-      assignmentOption : new FormControl('',assignmentOptionValidator)
+      fullName : new FormControl(this.criteriaObj.fullName, numEngSpaceValidator),
+      policyNo : new FormControl(this.criteriaObj.policyNo, numValidator),
+      mobileNo : new FormControl(this.criteriaObj.mobileNo,mobileNoValidator),
+      emailAddr : new FormControl(this.criteriaObj.emailAddr, Validators.email),
+      idCardNo : new FormControl(this.criteriaObj.idCardNo,numEngSpaceValidator),
+      dateOfSubmissionFrom : new FormControl(this.criteriaObj.dateOfSubmissionFrom),
+      dateOfSubmissionTo : new FormControl(this.criteriaObj.dateOfSubmissionTo),
+      assignmentOption : new FormControl(this.criteriaObj.assignmentOption)
     }) : (this.currSubPage === 'easAgentAssignCS') ? new FormGroup({
-      fullName : new FormControl('',numEngSpaceValidator),
-      mobileNo : new FormControl('',mobileNoValidator),
-      emailAddr : new FormControl('', Validators.email),
-      idCardNo : new FormControl('',numEngSpaceValidator),
-      dateOfSubmissionFrom : new FormControl(''),
-      dateOfSubmissionTo : new FormControl(''),
-      assignmentOption : new FormControl('',assignmentOptionValidator),
-      contactCustomerOption : new FormControl('',contactCustomerValidator),
-      assignmentStatusOption : new FormControl('',assignmentStatusValidator)
+      fullName : new FormControl(this.criteriaObj.fullName,numEngSpaceValidator),
+      mobileNo : new FormControl(this.criteriaObj.mobileNo,mobileNoValidator),
+      emailAddr : new FormControl(this.criteriaObj.emailAddr, Validators.email),
+      idCardNo : new FormControl(this.criteriaObj.idCardNo,numEngSpaceValidator),
+      dateOfSubmissionFrom : new FormControl(this.criteriaObj.dateOfSubmissionFrom),
+      dateOfSubmissionTo : new FormControl(this.criteriaObj.dateOfSubmissionTo),
+      assignmentOption : new FormControl(this.criteriaObj.assignmentOption),
+      contactCustomerOption : new FormControl(this.criteriaObj.contactCustomerOption),
+      assignmentStatusOption : new FormControl(this.criteriaObj.assignmentStatusOption)
     }) : new FormGroup({
      agentCode : new FormControl('', numEngValidator),
      agentPhone : new FormControl('',mobileNoValidator),
@@ -85,10 +87,36 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     false : this.dropDownInitialized;
   }
 
+  mapOptionValToTxt = {
+    "" : "",
+    "A": "Assign",
+    "AA": "Auto Assigned",
+    "Y": "Yes",
+    "N": "No",
+    "1": "To apply for extension",
+    "2": "Applied extension",
+    "3": "Opt-out from this program",
+    "4": "Re-assigned"
+  }
+
+  //set the option according to the curr value of the corresponding select elem
+  setOptionDivHTML(_criteriaObj : any){
+    console.log(_criteriaObj)
+    if(this.currSubPage == 'easAgentAssignGI'){
+      console.log(this.currSubPage);
+      $(".div-assignmentOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.assignmentOption]);
+    }else if(this.currSubPage == 'easAgentAssignCS'){
+      console.log(this.currSubPage);
+      $(".div-assignmentOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.assignmentOption]);
+      $(".div-contactCustomerOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.contactCustomerOption]);
+      $(".div-assignmentStatusOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.assignmentStatusOption]);
+    }
+  }
+
   resetDateRangeRestrictAndDropDownOption(){
     this.maxDateFrom = null;
     this.minDateTo = null;
-    $(".select-selected").html("&nbsp");
+    $(".select-selected").html("&nbsp;");
   }
 
   //search criteria's drop down is dynamically generated by jquery
@@ -147,6 +175,9 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
         this.initDropdown('contactCustomerOption'); //the 'assignment' dropdown is dynamically generated
         this.initDropdown('assignmentStatusOption'); //the 'assignment' dropdown is dynamically generated
       }
+      if(['easAgentAssignGI', 'easAgentAssignCS'].indexOf(this.currSubPage)){
+        this.setOptionDivHTML(this.criteriaObj);
+      }
       this.dropDownInitialized = true;
     }
   }
@@ -189,17 +220,16 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     if(isAgentAssign){
       if(this.currSubPage === 'easAgentAssignGI'){
         ({fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo} = this.searchForm.value);
-        queryParams = {fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};
+        queryParams = {fullName,policyNo,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption};
         this.agentassignmentService.setCurrCriteria("currGISearchCriteria", queryParams);
       }else{
         ({fullName,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo} = this.searchForm.value);
-        queryParams = {fullName,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo};
+        queryParams = {fullName,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,contactCustomerOption,assignmentStatusOption};
         this.agentassignmentService.setCurrCriteria("currCSSearchCriteria", queryParams);
       }
     }else{
       ({agentCode, agentPhone, agentName} = this.searchForm.value);
       queryParams = {agentCode, agentPhone, agentName};
-      this.agentassignmentService.setCurrCriteria("currDtlSearchCriteria", queryParams);      
     }
     //transform the raw date to formatted locale date string DDMMYYYY
     dateOfSubmissionFrom = !dateOfSubmissionFrom ? dateOfSubmissionFrom : convertFormat.dateToDDMMYYYY(new Date(dateOfSubmissionFrom));

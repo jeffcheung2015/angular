@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
   AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 import { AgentassignmentService } from '../../../services/agentassignment.service';
-import { AgentAssignmentRecord } from '../../../models/agentassignmentrecord.model';
 import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
@@ -62,8 +61,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
-    "10": "inactive-gray",
-    "20": "active-red",
+    "10": "active-red",
+    "20": "inactive-gray",
   };
   //subscription
   dataTableAjaxSubscription;
@@ -109,7 +108,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       });
       this.dtOptions = {
         pagingType: 'full_numbers',
-        pageLength: 20,
+        pageLength: 10,
         scrollX:true,
         scrollY:true,
         columnDefs : this.agentDetailsColumnDef(),

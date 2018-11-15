@@ -5,10 +5,10 @@
                 <div class="col-md-12 clearfix">
                     <div id="accordioninpanel" class="accordion-group">
                         <div class="accordion-item">
-                            <a class="accordion-title" data-toggle="collapse" data-parent="#accordioninpanel" href="#my-policy-diary">
+                            <a class="accordion-title collapsed" data-toggle="collapse" data-parent="#accordioninpanel" href="#my-policy-diary">
                               <h4>Input your Search Criteria(s)</h4>
                             </a>
-                            <div id="my-policy-diary" class="collapse in" style="">
+                            <div id="my-policy-diary" class="collapse" style="">
                                 <div class="accordion-body">
                                   <div *ngIf="currSubPage == 'easAgentDetail'">
                                       <form [formGroup]="searchForm" method="POST" (ngSubmit)="onSubmitSearchCriteria()">
@@ -199,7 +199,7 @@
                                                         <label>Assignment Status</label>
                                                         <div class="dropdown-redarrow search-by-dropdown div-assignmentStatusOption">
                                                             <select formControlName="assignmentStatusOption" name="assignmentStatusOptionField">
-                                                                <option value="0"></option>
+                                                                <option value=""></option>
                                                                 <option value="1">To apply for extension</option>
                                                                 <option value="2">Applied extension</option>
                                                                 <option value="3">Opt-out from this program</option>

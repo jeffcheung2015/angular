@@ -61,8 +61,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
-    "10": "inactive-gray",
-    "20": "active-red",
+    "10": "active-red",
+    "20": "inactive-gray",
   };
   //subscription
   dataTableAjaxSubscription;
@@ -114,7 +114,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     });
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 20,
+      pageLength: 10,
       scrollX:true,
       scrollY:true,
       columnDefs : this.aoInterfaceColumnDef(),
