@@ -1,7 +1,11 @@
 .nav-leftsidebar{
   min-height: 93.9vh;
   .acc-menu{
+    #title{
+      border: unset !important;
+    }
     .li-menuheader{
+      border: unset !important;      
       width: unset !important;
       color:white !important;
       .p-langChange{

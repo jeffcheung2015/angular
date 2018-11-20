@@ -49,8 +49,6 @@ import {
 } from '@angular/material';
 //service
 import { LoginUserService } from './services/loginUser.service';
-import { PddcampaigntransactionService } from './services/pddcampaigntransaction.service';
-import { PddcampaignService } from './services/pddcampaign.service';
 import { LeadresponseService } from './services/leadresponse.service';
 import { EdmService } from './services/edm.service';
 import { PddService } from './services/pdd.service';
@@ -62,8 +60,6 @@ import { ExcelService } from './services/excel.service';
 import { LayoutComponent } from './components/layout/layout.component';
 import { SearchrecordComponent } from './components/agentAssign/searchrecord/searchrecord.component';
 import { AppComponent } from './app.component';
-import { PddcampaigntransactiontableComponent } from './components/pddcampaigntransactiontable/pddcampaigntransactiontable.component';
-import { PddcampaigntableComponent } from './components/pddcampaigntable/pddcampaigntable.component';
 import { PageNotFoundComponent } from './components/notfound.component';
 import { DefaultPageComponent } from './components/defaultpage.component';
 import { GlobalheaderComponent } from './components/layout/globalheader/globalheader.component';
@@ -102,8 +98,6 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    PddcampaigntransactiontableComponent,
-    PddcampaigntableComponent,
     PageNotFoundComponent,
     DefaultPageComponent,
     GlobalheaderComponent,
@@ -158,8 +152,7 @@ export function createTranslateLoader(http: HttpClient) {
       }
     })
   ],
-  providers: [PddcampaigntransactionService, PddcampaignService,
-    AgentassignmentService, LayoutService,LeadresponseService,
+  providers: [AgentassignmentService, LayoutService,LeadresponseService,
     EdmService, PddService, LoginUserService, ExcelService,
     {
       provide: HTTP_INTERCEPTORS,

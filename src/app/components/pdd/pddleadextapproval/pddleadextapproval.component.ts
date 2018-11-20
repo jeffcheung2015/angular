@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { PddService } from '../../../services/pdd.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -13,7 +13,7 @@ import { DatePipe } from '@angular/common';
 export class PddleadextapprovalComponent implements OnInit {
   clientDtlsForm = new FormGroup({
     pddApproval : new FormControl('1'), //default approve
-    remarks : new FormControl('')
+    remarks : new FormControl('', [Validators.maxLength(200)])
   });
 
   pddLeadExtApprovalInfo : {
@@ -63,16 +63,20 @@ export class PddleadextapprovalComponent implements OnInit {
   }
 
   onSubmitClientDetailsForm(){
-    let queryParams = {
-      pddApproval: this.clientDtlsForm.controls['pddApproval'].value,
-      remarks: this.clientDtlsForm.controls['remarks'].value
+    if(this.clientDtlsForm.status === 'VALID'){
+      let queryParams = {
+        pddApproval: this.clientDtlsForm.controls['pddApproval'].value,
+        remarks: this.clientDtlsForm.controls['remarks'].value
+      }
+      this.pddService.postPddApproval(queryParams,'sentParams').subscribe((resp: any) =>{
+        console.log("resp: ", resp);
+        this.router.navigate(['/easLeadExtensionAppl']);
+      },(error) => {
+        console.error("error: ", error);
+      });
+    }else{
+      return null;
     }
-    this.pddService.postPddApproval(queryParams,'sentParams').subscribe((resp: any) =>{
-      console.log("resp: ", resp);
-      this.router.navigate(['/easLeadExtensionAppl']);
-    },(error) => {
-      console.error("error: ", error);
-    });
   }
 
 }
