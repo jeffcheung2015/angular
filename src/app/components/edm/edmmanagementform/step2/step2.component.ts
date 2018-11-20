@@ -72,8 +72,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   onSubmitStep2(){ //not posting via form but posting via edmService method instead
     console.log("go from step2 to step3");
     let queryParams = {
-      selectedRecordsStr: this.convertSelectedRecordIntoArray(this.selectedRecords),
-      commCode: this.edmPageInfo.commCode
+      selectedRecordsStr: this.convertSelectedRecordIntoArray(this.selectedRecords)
     };
 
     this.edmService.postEdmReceiver(queryParams, 'sendParams').subscribe((resp: any) =>{

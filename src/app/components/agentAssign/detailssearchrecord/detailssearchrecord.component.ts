@@ -11,7 +11,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import constants from '../../../constants/constants';
 import convertformat from '../../../utils/convertformat';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -73,7 +73,6 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
      private agentassignmentService : AgentassignmentService,
      private http: HttpClient,
      private renderer2 : Renderer2,
-     private activatedRoute: ActivatedRoute,
      private router: Router
    ) {}
 
@@ -312,18 +311,26 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
           date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " +
           ((opt == "withMins") ? date.getHours() + ":" + date.getMinutes() : "");
         }
+        let formatDateYYYYMMDD = (date, splitStr, toDateType) =>{
+          return (toDateType) ? new Date(date.getFullYear() + splitStr + (date.getMonth() + 1) + splitStr + date.getDate()):
+                                date.getFullYear() + splitStr + (date.getMonth() + 1) + splitStr + date.getDate();
+        }
         let onLeave = rowData.onLeave;
         let splitOnLeave = (onLeave) ? onLeave.split(";") : null; //[0] =leaveId, [1] =onleave start end date
-        let onLeaveP, onLeaveDt, onLeaveStartDt, onLeaveEndDt, isWithinLeavePeriod = false;
+        let onLeaveP, onLeaveDt, onLeaveStartDt, onLeaveEndDt, isEarlierThanLeavePeriod = false, isWithinLeavePeriod = false;
         let currDate = new Date();
         let poolType = rowData.poolType;
 
         if(splitOnLeave){
-
           onLeaveDt = splitOnLeave[1].split(',');
           onLeaveStartDt = new Date(onLeaveDt[0].substr(0,10));
           onLeaveEndDt = new Date(onLeaveDt[1].substr(0,10));
-          isWithinLeavePeriod = (currDate.getTime() - onLeaveStartDt.getTime() > 0 && currDate.getTime() - onLeaveEndDt.getTime() < 0);
+
+          let formattedCurrDate = formatDateYYYYMMDD(currDate, '-', true);
+
+          isEarlierThanLeavePeriod = formattedCurrDate.getTime() - onLeaveEndDt.getTime() <= 0;
+          isWithinLeavePeriod = formattedCurrDate.getTime() - onLeaveStartDt.getTime() >= 0 && formattedCurrDate.getTime() - onLeaveEndDt.getTime() <= 0
+          console.log(isEarlierThanLeavePeriod, isWithinLeavePeriod, formattedCurrDate)
           //compare current date with the on leave start dt and end dt
           let pStyle = `style="margin:auto;padding:10px;` + ((isWithinLeavePeriod) ? `color:lightgray;"` : `"`);
 
@@ -354,7 +361,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
 
             if(poolType == '2'){ //old pool type should not have on leave func
               $(td).html(``);
-            }else if(!onLeave || !isWithinLeavePeriod){
+            }else if(!onLeave || !isEarlierThanLeavePeriod){
               $(td).html(`<div style="` + divStyle + `">` +
                    `<a style="` + aOrSpanStyle + `" class="` + grayBtnClass +
                    ` a-addBtn" data-toggle="modal" data-target="#onLeaveModal">Add</a></div>`);

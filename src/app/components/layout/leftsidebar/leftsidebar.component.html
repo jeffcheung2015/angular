@@ -36,7 +36,7 @@
                 </a>
                 <ul class="acc-menu" style="display: none;">
                   <li *ngFor="let subElem of tabElem.children">
-                    <a routerLink="/{{subElem.link}}" routerLinkActive="tab-active"><span>{{subElem.title}}</span></a>
+                    <a (click)="handleActiveTabLogic($event)" routerLink="/{{subElem.link}}" routerLinkActive="tab-active"><span>{{subElem.title}}</span></a>
                   </li>
                 </ul>
               </ng-container>
@@ -47,13 +47,13 @@
               </a>
               <ul class="acc-menu" style="display: none;">
                 <li *ngIf="leadResponseTab.agentInterface">
-                  <a routerLink="/easAgentInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AGENT_INTERFACE' | translate }}</span></a>
+                  <a (click)="handleActiveTabLogic($event)" routerLink="/easAgentInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AGENT_INTERFACE' | translate }}</span></a>
                 </li>
                 <li *ngIf="leadResponseTab.apUplineInterface">
-                  <a routerLink="/easAPInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AP_UPLINE_INTERFACE' | translate }}</span></a>
+                  <a (click)="handleActiveTabLogic($event)" routerLink="/easAPInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AP_UPLINE_INTERFACE' | translate }}</span></a>
                 </li>
                 <li *ngIf="leadResponseTab.aoInterface">
-                  <a routerLink="/easAOInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AO_INTERFACE' | translate }}</span></a>
+                  <a (click)="handleActiveTabLogic($event)" routerLink="/easAOInterface" routerLinkActive="tab-active"><span>{{'LEFT_SIDEBAR_MENU.AO_INTERFACE' | translate }}</span></a>
                 </li>
               </ul>
             </ng-container>

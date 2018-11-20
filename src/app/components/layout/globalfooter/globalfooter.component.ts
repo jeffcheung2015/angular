@@ -1,16 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginUserService } from '../../../services/loginUser.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-globalfooter',
   templateUrl: './globalfooter.component.html',
   styleUrls: ['./globalfooter.component.scss']
 })
-export class GlobalfooterComponent implements OnInit {
+export class GlobalfooterComponent {
 
-  constructor(private loginUserService : LoginUserService) { }
+  constructor() { }
 
-  ngOnInit() {
-  }
 
 }

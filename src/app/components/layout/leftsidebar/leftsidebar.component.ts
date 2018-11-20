@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 import {isEmpty as _isEmpty} from 'lodash';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { set as _set } from 'lodash';
+import { get as _get, set as _set } from 'lodash';
 import { LoginUserService } from '../../../services/loginUser.service';
 import {TranslateService} from '@ngx-translate/core';
 
@@ -11,7 +11,7 @@ import {TranslateService} from '@ngx-translate/core';
   templateUrl: './leftsidebar.component.html',
   styleUrls: ['./leftsidebar.component.scss']
 })
-export class LeftsidebarComponent implements OnInit {
+export class LeftsidebarComponent implements OnInit, AfterViewChecked {
   menu : Array<{
     title: string,
     link?: string,
@@ -24,9 +24,9 @@ export class LeftsidebarComponent implements OnInit {
   currentLang: string;
 
   isLeadResponseRole : boolean = false;
-
+  bodyRendererListener;
   constructor(
-    private router :Router,
+    private activatedRoute :ActivatedRoute,
     public translateService: TranslateService,
     private loginUserService: LoginUserService
   ) {
@@ -40,7 +40,51 @@ export class LeftsidebarComponent implements OnInit {
 
   ngOnInit() {
     this.currDate = new Date();
+
   }
+  //put this func in sub tabs, so that when sublink is being clicked, all the parent tab will have
+  //'active' class removed, and add 'active' class to this curr subtab's parent tab
+  handleActiveTabLogic(event){
+    let parentTab = $(event.target).closest('li').parent().closest('li');
+    if(parentTab){
+      //remove all other parent tab's `active` class
+      $("#sidebar").children(".active").removeClass("active");
+      //add active class to this curr sub tab's parent tab
+      parentTab.addClass("active");
+    }
+  }
+
+  isParentTabCSSinited : boolean = false;
+  //first init the active parent tab based on curr route
+  ngAfterViewChecked(){
+    if(!this.isParentTabCSSinited && $('ul.acc-menu a').length > 0){
+
+      var targetAnchor;
+      $.each ($('ul.acc-menu a'), function() {
+          if( _get(this, 'href') == window.location ) {
+              targetAnchor = this;
+              return false;
+          };
+      });
+
+      var parent = $(targetAnchor).closest('li');
+
+      while(true) {
+          parent.addClass('active');
+          parent.closest('ul.acc-menu').show().closest('li').addClass('active');
+          parent = $(parent).parents('li').eq(0);
+          if( $(parent).parents('ul.acc-menu').length <= 0 ) break;
+      };
+      let liElem:any = $('li');
+      var liHasUlChild = liElem.filter(function(){
+          return $(this).find('ul.acc-menu').length;
+      });
+      $(liHasUlChild).addClass('hasChild');
+      this.isParentTabCSSinited = true;
+    }
+
+  }
+
   menuMinimized : boolean = false;
   minimizeMenu() {
     this.menuMinimized = !this.menuMinimized;

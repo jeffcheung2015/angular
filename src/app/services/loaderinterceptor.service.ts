@@ -25,7 +25,7 @@ export class LoaderinterceptorService implements HttpInterceptor {
       }
     },
       (err: any) => {
-        let status = _get(event, 'status');
+        let status = _get(err, 'status');
         // 0 for unknown error
         if(status == 401 || status == 302 || status == 0){
           window.location.href = 'saml/logout';
