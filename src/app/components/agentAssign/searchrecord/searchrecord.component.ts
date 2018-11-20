@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 
 import { SearchcriteriaComponent } from '../searchcriteria/searchcriteria.component';
 import constants from '../../../constants/constants';
+import convertFormat from '../../../utils/convertformat';
+
 @Component({
   selector: 'app-searchrecord',
   templateUrl: './searchrecord.component.html',
@@ -72,12 +74,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
       this.classToTrigger = [
         {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
         {className : 'a-assignBtn', url: constants.route['AgentDetail']},
-        {className : 'a-reassignBtn', url: constants.route['AgentDetail'], callback: ()=>{this.onClickReassign()}},
+        {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
         {className : 'a-viewEmail', url: constants.route['ViewEmail']},
         {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
         {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
       ];
-      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"" ,"A"];
       this.searchCriteriaFieldName = ["fullName","policyNo","mobileNo","emailAddr","idCardNo",
         "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption"];
     }else{ //easAgentAssignCS
@@ -86,13 +87,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         {className : 'a-clientDetail', url: constants.route['ClientDetail']},
         {className : 'a-campaignCode', url: constants.route['CampaignDetail']},
         {className : 'a-assignBtn', url: constants.route['AgentDetail']},
-        {className : 'a-reassignBtn', url: constants.route['AgentDetail'], callback: ()=>{this.onClickReassign()}},
+        {className : 'a-reassignBtn', url: constants.route['AgentDetail']},
         {className : 'a-viewEmailOrEDM', url: constants.route['ViewEmail']},
         {className : 'a-pruchatEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "pruchat")} },
         {className : 'a-smsEmailBtn', callback: (polno)=>{this.showPopUpMsg(polno, "sms")}},
       ];
-
-      this.searchCriterias = ["" ,"" ,"" ,"" ,"" ,"" ,"A", "", ""];
       this.searchCriteriaFieldName = ["fullName","mobileNo","emailAddr","idCardNo",
         "dateOfSubmissionFrom","dateOfSubmissionTo","assignmentOption",
         "contactCustomerOption","assignmentStatusOption"];
@@ -153,7 +152,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     let resArr = [];
     for(var key in criteria){
       if(criteria.hasOwnProperty(key)){
-        resArr.push(criteria[key]);
+        let isInstanceOfDate = criteria[key] instanceof Date;
+        resArr.push(isInstanceOfDate ? convertFormat.dateToDDMMYYYY(criteria[key]) : criteria[key]);
       }
     }
     this.searchCriterias = resArr;
@@ -161,18 +161,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
 
   ngAfterViewInit(){ //only load data after view are initialized
     this.dtTrigger.next();
-  }
-  //search criteria component is ngif content and will only be available
-  //after content init
-  ngAfterContentInit(){
-  //this.searchCriteriaComponent.setSearchRecordComponent(this);
-
-  }
-  onClickReassign(){
-    let currServiceName = this.agentassignmentService.currServiceName;
-    let varField = currServiceName === "easAgentAssignCS" ? "currCSSearchCriteria" : "currGISearchCriteria";
-    this.agentassignmentService.setCurrCriteria(varField,
-       (currServiceName === "easAgentAssignCS") ? new CSSearchCriteria() : new GISearchCriteria());
   }
   //for handling the datatables's link,
   //use router.navigate instead of href in dom 'a', as href will refresh whole page
@@ -183,22 +171,24 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     let params = polNo;
     if(type === 'pruchat'){
       this.agentassignmentService.postResendPruchat(params, 'sendParams').subscribe((resp : any) => {
-        let code = (typeof resp.code === "number") ? resp.code.toString() : resp.code;
-        let msg = (code !== "00000") ? resp.errMsg : "PruChat and email has been sent successfully";
-        this.setPopUpMsg(msg);
+        //this api in all cases have only one elem inside the list
+        let codeList = _get(resp, 'body.code[0]');
+        let errMsg = (codeList && codeList[0] !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'body.errMsg[0]') : constants.MSG.PRUCHAT_EMAIL_SUCCESS;
+        this.setPopUpMsg(errMsg);
         $("#btnMsgModal").modal('show');
       }, (error)=>{
-        this.setPopUpMsg("Error occurs");
+        console.error(">>> Error occurs");
         $("#btnMsgModal").modal('show');
       });
     }else if(type === 'sms'){
       this.agentassignmentService.postResendSMS(params, 'sendParams').subscribe((resp : any) => {
-        let code = (typeof resp.code === "number") ? resp.code.toString() : resp.code;
-        let msg = (code !== "00000") ? resp.errMsg : "SMS and email has been sent successfully";
-        this.setPopUpMsg(msg);
+        //this api in all cases have only one elem inside the list
+        let codeList = _get(resp, 'body.code[0]');
+        let errMsg = (codeList && codeList[0] !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'body.errMsg[0]') : constants.MSG.SMS_EMAIL_SUCCESS;
+        this.setPopUpMsg(errMsg);
         $("#btnMsgModal").modal('show');
       }, (error)=>{
-        this.setPopUpMsg("Error occurs");
+        console.error(">>> Error occurs");
         $("#btnMsgModal").modal('show');
       });
     }

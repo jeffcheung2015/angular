@@ -130,10 +130,12 @@ export class ClientcampaigndetailsComponent implements OnInit {
 
   onSubmitSaveClientDetail(){
     let sentParams = {
-      refuseContact: this.clientDetailForm.controls['refuseContact'].value ? 1 : 0, //convert boolean into 1 and 0
+      refuseContact: this.clientDetailForm.controls['refuseContact'].value ? "1" : "0", //convert boolean into 1 and 0
       remarksToConsultant: this.clientDetailForm.controls['remarksToConsultant'].value
     };
     this.agentassignmentService.postClientDetail(sentParams, 'sendParams').subscribe((resp : any)=>{
+      console.log('resp: ', resp);
+
     }, (error) => {
       console.error('>>> Error occurs while posting client details');
     });

@@ -87,5 +87,21 @@ export default {
     "upsellLifeProd", "ape"],
 
     NEW_POOL_TYPE: 1,
-    OLD_POOL_TYPE: 2
+    OLD_POOL_TYPE: 2,
+
+    STATUS_CODE : {
+      SUCCESS_CODE: "00000",
+      NO_EMAIL_CODE:"00001",
+      NO_SMS_CODE:"00002",
+      NO_SMS_EMAIL_CODE:"00003",
+      DUP_COMM_CODE: "00011",
+      TEMP_MISS_CODE: "00012",
+      REMARKS_EXCEED_MAX_LENGTH_CODE: "00013",
+      NO_CUSTOMER_CHOSEN: "00014"
+    },
+
+    MSG:{
+      PRUCHAT_EMAIL_SUCCESS: "PruChat and email has been sent successfully",
+      SMS_EMAIL_SUCCESS: "SMS and email has been sent successfully"
+    }
 };

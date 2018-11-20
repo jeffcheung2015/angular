@@ -26,8 +26,9 @@ export class LoaderinterceptorService implements HttpInterceptor {
     },
       (err: any) => {
         let status = _get(event, 'status');
-        if([302,401].indexOf(status) !== -1){
-          this.router.navigate(['/saml/logout']);
+        // 0 for unknown error
+        if(status == 401 || status == 302 || status == 0){
+          window.location.href = 'saml/logout';
         }
         this.onEnd();
     }));

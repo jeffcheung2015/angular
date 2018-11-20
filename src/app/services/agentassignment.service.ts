@@ -19,8 +19,28 @@ export class AgentassignmentService{
   currClientCd: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
 
-  currGISearchCriteria : GISearchCriteria = new GISearchCriteria();
-  currCSSearchCriteria : CSSearchCriteria = new CSSearchCriteria();
+  currGISearchCriteria : GISearchCriteria = {
+    fullName: '',
+    policyNo: '',
+  	mobileNo: '',
+  	emailAddr: '',
+  	idCardNo: '',
+  	dateOfSubmissionFrom: '',
+  	dateOfSubmissionTo: '',
+  	assignmentOption: 'A'
+  };
+  currCSSearchCriteria : CSSearchCriteria ={
+    fullName: '',
+  	policyNo: '',
+  	mobileNo: '',
+  	emailAddr: '',
+  	idCardNo: '',
+  	dateOfSubmissionFrom: '',
+  	dateOfSubmissionTo: '',
+  	assignmentOption: 'A',
+  	contactCustomerOption: '',
+  	assignmentStatusOption: ''
+  };
 
   setCurrCriteria(varName, criteriaObj){
     this[varName] = criteriaObj;
@@ -99,31 +119,67 @@ export class AgentassignmentService{
 
   //sendParams
   postResetLeaveRecord(params, type){
-    return this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
+    let dummy_resp_obj = {
+      body:{
+        code: ['00000'],
+        errMsg: ['']
+      }
+    }
+    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
 
   }
   //sendParams
   postSaveLeaveRecord(params, type){
-    return this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
+    let dummy_resp_obj = {
+      body:{
+        code: ['00000'],
+        errMsg: ['']
+      }
+    }
+    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
 
   }
-  //sendParams
+  //sendParams  00000 and
   postSelectYesLeaveRecord(params, type){
-    return this.getOrPostFunc('/eas/api/agent/assignAgent', params, 'post', type);
+    let dummy_resp_obj = {
+      body:{
+        code: ['00000'],
+        errMsg: ['']
+      }
+    }
+    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/assignAgent', params, 'post', type);
 
   }
   //sendParams
   postResendPruchat(params, type){
-    return this.getOrPostFunc('/eas/api/agent/resendToAgent', params, 'post', type);
+    let dummy_resp_obj = {
+      body:{
+        code: ['00003'],
+        errMsg: ['Cannot resend email and sms']
+      }
+    }
+    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/resendToAgent', params, 'post', type);
 
   }
   //sendParams
   postResendSMS(params, type){
-    return this.getOrPostFunc('/eas/api/agent/resendToCust', params, 'post', type);
+    let dummy_resp_obj = {
+      body:{
+        code: ['00002'],
+        errMsg: ['Cannot resend email']
+      }
+    }
+    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/resendToCust', params, 'post', type);
   }
   //sendParams
   postClientDetail(params, type){
-    return this.getOrPostFunc('/eas/api/agent/saveClientDetail', params, 'post', type);
+    let dummy_resp_obj = {
+      body:{
+        code: ['00000'],
+        errMsg: ['']
+      }
+    }
+    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/saveClientDetail', params, 'post', type);
   }
 
 

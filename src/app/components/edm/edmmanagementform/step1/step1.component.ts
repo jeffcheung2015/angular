@@ -3,6 +3,7 @@ import { get as _get } from 'lodash';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EdmService } from '../../../../services/edm.service';
+import constants from '../../../../constants/constants';
 
 @Component({
   selector: 'app-step1',
@@ -30,11 +31,17 @@ export class Step1Component implements OnInit, AfterViewInit {
     standardTnc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
     communicationCd: new FormControl('',[Validators.required, Validators.pattern('[0-9a-zA-Z]+')])
   });
+
+  edmManagementStep1TestForm = new FormGroup({
+    testEmail: new FormControl('', [Validators.email])
+  });
+
   edmStep1FormSubmitted = false;
   @Input()edmPageInfo : { //fetched from edmManagementForm parent component
-    currStep: String
+    currStep: String,
+    commCode: String
   };
-  commCodeMsg : String;
+  errMsgArr : Array<String> = [];
   constructor(
     private router : Router,
     private edmService : EdmService,
@@ -98,31 +105,49 @@ export class Step1Component implements OnInit, AfterViewInit {
       standardTnc: this.edmManagementStep1Form.controls['standardTnc'].value,
       communicationCd: this.edmManagementStep1Form.controls['communicationCd'].value
     };
+    this.edmPageInfo.commCode = params.communicationCd;
     this.edmService.postSubmitOrSave(params, 'sendParams').subscribe((resp : any) => {
       console.log("resp: ", resp);
-      let DEFAULT_CODE = "00009";
-      let statusCode = _get(resp, 'body.code', DEFAULT_CODE); //statusCode doesnt found in server side response
-      if(statusCode == "00001"){//dup communicationCode found, should remain in the same page
-        this.edmManagementStep1Form.controls['communicationCd'].setErrors({'incorrect': true});
-        $(".span-communicationCodeErorrMsg").removeClass("span-communicationCodeErrorMsg-show");
-        $(".span-communicationCodeErorrMsg").addClass("span-communicationCodeErrorMsg-hide");
-        this.commCodeMsg = _get(resp, 'body.errMsg', '');
-      }else if(statusCode == DEFAULT_CODE){//statusCode doesnt found in server side response
-        console.error(">>> statusCode isnt found in server side's response.");
-      }else{
+      //reset the errMsgArr and comm code input field css
+      this.isSetStep1ErrPrompt(true);
+
+      let codeList = _get(resp, 'body.code');
+      let errMsgList = _get(resp, 'body.errMsg');
+
+      //00000 : ok
+      //00001 : dup comm Code
+      //00002 : no template is selected
+
+      if(codeList && codeList[0] == constants.STATUS_CODE.SUCCESS_CODE){
         this.edmPageInfo.currStep = "step2";
         window.scrollTo(0,0);
+      }else if(codeList && codeList[0] != constants.STATUS_CODE.SUCCESS_CODE){
+        codeList.forEach((elem, key)=>{
+          this.errMsgArr.push(errMsgList[key]);
+          console.log(">>> code: ", elem);
+        });
+        this.isSetStep1ErrPrompt(false);
+        $("#ErrMsgModal").modal('show');
+      }else{
+        console.error(">>> No code and errmsg found in server's response.");
       }
     }, (error) => {
       console.error("error: ", error);
     });
   }
 
-  sendTestEmail(event){
+  isSetStep1ErrPrompt(isReset){
+    this.errMsgArr = (isReset) ? [] : this.errMsgArr;
+    //setCommCodeInputFieldCSS
+    $(`[name="communicationCdField"]`).css("border-color", (isReset) ? 'unset' : 'red');
+  }
+
+  sendTestEmail(){
     let params = {
       testEmail: $("[name=sendTestEmailField]").val()
     };
     this.edmService.postSendTestEmail(params, 'sendParams').subscribe((resp: any) => {
+
       console.log("resp: ", resp);
     }, (error) => {
       console.error("error: ", error);

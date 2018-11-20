@@ -7,9 +7,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 export class LoginUserService {
 
    //to be fetched in layout and within router-outlet
-   username;
-   usercode;
-   isLeadResponseRole;
+   username : String;
+   usercode : String;
+   isLeadResponseRole : boolean;
 
    allowedRoutes : Array<String> = []; //retrieved from LayoutComponent
 

@@ -1,3 +1,9 @@
+#ErrMsgModal{
+  .modal-header{
+    border-bottom: unset !important;
+  }
+}
+
 .edm-bodyBottom{
   .ng-invalid.ng-dirty, .div-templateOption .ng-invalid{
     border-color:red !important;

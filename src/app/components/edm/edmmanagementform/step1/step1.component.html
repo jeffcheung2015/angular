@@ -1,3 +1,18 @@
+<div class="modal fade " id="ErrMsgModal" tabindex="-1" role="dialog" aria-labelledby="errMsgModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="errMsgModalLabel" *ngFor="let errMsg of errMsgArr">
+          {{errMsg}}
+        </h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default table-btn btn-ok" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="col-md-12 step1 edm-bodyBottom" style="display: block">
   <form [formGroup]="edmManagementStep1Form" method="POST" (ngSubmit)="onSubmitStep1()">
     <div class="col-md-8 step1-left ">
@@ -186,9 +201,6 @@
         <div class="form-group clearfix">
             <div class="clearfix form-block div-commCodeErrorWrapper">
                 <p class="control-label" for="inputSuccess1">Communication Code</p>
-                <span class="span-communicationCodeErrorMsg span-communicationCodeErrorMsg-hide">
-                  {{ commCodeMsg ? commCodeMsg : 'Please enter comm. code'}}
-                </span>
                 <div class="inputSuccess1">
                   <input formControlName="communicationCd" name="communicationCdField" type="text" class="col-md-6">
                 </div>

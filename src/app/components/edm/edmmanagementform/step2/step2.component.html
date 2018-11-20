@@ -20,11 +20,13 @@
                                       <label>Gender</label>
                                       <div class="dropdown-redarrow search-by-dropdown div-genderOption">
                                           <select formControlName="genderOption" name="genderOptionField" >
+                                              <option value=""></option>
                                               <option value="M">Male</option>
                                               <option value="F">Female</option>
                                           </select>
                                           <div class="select-selected"></div>
                                           <div class="select-items select-hide">
+                                            <div>&nbsp;</div>
                                             <div>Male</div>
                                             <div>Female</div>
                                           </div>
@@ -44,6 +46,7 @@
                                       <label>Birthday Month (Jan - Dec)</label>
                                       <div class="dropdown-redarrow search-by-dropdown div-birthdayOption">
                                           <select formControlName="birthdayOption" name="birthdayOptionField" >
+                                              <option value="" monthName=""></option>
                                               <option value="0" monthName="January">January</option>
                                               <option value="1" monthName="February">February</option>
                                               <option value="2" monthName="March">March</option>
@@ -59,6 +62,7 @@
                                           </select>
                                           <div class="select-selected"></div>
                                           <div class="select-items select-hide"><!--same-as-selected-->
+                                            <div>&nbsp;</div>
                                             <div>January</div>
                                             <div>February</div>
                                             <div>March</div>
@@ -137,7 +141,7 @@
                       </div>
                       <div class="text-left">
                           <input type="submit" class="btn btn-primary table-btn" value="Search">
-                          <input type="reset" class="btn btn-default table-btn" value="Reset">
+                          <input type="reset" (click)="resetDateRangeRestrictAndDropDownOption()" class="btn btn-default table-btn" value="Reset">
                       </div>
                 </div>
             </div>

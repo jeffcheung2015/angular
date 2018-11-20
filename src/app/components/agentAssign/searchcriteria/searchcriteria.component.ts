@@ -57,7 +57,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     let numEngValidator = [Validators.pattern('[0-9a-zA-Z]+')];
     let numEngSpaceValidator = [Validators.pattern('[0-9a-zA-Z ]+')];
     this.criteriaObj = this.currSubPage === 'easAgentAssignGI' ? this.agentassignmentService.currGISearchCriteria :
-    this.currSubPage === 'easAgentAssignCS' ? this.agentassignmentService.currCSSearchCriteria : {};
+                       this.currSubPage === 'easAgentAssignCS' ? this.agentassignmentService.currCSSearchCriteria : {};
     this.searchForm = (this.currSubPage === 'easAgentAssignGI') ?
     new FormGroup({
       fullName : new FormControl(this.criteriaObj.fullName, numEngSpaceValidator),
@@ -88,9 +88,10 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
   }
 
   mapOptionValToTxt = {
-    "" : "",
+    "" : "&nbsp;",
     "A": "Assign",
     "AA": "Auto Assigned",
+    "R": "Re-assign",
     "Y": "Yes",
     "N": "No",
     "1": "To apply for extension",
@@ -101,9 +102,8 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
 
   //set the option according to the curr value of the corresponding select elem
   setOptionDivHTML(_criteriaObj : any){
-    console.log(_criteriaObj)
     if(this.currSubPage == 'easAgentAssignGI'){
-      console.log(this.currSubPage);
+      console.log(this.currSubPage, this.mapOptionValToTxt[_criteriaObj.assignmentOption]);
       $(".div-assignmentOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.assignmentOption]);
     }else if(this.currSubPage == 'easAgentAssignCS'){
       console.log(this.currSubPage);
@@ -164,7 +164,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
       this.initDropdown('contactCustomerOption'); //the 'assignment' dropdown is dynamically generated
       this.initDropdown('assignmentStatusOption'); //the 'assignment' dropdown is dynamically generated
     }
-    $('[name=assignmentOptionField]').val("A");
+
   }
   ngAfterViewChecked(){
     if(!this.dropDownInitialized){
@@ -175,7 +175,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
         this.initDropdown('contactCustomerOption'); //the 'assignment' dropdown is dynamically generated
         this.initDropdown('assignmentStatusOption'); //the 'assignment' dropdown is dynamically generated
       }
-      if(['easAgentAssignGI', 'easAgentAssignCS'].indexOf(this.currSubPage)){
+      if(['easAgentAssignGI', 'easAgentAssignCS'].indexOf(this.currSubPage) !== -1){
         this.setOptionDivHTML(this.criteriaObj);
       }
       this.dropDownInitialized = true;

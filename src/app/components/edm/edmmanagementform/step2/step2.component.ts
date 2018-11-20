@@ -5,7 +5,7 @@ import constants from '../../../../constants/constants';
 import convertformat from '../../../../utils/convertformat';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject} from 'rxjs';
-import {get as _get, set as _set, range as _range} from 'lodash';
+import {get as _get, set as _set, range as _range, fill as _fill} from 'lodash';
 
 @Component({
   selector: 'app-step2',
@@ -35,10 +35,12 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     selfServiceWithLife: new FormControl('')
   });
   @Input()edmPageInfo : {
-    currStep: String
+    currStep: String,
+    commCode: String
   };
   displayedColumnsName : String[] = constants["EDMStep2Field"];
   noOfRecords:number = 0;
+  minDateTo; maxDateFrom;
 
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
@@ -54,8 +56,8 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
-    "10": "inactive-gray",
-    "20": "active-red",
+    "10": "active-red",
+    "20": "inactive-gray",
   };
 
   constructor(
@@ -70,10 +72,13 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   onSubmitStep2(){ //not posting via form but posting via edmService method instead
     console.log("go from step2 to step3");
     let queryParams = {
-      selectedRecordsStr: this.convertSelectedRecordIntoArray(this.selectedRecords)
+      selectedRecordsStr: this.convertSelectedRecordIntoArray(this.selectedRecords),
+      commCode: this.edmPageInfo.commCode
     };
+
     this.edmService.postEdmReceiver(queryParams, 'sendParams').subscribe((resp: any) =>{
       console.log(resp);
+
     }, (error) => {
       console.log('>>> postEdmReceiver error:', error)
     });
@@ -112,7 +117,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     let genderOption = $("[name=genderOptionField]").val();
     let mobileNo = this.edmManagementStep2Form.controls['mobileNo'].value;
     let clientId = this.edmManagementStep2Form.controls['clientId'].value;
-    let birthdayOption = $("[name=birthdayOptionField]").val();
+    let birthdayOption = Number($("[name=birthdayOptionField]").val());
     let email = this.edmManagementStep2Form.controls['email'].value;
     let campaignCd = this.edmManagementStep2Form.controls['campaignCd'].value;
     let partnerCd = this.edmManagementStep2Form.controls['partnerCd'].value;
@@ -126,16 +131,20 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     let selfServiceStr = selfService ? 'Self Service: true' : 'Self Service: false';
     let failUpsell6MonthsStr = failUpsell6Months ? 'Unsuccessful Upsell in 6 months: true' : 'Unsuccessful Upsell in 6 months: false';
     let selfServiceWithLifeStr = selfServiceWithLife ? 'Self Service with life: true' : 'Self Service with life: false';
-    let birthdayOptionStr = birthdayOption ? $('[name=birthdayOptionField] option:eq(' + birthdayOption + ')').attr("monthName") : '';
+    let birthdayOptionToOptionIndex = String(birthdayOption + 1);
+    let birthdayOptionStr = birthdayOption ? $('[name=birthdayOptionField] option:eq(' + birthdayOptionToOptionIndex + ')').attr("monthName") : '';
+
+    //further pre process the date of submission
+    dateOfSubmissionFrom = dateOfSubmissionFrom ? convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionFrom)) : dateOfSubmissionFrom;
+    dateOfSubmissionTo = dateOfSubmissionTo ? convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionTo)) : dateOfSubmissionTo;
+    //
 
     this.searchCriterias = [surname, firstName, genderOption, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
-      partnerName, convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionFrom)),
-      convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionTo)),
+      partnerName, dateOfSubmissionFrom, dateOfSubmissionTo,
       selfService, failUpsell6Months, selfServiceWithLife];
 
     this.searchCriteriasDisplay = [surname, firstName, genderOption, mobileNo, clientId, birthdayOptionStr, email, campaignCd, partnerCd,
-      partnerName, convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionFrom)),
-      convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionTo)),
+      partnerName, dateOfSubmissionFrom, dateOfSubmissionTo,
       selfServiceStr, failUpsell6MonthsStr, selfServiceWithLifeStr];
 
     //clear all the elems in selectedRecords array
@@ -153,12 +162,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     });
   }
   ngOnInit() {
-    this.searchCriterias = ["" ,"" ,"" ,
-      "" ,"" ,"" ,
-      "" ,
-      "", "", "",
-      "", "",
-      "", "", ""];
+    this.searchCriterias = _fill(new Array(15), "");
     this.searchCriteriaFieldName = ["surname","firstName","genderOption",
       "mobileNo","clientId", "birthdayOption",
       "email",
@@ -171,7 +175,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       colArr.push({
         data:val,
         orderable: false,
-        width:(index === 0) ? '10px' : '100px'
+        width:'100px'
       })
     });
     this.dtOptions = {
@@ -181,7 +185,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       scrollCollapse: true,
       responsive: true,
       pagingType: 'full_numbers',
-      pageLength: 20,
+      pageLength: 10,
       scrollX:true,
       scrollY:false,
       columnDefs : this.edmManagementFormRecordColumnDef(),
@@ -457,5 +461,11 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   //to set the min, max date of from / to once submissionfrom / to is changed
   dateOfSubmissionChange(e, fromOrTo){
     this[(fromOrTo == 0) ? "minDateTo" : "maxDateFrom"] = e.value;
+  }
+
+  resetDateRangeRestrictAndDropDownOption(){
+    this.minDateTo = null;
+    this.maxDateFrom = null;
+    $(".select-selected").html("&nbsp;");
   }
 }

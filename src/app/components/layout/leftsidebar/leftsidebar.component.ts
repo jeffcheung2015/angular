@@ -22,6 +22,9 @@ export class LeftsidebarComponent implements OnInit {
   @Input() usercode: string;
   currDate: Date;
   currentLang: string;
+
+  isLeadResponseRole : boolean = false;
+
   constructor(
     private router :Router,
     public translateService: TranslateService,
@@ -61,6 +64,7 @@ export class LeftsidebarComponent implements OnInit {
     _menu.forEach((elem, key) => {
       if(elem.title === 'Lead Response'){
         this.loginUserService.setIsLeadRespRole(true);
+        this.isLeadResponseRole = true;
         elem.children.forEach((elem, key) => {
           switch(elem.title){
             case 'Agent interface':

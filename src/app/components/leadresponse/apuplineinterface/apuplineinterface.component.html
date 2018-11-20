@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody
-          *ngIf="!isLoading && displayedDataArray"
+          *ngIf="displayedDataArray"
           >
           <tr *ngFor="let dataRow of displayedDataArray">
             <td *ngFor="let key of objectKeys(dataRow)">

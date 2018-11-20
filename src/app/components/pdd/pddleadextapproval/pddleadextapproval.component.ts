@@ -19,7 +19,7 @@ export class PddleadextapprovalComponent implements OnInit {
   pddLeadExtApprovalInfo : {
     agentName: String,
     agentCode: String,
-    assignemntDate: String,
+    assignmentDate: String,
     dateOfSubmission:String,
     firstContactDt: String,
     leadExtReason: String,
@@ -29,7 +29,7 @@ export class PddleadextapprovalComponent implements OnInit {
   } = {
     agentName:  "",
     agentCode:  "",
-    assignemntDate:  "",
+    assignmentDate:  "",
     dateOfSubmission: "",
     firstContactDt:  "",
     leadExtReason:  "",
