@@ -1,0 +1,58 @@
+.div-searchCriteria{
+  .ng-invalid{
+    border-color:red !important;
+  }
+  .form-aoSearchRecordCriteria{
+
+    .div-displayGrid{
+      display: table-caption;
+
+      .div-dateOfSubmissionWrapper, .div-dateOfAssignmentWrapper{
+        margin-bottom: 10px;
+        display: inline-flex;
+        .span-dateOfSubmissionFrom, .span-dateOfAssignmentFrom{
+          margin-bottom: 10px;
+        }
+        .div-dateOfSubmissionFrom, .div-dateOfAssignmentFrom{
+          margin-right: 65px;
+        }
+        .span-dateOfSubmissionTo, .span-dateOfAssignmentTo{
+          position: relative;
+          left: -20px;
+          margin-top: 30px;
+        }
+        .div-dateOfSubmissionTo, .div-dateOfAssignmentTo{
+          margin-top: 21px;
+        }
+      }
+    }
+    .btn-search, .btn-reset{
+      padding: 6px !important;
+    }
+  }
+  input{
+    line-height: 10px;
+    height:40px !important;
+    border-color:#cccccc;
+  }
+  .div-dateOfSubmissionFrom, .div-dateOfSubmissionTo, .div-dateOfAssignmentFrom, .div-dateOfAssignmentTo{
+    position:relative;
+
+    .input-dateOfSubmissionBtn, .input-dateOfAssignmentBtn{
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      background: transparent;
+      width: 100%;
+    }
+
+    .mat-icon.material-icons{
+      color:red;
+    }
+
+    .input-dateOfSubmission, .input-dateOfAssignment{
+      width: 230px;
+      line-height: 10px;
+    }
+  }
+}

@@ -8,6 +8,7 @@ import { Subject} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { FormGroup, FormControl } from '@angular/forms';
 import {get as _get, set as _set} from 'lodash';
+import convertformat from '../../../utils/convertformat';
 
 @Component({
   selector: 'app-pddsummary',
@@ -104,23 +105,36 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
     });
 
     this.classToTrigger =  [
-      // {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
-      //
-      // {type: 'submit', className: "a-customerDtlSubmitBtn", callback: ()=>{this.setCustomerDtl()}},
-      // {type: 'submit', className: "a-leadExtSubmitBtn", callback: ()=>{this.setLeadExt()}},
-      // {type: 'submit', className: "a-upsellDtlSubmitBtn", callback: ()=>{this.setUpsellDtl()}}
+
     ];
+  }
+
+  resetExportListForm(){
+    this.exportListForm.reset();
+    this.exportListForm.controls['dateOfSubmissionFrom'].disable();
+    this.exportListForm.controls['dateOfSubmissionTo'].disable();
+    this.exportListForm.controls['selectedOption'].setValue('all');
   }
 
   exportRecordList(){
     //having data-dismiss attr in <button type="submit"> will prevent the exportListForm from submitting
     $("#exportListModal").modal('toggle'); //so have to dismiss the "#exportListModal" modal here
-    let sentParams = {
-      selectedOption: this.exportListForm.controls['selectedOption'].value,
-      dateOfSubmissionFrom: this.exportListForm.controls['dateOfSubmissionFrom'].value || "",
-      dateOfSubmissionTo: this.exportListForm.controls['dateOfSubmissionTo'].value || ""
-    };
-    this.pddService.getPddSummaryList(sentParams, 'getExportList').subscribe((resp: any) => {
+    let sentParams :{
+      dateOfSubmissionFrom? : String,
+      dateOfSubmissionTo? : String
+    } = {};
+
+    if(this.exportListForm.controls['selectedOption'].value !== 'all'){
+      Object.assign(sentParams, this.exportListForm.controls['dateOfSubmissionFrom'].value ? {
+        dateOfSubmissionFrom: convertformat.dateToDDMMYYYY(this.exportListForm.controls['dateOfSubmissionFrom'].value)
+      } : {});
+      Object.assign(sentParams, this.exportListForm.controls['dateOfSubmissionTo'].value ? {
+        dateOfSubmissionTo: convertformat.dateToDDMMYYYY(this.exportListForm.controls['dateOfSubmissionTo'].value)
+      } : {});
+    }
+
+
+    this.pddService.getPddSummaryExportList(sentParams, 'getExportList').subscribe((resp: any) => {
       console.log(resp);
       this.excelService.jsonExportAsExcelFile(resp.body.data, 'PDDSummary');
     }, (error) => {

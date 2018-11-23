@@ -34,7 +34,7 @@ export default {
       'prodClass','polNo','lifePolNo','applicantName',
       'idNo','giOptOut','lifeOptOut','currentAgentName',
       'currentAgentCode','currentAgentPhone','dateOfSubmission',
-      'campaignCode','assignmentType','agentTeam',
+      'campaignCode','assignmentType',
       'agentCode','agentName','agentPhone',
       'agentAssignedDate','agentSentDate','customerSentDate'],
 

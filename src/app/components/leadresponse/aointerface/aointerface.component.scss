@@ -21,9 +21,27 @@
 .div-aoInterfaceDataTable{
   text-align: center;
   .h4-tableHeader{
-    float: left;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 15px;
     color:black;
     font-weight: bold;
+  }
+
+  .div-aoSearchRecordCriteria{
+    width: 100%;
+    .h4-searchCriteriaText{
+      white-space: pre;
+    }
+    .h4-criteriaText{
+      text-align: left;
+      word-break: break-all;
+    }
+
+    .h4-noOfRecords{
+      white-space: nowrap;
+      margin-left: auto;
+    }
   }
 
   .table-aoInterface{

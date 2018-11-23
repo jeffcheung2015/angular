@@ -72,30 +72,27 @@ export class EdmService {
 
   postSubmitOrSave(params, type){
     let dummy_resp_obj = {
-      body:{
         code: ['00000'],
         errMsg: ['']
-      }
+      
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/edm/saveEdmTemplate', params, 'post', type);
   }
 
   postEdmReceiver(params, type){
     let dummy_resp_obj = {
-      body:{
         code: ['00001', '00002'],
         errMsg: ['Duplicated communication code found.', 'No Template option is selected']
-      }
+      
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/edm/saveEdmReceiver', params, 'post', type);
   }
 
   postSendTestEmail(params, type){
     let dummy_resp_obj = {
-      body:{
         code: ['00001', '00002'],
         errMsg: ['Duplicated communication code found.', 'No Template option is selected']
-      }
+      
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/edm/sendTestEmail', params, 'post', type);
   }

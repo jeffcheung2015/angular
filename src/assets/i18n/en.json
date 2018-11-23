@@ -13,7 +13,7 @@
     "LEAD_RESPONSE":"Lead Response",
     "HOME":"Home",
     "AGENT_INTERFACE":"Agent interface",
-    "AP_UPLINE_INTERFACE":"Ap-upline interface",
+    "AP_UPLINE_INTERFACE":"Upline interface",
     "AO_INTERFACE":"AO interface"
   },
   "LEFT_SIDEBAR_MENU":{
@@ -21,7 +21,7 @@
     "MAXMIZE_MENU":"Maxmize Menu",
     "LEAD_RESPONSE":"Lead Response",
     "AGENT_INTERFACE":"Agent interface",
-    "AP_UPLINE_INTERFACE":"Ap-upline interface",
+    "AP_UPLINE_INTERFACE":"Upline interface",
     "AO_INTERFACE":"AO interface"
   },
   "LEAD_RESPONSE_COMMON":{
@@ -93,7 +93,16 @@
     }
   },
   "AO_INTERFACE":{
-    "TABLE_TITLE":"Assigned Leads"
+    "TABLE_TITLE":"Assigned Leads",
+    "NO_OF_RECORDS":"Table No. Of Records",
+    "SEARCH_CRITERIA":"Search Criteria",
+    "INPUT_SEARCH_CRITERIA":"Input your Search Criteria(s)",
+    "SUBMISSION_DT_FROM":"Date of Submission From",
+    "ASSIGNMENT_DT_FROM":"Date of Assignment From",
+    "TO":"To",
+    "AGENT_CODE":"AgentCode",
+    "SEARCH_BTN":"Search",
+    "RESET_BTN":"Reset"
   },
   "AP_UPLINE_INTERFACE":{
     "TABLE_TITLE":"Financial Consultant - Allocation of New Leads"

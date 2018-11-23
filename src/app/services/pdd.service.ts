@@ -13,7 +13,7 @@ import constants from '../constants/constants';
 })
 export class PddService {
   constructor(private http: HttpClient){ }
-  currAgentCode : String = "";
+  currPolicyNo : String = "";
   //set currServiceName(name : string) {this._currServiceName = name;}
   //  get currServiceName() : string {return this._currServiceName;}
   //type : dataTable | searchCriteria | sendParams
@@ -61,10 +61,10 @@ export class PddService {
   }
 
   //getExportList
-  getPddSummaryList(params, type){
+  getPddSummaryExportList(params, type){
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/pddSummaryList.json', params, 'get', type) :
-            this.getOrPostFunc("/eas/api/pdd/getPddSummaryList" ,params, 'get', type);
+            this.getOrPostFunc("/eas/api/pdd/getPddSummaryExportList" ,params, 'get', type);
   }
 
   //sendParams

@@ -99,13 +99,12 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     this.initSearchCriteriaBasedOnSearchHistory();
 
     //call a func to pass and reset the searchCriteriaComponent's searchRecordComponent ref
-    let fixedColumnsMaxIndex = (this.currSubPage === 'easAgentAssignGI') ? 4 : 1;
+
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val, index)=>{
       colArr.push({
         data:val,
-        orderable: false,
-        width: (index <= fixedColumnsMaxIndex) ? 80 : 130
+        orderable: false
       })
     });
     this.dtOptions = {
@@ -172,8 +171,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     if(type === 'pruchat'){
       this.agentassignmentService.postResendPruchat(params, 'sendParams').subscribe((resp : any) => {
         //this api in all cases have only one elem inside the list
-        let codeList = _get(resp, 'body.code[0]');
-        let errMsg = (codeList && codeList[0] !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'body.errMsg[0]') : constants.MSG.PRUCHAT_EMAIL_SUCCESS;
+        let codeList = _get(resp, 'code[0]');
+        let errMsg = (codeList && codeList[0] !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'errMsg[0]') : constants.MSG.PRUCHAT_EMAIL_SUCCESS;
         this.setPopUpMsg(errMsg);
         $("#btnMsgModal").modal('show');
       }, (error)=>{
@@ -183,8 +182,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     }else if(type === 'sms'){
       this.agentassignmentService.postResendSMS(params, 'sendParams').subscribe((resp : any) => {
         //this api in all cases have only one elem inside the list
-        let codeList = _get(resp, 'body.code[0]');
-        let errMsg = (codeList && codeList[0] !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'body.errMsg[0]') : constants.MSG.SMS_EMAIL_SUCCESS;
+        let codeList = _get(resp, 'code[0]');
+        let errMsg = (codeList && codeList[0] !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'errMsg[0]') : constants.MSG.SMS_EMAIL_SUCCESS;
         this.setPopUpMsg(errMsg);
         $("#btnMsgModal").modal('show');
       }, (error)=>{
@@ -302,6 +301,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         let convertDate = (date) => {
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " ";
         }
+
         //F re-assign btn
         //G assign btn
         let rowSymbol = (agentCode) ? 'F' : 'G';
@@ -346,7 +346,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                 break;
               case 'F': //val reassign pru sms (2)
                 firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
-                secRow = `<tr><td colspan="4" class="re-assign" style="padding: 8px 0px;">` +
+                secRow = `<tr><td colspan="4" class="re-assign">` +
                  `<div ` + displayInlineStyle + `><div>` +
                  reassignBtnHTML + `</div><div>` + pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div></div>` +
                  `</td></tr>`;
@@ -395,8 +395,16 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     }]
   }
   agentAssignedGIColumnDef(){
-    return [{
+    return [
+      {targets: 18,width:'130px'},
+      {targets: [13,14,15,16],width:'150px'},
+      {targets: [0,1,2,3,4],width:'80px'},
+      {targets: [5,6,7,8,9,10,11,12],width:'130px'},
+      {
       targets: "_all",
+      //let fixedColumnsMaxIndex = (this.currSubPage === 'easAgentAssignGI') ? 4 : 1;
+      //width: (index <= fixedColumnsMaxIndex) ? 80 : 130
+      //width: 200,
       createdCell: function (td, cellData, rowData, row, col) {
         let assignType = rowData.assignmentType;
         let agentCode = rowData.agentCode;
@@ -426,12 +434,12 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               $(td).html(`<span>` + assignTypeToText[cellData - 1] + `</span>`);
             }
           }
-        }else if(col >= 13 && col <= 17){
-          if(col!==15){  //remove and merge all the 5 tds as a one td
+        }else if(col >= 13 && col <= 16){
+          if(col!==14){  //remove and merge all the 4 tds as a one td
             $(td).remove();
           }else{
-            $(td).attr('colspan', '5');
-
+            $(td).attr('colspan', '4');
+            $(td).css('padding', '8px 0px');
             let redBtnClass = "btn btn-primary table-btn";
             let grayBtnClass = "btn btn-default table-btn";
 
@@ -446,8 +454,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             let agentAssignedDate = rowData.agentAssignedDate ? new Date(rowData.agentAssignedDate.substr(0,10)) : ``;
             $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
 
-            let tdValRowHTML = `<td><p ` + pStyle + `>` + rowData.agentTeam + `</p></td>
-            <td><p ` + pStyle + `>` + rowData.agentCode + `</p></td>
+            let tdValRowHTML = `<td><p ` + pStyle + `>` + rowData.agentCode + `</p></td>
             <td><p ` + pStyle + `>` + rowData.agentName + `</p></td>
             <td><p ` + pStyle + `>` + rowData.agentPhone + `</p></td>
             <td><p ` + pStyle + `>` + (agentAssignedDate ? convertDate(agentAssignedDate) : ``) + `</p></td>`;
@@ -460,14 +467,14 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                 break;
               case 'B': //val reassign pru sms (2)
                 firstRow = `<tr class="re-assign">` + tdValRowHTML + `</tr>`;
-                secRow = `<tr><td colspan="5" class="re-assign" style="padding: 8px 0px;">` +
+                secRow = `<tr><td colspan="4" class="re-assign" style="padding: 8px 0px;">` +
                  `<div ` + displayInlineStyle + `><div>` +
                  reassignBtnHTML + `</div><div>` + pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div></div>` +
                  `</td></tr>`;
                 break;
               case 'C': //val pru sms (2)
                 firstRow = `<tr>` + tdValRowHTML + `</tr>`;
-                secRow = `<tr><td colspan="5" style="padding: 8px 0px;">` +
+                secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
                  `<div ` + displayInlineStyle + `><div>` +
                   pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
                   `</td></tr>`;
@@ -477,7 +484,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                   firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
                 }else{
                   firstRow = `<tr>` + tdValRowHTML + `</tr>`;
-                  secRow = `<tr><td colspan="5" style="padding: 8px 0px;">` +
+                  secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
                    `<div ` + displayInlineStyle + `><div>` +
                     pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
                     `</td></tr>`;
@@ -491,7 +498,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                   firstRow = `<div ` + displayInlineStyle + `>` + assignBtnHTML + `</div>`;
                 }else{
                   firstRow = `<tr>` + tdValRowHTML + `</tr>`;
-                  secRow = `<tr><td colspan="5" style="padding: 8px 0px;">` +
+                  secRow = `<tr><td colspan="4" style="padding: 8px 0px;">` +
                    `<div ` + displayInlineStyle + `><div>` +
                     pruchatBtnHTML + `</div><div>` + smsEmailBtnHTML + `</div>` +
                     `</td></tr>`;
@@ -504,9 +511,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                           `<table style="table-layout:fixed;width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
             $(td).html(htmlStr);
           }
-        }else if(col >= 18){ //pruchat sms Section
+        }else if(col >= 17){ //pruchat sms Section
           $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
-          let dataArrSrc = (col === 18) ? rowData.agentSentDate : rowData.customerSentDate;
+          let dataArrSrc = (col === 17) ? rowData.agentSentDate : rowData.customerSentDate;
           let tdhtml = "";
           if(dataArrSrc && dataArrSrc.length != 0){
             dataArrSrc.forEach((data)=>{
@@ -520,7 +527,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               //
               tdhtml += `<p>` + processedDt + `</p>`;
             });
-            tdhtml += (rowData.lastEmailId && col === 19) ?
+            tdhtml += (rowData.lastEmailId && col === 18) ?
             `<a class="a-viewEmail" queryParams="lastEmailId:` + rowData.lastEmailId + `"'>View email</a>` : ``;
           }else{
             tdhtml = 'N/A';

@@ -111,8 +111,8 @@ export class Step1Component implements OnInit, AfterViewInit {
       //reset the errMsgArr and comm code input field css
       this.isSetStep1ErrPrompt(true);
 
-      let codeList = _get(resp, 'body.code');
-      let errMsgList = _get(resp, 'body.errMsg');
+      let codeList = _get(resp, 'code');
+      let errMsgList = _get(resp, 'errMsg');
 
       //00000 : ok
       //00001 : dup comm Code

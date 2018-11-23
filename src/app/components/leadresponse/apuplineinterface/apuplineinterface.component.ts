@@ -72,7 +72,7 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
 
   ngAfterViewInit(){ //only load data after view are initialized
     this.leadresponseService.getapUplineInterfaceRecord().subscribe((resp : any) => {
-      this.displayedDataArray = this.postProcessingDisplayedData(resp.data);
+      this.displayedDataArray = this.postProcessingDisplayedData(resp);
     }, (error) => console.log(error));
   }
   //post processing the displayed data into 5 cols

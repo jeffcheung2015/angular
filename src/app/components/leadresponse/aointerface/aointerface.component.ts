@@ -27,6 +27,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
   currCustomerName; currPhone; currEmail; currAssignmentDt;
   currAssignmentStatus;
   currPolNo;
+  displayDefaultNoRecord: boolean = true;
 
   customerDetailModalForm = new FormGroup({
      firstContactDt : new FormControl('')
@@ -41,6 +42,11 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
      afyp : new FormControl('')
   });
   //
+
+  searchCriterias : Array<String> = [];
+  searchCriteriasFieldName = ["dateOfSubmissionFrom", "dateOfSubmissionTo",
+   "dateOfAssignmentFrom", "dateOfAssignmentTo", "agentCode"];
+  noOfRecords: String | number;
 
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
@@ -199,6 +205,18 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
 
   setCurrSelectedAgentCode(queryParams){
     this.currSelectedAgentCode = "";
+  }
+
+  refreshAndReloadSearchRecordTable(_searchCriteria : string[]){
+    this.searchCriterias = _searchCriteria;
+    let dTableInstance = _get(this.dTable, "dtInstance");
+    if(dTableInstance){
+      dTableInstance.then((dtInstance: DataTables.Api) => {
+        //redraw table only need these 2 funcs
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
 
   ngAfterViewInit(){ //only load data after view are initialized
@@ -411,10 +429,19 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     return (params, callback, settings) => {
       let unusedParams, draw, start, length;
       ({draw, start, length, ...unusedParams} = params); //do without columns attr inside params
+
       let queryParams = {
         draw, start, length
       };
+
+      this.searchCriterias.forEach((elem,key) => {
+        if(elem){
+          _set(queryParams, this.searchCriteriasFieldName[key], elem);
+        }
+      });
+
       this.dataTableAjaxSubscription = this.leadresponseService.getaoInterfaceRecord(queryParams, 'dataTable').subscribe((resp : any) => {
+        this.noOfRecords = (this.displayDefaultNoRecord) ? 0: resp.body.recordsFiltered;
         //preprocessing the resp.body.data
         let resArr = {data: Array<any>()};
         resp.body.data.forEach((elem,key)=>{
@@ -433,14 +460,22 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
           resArr.data.push(restAttrObj);
         });
 
-        this.noOfPage = Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength);
-        this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;
+        this.noOfPage = this.displayDefaultNoRecord ? Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength) : 0;
+        this.currPage = (this.displayDefaultNoRecord && resp.body.recordsFiltered >= 1) ? this.currPage : 0;
         //
-        callback({
+        callback((this.displayDefaultNoRecord) ? {
+          data:[],
+          recordsTotal: 0,
+          recordsFiltered: 0
+        } : {
           data:resArr.data,
           recordsTotal: resp.body.recordsTotal,
           recordsFiltered: resp.body.recordsFiltered
         });
+
+        if(this.displayDefaultNoRecord){
+          this.displayDefaultNoRecord = false;
+        }
       });
     }
   }

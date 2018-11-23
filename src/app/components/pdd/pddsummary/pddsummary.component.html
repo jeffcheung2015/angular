@@ -58,7 +58,7 @@
   <div class="div-pddSummaryHeader">
     <h4 class="h4-tableHeader">Assigned Leads</h4>
     <h4 class="h4-noOfApplications">Total No.of Application: {{noOfApplications}}</h4>
-    <button data-toggle="modal" data-target="#exportListModal" class="export-btn"><i class="iconfont">&#xe6e9;</i><span>Export</span></button>
+    <button data-toggle="modal" data-target="#exportListModal" (click)="resetExportListForm()" class="export-btn"><i class="iconfont">&#xe6e9;</i><span>Export</span></button>
   </div>
   <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-pddSummary">
     <thead>

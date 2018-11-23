@@ -330,7 +330,6 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
 
           isEarlierThanLeavePeriod = formattedCurrDate.getTime() - onLeaveEndDt.getTime() <= 0;
           isWithinLeavePeriod = formattedCurrDate.getTime() - onLeaveStartDt.getTime() >= 0 && formattedCurrDate.getTime() - onLeaveEndDt.getTime() <= 0
-          console.log(isEarlierThanLeavePeriod, isWithinLeavePeriod, formattedCurrDate)
           //compare current date with the on leave start dt and end dt
           let pStyle = `style="margin:auto;padding:10px;` + ((isWithinLeavePeriod) ? `color:lightgray;"` : `"`);
 

@@ -120,10 +120,10 @@ export class AgentassignmentService{
   //sendParams
   postResetLeaveRecord(params, type){
     let dummy_resp_obj = {
-      body:{
-        code: ['00000'],
-        errMsg: ['']
-      }
+      
+      code: ['00000'],
+      errMsg: ['']
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
 
@@ -131,10 +131,10 @@ export class AgentassignmentService{
   //sendParams
   postSaveLeaveRecord(params, type){
     let dummy_resp_obj = {
-      body:{
-        code: ['00000'],
-        errMsg: ['']
-      }
+
+      code: ['00000'],
+      errMsg: ['']
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/submitOnLeave', params, 'post', type);
 
@@ -142,10 +142,10 @@ export class AgentassignmentService{
   //sendParams  00000 and
   postSelectYesLeaveRecord(params, type){
     let dummy_resp_obj = {
-      body:{
-        code: ['00000'],
-        errMsg: ['']
-      }
+
+      code: ['00000'],
+      errMsg: ['']
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/assignAgent', params, 'post', type);
 
@@ -153,10 +153,10 @@ export class AgentassignmentService{
   //sendParams
   postResendPruchat(params, type){
     let dummy_resp_obj = {
-      body:{
-        code: ['00003'],
-        errMsg: ['Cannot resend email and sms']
-      }
+
+      code: ['00003'],
+      errMsg: ['Cannot resend email and sms']
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/resendToAgent', params, 'post', type);
 
@@ -164,20 +164,20 @@ export class AgentassignmentService{
   //sendParams
   postResendSMS(params, type){
     let dummy_resp_obj = {
-      body:{
-        code: ['00002'],
-        errMsg: ['Cannot resend email']
-      }
+
+      code: ['00002'],
+      errMsg: ['Cannot resend email']
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/resendToCust', params, 'post', type);
   }
   //sendParams
   postClientDetail(params, type){
     let dummy_resp_obj = {
-      body:{
-        code: ['00000'],
-        errMsg: ['']
-      }
+
+      code: ['00000'],
+      errMsg: ['']
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/saveClientDetail', params, 'post', type);
   }

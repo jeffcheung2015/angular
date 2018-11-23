@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./pddleadextapproval.component.scss']
 })
 export class PddleadextapprovalComponent implements OnInit {
+  //1 approve ,2 reject
   clientDtlsForm = new FormGroup({
     pddApproval : new FormControl('1'), //default approve
     remarks : new FormControl('', [Validators.maxLength(200)])
@@ -44,12 +45,12 @@ export class PddleadextapprovalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let agentCode = this.pddService.currAgentCode || "";
-    if(agentCode === ''){
+    let policyNo = this.pddService.currPolicyNo || "";
+    if(policyNo === ''){
       this.router.navigate(['/']);
     }else{
       let queryParams = {
-        agentCode
+        policyNo
       };
       this.pddService.getPddClientDetails(queryParams, 'clientDetails').subscribe((resp: any) => {
         console.log('resp:', resp);
@@ -65,6 +66,7 @@ export class PddleadextapprovalComponent implements OnInit {
   onSubmitClientDetailsForm(){
     if(this.clientDtlsForm.status === 'VALID'){
       let queryParams = {
+        policyNo: this.pddService.currPolicyNo,
         pddApproval: this.clientDtlsForm.controls['pddApproval'].value,
         remarks: this.clientDtlsForm.controls['remarks'].value
       }

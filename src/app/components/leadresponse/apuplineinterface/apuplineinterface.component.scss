@@ -10,12 +10,13 @@
     }
     .div-apUplineInterface-wrapper{
       max-height: 800px;
-      overflow: scroll;
+      overflow: auto;
       width: 100%;
       .table-apUplineInterface{
         width: 100% !important;
         .th-apUplineInterface{
           background: #db0306;
+          position: sticky; top: 0; 
         }
         .span-dataRow{
           white-space: nowrap;

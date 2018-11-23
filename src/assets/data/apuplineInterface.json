@@ -1,5 +1,4 @@
-{
-"data":[{
+[{
   "agentCode":"00010031",
   "agentName":"apldd",
   "agentAssignmentDt":"2018-11-12T04:29:15.239+0000",
@@ -224,4 +223,4 @@
   "agentName":"123123asdasd",
   "agentAssignmentDt":"2018-11-16T04:29:15.239+0000",
   "assignmentStatus":""
-}]}
+}]

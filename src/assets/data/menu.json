@@ -1,6 +1,6 @@
 {"name":"FN00685096 SN00685096","code":"00685096",
   "menu":[
-    "easAgentAssignCS",
+    "easAgentAssignGI",
     "easAgentDetail",
     "easCampaignDetail",
     "easAgentInterface","easAPInterface","easAOInterface",

@@ -96,7 +96,7 @@ export class PddlistComponent  implements OnInit, OnDestroy,
 
   redirectToApproval(queryParams){
     //[put some param into pdd service to retrieve the easLeadExtensionApproval's data not using query params in req header]
-    this.pddService.currAgentCode = queryParams.agentCode;
+    this.pddService.currPolicyNo = queryParams.policyNo;
     this.router.navigate(['easLeadExtensionApproval']);
   }
 
@@ -199,16 +199,15 @@ export class PddlistComponent  implements OnInit, OnDestroy,
   pddListColumnDef(){
     return [{
       targets: "_all",
-      orderable: false,
+      orderable: true,
       createdCell: function (td, cellData, rowData, row, col) {
         //funcs
         let convertDate = (date) => {
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
         };
-
         switch(col){
           case 1:
-            $(td).html(`<a class="a-customerName" queryParams="agentCode:` + rowData.agentCode + `">` + cellData + `</a>`);
+            $(td).html(`<a class="a-customerName" queryParams="policyNo:` + rowData.policyNo + `">` + cellData + `</a>`);
           break;
           case 0: case 6: case 7:
             if(cellData){
@@ -246,10 +245,12 @@ export class PddlistComponent  implements OnInit, OnDestroy,
 
   pddListAjax(){
     return (params, callback, settings) => {
-      let unusedParams, draw, start, length;
-      ({draw, start, length, ...unusedParams} = params); //do without columns attr inside params
+      let unusedParams, draw, start, length, order, orderColName, orderDir;
+      ({draw, start, length, order, ...unusedParams} = params); //do without columns attr inside params
+      orderColName = constants["PDDListField"][_get(order[0], 'column')];
+      orderDir = _get(order[0], 'dir');
       let queryParams = {
-        draw, start, length
+        draw, start, length, orderColName, orderDir
       };
       this.dataTableAjaxSubscription = this.pddService.getPddApplicationList(queryParams, 'dataTable').subscribe((resp : any) => {
 

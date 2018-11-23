@@ -47,6 +47,7 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { CustomdatepickerModule } from './modules/material/customdatepicker/customdatepicker.module';
 //service
 import { LoginUserService } from './services/loginUser.service';
 import { LeadresponseService } from './services/leadresponse.service';
@@ -71,6 +72,7 @@ import { DetailssearchrecordComponent } from './components/agentAssign/detailsse
 import { AgentinterfaceComponent } from './components/leadresponse/agentinterface/agentinterface.component';
 import { ApuplineinterfaceComponent } from './components/leadresponse/apuplineinterface/apuplineinterface.component';
 import { AointerfaceComponent } from './components/leadresponse/aointerface/aointerface.component';
+import { AosearchcriteriaComponent } from './components/leadresponse/aointerface/aosearchcriteria/aosearchcriteria.component';
 import { LeadresponseComponent } from './pages/leadresponse/leadresponse.component';
 import { EdmComponent } from './pages/edm/edm.component';
 import { PddComponent } from './pages/pdd/pdd.component';
@@ -111,6 +113,7 @@ export function createTranslateLoader(http: HttpClient) {
     AgentinterfaceComponent,
     ApuplineinterfaceComponent,
     AointerfaceComponent,
+    AosearchcriteriaComponent,
     LeadresponseComponent,
     EdmComponent,
     PddComponent,
@@ -143,7 +146,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserAnimationsModule,
     DataTablesModule,
     FormsModule,ReactiveFormsModule,
-    NgbDatepickerModule,
+    NgbDatepickerModule,CustomdatepickerModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
@@ -158,7 +161,7 @@ export function createTranslateLoader(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderinterceptorService,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

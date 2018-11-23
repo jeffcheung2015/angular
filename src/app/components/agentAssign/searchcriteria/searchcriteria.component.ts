@@ -246,8 +246,4 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
     this[property].refreshAndReloadSearchRecordTable(searchCriteriaArr);
   }
 
-  setSearchRecordComponent(searchRecordComponent){ //ngif in the comps, they wouldnt be automatically assigned
-    let property = (['easAgentAssignCS','easAgentAssignGI'].indexOf(this.currSubPage) !== -1) ? "searchRecordComponent" : "detailSearchRecordComponent";
-    this[property] = searchRecordComponent;
-  }
 }

@@ -1,0 +1,83 @@
+<div class="row div-searchCriteria"><div class="col-md-12">
+    <div class="panel">
+        <div class="panel-body slide-body">
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                    <div id="accordioninpanel" class="accordion-group">
+                        <div class="accordion-item">
+                            <a class="accordion-title" data-toggle="collapse" data-parent="#accordioninpanel" href="#my-policy-diary">
+                              <h4>{{'AO_INTERFACE.INPUT_SEARCH_CRITERIA' | translate}}</h4>
+                            </a>
+                            <div id="my-policy-diary" class="collapse in" style="">
+                                <div class="accordion-body">
+                                  <div>
+                                      <form class="form-aoSearchRecordCriteria" [formGroup]="aosearchForm" method="POST" (ngSubmit)="onSubmitSearchCriteria()">
+                                          <div>
+                                              <div class="search-by-col-wrap">
+                                                  <div class="search-by-col div-displayGrid">
+                                                    <div class="div-dateOfSubmissionWrapper">
+                                                        <div> <span class="span-dateOfSubmissionFrom">{{'AO_INTERFACE.SUBMISSION_DT_FROM' | translate}}</span>
+                                                            <div class="div-dateOfSubmissionFrom">
+                                                                <input readonly class="input-dateOfSubmission" (dateChange)="dateOfFromToChange($event, 0, 'submission')" matInput [max]="maxDateSubmissionFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
+                                                                <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionFromPicker">
+                                                                  <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #dateOfSubmissionFromPicker></mat-datepicker>
+                                                            </div>
+                                                        </div>
+                                                        <span class="span-dateOfSubmissionTo">{{'AO_INTERFACE.TO' | translate}}</span>
+                                                        <div>
+                                                          <div class="div-dateOfSubmissionTo">
+                                                            <input readonly class="input-dateOfSubmission" (dateChange)="dateOfFromToChange($event, 1, 'submission')" matInput [min]="minDateSubmissionTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
+                                                            <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
+                                                              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #dateOfSubmissionToPicker></mat-datepicker>
+                                                          </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="div-dateOfAssignmentWrapper">
+                                                        <div> <span class="span-dateOfAssignmentFrom">{{'AO_INTERFACE.ASSIGNMENT_DT_FROM' | translate}}</span>
+                                                            <div class="div-dateOfAssignmentFrom">
+                                                                <input readonly class="input-dateOfAssignment" (dateChange)="dateOfFromToChange($event, 0, 'assignment')" matInput [max]="maxDateAssignmentFrom" [matDatepicker]="dateOfAssignmentFromPicker" formControlName="dateOfAssignmentFrom" name="dateOfAssignmentFromField" placeholder="DD/MM/YYYY">
+                                                                <mat-datepicker-toggle matSuffix [for]="dateOfAssignmentFromPicker">
+                                                                  <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #dateOfAssignmentFromPicker></mat-datepicker>
+                                                            </div>
+                                                        </div>
+                                                        <span class="span-dateOfAssignmentTo">{{'AO_INTERFACE.TO' | translate}}</span>
+                                                        <div>
+                                                          <div class="div-dateOfAssignmentTo">
+                                                            <input readonly class="input-dateOfAssignment" (dateChange)="dateOfFromToChange($event, 1, 'assignment')" matInput [min]="minDateAssignmentTo" [matDatepicker]="dateOfAssignmentToPicker" formControlName="dateOfAssignmentTo" name="dateOfAssignmentToField" placeholder="DD/MM/YYYY">
+                                                            <mat-datepicker-toggle matSuffix [for]="dateOfAssignmentToPicker">
+                                                              <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #dateOfAssignmentToPicker></mat-datepicker>
+                                                          </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label>{{'AO_INTERFACE.AGENT_CODE' | translate}}</label>
+                                                        <input formControlName="agentCode" name="agentCodeField" class="search-by-input" type="text">
+                                                    </div>
+                                                  </div>
+                                                  <div class="clearfix"></div>
+                                              </div>
+                                          </div>
+
+                                          <div class="text-left">
+                                              <input [disabled]="!aosearchForm.valid" type="submit" class="btn btn-primary table-btn" value="{{'AO_INTERFACE.SEARCH_BTN' | translate}}">
+                                              <input type="reset" (click)="resetDateRangeRestrictAndDropDownOption()" class="btn btn-default table-btn" value="{{'AO_INTERFACE.RESET_BTN' | translate}}">
+                                          </div>
+                                      </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></div>
