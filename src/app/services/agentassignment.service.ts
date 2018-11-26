@@ -120,7 +120,7 @@ export class AgentassignmentService{
   //sendParams
   postResetLeaveRecord(params, type){
     let dummy_resp_obj = {
-      
+
       code: ['00000'],
       errMsg: ['']
 
@@ -154,8 +154,8 @@ export class AgentassignmentService{
   postResendPruchat(params, type){
     let dummy_resp_obj = {
 
-      code: ['00003'],
-      errMsg: ['Cannot resend email and sms']
+      code: ['00000'],
+      errMsg: ['']
 
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/resendToAgent', params, 'post', type);
@@ -165,8 +165,8 @@ export class AgentassignmentService{
   postResendSMS(params, type){
     let dummy_resp_obj = {
 
-      code: ['00002'],
-      errMsg: ['Cannot resend email']
+      code: ['00000'],
+      errMsg: ['']
 
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/resendToCust', params, 'post', type);
