@@ -297,7 +297,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   }
   agentAssignedCSColumnDef(){
     return [
-      {targets: 12,width:'700px'},
+      {targets: 12,width:'800px'},
       {targets: [0,1],width:'80px'},
       {targets: [2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18],width:'130px'},
       {
@@ -402,7 +402,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   agentAssignedGIColumnDef(){
     return [
       {targets: 15,width:'130px'},
-      {targets: 13,width:'600px'},
+      {targets: 13,width:'800px'},
       {targets: [0,1,2,3,4],width:'80px'},
       {targets: [5,6,7,8,9,10,11,12],width:'130px'},
       {
