@@ -297,7 +297,7 @@ html {
 }
 body {
   font-family: 'Open Sans', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.428571429;
   color: #4d4d4d;
   background-color: #EEEEEE;
@@ -15961,4 +15961,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 .ul-showPerPage li a{
   cursor: pointer;
+}
+
+.table-searchRecord tbody tr td{
+    word-break: break-all;
+    white-space: normal;
 }
