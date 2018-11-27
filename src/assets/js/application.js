@@ -47,7 +47,7 @@ $(function () {
 
     //On click of left menu
     $("a#leftmenu-trigger, #min-menu").click(function () {
-        if ((window.outerWidth)<992) {
+        if ((window.innerWidth)<992) {
             $('body').toggleClass('show-leftbar');
         } else {
             var menuCollapsed = localStorage.getItem('collapsed_menu');

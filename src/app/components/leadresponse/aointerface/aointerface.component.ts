@@ -120,7 +120,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     });
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 10,
       scrollX:true,
       scrollY:true,
       columnDefs : this.aoInterfaceColumnDef(),

@@ -98,9 +98,9 @@
     "SEARCH_CRITERIA":"搜尋範圍",
     "INPUT_SEARCH_CRITERIA":"輸入搜尋範圍",
     "SUBMISSION_DT_FROM":"遞交日期由",
-    "ASSIGNMENT_DT_FROM":"分配日期由",
+    "ASSIGNMENT_DT_FROM":"委派日期由",
     "TO":"至",
-    "AGENT_CODE":"經紀編號",
+    "AGENT_CODE":"理財顧問",
     "SEARCH_BTN":"搜尋",
     "RESET_BTN":"重置"
   },

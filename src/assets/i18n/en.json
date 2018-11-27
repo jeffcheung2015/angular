@@ -100,7 +100,7 @@
     "SUBMISSION_DT_FROM":"Date of Submission From",
     "ASSIGNMENT_DT_FROM":"Date of Assignment From",
     "TO":"To",
-    "AGENT_CODE":"AgentCode",
+    "AGENT_CODE":"Agent Code",
     "SEARCH_BTN":"Search",
     "RESET_BTN":"Reset"
   },

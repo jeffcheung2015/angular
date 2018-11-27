@@ -10311,7 +10311,7 @@ body.show-rightbar #chatarea .chatmsg.sent:after {
 #sidebar>li>a {
   /* border-bottom: 1px solid #EEEEEE; */
 }
-#sidebar>li {
+#sidebar>li:nth-child(n+4) {
   background: white;
   border-bottom: 1px solid #EEEEEE;
 }

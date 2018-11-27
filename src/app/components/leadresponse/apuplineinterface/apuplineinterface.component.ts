@@ -18,7 +18,7 @@ import constants from '../../../constants/constants';
   styleUrls: ['./apuplineinterface.component.scss']
 })
 export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
- AfterViewInit,AfterViewChecked {
+ AfterViewInit {
   currSubPage : string;
   //displayedColumns : Array<string> = constants["APUplineInterfaceColumnName"];
   displayedColumnsField : Array<string> = constants["APUplineInterfaceColumnField"];
@@ -62,11 +62,6 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
     this.loadObjFromLangJson("LEAD_RESPONSE_COMMON", "translateLeadRespCommon");
     this.currLang = _get(window, 'easLang');
     this.classToTrigger =  [
-      {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
-      //
-      // {type: 'submit', className: "a-customerDtlSubmitBtn", callback: ()=>{this.setCustomerDtl()}},
-      // {type: 'submit', className: "a-leadExtSubmitBtn", callback: ()=>{this.setLeadExt()}},
-      // {type: 'submit', className: "a-upsellDtlSubmitBtn", callback: ()=>{this.setUpsellDtl()}}
     ];
   }
 
@@ -76,12 +71,15 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
     }, (error) => console.log(error));
   }
   //post processing the displayed data into 5 cols
+  //**** for case YX?, where the middle Symbol represents the curr code, would upd the prev group agent's no of leads assigned
+  //**** for last case, 2 cases last agent has only 1 row / last agent has more than 1 row that need to be handled
   postProcessingDisplayedData(responseData){
     let resDataArray = new Array(responseData.length);
     //sort by the obj's agent code
     let sortedRespData = _sortBy(responseData, [function(obj) { return obj.agentCode; }]);
+    console.log(sortedRespData)
+    let currUniqAgentCode = '';
     let noOfLeadsAssignedObj = {}; //keep an record of the agentCode and noOfLeadsAssigned by looping over the whole sortedRespData first
-    let currAgentCode = '';//agent row which is currently counted no. on
     let noOfCurrAgentRows = 0;//noOfCurrAgentRows === cumulative no of agents
     //the first record's index with uniq agent code. e.g. {agentCode:1},{agentCode:1},{agentCode:2} fstRecWithUniqAgentCode = 0, 2
     let fstRecWithUniqAgentCode = 0; //will change within the following for loop
@@ -94,42 +92,84 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
         assignmentStatus : string,
         noOfLeadsAssigned? : string
       };
-      noOfCurrAgentRows += 1;
-      if(i == 0 || (i-1>= 0 && sortedRespData[i-1].agentCode !== sortedRespData[i].agentCode)){
-        tmpRowObj = (i < sortedRespData.length - 1) ? {
+      let prevCd = (i > 0) ? sortedRespData[i-1].agentCode : null;
+      let nextCd = (i < sortedRespData.length - 1) ? sortedRespData[i+1].agentCode : null;
+      let currCd = sortedRespData[i].agentCode;
+
+      //either the prevCode doesnt equal to the currCode or prevCode doesnt exist
+      if(i == 0) { //case 1 meet the new agent with uniq code:
+        tmpRowObj = {
           ...sortedRespData[i]
-        } : {
+        };
+        fstRecWithUniqAgentCode = i;
+        currUniqAgentCode = currCd;
+      }else if(i == sortedRespData.length - 1){
+        //last group of agent has more than one row
+        if(currCd == currUniqAgentCode){
+          tmpRowObj = {
+            agentCode: '',
+            agentName: '',
+            agentAssignmentDt: sortedRespData[i].agentAssignmentDt,
+            assignmentStatus: sortedRespData[i].assignmentStatus,
+            noOfLeadsAssigned: ''
+          };
+          noOfCurrAgentRows++;
+          resDataArray[fstRecWithUniqAgentCode].noOfLeadsAssigned = noOfCurrAgentRows;
+        }else{//last group of agent has only one row, then here we need to upd both curr last row, and the prev group of agent
+          resDataArray[fstRecWithUniqAgentCode].noOfLeadsAssigned = noOfCurrAgentRows;
+
+          tmpRowObj = {
+            ...sortedRespData[i],
+            noOfLeadsAssigned: 1
+          };
+        }
+      }//YXY
+      else if(currCd !== prevCd && currCd !== nextCd){
+        tmpRowObj = {
           ...sortedRespData[i],
           noOfLeadsAssigned: 1
         };
-        fstRecWithUniqAgentCode = i;
-      }else if((i-1 >= 0 && (i+1 <= sortedRespData.length - 1)
-      && sortedRespData[i-1].agentCode === sortedRespData[i].agentCode && sortedRespData[i+1].agentCode === sortedRespData[i].agentCode)){
-        tmpRowObj = {
-          agentCode: '',
-          agentName: '',
-          agentAssignmentDt: sortedRespData[i].agentAssignmentDt,
-          assignmentStatus: sortedRespData[i].assignmentStatus,
-          noOfLeadsAssigned: ''
-        }
-      }else{
-        tmpRowObj = {
-          agentCode: '',
-          agentName: '',
-          agentAssignmentDt: sortedRespData[i].agentAssignmentDt,
-          assignmentStatus: sortedRespData[i].assignmentStatus,
-          noOfLeadsAssigned: ''
-        }
+
         resDataArray[fstRecWithUniqAgentCode].noOfLeadsAssigned = noOfCurrAgentRows;
         noOfCurrAgentRows = 0;
+      }//XXY
+      else if(currCd === prevCd && currCd !== nextCd){
+        tmpRowObj = {
+          agentCode: '',
+          agentName: '',
+          agentAssignmentDt: sortedRespData[i].agentAssignmentDt,
+          assignmentStatus: sortedRespData[i].assignmentStatus,
+          noOfLeadsAssigned: ''
+        };
+
+      }//XXX
+      else if(currCd === prevCd && currCd === nextCd){
+        tmpRowObj = {
+          agentCode: '',
+          agentName: '',
+          agentAssignmentDt: sortedRespData[i].agentAssignmentDt,
+          assignmentStatus: sortedRespData[i].assignmentStatus,
+          noOfLeadsAssigned: ''
+        };
+      }//YXX
+      else if(currCd !== prevCd && currCd === nextCd){
+        tmpRowObj = {
+          ...sortedRespData[i],
+          noOfLeadsAssigned: ''
+        };
+        resDataArray[fstRecWithUniqAgentCode].noOfLeadsAssigned = noOfCurrAgentRows;
+        noOfCurrAgentRows = 0;
+        fstRecWithUniqAgentCode = i;
+        currUniqAgentCode = currCd;
+      }else{
+        console.error("Unhandled case !!! in ", i, "-th row");
       }
+      noOfCurrAgentRows += 1;
       resDataArray[i] = tmpRowObj;
     }
     return resDataArray;
   }
 
-  ngAfterViewChecked(){
-  }
   ngOnDestroy(){
     this.translateOnLangChangeSubscription.unsubscribe();
   }
