@@ -12,16 +12,16 @@
   "LEAD_RESP_BREAD_CRUMB":{
     "LEAD_RESPONSE":"Lead Response",
     "HOME":"Home",
-    "AGENT_INTERFACE":"Agent interface",
-    "AP_UPLINE_INTERFACE":"Upline interface",
+    "AGENT_INTERFACE":"Agent Individual Client",
+    "AP_UPLINE_INTERFACE":"Division Client",
     "AO_INTERFACE":"AO interface"
   },
   "LEFT_SIDEBAR_MENU":{
     "MINIMIZE_MENU":"Minimize Menu",
     "MAXMIZE_MENU":"Maxmize Menu",
-    "LEAD_RESPONSE":"Lead Response",
-    "AGENT_INTERFACE":"Agent interface",
-    "AP_UPLINE_INTERFACE":"Upline interface",
+    "LEAD_RESPONSE":"Client Details",
+    "AGENT_INTERFACE":"Agent Individual Client",
+    "AP_UPLINE_INTERFACE":"Division Client",
     "AO_INTERFACE":"AO interface"
   },
   "LEAD_RESPONSE_COMMON":{
@@ -66,7 +66,7 @@
     "NO_OF_LEADS":"No. of Leads assigned"
   },
   "AGENT_INTERFACE":{
-    "TABLE_TITLE":"Assigned Leads",
+    "TABLE_TITLE":"Client Details",
     "CUSTOMER_DTL":{
       "CUSTOMER_NAME":"Customer Name",
       "PHONE":"Phone",
@@ -93,7 +93,7 @@
     }
   },
   "AO_INTERFACE":{
-    "TABLE_TITLE":"Assigned Leads",
+    "TABLE_TITLE":"Client Details",
     "NO_OF_RECORDS":"Table No. Of Records",
     "SEARCH_CRITERIA":"Search Criteria",
     "INPUT_SEARCH_CRITERIA":"Input your Search Criteria(s)",

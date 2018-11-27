@@ -271,17 +271,19 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
           break;
           case 10: //color ext text
             let mapExtToColor = {
+              0: "unset",
               1: "lightskyblue",//To be reviewed
               2: "green",//Approved
               3: "red"//Rejected
             };
             let mapExtToText = {
+              0:"",
               1:"To be reviewed",
               2:"Approved",
               3:"Rejected"
             };
-            let txtColorStyle = `style="color:` + mapExtToColor[parseInt(cellData)] + `;"`;
-            $(td).html(`<span ` + txtColorStyle + `>` + mapExtToText[parseInt(cellData)] + `</span>`);
+            let txtColorStyle = `style="color:` + mapExtToColor[parseInt(String(cellData - 1))] + `;"`;
+            $(td).html(`<span ` + txtColorStyle + `>` + mapExtToText[parseInt(String(cellData - 1))] + `</span>`);
           break;
           case 11:
             $(td).html(`<span class="span-csremarks">` + cellData + `</span>`);

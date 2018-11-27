@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, AfterViewChecked, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, AfterViewChecked, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AgentassignmentService } from '../../../services/agentassignment.service';
 import { GISearchCriteria, CSSearchCriteria } from '../../../models/agentassignment.model';
@@ -8,15 +8,15 @@ import convertFormat from '../../../utils/convertformat';
   templateUrl: './searchcriteria.component.html',
   styleUrls: ['./searchcriteria.component.scss']
 })
-export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked  {
+export class SearchcriteriaComponent implements OnInit, OnChanges, AfterViewChecked  {
   searchRecordComponent;
   detailSearchRecordComponent;
 
   searchForm;
   dropDownInitialized: boolean = false;
 
-  minDateTo;
-  maxDateFrom;
+  minDateTo : Date;
+  maxDateFrom : Date;
   @Input()currSubPage;
 
   criteriaObj: any;
@@ -156,16 +156,7 @@ export class SearchcriteriaComponent implements OnInit, AfterViewInit, OnChanges
       });
     }
   }
-  ngAfterViewInit(){
-    if(this.currSubPage === 'easAgentAssignGI'){
-      this.initDropdown('assignmentOption'); //the 'assignment' dropdown is dynamically generated
-    }else{
-      this.initDropdown('assignmentOption'); //the 'assignment' dropdown is dynamically generated
-      this.initDropdown('contactCustomerOption'); //the 'assignment' dropdown is dynamically generated
-      this.initDropdown('assignmentStatusOption'); //the 'assignment' dropdown is dynamically generated
-    }
 
-  }
   ngAfterViewChecked(){
     if(!this.dropDownInitialized){
       if(this.currSubPage === 'easAgentAssignGI'){

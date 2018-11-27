@@ -12,16 +12,16 @@
   "LEAD_RESP_BREAD_CRUMB":{
     "LEAD_RESPONSE":"客戶回應",
     "HOME":"主頁",
-    "AGENT_INTERFACE":"理財顧問界面",
-    "AP_UPLINE_INTERFACE":"上線界面",
+    "AGENT_INTERFACE":"理財顧問個人客戶",
+    "AP_UPLINE_INTERFACE":"區域客戶",
     "AO_INTERFACE":"AO 界面"
   },
   "LEFT_SIDEBAR_MENU":{
     "MINIMIZE_MENU":"菜單最小化",
     "MAXMIZE_MENU":"菜單最大化",
-    "LEAD_RESPONSE":"客戶回應",
-    "AGENT_INTERFACE":"理財顧問界面",
-    "AP_UPLINE_INTERFACE":"上線界面",
+    "LEAD_RESPONSE":"客戶資料",
+    "AGENT_INTERFACE":"理財顧問個人客戶",
+    "AP_UPLINE_INTERFACE":"區域客戶",
     "AO_INTERFACE":"AO 界面"
   },
   "LEAD_RESPONSE_COMMON":{
@@ -66,7 +66,7 @@
     "NO_OF_LEADS":"分配總數"
   },
   "AGENT_INTERFACE":{
-    "TABLE_TITLE":"客戶列表",
+    "TABLE_TITLE":"客戶資料",
     "CUSTOMER_DTL":{
       "CUSTOMER_NAME":"客戶姓名",
       "PHONE":"客戶電話",
@@ -93,7 +93,7 @@
     }
   },
   "AO_INTERFACE":{
-    "TABLE_TITLE":"客戶列表",
+    "TABLE_TITLE":"客戶資料",
     "NO_OF_RECORDS":"列表內的數目",
     "SEARCH_CRITERIA":"搜尋範圍",
     "INPUT_SEARCH_CRITERIA":"輸入搜尋範圍",

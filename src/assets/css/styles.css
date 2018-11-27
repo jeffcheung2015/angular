@@ -9072,7 +9072,7 @@ body.static-header {
 }
 #page-container {
   background: #fff;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 #page-content {
   min-height: 650px;
@@ -9222,7 +9222,7 @@ footer .container {
   cursor: pointer;
   font-size: 14px;
   overflow: hidden;
-  z-index: 10;
+  z-index: 1000;
 }
 #back-to-top i {
   display: block;
@@ -10309,6 +10309,10 @@ body.show-rightbar #chatarea .chatmsg.sent:after {
   border-left:5px solid #fff;
 }
 #sidebar>li>a {
+  /* border-bottom: 1px solid #EEEEEE; */
+}
+#sidebar>li {
+  background: white;
   border-bottom: 1px solid #EEEEEE;
 }
 #sidebar>li.active>a {
@@ -10424,7 +10428,9 @@ body.collapse-leftbar #sidebar > li.hasChild:hover > a:before {
 /* Sidebar Layout + Responsive */
 #page-leftbar {
   width: 264px;
-  padding-top:30px;
+  margin-top:30px;
+  position: fixed;
+  z-index: 999;
 }
 #page-content {
   margin-left: 264px;
@@ -10546,13 +10552,14 @@ body.collapse-leftbar #sidebar #info i.icon-circle-user, #info i.icon-circle-use
     width: 264px;
   }
   body.show-leftbar #page-content {
-    margin-left: 264px;
+    /* margin-left: 264px; */
+    margin-left: 0px;
   }
   body.show-leftbar footer {
-    -webkit-transform: translate(264px, 0);
+    /* -webkit-transform: translate(264px, 0);
     -ms-transform: translate(264px, 0);
     -o-transform: translate(264px, 0);
-    transform: translate(264px, 0);
+    transform: translate(264px, 0); */
   }
 }
 body.collapse-leftbar #page-leftbar {
@@ -10672,8 +10679,8 @@ body.collapse-leftbar #sidebar li li li li a {
   top: 0;
   left: -40px;
   background-color: #FE0000;
-  height: 100%;
-  width: 200px;
+  height: 85%;
+  width: 298px;
   z-index: -1;
   display: inline-block;
   transform: skew(-18deg);
@@ -10934,7 +10941,7 @@ body.collapse-leftbar #sidebar li li li li a {
   }
 }
 .navbar-fixed-top {
-  z-index: 1030;
+  z-index: 50;
   top: 0;
 }
 .navbar-fixed-bottom {
@@ -15435,7 +15442,7 @@ ul.remarks-small li span {
 }
 
 #page-container{
-  min-height: 93.2vh;
+  min-height: 96.2vh; /*93.2vh*/
   padding-top: 40px;
 }
 
@@ -15963,7 +15970,14 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   cursor: pointer;
 }
 
-.table-searchRecord tbody tr td{
+.table-searchRecord tbody tr td, .css-wordBreakAll{
     word-break: break-all;
     white-space: normal;
+}
+/* target ipad css */
+@media (max-width:1111px) {
+  .li-menuheader, #title{
+    display: none;
+  }
+
 }

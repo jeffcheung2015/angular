@@ -120,7 +120,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     });
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10,
+      pageLength: 5,
       scrollX:true,
       scrollY:true,
       columnDefs : this.aoInterfaceColumnDef(),
@@ -209,14 +209,11 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
 
   refreshAndReloadSearchRecordTable(_searchCriteria : string[]){
     this.searchCriterias = _searchCriteria;
-    let dTableInstance = _get(this.dTable, "dtInstance");
-    if(dTableInstance){
-      dTableInstance.then((dtInstance: DataTables.Api) => {
-        //redraw table only need these 2 funcs
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
+    if(this.displayDefaultNoRecord){
+      this.displayDefaultNoRecord = false;
     }
+    let dTableInstance = _get(this.dTable, "dtInstance");
+    this.refreshTable();
   }
 
   ngAfterViewInit(){ //only load data after view are initialized
@@ -460,8 +457,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
           resArr.data.push(restAttrObj);
         });
 
-        this.noOfPage = this.displayDefaultNoRecord ? Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength) : 0;
-        this.currPage = (this.displayDefaultNoRecord && resp.body.recordsFiltered >= 1) ? this.currPage : 0;
+        this.noOfPage = !this.displayDefaultNoRecord ? Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength) : 0;
+        this.currPage = (!this.displayDefaultNoRecord && resp.body.recordsFiltered >= 1) ? this.currPage || 1 : 0;
         //
         callback((this.displayDefaultNoRecord) ? {
           data:[],
@@ -473,9 +470,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
           recordsFiltered: resp.body.recordsFiltered
         });
 
-        if(this.displayDefaultNoRecord){
-          this.displayDefaultNoRecord = false;
-        }
+
       });
     }
   }

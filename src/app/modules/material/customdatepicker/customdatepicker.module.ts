@@ -14,7 +14,7 @@ const MY_DATE_FORMATS = {
   },
 };
 
-class CustomDateAdapter extends NativeDateAdapter {
+export class CustomDateAdapter extends NativeDateAdapter {
    format(date: Date, displayFormat: Object): string {
      const day = date.getDate();
      const month = date.getMonth() + 1;
