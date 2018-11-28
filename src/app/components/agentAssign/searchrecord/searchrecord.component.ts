@@ -173,7 +173,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         //this api in all cases have only one elem inside the list
         let code = _get(resp, 'code[0]');
         let errMsg = (code && code !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'errMsg[0]') : constants.MSG.PRUCHAT_EMAIL_SUCCESS;
-        console.log(errMsg, code, constants.STATUS_CODE.SUCCESS_CODE);
+
         this.setPopUpMsg(errMsg);
         $("#btnMsgModal").modal('show');
       }, (error)=>{
@@ -185,7 +185,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         //this api in all cases have only one elem inside the list
         let code = _get(resp, 'code[0]');
         let errMsg = (code && code !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'errMsg[0]') : constants.MSG.SMS_EMAIL_SUCCESS;
-        console.log(errMsg, code, constants.STATUS_CODE.SUCCESS_CODE);
+
         this.setPopUpMsg(errMsg);
         $("#btnMsgModal").modal('show');
       }, (error)=>{

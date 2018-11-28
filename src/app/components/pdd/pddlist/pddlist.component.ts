@@ -33,8 +33,8 @@ export class PddlistComponent  implements OnInit, OnDestroy,
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
-    "10": "inactive-gray",
-    "20": "active-red",
+    "10": "active-red",
+    "20": "inactive-gray",
   };
 
   //subscription
@@ -61,7 +61,7 @@ export class PddlistComponent  implements OnInit, OnDestroy,
     });
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 20,
+      pageLength: 10,
       scrollX:true,
       scrollY:true,
       columnDefs : this.pddListColumnDef(),
@@ -207,7 +207,7 @@ export class PddlistComponent  implements OnInit, OnDestroy,
         };
         switch(col){
           case 1:
-            $(td).html(`<a class="a-customerName" queryParams="policyNo:` + rowData.policyNo + `">` + cellData + `</a>`);
+            $(td).html(`<a class="a-customerName" queryParams="policyNo:` + rowData.policyNo + `">` + (cellData ? cellData : '') + `</a>`);
           break;
           case 0: case 6: case 7:
             if(cellData){
@@ -229,13 +229,14 @@ export class PddlistComponent  implements OnInit, OnDestroy,
               2: "red"//Rejected
             };
             let txtColorStyle = `style="color:` + mapStatusToColor[parseInt(cellData)] + `;"`;
-            $(td).html(`<span ` + txtColorStyle + `>` + mapStatusToText[parseInt(cellData)] + `</span>`);
+            let html = cellData ? mapStatusToText[parseInt(cellData)] : '-';
+            $(td).html(`<span ` + txtColorStyle + `>` + html + `</span>`);
           break;
           case 9: //gray color remarks
-            $(td).html(`<span class="span-csremarks">` + cellData + `</span>`);
+            $(td).html(`<span class="span-csremarks">` + (cellData ? cellData : '') + `</span>`);
           break;
           default:
-            $(td).html(`<span>` + cellData + `</span>`);
+            $(td).html(`<span>` + (cellData ? cellData : '-') + `</span>`);
           break;
         }
 

@@ -173,13 +173,8 @@ export class AgentassignmentService{
   }
   //sendParams
   postClientDetail(params, type){
-    let dummy_resp_obj = {
 
-      code: ['00000'],
-      errMsg: ['']
-
-    }
-    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/agent/saveClientDetail', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/agent/saveClientDetail', params, 'post', type);
   }
 
 

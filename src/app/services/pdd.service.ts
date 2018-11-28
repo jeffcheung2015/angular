@@ -69,7 +69,13 @@ export class PddService {
 
   //sendParams
   postPddApproval(params, type){
-    return this.getOrPostFunc('/eas/api/pdd/postPddApproval', params, 'post', type);
+    let dummy_resp_obj = {
+
+      code: ['00015'],
+      errMsg: ['No Remarks. remarks are required']
+
+    }
+    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/pdd/postPddApproval', params, 'post', type);
 
   }
 

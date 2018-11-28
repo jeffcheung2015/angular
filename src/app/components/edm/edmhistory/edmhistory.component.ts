@@ -31,8 +31,8 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
-    "10": "inactive-gray",
-    "20": "active-red",
+    "10": "active-red",
+    "20": "inactive-gray",
   };
 
   constructor(
@@ -61,7 +61,7 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
       scrollCollapse: true,
       responsive: true,
       pagingType: 'full_numbers',
-      pageLength: 20,
+      pageLength: 10,
       scrollX:true,
       scrollY:false,
       columnDefs : this.edmHistoryCustomerListColumnDef(),

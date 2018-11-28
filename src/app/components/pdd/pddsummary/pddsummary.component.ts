@@ -44,8 +44,8 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
   //map the page num to the jquery elem of page num
   mapToLengthMenuNum = {
     "5": "inactive-gray",
-    "10": "inactive-gray",
-    "20": "active-red",
+    "10": "active-red",
+    "20": "inactive-gray",
   };
 
   //subscription
@@ -76,7 +76,7 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
     });
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 20,
+      pageLength: 10,
       scrollX:true,
       scrollY:true,
       columnDefs : this.pddSummaryColumnDef(),
@@ -136,7 +136,7 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
 
     this.pddService.getPddSummaryExportList(sentParams, 'getExportList').subscribe((resp: any) => {
       console.log(resp);
-      this.excelService.jsonExportAsExcelFile(resp.body.data, 'PDDSummary');
+      this.excelService.jsonExportAsExcelFile(resp.body, 'PDDSummary');
     }, (error) => {
       console.error('>>> Error getting export list in pddSummary');
     });
@@ -267,7 +267,8 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
               3:"Opt-out from this program",
               4:"Re-assigned"
             };
-            $(td).html(`<span>` + mapStatusToText[parseInt(cellData)] + `</span>`);
+            let html = cellData ? mapStatusToText[parseInt(cellData)] : '';
+            $(td).html(`<span>` + html + `</span>`);
           break;
           case 10: //color ext text
             let mapExtToColor = {
@@ -283,13 +284,14 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
               3:"Rejected"
             };
             let txtColorStyle = `style="color:` + mapExtToColor[parseInt(String(cellData - 1))] + `;"`;
-            $(td).html(`<span ` + txtColorStyle + `>` + mapExtToText[parseInt(String(cellData - 1))] + `</span>`);
+            let html = cellData ? mapExtToText[parseInt(String(cellData - 1))] : '';
+            $(td).html(`<span ` + txtColorStyle + `>` + html + `</span>`);
           break;
           case 11:
-            $(td).html(`<span class="span-csremarks">` + cellData + `</span>`);
+            $(td).html(`<span class="span-csremarks">` + (cellData ? cellData : '') + `</span>`);
           break;
           default:
-            $(td).html(`<span>` + cellData + `</span>`);
+            $(td).html(`<span>` + (cellData ? cellData : '-') + `</span>`);
           break;
         }
       }

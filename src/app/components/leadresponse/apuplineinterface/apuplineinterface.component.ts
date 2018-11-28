@@ -71,13 +71,14 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
     }, (error) => console.log(error));
   }
   //post processing the displayed data into 5 cols
-  //**** for case YX?, where the middle Symbol represents the curr code, would upd the prev group agent's no of leads assigned
-  //**** for last case, 2 cases last agent has only 1 row / last agent has more than 1 row that need to be handled
+  //**** for case YX?, where the middle Symbol represents the curr code, ? = X / Y, would upd the prev group agent's noOfLeadsAssigned
+  //**** for i == sortedRespData.length - 1, 2 cases, last agent has only 1 row / last agent has more than 1 row that need to be handled
+  //for the former case, it doesnt only need to upd prev group of agent's noOfLeadsAssigned but also itself's noOfLeadsAssigned
   postProcessingDisplayedData(responseData){
     let resDataArray = new Array(responseData.length);
     //sort by the obj's agent code
     let sortedRespData = _sortBy(responseData, [function(obj) { return obj.agentCode; }]);
-    console.log(sortedRespData)
+
     let currUniqAgentCode = '';
     let noOfLeadsAssignedObj = {}; //keep an record of the agentCode and noOfLeadsAssigned by looping over the whole sortedRespData first
     let noOfCurrAgentRows = 0;//noOfCurrAgentRows === cumulative no of agents
@@ -132,8 +133,8 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
 
         resDataArray[fstRecWithUniqAgentCode].noOfLeadsAssigned = noOfCurrAgentRows;
         noOfCurrAgentRows = 0;
-      }//XXY
-      else if(currCd === prevCd && currCd !== nextCd){
+      }//XXY   ||   XXX
+      else if((currCd === prevCd && currCd !== nextCd) || (currCd === prevCd && currCd === nextCd)){
         tmpRowObj = {
           agentCode: '',
           agentName: '',
@@ -142,15 +143,6 @@ export class ApuplineinterfaceComponent implements OnInit, OnDestroy,
           noOfLeadsAssigned: ''
         };
 
-      }//XXX
-      else if(currCd === prevCd && currCd === nextCd){
-        tmpRowObj = {
-          agentCode: '',
-          agentName: '',
-          agentAssignmentDt: sortedRespData[i].agentAssignmentDt,
-          assignmentStatus: sortedRespData[i].assignmentStatus,
-          noOfLeadsAssigned: ''
-        };
       }//YXX
       else if(currCd !== prevCd && currCd === nextCd){
         tmpRowObj = {

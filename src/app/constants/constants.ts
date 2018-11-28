@@ -26,7 +26,6 @@ export default {
       'idCardNo', 'gender', 'giOptOut',
       'lifeOptOut','campaignCode',
       'agentInfo',
-      //'agentCode','agentName','agentPhone','agentAssignedDate',
       'firstContactDate','contactCustomer',
       'assignmentStatus', 'agentAccountExpiryDate',
       'pruchatEmailSendDate',
@@ -37,7 +36,6 @@ export default {
       'currentAgentCode','currentAgentPhone','dateOfSubmission',
       'campaignCode','assignmentType',
       'agentInfo',
-      //'agentCode','agentName','agentPhone','agentAssignedDate',
       'agentSentDate','customerSentDate'],
 
     DetailSearchRecordColumnName:["Agent Code","Agent Name","Email Address","Agent Phone",
@@ -75,8 +73,8 @@ export default {
     PDDList:["Application Date","Agent Name","Agent Code","Customer Name","Customer Phone no.",
     "Customer email","Assignment Date","First Contact Date","Approval Status","Remarks"],
 
-    PDDListField:["applicationDt","agentName","agentCode","customerName","customerPhone",
-    "customerEmail","assignmentDt","firstContactDt","approvalStatus","remarks"],
+    PDDListField:["submissionDt","agentName","agentCode","customerName","customerPhone",
+    "customerEmail","agentAssignmentDt","firstContactDt","approvalStatus","remarks"],
 
     PDDSummary:["Customer Name", "Customer Phone no.", "Customer email", "Submission date",
     "Product", "Agent Name", "Agent Code", "Date of Assignment", "First Contact Date",
@@ -99,7 +97,8 @@ export default {
       DUP_COMM_CODE: "00011",
       TEMP_MISS_CODE: "00012",
       REMARKS_EXCEED_MAX_LENGTH_CODE: "00013",
-      NO_CUSTOMER_CHOSEN: "00014"
+      NO_CUSTOMER_CHOSEN: "00014",
+      POST_PDD_APPROVAL_FAIL: "00015"
     },
 
     MSG:{
