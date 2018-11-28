@@ -21,11 +21,11 @@
               <span class="span-dataRow" *ngIf="dataRow[key]">
                 <ng-container *ngIf="key == 'agentAssignmentDt'">{{dataRow[key] | date:'dd/MM/yyyy'}}</ng-container>
                 <ng-container *ngIf="key == 'assignmentStatus'">{{(currLang === 'en') ? statusNumMapToTextEN[dataRow[key]-1] : statusNumMapToTextZH[dataRow[key]-1]}}</ng-container>
-                <ng-container *ngIf="key == 'noOfLeadsAssigned'">
+                <!-- <ng-container *ngIf="key == 'noOfLeadsAssigned'">
                   <ng-container *ngIf="dataRow['assignmentStatus'] == '4'">-</ng-container>
                   <ng-container *ngIf="dataRow['assignmentStatus'] != '4'">{{dataRow[key]}}</ng-container>
-                </ng-container>
-                <ng-container *ngIf="key != 'agentAssignmentDt' && key != 'assignmentStatus' && key != 'noOfLeadsAssigned'">{{dataRow[key]}}</ng-container>
+                </ng-container> -->
+                <ng-container *ngIf="key != 'agentAssignmentDt' && key != 'assignmentStatus'">{{dataRow[key]}}</ng-container>
               </span>
               <span *ngIf="!dataRow[key]">-</span>
             </td>
