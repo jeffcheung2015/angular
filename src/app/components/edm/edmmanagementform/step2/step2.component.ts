@@ -48,7 +48,12 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   dataTableSettings : any;//for changing table pages in gotopage
   searchCriterias : string[];
   searchCriteriasDisplay : string[];//for display purpose only, preprocessing the searchCriteria and display understandable strs
-  searchCriteriaFieldName : string[];
+  searchCriteriaFieldName : string[] = ["surname","firstName","genderOption",
+    "mobileNo","clientId", "birthdayOption",
+    "email",
+    "campaignCd","partnerCd","partnerName",
+    "dateOfSubmissionFrom", "dateOfSubmissionTo",
+    "selfService","failUpsell6Months","selfServiceWithLife"];
   noOfPage : number;
   currPage : number = 1;
   bodyRendererChangeListener;
@@ -116,16 +121,16 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     let genderOption = $("[name=genderOptionField]").val();
     let mobileNo = this.edmManagementStep2Form.controls['mobileNo'].value;
     let clientId = this.edmManagementStep2Form.controls['clientId'].value;
-    let birthdayOption = Number($("[name=birthdayOptionField]").val());
+    let birthdayOption = Number($("[name=birthdayOptionField]").val()) || "";
     let email = this.edmManagementStep2Form.controls['email'].value;
     let campaignCd = this.edmManagementStep2Form.controls['campaignCd'].value;
     let partnerCd = this.edmManagementStep2Form.controls['partnerCd'].value;
     let partnerName = this.edmManagementStep2Form.controls['partnerName'].value;
     let dateOfSubmissionFrom = this.edmManagementStep2Form.controls['dateOfSubmissionFrom'].value;
     let dateOfSubmissionTo = this.edmManagementStep2Form.controls['dateOfSubmissionTo'].value;
-    let selfService = this.edmManagementStep2Form.controls['selfService'].value;
-    let failUpsell6Months = this.edmManagementStep2Form.controls['failUpsell6Months'].value;
-    let selfServiceWithLife = this.edmManagementStep2Form.controls['selfServiceWithLife'].value;
+    let selfService = this.edmManagementStep2Form.controls['selfService'].value || false;
+    let failUpsell6Months = this.edmManagementStep2Form.controls['failUpsell6Months'].value || false;
+    let selfServiceWithLife = this.edmManagementStep2Form.controls['selfServiceWithLife'].value || false;
 
     let selfServiceStr = selfService ? 'Self Service: true' : 'Self Service: false';
     let failUpsell6MonthsStr = failUpsell6Months ? 'Unsuccessful Upsell in 6 months: true' : 'Unsuccessful Upsell in 6 months: false';
@@ -162,12 +167,10 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   }
   ngOnInit() {
     this.searchCriterias = _fill(new Array(15), "");
-    this.searchCriteriaFieldName = ["surname","firstName","genderOption",
-      "mobileNo","clientId", "birthdayOption",
-      "email",
-      "campaignCd","partnerCd","partnerName",
-      "dateOfSubmissionFrom", "dateOfSubmissionTo",
-      "selfService","failUpsell6Months","selfServiceWithLife"];
+    //preset the checkbox fields with false init value
+    this.searchCriterias[12] = "false";
+    this.searchCriterias[13] = "false";
+    this.searchCriterias[14] = "false";
 
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val, index)=>{
@@ -370,6 +373,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       queryParams = {
         draw, start, length
       };
+
       //put all the params from searchCriteria into queryParams
       this.searchCriterias.forEach((data, key)=>{
         if(key >= 12){ //checkbox fields. even the field return false should be posted to server

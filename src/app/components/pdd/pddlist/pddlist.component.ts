@@ -246,12 +246,13 @@ export class PddlistComponent  implements OnInit, OnDestroy,
 
   pddListAjax(){
     return (params, callback, settings) => {
-      let unusedParams, draw, start, length, order, orderColName, orderDir;
+      let unusedParams, draw, start, length, order, sortColumn, sortOption;
       ({draw, start, length, order, ...unusedParams} = params); //do without columns attr inside params
-      orderColName = constants["PDDListField"][_get(order[0], 'column')];
-      orderDir = _get(order[0], 'dir');
+      
+      sortColumn = constants["PDDListField"][_get(order[0], 'column')];
+      sortOption = _get(order[0], 'dir');
       let queryParams = {
-        draw, start, length, orderColName, orderDir
+        draw, start, length, sortColumn, sortOption
       };
       this.dataTableAjaxSubscription = this.pddService.getPddApplicationList(queryParams, 'dataTable').subscribe((resp : any) => {
 

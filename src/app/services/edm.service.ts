@@ -59,7 +59,7 @@ export class EdmService {
   getManagementFormSearchRecord(params, type){
     return (constants.localOrVm === 'local') ?
       this.getOrPostFunc('http://localhost:4200/eas/assets/data/edmManagementFormSearchRecord.json', params, 'get', type) :
-      this.getOrPostFunc("/eas/api/edm/",params, 'get', type);
+      this.getOrPostFunc("/eas/api/edm/getEdmStep2List",params, 'get', type);
   }
 
   getHistoryTemplates(params, type){
@@ -74,7 +74,7 @@ export class EdmService {
     let dummy_resp_obj = {
         code: ['00000'],
         errMsg: ['']
-      
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/edm/saveEdmTemplate', params, 'post', type);
   }
@@ -83,7 +83,7 @@ export class EdmService {
     let dummy_resp_obj = {
         code: ['00001', '00002'],
         errMsg: ['Duplicated communication code found.', 'No Template option is selected']
-      
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/edm/saveEdmReceiver', params, 'post', type);
   }
@@ -92,7 +92,7 @@ export class EdmService {
     let dummy_resp_obj = {
         code: ['00001', '00002'],
         errMsg: ['Duplicated communication code found.', 'No Template option is selected']
-      
+
     }
     return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/edm/sendTestEmail', params, 'post', type);
   }
