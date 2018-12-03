@@ -11,36 +11,39 @@ import {GISearchCriteria, CSSearchCriteria} from '../models/agentassignment.mode
   providedIn: 'root'
 })
 export class AgentassignmentService{
-  constructor(private http: HttpClient){ }
+  constructor(private http: HttpClient){
+    this.currGISearchCriteria = {
+      fullName: '',
+      policyNo: '',
+    	mobileNo: '',
+    	emailAddr: '',
+    	idCardNo: '',
+    	dateOfSubmissionFrom: new Date(new Date().setDate(new Date().getDate() - 3)),
+    	dateOfSubmissionTo: new Date(new Date().setDate(new Date().getDate() - 1)),
+    	assignmentOption: 'A'
+    };
+
+    this.currCSSearchCriteria = {
+      fullName: '',
+    	policyNo: '',
+    	mobileNo: '',
+    	emailAddr: '',
+    	idCardNo: '',
+    	dateOfSubmissionFrom: '',
+    	dateOfSubmissionTo: '',
+    	assignmentOption: 'A',
+    	contactCustomerOption: '',
+    	assignmentStatusOption: ''
+    };
+  }
   //store the polno and make the get req using this var instead of using the polno from url queryParams for security reason
   currPolNo: string;
   currEmailId: string;
   currCampaignCd: string;
   currClientCd: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
-
-  currGISearchCriteria : GISearchCriteria = {
-    fullName: '',
-    policyNo: '',
-  	mobileNo: '',
-  	emailAddr: '',
-  	idCardNo: '',
-  	dateOfSubmissionFrom: '',
-  	dateOfSubmissionTo: '',
-  	assignmentOption: 'A'
-  };
-  currCSSearchCriteria : CSSearchCriteria ={
-    fullName: '',
-  	policyNo: '',
-  	mobileNo: '',
-  	emailAddr: '',
-  	idCardNo: '',
-  	dateOfSubmissionFrom: '',
-  	dateOfSubmissionTo: '',
-  	assignmentOption: 'A',
-  	contactCustomerOption: '',
-  	assignmentStatusOption: ''
-  };
+  currGISearchCriteria : GISearchCriteria;
+  currCSSearchCriteria : CSSearchCriteria;
 
   setCurrCriteria(varName, criteriaObj){
     this[varName] = criteriaObj;

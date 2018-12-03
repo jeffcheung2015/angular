@@ -4,8 +4,8 @@ export class GISearchCriteria {
 	mobileNo: String;
 	emailAddr: String;
 	idCardNo: String;
-	dateOfSubmissionFrom: String;
-	dateOfSubmissionTo: String;
+	dateOfSubmissionFrom: String | Date;
+	dateOfSubmissionTo: String | Date;
 	assignmentOption: String;
 }
 export class CSSearchCriteria {
@@ -14,8 +14,8 @@ export class CSSearchCriteria {
 	mobileNo: String;
 	emailAddr: String;
 	idCardNo: String;
-	dateOfSubmissionFrom: String;
-	dateOfSubmissionTo: String;
+	dateOfSubmissionFrom: String | Date;
+	dateOfSubmissionTo: String | Date;
 	assignmentOption: String;
 	contactCustomerOption: String;
 	assignmentStatusOption: String;

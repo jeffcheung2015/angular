@@ -409,7 +409,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             let text = (col == 7) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
 
             if(col == 7 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
-              if(rowData.upsellLifePolNo === '' && showExt === 'true'){ //5 months  5*30 days
+              if(!rowData.upsellLifePolNo && showExt === 'true'){ //5 months  5*30 days
                 html += `<a class="a-modalLink" ` + cursorStyle + `data-toggle="modal" data-target="#leadExtensionModal" ` + `>` + toApplyForExTxt + `</a>`;
               }
               else{

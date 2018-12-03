@@ -135,7 +135,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     let selfServiceStr = selfService ? 'Self Service: true' : 'Self Service: false';
     let failUpsell6MonthsStr = failUpsell6Months ? 'Unsuccessful Upsell in 6 months: true' : 'Unsuccessful Upsell in 6 months: false';
     let selfServiceWithLifeStr = selfServiceWithLife ? 'Self Service with life: true' : 'Self Service with life: false';
-    let birthdayOptionToOptionIndex = String(birthdayOption + 1);
+    let birthdayOptionToOptionIndex = String(Number(birthdayOption) + 1);
     let birthdayOptionStr = birthdayOption ? $('[name=birthdayOptionField] option:eq(' + birthdayOptionToOptionIndex + ')').attr("monthName") : '';
 
     //further pre process the date of submission
@@ -283,7 +283,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     });
     this.noOfPage = Math.ceil(this.noOfRecords/this.dtOptions.pageLength);
     this.currPage = 1;
-
+    $(".input-goToPage_left").val(1);
     this.relistenThCheckbox();
   }
 
@@ -325,7 +325,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       console.log('Change to page: ' + page);
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
-      this.currPage = parseInt(page);
+      this.currPage = Number(page);
     }
 
     this.relistenThCheckbox();
@@ -402,9 +402,9 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
             respDataArr.push(elem);
           }
         }, (error)=>{
-          console.log(">>> getManagementFormSearchRecord error:", error);
-        });*/
-
+          console.error(">>> getManagementFormSearchRecord error:", error);
+        });
+        console.log(startPt, endPt, this.currPage)*/
         //local json would not work, this is for vm only
         //[variable: checkbox = 1 [checked] according to the this.selectedRecords variable]
         resp.body.data.forEach((elem, key)=>{
@@ -419,7 +419,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
           recordsFiltered: resp.body.recordsFiltered
         });
       }, (error) => {
-        console.log("error: ", error);
+        console.error("error: ", error);
       });
     }
   }

@@ -267,8 +267,8 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
               3:"Opt-out from this program",
               4:"Re-assigned"
             };
-            let html = cellData ? mapStatusToText[parseInt(cellData)] : '';
-            $(td).html(`<span>` + html + `</span>`);
+            let htmlStr = cellData ? mapStatusToText[parseInt(cellData)] : '';
+            $(td).html(`<span>` + htmlStr + `</span>`);
           break;
           case 10: //color ext text
             let mapExtToColor = {
@@ -284,8 +284,8 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
               3:"Rejected"
             };
             let txtColorStyle = `style="color:` + mapExtToColor[parseInt(String(cellData - 1))] + `;"`;
-            let html = cellData ? mapExtToText[parseInt(String(cellData - 1))] : '';
-            $(td).html(`<span ` + txtColorStyle + `>` + html + `</span>`);
+            let htmlStr1 = cellData ? mapExtToText[parseInt(String(cellData - 1))] : '';
+            $(td).html(`<span ` + txtColorStyle + `>` + htmlStr1 + `</span>`);
           break;
           case 11:
             $(td).html(`<span class="span-csremarks">` + (cellData ? cellData : '') + `</span>`);

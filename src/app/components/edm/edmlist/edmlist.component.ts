@@ -30,7 +30,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
   dtTrigger = new Subject();
 
   noOfPage : number;
-  currPage : number = 0;
+  currPage : number = 1;
 
   noOfETemplate : number = 0;
 
@@ -96,11 +96,8 @@ export class EdmlistComponent implements OnInit, OnDestroy,
     });
 
     this.classToTrigger =  [
-      // {type: 'modal', className: "a-modalLink"}, //is separately handled from the following entities
-
       {type: 'redirect', className: "a-view", callback: (paramsToBePassed)=>{this.edmViewBtnOnClick(paramsToBePassed)}},
       {type: 'redirect', className: "a-edit", callback: (paramsToBePassed)=>{this.edmEditBtnOnClick(paramsToBePassed)}},
-      // {type: 'submit', className: "a-upsellDtlSubmitBtn", callback: ()=>{this.setUpsellDtl()}}
     ];
   }
   edmViewBtnOnClick(paramsToBePassed){
@@ -196,7 +193,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
       console.log('Change to page: ' + page);
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
       console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
-      this.currPage = page;
+      this.currPage = Number(page);
     }
   }
   edmListColumnDef(){
@@ -240,7 +237,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
       this.dataTableAjaxSubscription = this.edmService.getEdmList(queryParams, 'dataTable').subscribe((resp : any) => {
         console.log("resp:", resp)
         this.noOfPage = Math.ceil(resp.body.recordsTotal/this.dtOptions.pageLength);
-        this.currPage = (resp.body.recordsFiltered >= 1) ? 1 : 0;
+        this.currPage = (resp.body.recordsFiltered >= 1) ? this.currPage : 0;
         this.noOfETemplate = resp.body.recordsFiltered;
         //
         callback({

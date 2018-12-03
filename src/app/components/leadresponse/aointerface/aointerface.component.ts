@@ -390,7 +390,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             let text = (col == 8) ? statusNumMapToText[cellData-1] : extNumMapToText[cellData-1] ;
 
             if(col == 8 && cellData == 1){ //blank || To apply for extension (to be determined by inside the if condition)
-              if(rowData.upsellLifePolNo === '' && showExt === 'true'){ //5 months  5*30 days
+              if(!rowData.upsellLifePolNo && showExt === 'true'){ //5 months  5*30 days
                 html += `<span>` +
                 ((easLang === "en") ? `To apply for extension` : `申請延長`) + `</span>`;
               }

@@ -83,6 +83,10 @@ export class SearchcriteriaComponent implements OnInit, OnChanges, AfterViewChec
      agentPhone : new FormControl('',mobileNoValidator),
      agentName : new FormControl('', numEngSpaceValidator)
    });
+
+   this.minDateTo = this.criteriaObj.dateOfSubmissionFrom || null;
+   this.maxDateFrom = this.criteriaObj.dateOfSubmissionTo || null;
+
    this.dropDownInitialized = (['easAgentAssignCS','easAgentAssignGI'].indexOf(this.currSubPage) !== -1) ?
     false : this.dropDownInitialized;
   }

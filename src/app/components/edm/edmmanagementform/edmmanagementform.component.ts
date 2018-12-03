@@ -13,7 +13,7 @@ export class EdmmanagementformComponent implements OnInit{
     currStep: String,
     commCode: String
   } = {
-    currStep : "step1", //hardcode here the starting step of this management form
+    currStep : "step2", //hardcode here the starting step of this management form
     commCode: "" //to be set in step1 and later be used in step2 sub page posting method
   }
 
