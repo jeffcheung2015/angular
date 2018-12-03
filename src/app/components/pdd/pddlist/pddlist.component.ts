@@ -86,7 +86,6 @@ export class PddlistComponent  implements OnInit, OnDestroy,
     $('.table-pddList').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
-      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
 
     this.classToTrigger =  [
@@ -184,7 +183,7 @@ export class PddlistComponent  implements OnInit, OnDestroy,
       this.dtTrigger.next();
     });
     this.currPage = 1;
-
+    $(".input-goToPage_left").val(1);
   }
 
   changeCurrTablePage(page){
@@ -248,7 +247,7 @@ export class PddlistComponent  implements OnInit, OnDestroy,
     return (params, callback, settings) => {
       let unusedParams, draw, start, length, order, sortColumn, sortOption;
       ({draw, start, length, order, ...unusedParams} = params); //do without columns attr inside params
-      
+
       sortColumn = constants["PDDListField"][_get(order[0], 'column')];
       sortOption = _get(order[0], 'dir');
       let queryParams = {

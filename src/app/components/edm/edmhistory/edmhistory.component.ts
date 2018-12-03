@@ -86,7 +86,6 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
     $('.table-edmHistoryCustomerlist').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
-      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
   }
 
@@ -139,7 +138,7 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.noOfPage = Math.ceil(this.noOfCustomers/this.dtOptions.pageLength);
     this.currPage = 1;
-
+    $(".input-goToPage_left").val(1);
   }
 
   changeCurrTablePage(page){

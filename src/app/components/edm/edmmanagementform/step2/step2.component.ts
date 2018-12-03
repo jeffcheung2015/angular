@@ -212,7 +212,6 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     $('.table-edmManagementForm').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
-      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
 
   }

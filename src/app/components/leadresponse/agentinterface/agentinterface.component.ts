@@ -152,7 +152,6 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
     $('.table-agentInterface').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
-      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
 
     this.classToTrigger =  [
@@ -342,6 +341,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
       this.dtTrigger.next();
     });
     this.currPage = 1;
+    $(".input-goToPage_left").val(1);
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){

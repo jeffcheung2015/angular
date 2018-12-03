@@ -185,8 +185,9 @@ export class EdmlistComponent implements OnInit, OnDestroy,
       dtInstance.destroy();
       this.dtTrigger.next();
     });
+    this.noOfPage = Math.ceil(this.noOfETemplate/this.dtOptions.pageLength);
     this.currPage = 1;
-
+    $(".input-goToPage_left").val(1);
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){

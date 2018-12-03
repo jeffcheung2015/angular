@@ -138,7 +138,6 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     $('.table-detailSearchRecord').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
-      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
     //all the following btns are placed inside the agentassignment.component.html
     this.classToTrigger =  [
@@ -278,6 +277,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       this.dtTrigger.next();
     });
     this.currPage = 1;
+    this.noOfPage = Math.ceil(this.noOfRenewals/this.dtOptions.pageLength);
+    $(".input-goToPage_left").val(1);
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){

@@ -158,7 +158,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     $('.table-searchRecord').on( 'page.dt', function (event,settings) {
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
-      _set(this, 'currPage', (settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
   }
   //for handling the datatables's link,
@@ -273,6 +272,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     });
     this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
     this.currPage = 1;
+    $(".input-goToPage_left").val(1);
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
