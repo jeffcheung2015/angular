@@ -12,6 +12,7 @@ import constants from '../constants/constants';
 export class EdmService {
 
   constructor(private http: HttpClient){ }
+  polNoList: Array<string>;
   //store the polno and make the get req using this var instead of using the polno from url queryParams for security reason
   currPolNo: string;
   currEmailId: string;
@@ -69,6 +70,12 @@ export class EdmService {
       this.getOrPostFunc("/eas/api/edm/getEdmHistory",params, 'get', type);
   }
 
+  getAllPolNoList(params, type){
+
+    return (constants.localOrVm === 'local') ?
+      this.getOrPostFunc('http://localhost:4200/eas/assets/data/polNoList.json', params, 'get', type) :
+      this.getOrPostFunc("/eas/api/edm/getAllPolNoList",params, 'get', type);
+  }
 
   postSubmitOrSave(params, type){
     let dummy_resp_obj = {

@@ -1,11 +1,13 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChild, AfterViewChecked, Renderer2, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EdmService } from '../../../../services/edm.service';
+import { LoginUserService } from '../../../../services/loginUser.service';
 import constants from '../../../../constants/constants';
 import convertformat from '../../../../utils/convertformat';
 import { DataTableDirective } from 'angular-datatables';
-import { Subject} from 'rxjs';
+import { Subject, Subscription} from 'rxjs';
 import {get as _get, set as _set, range as _range, fill as _fill} from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-step2',
@@ -31,8 +33,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     dateOfSubmissionFrom: new FormControl(''),
     dateOfSubmissionTo: new FormControl(''),
     selfService: new FormControl(''),
-    failUpsell6Months: new FormControl(''),
-    selfServiceWithLife: new FormControl('')
+    failUpsell6Months: new FormControl('')
   });
   @Input()edmPageInfo : {
     currStep: String,
@@ -41,6 +42,9 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   displayedColumnsName : String[] = constants["EDMStep2Field"];
   noOfRecords:number = 0;
   minDateTo; maxDateFrom;
+
+  allPolNoSubscription : Subscription;
+  agentCodeSubscription : Subscription;
 
   @ViewChild(DataTableDirective) dTable : DataTableDirective;
   dtOptions :any = {};
@@ -53,7 +57,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     "email",
     "campaignCd","partnerCd","partnerName",
     "dateOfSubmissionFrom", "dateOfSubmissionTo",
-    "selfService","failUpsell6Months","selfServiceWithLife"];
+    "selfService","failUpsell6Months"];
   noOfPage : number;
   currPage : number = 1;
   bodyRendererChangeListener;
@@ -65,9 +69,15 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     "20": "inactive-gray",
   };
 
+  polNoList: Array<String> = [];
+  isDatatableFormRecordsFetched : boolean = false;
+  //would need to redraw the datatable within this comp's this.loginUserService.usercodeObs$.subscribe() if this is still false
+
   constructor(
     private edmService : EdmService,
-    private renderer2 : Renderer2
+    private loginUserService : LoginUserService,
+    private renderer2 : Renderer2,
+    private router : Router
   ) { }
   goBackStep1(){
     console.log("go from step2 to step1");
@@ -130,11 +140,9 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     let dateOfSubmissionTo = this.edmManagementStep2Form.controls['dateOfSubmissionTo'].value;
     let selfService = this.edmManagementStep2Form.controls['selfService'].value || false;
     let failUpsell6Months = this.edmManagementStep2Form.controls['failUpsell6Months'].value || false;
-    let selfServiceWithLife = this.edmManagementStep2Form.controls['selfServiceWithLife'].value || false;
 
     let selfServiceStr = selfService ? 'Self Service: true' : 'Self Service: false';
     let failUpsell6MonthsStr = failUpsell6Months ? 'Unsuccessful Upsell in 6 months: true' : 'Unsuccessful Upsell in 6 months: false';
-    let selfServiceWithLifeStr = selfServiceWithLife ? 'Self Service with life: true' : 'Self Service with life: false';
     let birthdayOptionToOptionIndex = String(Number(birthdayOption) + 1);
     let birthdayOptionStr = birthdayOption ? $('[name=birthdayOptionField] option:eq(' + birthdayOptionToOptionIndex + ')').attr("monthName") : '';
 
@@ -143,13 +151,15 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     dateOfSubmissionTo = dateOfSubmissionTo ? convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionTo)) : dateOfSubmissionTo;
     //
 
-    this.searchCriterias = [surname, firstName, genderOption, mobileNo, clientId, birthdayOption, email, campaignCd, partnerCd,
+    this.searchCriterias = [surname, firstName, genderOption, mobileNo, clientId,
+       ((birthdayOption && birthdayOption < 10) ? '0' : '') + birthdayOption,
+        email, campaignCd, partnerCd,
       partnerName, dateOfSubmissionFrom, dateOfSubmissionTo,
-      selfService, failUpsell6Months, selfServiceWithLife];
+      selfService, failUpsell6Months];
 
     this.searchCriteriasDisplay = [surname, firstName, genderOption, mobileNo, clientId, birthdayOptionStr, email, campaignCd, partnerCd,
       partnerName, dateOfSubmissionFrom, dateOfSubmissionTo,
-      selfServiceStr, failUpsell6MonthsStr, selfServiceWithLifeStr];
+      selfServiceStr, failUpsell6MonthsStr];
 
     //clear all the elems in selectedRecords array
     this.selectedRecords.length = 0;
@@ -166,6 +176,12 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     });
   }
   ngOnInit() {
+    //if no this.loginUserService.usercode not yet fetched, should go back to default page,
+    //as usercode is used to fetch records and whole polno list related to this agent
+    if(!this.loginUserService.usercode && constants.localOrVm === 'vm'){
+      this.router.navigate(['/']);
+    }
+
     this.searchCriterias = _fill(new Array(15), "");
     //preset the checkbox fields with false init value
     this.searchCriterias[12] = "false";
@@ -213,8 +229,20 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
-
+    //get the whole available list of customer's polno for curr edm template here and store it into edmService
+    this.agentCodeSubscription = this.loginUserService.usercodeObs$.subscribe((resp: any) => {
+      console.log(">>> step2Component ::ngOnInit, resp: ", resp);
+      let queryParams = {
+        agentCode: resp
+      };
+      console.log(">>> edmService:: getAllPolNoList, queryParams: ", queryParams);
+      this.allPolNoSubscription = this.edmService.getAllPolNoList(queryParams, 'retrieve').subscribe((resp : any) =>{
+        console.log('allPolNoSubscription resp:', resp);
+        this.edmService.polNoList = resp.body;
+      });
+    });
   }
+
   ngAfterViewInit(){//only load data after view are initialized
     this.initDropdown("birthdayOption");
     this.initDropdown("genderOption");
@@ -262,6 +290,12 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     }
     if(this.dtTrigger){
       this.dtTrigger.unsubscribe();
+    }
+    if(this.allPolNoSubscription){
+      this.allPolNoSubscription.unsubscribe();
+    }
+    if(this.agentCodeSubscription){
+      this.agentCodeSubscription.unsubscribe();
     }
   }
   changeTablePerPage(val){
@@ -364,15 +398,19 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       }
     }]
   }
+
+
   edmManagementFormRecordAjax(){
     return (params, callback, settings) => {
       let queryParams = {};
       let draw, start, length, unusedParams;
       ({draw, start, length, ...unusedParams} = params);
       queryParams = {
-        draw, start, length
+        draw, start, length, agentCode: this.loginUserService.usercode
       };
-
+      if(this.edmPageInfo.commCode){
+        _set(queryParams, 'commCode', this.edmPageInfo.commCode);
+      }
       //put all the params from searchCriteria into queryParams
       this.searchCriterias.forEach((data, key)=>{
         if(key >= 12){ //checkbox fields. even the field return false should be posted to server
@@ -422,8 +460,6 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       });
     }
   }
-
-
 
   initDropdown(fieldName){
     $("[name=" + fieldName + "Field]").val($(`[name="` + fieldName + `Field"] option:eq(0)`).val()); //initialize the select into default val first

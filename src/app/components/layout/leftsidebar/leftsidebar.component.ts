@@ -23,6 +23,8 @@ export class LeftsidebarComponent implements OnInit, AfterViewChecked {
   currDate: Date;
   currentLang: string;
 
+  translateTxt : String = "En";
+
   isLeadResponseRole : boolean = false;
   bodyRendererListener;
   constructor(
@@ -33,9 +35,12 @@ export class LeftsidebarComponent implements OnInit, AfterViewChecked {
     this.currentLang = translateService.currentLang;
   }
 
-  changeLang(lang){
-    this.translateService.use(lang);
-    this.currentLang = lang;
+  changeLang(){
+    let currLang = this.currentLang;
+    let nextLang = currLang === 'en' ? 'zh' : 'en';
+    this.translateService.use(nextLang);
+    this.translateTxt = currLang === 'en' ? '中' : 'En';
+    this.currentLang = nextLang;
   }
 
   ngOnInit() {
@@ -131,7 +136,4 @@ export class LeftsidebarComponent implements OnInit, AfterViewChecked {
 
     this.menu = _menu;
   }
-
-
-
 }

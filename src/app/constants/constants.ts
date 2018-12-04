@@ -1,5 +1,5 @@
 export default {
-    localOrVm: 'local', //local || vm    [check all services, and guards/main.guard.ts]
+    localOrVm: 'local', //local || vm    [check all services, and guards/main.guard.ts, and comps]
     route:{
       //agent assignment
       AgentAssignGI: 'easAgentAssignGI',

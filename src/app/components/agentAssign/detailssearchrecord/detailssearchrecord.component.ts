@@ -250,15 +250,14 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     }
   }
   ngOnDestroy(){
-    if(this.bodyRendererListener){
-      this.bodyRendererListener();
-    }
-    if(this.dtTrigger){
-      this.dtTrigger.unsubscribe();
-    }
-    if(this.dataTableAjaxSubscription){
-      this.dataTableAjaxSubscription.unsubscribe();
-    }
+    let toBeDestroyArray = ['bodyRendererListener', 'dtTrigger', 'dataTableAjaxSubscription'];
+    toBeDestroyArray.forEach((elem, key)=>{
+      if(this[elem] && elem == 'bodyRendererListener'){
+        this.bodyRendererListener();
+      }else if(this[elem] && elem != 'bodyRendererListener'){
+        this[elem].unsubscribe();
+      }
+    });
   }
   changeTablePerPage(val){
     //reset all the length menu 's class to gray color
