@@ -143,16 +143,15 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
 
     let selfServiceStr = selfService ? 'Self Service: true' : 'Self Service: false';
     let failUpsell6MonthsStr = failUpsell6Months ? 'Unsuccessful Upsell in 6 months: true' : 'Unsuccessful Upsell in 6 months: false';
-    let birthdayOptionToOptionIndex = String(Number(birthdayOption) + 1);
+    let birthdayOptionToOptionIndex = birthdayOption;
     let birthdayOptionStr = birthdayOption ? $('[name=birthdayOptionField] option:eq(' + birthdayOptionToOptionIndex + ')').attr("monthName") : '';
-
     //further pre process the date of submission
     dateOfSubmissionFrom = dateOfSubmissionFrom ? convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionFrom)) : dateOfSubmissionFrom;
     dateOfSubmissionTo = dateOfSubmissionTo ? convertformat.dateToDDMMYYYY(new Date(dateOfSubmissionTo)) : dateOfSubmissionTo;
     //
 
     this.searchCriterias = [surname, firstName, genderOption, mobileNo, clientId,
-       ((birthdayOption && birthdayOption < 10) ? '0' : '') + birthdayOption,
+        birthdayOption,
         email, campaignCd, partnerCd,
       partnerName, dateOfSubmissionFrom, dateOfSubmissionTo,
       selfService, failUpsell6Months];
@@ -182,11 +181,10 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       this.router.navigate(['/']);
     }
 
-    this.searchCriterias = _fill(new Array(15), "");
+    this.searchCriterias = _fill(new Array(14), "");
     //preset the checkbox fields with false init value
     this.searchCriterias[12] = "false";
     this.searchCriterias[13] = "false";
-    this.searchCriterias[14] = "false";
 
     let colArr = [], dataArr = [];
     this.displayedColumnsName.forEach((val, index)=>{
@@ -406,11 +404,13 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       let draw, start, length, unusedParams;
       ({draw, start, length, ...unusedParams} = params);
       queryParams = {
-        draw, start, length, agentCode: this.loginUserService.usercode
+        draw, start, length,
+        agentCode: this.loginUserService.usercode
       };
       if(this.edmPageInfo.commCode){
         _set(queryParams, 'commCode', this.edmPageInfo.commCode);
       }
+
       //put all the params from searchCriteria into queryParams
       this.searchCriterias.forEach((data, key)=>{
         if(key >= 12){ //checkbox fields. even the field return false should be posted to server

@@ -3,11 +3,28 @@
   .div-apUplineInterfaceDataTable{
     text-align: center;
     .h4-tableHeader{
-      float: left;
+      text-align: left;
       color:black;
       font-weight: bold;
       margin-bottom: 30px;
     }
+
+    .div-apSearchRecordCriteria{
+      width: 100%;
+      margin-bottom: 10px;
+      .h4-searchCriteriaText{
+        white-space: pre;
+      }
+      .h4-criteriaText{
+        text-align: left;
+        word-break: break-all;
+      }
+      .h4-noOfRecords{
+        white-space: nowrap;
+        margin-left: auto;
+      }
+    }
+
     .div-apUplineInterface-wrapper{
       max-height: 800px;
       overflow: auto;
@@ -16,7 +33,7 @@
         width: 100% !important;
         .th-apUplineInterface{
           background: #db0306;
-          position: sticky; top: 0; 
+          position: sticky; top: 0;
         }
         .span-dataRow{
           white-space: nowrap;

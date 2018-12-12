@@ -2,6 +2,20 @@
 
   <div class="table-wrapper table-responsive div-apUplineInterfaceDataTable">
     <h4 class="h4-tableHeader">{{'AP_UPLINE_INTERFACE.TABLE_TITLE' | translate}}</h4>
+    <!-- newly added searchCriteria -->
+    <div class="clearfix div-apSearchRecordCriteria">
+      <h4 class="float-left h4-searchCriteriaText">{{'AP_UPLINE_INTERFACE.SEARCH_CRITERIA' | translate}}:</h4>
+      <h4 class="h4-criteriaText">
+        <ng-container *ngFor="let criteria of searchCriterias; let i = index;">
+          <ng-container *ngIf="criteria">“{{criteria}}”
+            <ng-container *ngIf="i < searchCriterias.length-1 && criteria">,</ng-container>
+          </ng-container>          
+        </ng-container>
+        &nbsp;
+      </h4>
+      <h4 class="float-right add-bottom h4-noOfRecords">{{'AP_UPLINE_INTERFACE.NO_OF_RECORDS' | translate}}: {{noOfRecords}}</h4>
+    </div>
+    <!-- newly added searchCriteria -->
     <div class="div-apUplineInterface-wrapper">
       <table class="row-border hover table-apUplineInterface dataTable no-footer">
         <thead>
@@ -13,9 +27,7 @@
             <th class="th-apUplineInterface">{{'AP_UPLINE_INTERFACE_COLS.NO_OF_LEADS' | translate}}</th>
           </tr>
         </thead>
-        <tbody
-          *ngIf="displayedDataArray"
-          >
+        <tbody *ngIf="displayedDataArray">
           <tr *ngFor="let dataRow of displayedDataArray">
             <td *ngFor="let key of objectKeys(dataRow)">
               <span class="span-dataRow" *ngIf="dataRow[key]">

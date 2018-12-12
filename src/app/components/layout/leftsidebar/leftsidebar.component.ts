@@ -39,7 +39,7 @@ export class LeftsidebarComponent implements OnInit, AfterViewChecked {
     let currLang = this.currentLang;
     let nextLang = currLang === 'en' ? 'zh' : 'en';
     this.translateService.use(nextLang);
-    this.translateTxt = currLang === 'en' ? '中' : 'En';
+    this.translateTxt = nextLang === 'en' ? '中' : 'En';
     this.currentLang = nextLang;
   }
 

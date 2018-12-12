@@ -2,7 +2,9 @@ import { Component, ViewChild, AfterContentChecked, AfterViewChecked, AfterViewI
 import { Router } from '@angular/router';
 import { get as _get, set as _set } from 'lodash';
 import {AointerfaceComponent} from '../../components/leadresponse/aointerface/aointerface.component';
+import {ApuplineinterfaceComponent} from '../../components/leadresponse/apuplineinterface/apuplineinterface.component';
 import {AosearchcriteriaComponent} from '../../components/leadresponse/aointerface/aosearchcriteria/aosearchcriteria.component';
+import {ApsearchcriteriaComponent} from '../../components/leadresponse/apuplineinterface/apsearchcriteria/apsearchcriteria.component';
 
 @Component({
   selector: 'app-leadresponse',
@@ -11,8 +13,10 @@ import {AosearchcriteriaComponent} from '../../components/leadresponse/aointerfa
 })
 export class LeadresponseComponent implements AfterContentChecked, AfterViewChecked, AfterViewInit {
   @ViewChild(AointerfaceComponent) aoInterfaceComponent;
+  @ViewChild(ApuplineinterfaceComponent) apuplineinterfaceComponent;
   @ViewChild(AosearchcriteriaComponent) aoSearchCriteriaComponent;
-
+  @ViewChild(ApsearchcriteriaComponent) apSearchCriteriaComponent;
+ 
   constructor(private router :Router) { }
 
   setCurrUrlAndSubPage(){
@@ -48,7 +52,10 @@ export class LeadresponseComponent implements AfterContentChecked, AfterViewChec
   bindChildComponents(){
     if(this.currSubPage === 'easAOInterface'){
       _set(this, 'aoSearchCriteriaComponent.aoInterfaceComponent', this.aoInterfaceComponent);
+    }else if(this.currSubPage === 'easAPInterface'){
+      _set(this, 'apSearchCriteriaComponent.apuplineinterfaceComponent', this.apuplineinterfaceComponent);
     }
+
   }
 
 

@@ -23,13 +23,25 @@ const appRoutes: Routes = [
   { path: 'easAPInterface', component: LeadresponseComponent , canActivate: [MenuGuard]},
   { path: 'easAOInterface', component: LeadresponseComponent , canActivate: [MenuGuard]},
 
+  //to be commented out
   { path: 'easLeadExtensionAppl', component: PddComponent},
-  { path: 'easLeadExtensionApproval', component: PddComponent , canActivate: [MenuGuard]},
-  { path: 'easLeadSummary', component: PddComponent , canActivate: [MenuGuard]},
+  { path: 'easLeadExtensionApproval', component: PddComponent},
+  { path: 'easLeadSummary', component: PddComponent},
 
-  { path: 'easEDM', component: EdmComponent , canActivate: [MenuGuard]},
-  { path: 'easEDMManagementForm', component: EdmComponent , canActivate: [MenuGuard]},
-  { path: 'easEDMHistory', component: EdmComponent , canActivate: [MenuGuard]},
+  { path: 'easEDM', component: EdmComponent},
+  { path: 'easEDMManagementForm', component: EdmComponent},
+  { path: 'easEDMHistory', component: EdmComponent},
+  //to be commented out
+
+  //to be uncommented
+  // { path: 'easLeadExtensionAppl', component: PddComponent},
+  // { path: 'easLeadExtensionApproval', component: PddComponent , canActivate: [MenuGuard]},
+  // { path: 'easLeadSummary', component: PddComponent , canActivate: [MenuGuard]},
+
+  // { path: 'easEDM', component: EdmComponent , canActivate: [MenuGuard]},
+  // { path: 'easEDMManagementForm', component: EdmComponent , canActivate: [MenuGuard]},
+  // { path: 'easEDMHistory', component: EdmComponent , canActivate: [MenuGuard]},
+  //to be uncommented
 
   { path: '', component: DefaultPageComponent, pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

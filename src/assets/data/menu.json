@@ -4,10 +4,7 @@
     "easAgentDetail",
     "easCampaignDetail",
     "easAgentInterface","easAPInterface","easAOInterface",
-    "easClientDetail",
-    "easLeadExtensionApproval",
-    "easLeadSummary",
-    "easLeadExtensionAppl",
-    "easEDM"
+    "easClientDetail"
+
   ]
 }

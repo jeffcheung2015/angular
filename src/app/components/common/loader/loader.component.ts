@@ -7,7 +7,7 @@ import { LoaderService } from '../../../services/loader.service';
   styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent implements OnInit, OnDestroy {
-  show = true;
+  show : boolean = true;
   private subscription: Subscription;
   constructor(private loaderService: LoaderService) { }
   ngOnInit() {

@@ -18,6 +18,7 @@ export class LeadresponseService {
     let sentParams : any;
     switch(type){
       case 'dataTable':
+      case 'apuplineRecord':
         sentParams =  {
           observe: "response",
           params: params
@@ -44,10 +45,10 @@ export class LeadresponseService {
             this.getOrPostFunc("/eas/api/leadresp/getAoInterfaceList",params, 'get', type);
   }
   //dataTable
-  getapUplineInterfaceRecord(){
+  getapUplineInterfaceRecord(params, type){
     return (constants.localOrVm === 'local') ?
-            this.http.get("http://localhost:4200/eas/assets/data/apuplineInterface.json", {}) :
-            this.http.get("/eas/api/leadresp/getApUplineInterfaceList", {});
+            this.getOrPostFunc("http://localhost:4200/eas/assets/data/apuplineInterface.json", params, 'get', type) :
+            this.getOrPostFunc("/eas/api/leadresp/getApUplineInterfaceList", params, 'get', type);
   }
 
   postCustomerDtlRecord(params, type){

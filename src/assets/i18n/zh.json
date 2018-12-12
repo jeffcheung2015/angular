@@ -105,6 +105,12 @@
     "RESET_BTN":"重置"
   },
   "AP_UPLINE_INTERFACE":{
-    "TABLE_TITLE":"理財顧問 - 新客戶分配名單"
+    "TABLE_TITLE":"理財顧問 - 新客戶分配名單",
+    "NO_OF_RECORDS":"列表內的數目",    
+    "SEARCH_CRITERIA":"搜尋範圍",
+    "INPUT_SEARCH_CRITERIA":"輸入搜尋範圍",
+    "AGENT_CODE":"理財顧問",
+    "SEARCH_BTN":"搜尋",
+    "RESET_BTN":"重置"
   }
 }

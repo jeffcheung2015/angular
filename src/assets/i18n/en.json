@@ -105,6 +105,12 @@
     "RESET_BTN":"Reset"
   },
   "AP_UPLINE_INTERFACE":{
-    "TABLE_TITLE":"Financial Consultant - Allocation of New Leads"
+    "TABLE_TITLE":"Financial Consultant - Allocation of New Leads",
+    "NO_OF_RECORDS":"Table No. Of Records",
+    "SEARCH_CRITERIA":"Search Criteria",
+    "INPUT_SEARCH_CRITERIA":"Input your Search Criteria(s)",
+    "AGENT_CODE":"Agent Code",
+    "SEARCH_BTN":"Search",
+    "RESET_BTN":"Reset"
   }
 }

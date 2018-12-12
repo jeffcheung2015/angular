@@ -35,6 +35,7 @@ export default {
       'idNo','giOptOut','lifeOptOut','currentAgentName',
       'currentAgentCode','currentAgentPhone','dateOfSubmission',
       'campaignCode','assignmentType',
+      'preferAgentName', 'preferAgentPhone',
       'agentInfo',
       'agentSentDate','customerSentDate'],
 
@@ -88,6 +89,8 @@ export default {
 
     NEW_POOL_TYPE: 1,
     OLD_POOL_TYPE: 2,
+    ADDITIONAL_POOL_TYPE: 3,
+
 
     STATUS_CODE : {
       SUCCESS_CODE: "00000",

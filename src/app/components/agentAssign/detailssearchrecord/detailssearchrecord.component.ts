@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
   AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 import { AgentassignmentService } from '../../../services/agentassignment.service';
-import { Subject} from 'rxjs';
+import { Subject, Subscription} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
 import {get as _get, set as _set} from 'lodash';
@@ -66,6 +66,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   };
   //subscription
   dataTableAjaxSubscription;
+  agentPoolSubscription;
   //listener
   bodyRendererListener;
 
@@ -86,19 +87,24 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       this.router.navigate(['/']);
     }
     //to check if curr full agent list's agent are old agent type / new agent Type
-    this.agentassignmentService.getCurrAgentPoolType({policyNo: this.currPolicyNo}, 'getPoolType').subscribe((resp : any) => {
-      console.log('>>> poolType == ', resp.body.poolType == 1 ? "NEW_POOL_TYPE" : "OLD_POOL_TYPE");
+    this.agentPoolSubscription = this.agentassignmentService.getCurrAgentPoolType({policyNo: this.currPolicyNo}, 'getPoolType').subscribe((resp : any) => {
+      console.log('>>> poolType == ', resp.body.poolType == 1 ? "NEW_POOL_TYPE" : resp.body.poolType == 2 ? "OLD_POOL_TYPE" : "ADDITIONAL_POOL_TYPE");
       this.currAgentListPoolType = parseInt(resp.body.poolType);
-      if(this.currAgentListPoolType === constants.OLD_POOL_TYPE){
+
+      if([constants.OLD_POOL_TYPE, constants.ADDITIONAL_POOL_TYPE].indexOf(this.currAgentListPoolType) != -1){
         this.displayedColumns = constants["DetailSearchRecordOldPoolTypeColumnName"];
         this.displayedColumnsName = constants["DetailSearchRecordOldPoolTypeColumnField"];
-      }else{
+      }else if(this.currAgentListPoolType === constants.NEW_POOL_TYPE){
         this.displayedColumns = constants["DetailSearchRecordColumnName"];
         this.displayedColumnsName = constants["DetailSearchRecordColumnField"];
+      }else{
+        console.error(">>> Pool type error, poolType:", resp.body.poolType)
+        this.router.navigate(['/']);
+        return null;
       }
       let colArr = [], dataArr = [];
       this.displayedColumnsName.forEach((val, index)=>{
-        colArr.push(this.currAgentListPoolType === constants.OLD_POOL_TYPE || index != 6 ? {
+        colArr.push([constants.OLD_POOL_TYPE, constants.ADDITIONAL_POOL_TYPE].indexOf(this.currAgentListPoolType) != -1 || index != 6 ? {
           data: val
         } : {
           data: val,
@@ -250,7 +256,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     }
   }
   ngOnDestroy(){
-    let toBeDestroyArray = ['bodyRendererListener', 'dtTrigger', 'dataTableAjaxSubscription'];
+    let toBeDestroyArray = ['bodyRendererListener', 'dtTrigger', 'dataTableAjaxSubscription', 'agentPoolSubscription'];
     toBeDestroyArray.forEach((elem, key)=>{
       if(this[elem] && elem == 'bodyRendererListener'){
         this.bodyRendererListener();
@@ -358,7 +364,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
             aOrSpanStyle += `margin:auto;`;
             let divStyle = `display:inline-flex;width:100%;`
 
-            if(poolType == '2'){ //old pool type should not have on leave func
+            if([constants.OLD_POOL_TYPE, constants.ADDITIONAL_POOL_TYPE].indexOf(poolType) != -1){ //old pool type should not have on leave func
               $(td).html(``);
             }else if(!onLeave || !isEarlierThanLeavePeriod){
               $(td).html(`<div style="` + divStyle + `">` +

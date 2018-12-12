@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, HostListener,
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 import { AgentassignmentService } from '../../../services/agentassignment.service';
 import { CSSearchCriteria, GISearchCriteria } from '../../../models/agentassignment.model';
-import { Subject} from 'rxjs';
+import { Subject, Subscription} from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 
 import {get as _get, set as _set} from 'lodash';
@@ -272,7 +272,6 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
     });
     this.noOfPage = Math.ceil(this.noOfCustomer/this.dtOptions.pageLength);
     this.currPage = 1;
-    $(".input-goToPage_left").val(1);
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
@@ -401,8 +400,8 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   }
   agentAssignedGIColumnDef(){
     return [
-      {targets: 15,width:'130px'},
-      {targets: 13,width:'800px'},
+      {targets: 17,width:'130px'},
+      {targets: 15,width:'800px'},
       {targets: [0,1,2,3,4],width:'80px'},
       {targets: [5,6,7,8,9,10,11,12],width:'130px'},
       {
@@ -426,8 +425,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                         (assignType == 1 && agentCode != 'null') ? 'B' :
                         (assignType == 2) ? 'C' :
                         (assignType == 3) ? 'D' :
-                        (assignType == 4) ? 'E' : 'F';
-        if(col < 13){
+                        (assignType == 4) ? 'E' :
+                        'F'; //assignType 5
+        if(col < 15){
           if(!cellData){ //for those null data
             $(td).html('-');
           }else{
@@ -437,11 +437,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             }else if(col == 11){//campaign code, put campaign code as attr later
               $(td).html('<a class="a-campaignCode" queryParams="campaignCode:' + rowData.campaignCode + '">' + cellData + '</a>');
             }else if(col == 12){
-              let assignTypeToText = ["Assign New Agent Pool", "Auto Assign Life Agent", "Assign GI Agent Pool", "GIEB Sales Support"];
+              let assignTypeToText = ["Assign New Agent Pool", "Auto Assign Life Agent", "Assign GI Agent Pool", "GIEB Sales Support", "-"];
               $(td).html(`<span>` + assignTypeToText[cellData - 1] + `</span>`);
             }
           }
-        }else if(col === 13){
+        }else if(col === 15){
           $(td).css('padding', '8px 20px');
           let redBtnClass = "btn btn-primary table-btn";
           let grayBtnClass = "btn btn-default table-btn";
@@ -514,9 +514,9 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
                         `<table style="table-layout:fixed;width:100%;height:100%">${firstSecRowHtml}</table>` : firstSecRowHtml;
           $(td).html(htmlStr);
 
-        }else if(col >= 14){ //pruchat sms Section
+        }else if(col >= 16){ //pruchat sms Section
           $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
-          let dataArrSrc = (col === 14) ? rowData.agentSentDate : rowData.customerSentDate;
+          let dataArrSrc = (col === 16) ? rowData.agentSentDate : rowData.customerSentDate;
           let tdhtml = "";
           if(dataArrSrc && dataArrSrc.length != 0){
             dataArrSrc.forEach((data)=>{
@@ -530,7 +530,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
               //
               tdhtml += `<p>` + processedDt + `</p>`;
             });
-            tdhtml += (rowData.lastEmailId && col === 15) ?
+            tdhtml += (rowData.lastEmailId && col === 17) ?
             `<a class="a-viewEmail" queryParams="lastEmailId:` + rowData.lastEmailId + `"'>View email</a>` : ``;
           }else{
             tdhtml = 'N/A';

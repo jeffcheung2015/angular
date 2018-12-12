@@ -91,6 +91,7 @@ import { PddlistComponent } from './components/pdd/pddlist/pddlist.component';
 import { PddsummaryComponent } from './components/pdd/pddsummary/pddsummary.component';
 import { PddleadextapprovalComponent } from './components/pdd/pddleadextapproval/pddleadextapproval.component';
 import { ClientcampaigndetailsComponent } from './components/agentAssign/clientcampaigndetails/clientcampaigndetails.component';
+import { ApsearchcriteriaComponent } from './components/leadresponse/apuplineinterface/apsearchcriteria/apsearchcriteria.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -129,6 +130,7 @@ export function createTranslateLoader(http: HttpClient) {
     PddsummaryComponent,
     PddleadextapprovalComponent,
     ClientcampaigndetailsComponent,
+    ApsearchcriteriaComponent,
   ],
   imports: [
     NgbModule,
