@@ -384,7 +384,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             $(closestTrObj).attr("rowData", JSON.stringify(rowData));
 
             html = optoutOrReassign ? `<a ` + optOutReassignStyle + ` class="a-modalLink" polno="` + polNo + `" >` + customerName + `</a>` :
-             `<a class="a-modalLink" polNo="` + polNo + `"` + cursorStyle +
+             `<a class="a-modalLink css-wordBreakAll" polNo="` + polNo + `"` + cursorStyle +
              ` data-toggle="modal" data-target="#customerDetailModal">` + customerName + `</a>`;
             $(td).html(html);
             break;
@@ -434,7 +434,8 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             $(td).html(html);
             break;
           default:
-            $(td).html((cellData && !optoutOrReassign) ? `<span>` + cellData + '</span>' : `<span></span>`);
+            $(td).html((cellData && !optoutOrReassign) ? ((typeof cellData == "string" && cellData.length > 25) ? `<span class="css-wordBreakAll">` : `<span>`) +
+             cellData + '</span>' : `<span></span>`);
             break;
         }
       }

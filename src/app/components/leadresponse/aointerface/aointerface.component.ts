@@ -160,6 +160,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
 
   refreshTable(){
     let dTableInstance = _get(this.dTable, "dtInstance");
+    this.currPage = 1;
     if(dTableInstance){
       dTableInstance.then((dtInstance: DataTables.Api) => {
         //redraw table only need these 2 funcs
@@ -365,7 +366,7 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             let closestTrObj = $(td).closest('tr');
             $(closestTrObj).attr("rowData", JSON.stringify(rowData));
 
-            html = optoutOrReassign ? `<span ` + optOutReassignStyle + `>` + customerName + `</span>` :
+            html = optoutOrReassign ? `<span class="css-wordBreakAll"` + optOutReassignStyle + `>` + customerName + `</span>` :
              `<span>` + customerName + `</span>`;
             $(td).html(html);
             break;
@@ -410,7 +411,8 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
             $(td).html(html);
             break;
           default:
-            $(td).html((cellData && !optoutOrReassign) ? `<span>` + cellData + '</span>' : `<span></span>`);
+            $(td).html((cellData && !optoutOrReassign) ? ((typeof cellData == "string" && cellData.length > 25) ? `<span class="css-wordBreakAll">` : `<span>`) +
+             cellData + '</span>' : `<span></span>`);
             break;
         }
       }

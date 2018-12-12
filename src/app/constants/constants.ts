@@ -35,7 +35,7 @@ export default {
       'idNo','giOptOut','lifeOptOut','currentAgentName',
       'currentAgentCode','currentAgentPhone','dateOfSubmission',
       'campaignCode','assignmentType',
-      'preferAgentName', 'preferAgentPhone',
+      'preferredAgentName', 'preferredAgentPhone',
       'agentInfo',
       'agentSentDate','customerSentDate'],
 

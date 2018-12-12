@@ -364,6 +364,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   //refresh and reload inside this component
   refreshAndReloadSearchRecordTable(){
     let dTableInstance = _get(this.dTable, "dtInstance");
+    this.currPage = 1;
     if(dTableInstance){
       dTableInstance.then((dtInstance: DataTables.Api) => {
         //redraw table only need these 2 funcs
