@@ -249,49 +249,53 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
         let convertDate = (date) => {
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
         };
-
-        switch(col){
-          case 3: case 7: case 8: //date
-            if(cellData){
-              let dateSubstr = new Date(cellData.substr(0,10));
-              $(td).html(`<span>` + convertDate(dateSubstr) + `</span>`);
-            }else{
-              $(td).html(`<span> - </span>`);
-            }
-          break;
-          case 9:
-            let mapStatusToText = {
-              1:"To apply for extension",
-              2:"Applied extension",
-              3:"Opt-out from this program",
-              4:"Re-assigned"
-            };
-            let htmlStr = cellData ? mapStatusToText[parseInt(cellData)] : '';
-            $(td).html(`<span>` + htmlStr + `</span>`);
-          break;
-          case 10: //color ext text
-            let mapExtToColor = {
-              0: "unset",
-              1: "lightskyblue",//To be reviewed
-              2: "green",//Approved
-              3: "red"//Rejected
-            };
-            let mapExtToText = {
-              0:"",
-              1:"To be reviewed",
-              2:"Approved",
-              3:"Rejected"
-            };
-            let txtColorStyle = `style="color:` + mapExtToColor[parseInt(String(cellData - 1))] + `;"`;
-            let htmlStr1 = cellData ? mapExtToText[parseInt(String(cellData - 1))] : '';
-            $(td).html(`<span ` + txtColorStyle + `>` + htmlStr1 + `</span>`);
-          break;
-          case 11:
-            $(td).html(`<span class="span-csremarks">` + (cellData ? cellData : '') + `</span>`);
-          break;
-          default:
-            $(td).html(`<span>` + (cellData ? cellData : '-') + `</span>`);
-          break;
+        if(!cellData){
+            $(td).html(`<span>-</span>`)
+        }else if(cellData){
+          switch(col){
+            case 3: case 7: case 8: //date
+              if(cellData){
+                let dateSubstr = new Date(cellData.substr(0,10));
+                $(td).html(`<span>` + convertDate(dateSubstr) + `</span>`);
+              }else{
+                $(td).html(`<span> - </span>`);
+              }
+            break;
+            case 9:
+              let mapStatusToText = {
+                1:"To apply for extension",
+                2:"Applied extension",
+                3:"Opt-out from this program",
+                4:"Re-assigned"
+              };
+              let htmlStr = cellData ? mapStatusToText[parseInt(cellData)] : '';
+              $(td).html(`<span>` + htmlStr + `</span>`);
+            break;
+            case 10: //color ext text
+              let mapExtToColor = {
+                0: "unset",
+                1: "lightskyblue",//To be reviewed
+                2: "green",//Approved
+                3: "red"//Rejected
+              };
+              let mapExtToText = {
+                0:"",
+                1:"To be reviewed",
+                2:"Approved",
+                3:"Rejected"
+              };
+              let txtColorStyle = `style="color:` + mapExtToColor[parseInt(String(cellData - 1))] + `;"`;
+              let htmlStr1 = cellData ? mapExtToText[parseInt(String(cellData - 1))] : '';
+              $(td).html(`<span ` + txtColorStyle + `>` + htmlStr1 + `</span>`);
+            break;
+            case 11:
+              $(td).html(`<span class="span-csremarks">` + (cellData ? cellData : '') + `</span>`);
+            break;
+            default:
+              $(td).html(((typeof cellData == "string" && cellData.length > 25) ? `<span class="css-wordBreakAll">` : `<span>`) +
+              (cellData ? cellData : '-') + `</span>`);
+            break;
+          }
         }
       }
     }]

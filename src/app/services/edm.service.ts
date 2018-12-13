@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs';
 import {BehaviorSubject} from 'rxjs';
 import constants from '../constants/constants';
-
+import { EdmManagementFormStep1 } from '../models/edm.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +20,11 @@ export class EdmService {
   currCommunicationCode: string;
   currEdmId: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
+
+  edmManagementFormObj : EdmManagementFormStep1;
   //expected val = easAgentAssignGI | easAgentAssignGI
   //set currServiceName(name : string) {this._currServiceName = name;}
-//  get currServiceName() : string {return this._currServiceName;}
+  //get currServiceName() : string {return this._currServiceName;}
   //type : dataTable | searchCriteria | sendParams
   getOrPostFunc(url, params, getOrPost, type){
     let sentParams : any;
@@ -83,7 +85,8 @@ export class EdmService {
         errMsg: ['']
 
     }
-    return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/edm/saveEdmTemplate', params, 'post', type);
+    //return (constants.localOrVm === 'local') ? Observable.of(dummy_resp_obj) : this.getOrPostFunc('/eas/api/edm/saveEdmTemplate', params, 'post', type);
+    return this.getOrPostFunc('/eas/api/edm/saveEdmTemplate', params, 'post', type);
   }
 
   postEdmReceiver(params, type){

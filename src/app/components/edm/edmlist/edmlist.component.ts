@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, HostListener, OnDestroy,
   AfterViewChecked, OnChanges, Renderer2, Input } from '@angular/core';
 import { JsonPipe, KeyValuePipe } from '@angular/common';
 
-import { Subject} from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { DataTableDirective } from 'angular-datatables';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -45,7 +45,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
   //listener
   bodyRendererListener;
   //subscription
-  dataTableAjaxSubscription;
+  dataTableAjaxSubscription : Subscription;
 
   constructor(
      private http: HttpClient,
@@ -221,7 +221,8 @@ export class EdmlistComponent implements OnInit, OnDestroy,
                 ((cellData === 1) ? `a-view` : `a-edit`) + `" queryParams="commCode:` + rowData.communicationCode + `,edmId:` + rowData.edmId + `">` + actionStr + `</span>`)
           break;
           default:
-            $(td).html(`<span>` + cellData + `</span>`);
+            $(td).html(((typeof cellData == "string" && cellData.length > 25) ? `<span class="css-wordBreakAll">` : `<span>`) +
+            cellData + `</span>`);
             break;
         }
       }

@@ -365,6 +365,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
   refreshAndReloadSearchRecordTable(){
     let dTableInstance = _get(this.dTable, "dtInstance");
     this.currPage = 1;
+    $(".input-goToPage_left").val(1);
     if(dTableInstance){
       dTableInstance.then((dtInstance: DataTables.Api) => {
         //redraw table only need these 2 funcs
@@ -391,8 +392,8 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
           let convertDateData = cellData ? new Date(cellData.substr(0,10)) : undefined;
           return $(td).html(`<span>` + (convertDateData ? convertDate(convertDateData) : "-") + `</span>`);
         }else{
-
-          return $(td).html(`<span>` + cellData + `</span>`);
+          return $(td).html(((typeof cellData == "string" && cellData.length > 20) ? `<span class="css-wordBreakAll">` : `<span>`) +
+           cellData + `</span>`);
         }
       }
     }]

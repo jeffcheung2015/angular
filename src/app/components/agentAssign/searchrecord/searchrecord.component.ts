@@ -286,6 +286,7 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
   refreshAndReloadSearchRecordTable(_searchCriteria : string[] = []){
     this.searchCriterias = _searchCriteria;
     this.currPage = 1;
+    $(".input-goToPage_left").val(1);
     let dTableInstance = _get(this.dTable, "dtInstance");
     if(dTableInstance){
       dTableInstance.then((dtInstance: DataTables.Api) => {

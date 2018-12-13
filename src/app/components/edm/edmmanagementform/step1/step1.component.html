@@ -39,14 +39,14 @@
         <div class="form-group clearfix">
             <p class="control-label" for="inputSuccess1">Email Subject</p>
             <div class="inputSuccess1">
-                <input formControlName="emailSubj" name="emailSubjField" type="text" class="col-md-6">
+                <input maxlength="100" formControlName="emailSubj" name="emailSubjField" type="text" class="col-md-6">
             </div>
         </div>
 
         <div class="form-group clearfix">
             <p class="control-label" for="inputSuccess1">Greeting Text <i class="iconfont popover1">&#xe628;</i></p>
             <div class="inputSuccess1">
-                <textarea formControlName="greetingTxt" name="greetingTxtField" id="greet-text" cols="60" rows="10"></textarea>
+                <textarea maxlength="200" formControlName="greetingTxt" name="greetingTxtField" id="greet-text" cols="60" rows="10"></textarea>
             </div>
         </div>
 
@@ -57,7 +57,7 @@
             <a href="javascript:;" class="file">
                 <i class="fa fa-upload"></i>
                 Choose File...
-                <input formControlName="mainBannerImgFile" name="mainBannerImgFileField" type="file" id="uploadFile" class="uploadFile">
+                <input (change)="onSelectFile($event, 'mainBannerImgFile')" formControlName="mainBannerImgFile" name="mainBannerImgFileField" type="file" id="uploadFile" class="uploadFile">
             </a>
             <a href="javascript:;" class="file filename" id="filename">
             </a>
@@ -68,13 +68,13 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Title</p>
                 <div class="inputSuccess1">
-                    <input formControlName="campaign1Title" name="campaign1TitleField" type="text" class="col-md-6">
+                    <input maxlength="100" formControlName="campaign1Title" name="campaign1TitleField" type="text" class="col-md-6">
                 </div>
             </div>
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Description <i class="iconfont popover2">&#xe628;</i></p>
                 <div class="inputSuccess1">
-                    <textarea formControlName="campaign1Desc" name="campaign1DescField" id="greet-text1" cols="60" rows="10"></textarea>
+                    <textarea maxlength="255" formControlName="campaign1Desc" name="campaign1DescField" id="greet-text1" cols="60" rows="10"></textarea>
                 </div>
             </div>
         </div>
@@ -84,13 +84,13 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Title</p>
                 <div class="inputSuccess1">
-                    <input formControlName="campaign2Title" name="campaign2TitleField" type="text" class="col-md-6">
+                    <input maxlength="100" formControlName="campaign2Title" name="campaign2TitleField" type="text" class="col-md-6">
                 </div>
             </div>
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Description <i class="iconfont popover2">&#xe628;</i></p>
                 <div class="inputSuccess1">
-                    <textarea formControlName="campaign2Desc" name="campaign2DescField" id="greet-text1" cols="60" rows="10"></textarea>
+                    <textarea maxlength="255" (change)="onSelectFile($event)" formControlName="campaign2Desc" name="campaign2DescField" id="greet-text1" cols="60" rows="10"></textarea>
                 </div>
             </div>
         </div>
@@ -99,13 +99,13 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Title (Primary)</p>
                 <div class="inputSuccess1">
-                    <input formControlName="priButtonTitle" name="priButtonTitleField" type="text" class="col-md-6">
+                    <input maxlength="100" formControlName="priButtonTitle" name="priButtonTitleField" type="text" class="col-md-6">
                 </div>
             </div>
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Link (Primary)</p>
                 <div class="inputSuccess1">
-                    <input formControlName="priButtonLink" name="priButtonLinkField" type="text" class="col-md-6 btn-link1" placeholder="Default">
+                    <input maxlength="255" formControlName="priButtonLink" name="priButtonLinkField" type="text" class="col-md-6 btn-link1" placeholder="Default" disabled>
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Title (Secondary)</p>
                 <div class="inputSuccess1">
-                    <input formControlName="secButtonTitle" name="secButtonTitleField" type="text" class="col-md-6">
+                    <input maxlength="10" formControlName="secButtonTitle" name="secButtonTitleField" type="text" class="col-md-6">
                 </div>
             </div>
             <div class="clearfix form-block">
@@ -132,7 +132,7 @@
             <a href="javascript:;" class="file">
                 <i class="iconfont">&#xe61c;</i>
                 Choose File...
-                <input type="file" formControlName="bottomBannerImgFile" name="bottomBannerImgFileField" id="uploadFile1" class="uploadFile">
+                <input type="file" (change)="onSelectFile($event, 'bottomBannerImgFile')" formControlName="bottomBannerImgFile" name="bottomBannerImgFileField" id="uploadFile1" class="uploadFile">
             </a>
             <a href="javascript:;" class="file filename" id="filename1">
             </a>
@@ -142,7 +142,7 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Title (Bottom Banner)</p>
                 <div class="inputSuccess1">
-                    <input type="text" formControlName="bottomBannerButtonTitle" name="bottomBannerButtonTitleField" class="col-md-6">
+                    <input maxlength="10" type="text" formControlName="bottomBannerButtonTitle" name="bottomBannerButtonTitleField" class="col-md-6">
                 </div>
             </div>
             <div class="clearfix form-block">
@@ -157,14 +157,14 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Campaign T&C <i  data-trigger="focus" class="iconfont popover2">&#xe628;</i></p>
                 <div class="inputSuccess1">
-                    <textarea formControlName="campaignTnc" name="campaignTncField" id="greet-text" cols="60" rows="10"></textarea>
+                    <textarea maxlength="255" formControlName="campaignTnc" name="campaignTncField" id="greet-text" cols="60" rows="10"></textarea>
                 </div>
             </div>
 
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Standard T&C <i class="iconfont popover2">&#xe628;</i></p>
                 <div class="inputSuccess1">
-                    <textarea formControlName="standardTnc" name="standardTncField" id="greet-text" cols="60" rows="10"></textarea>
+                    <textarea maxlength="255" formControlName="standardTnc" name="standardTncField" id="greet-text" cols="60" rows="10"></textarea>
                 </div>
             </div>
         </div>

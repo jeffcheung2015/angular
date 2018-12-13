@@ -158,17 +158,6 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     ];
   }
 
-  refreshTable(){
-    let dTableInstance = _get(this.dTable, "dtInstance");
-    this.currPage = 1;
-    if(dTableInstance){
-      dTableInstance.then((dtInstance: DataTables.Api) => {
-        //redraw table only need these 2 funcs
-        dtInstance.destroy();
-        this.dtTrigger.next();
-      });
-    }
-  }
   setCustomerDtl(){
     let queryParams = {
       firstContactDt: this.customerDetailModalForm.controls['firstContactDt'].value,
@@ -212,8 +201,20 @@ export class AointerfaceComponent implements OnInit, OnDestroy,
     if(this.displayDefaultNoRecord){
       this.displayDefaultNoRecord = false;
     }
-    let dTableInstance = _get(this.dTable, "dtInstance");
     this.refreshTable();
+  }
+
+  refreshTable(){
+    let dTableInstance = _get(this.dTable, "dtInstance");
+    this.currPage = 1;
+    $(".input-goToPage_left").val(1);
+    if(dTableInstance){
+      dTableInstance.then((dtInstance: DataTables.Api) => {
+        //redraw table only need these 2 funcs
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
 
   ngAfterViewInit(){ //only load data after view are initialized

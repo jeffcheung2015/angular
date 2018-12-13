@@ -204,41 +204,45 @@ export class PddlistComponent  implements OnInit, OnDestroy,
         let convertDate = (date) => {
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
         };
-        switch(col){
-          case 1:
-            $(td).html(`<a class="a-customerName" queryParams="policyNo:` + rowData.policyNo + `">` + (cellData ? cellData : '') + `</a>`);
-          break;
-          case 0: case 6: case 7:
-            if(cellData){
-              let dateSubstr = new Date(cellData.substr(0,10));
-              $(td).html(`<span>` + convertDate(dateSubstr) + `</span>`);
-            }else{
-              $(td).html(`<span> - </span>`);
-            }
-          break;
-          case 8:
-            let mapStatusToText = {
-              0: '',
-              1: 'Approved',
-              2: 'Rejected'
-            };
-            let mapStatusToColor = {
-              0: "#4d4d4d",
-              1: "green",//Approved
-              2: "red"//Rejected
-            };
-            let txtColorStyle = `style="color:` + mapStatusToColor[parseInt(cellData)] + `;"`;
-            let html = cellData ? mapStatusToText[parseInt(cellData)] : '-';
-            $(td).html(`<span ` + txtColorStyle + `>` + html + `</span>`);
-          break;
-          case 9: //gray color remarks
-            $(td).html(`<span class="span-csremarks">` + (cellData ? cellData : '') + `</span>`);
-          break;
-          default:
-            $(td).html(`<span>` + (cellData ? cellData : '-') + `</span>`);
-          break;
+        if(!cellData){
+          $(td).html(`<span>-</span>`)
+        }else if(1){
+          switch(col){
+            case 1:
+              $(td).html(`<a class="a-customerName css-wordBreakAll" queryParams="policyNo:` + rowData.policyNo + `">` + (cellData ? cellData : '') + `</a>`);
+            break;
+            case 0: case 6: case 7:
+              if(cellData){
+                let dateSubstr = new Date(cellData.substr(0,10));
+                $(td).html(`<span>` + convertDate(dateSubstr) + `</span>`);
+              }else{
+                $(td).html(`<span> - </span>`);
+              }
+            break;
+            case 8:
+              let mapStatusToText = {
+                0: '',
+                1: 'Approved',
+                2: 'Rejected'
+              };
+              let mapStatusToColor = {
+                0: "#4d4d4d",
+                1: "green",//Approved
+                2: "red"//Rejected
+              };
+              let txtColorStyle = `style="color:` + mapStatusToColor[parseInt(cellData)] + `;"`;
+              let html = cellData ? mapStatusToText[parseInt(cellData)] : '-';
+              $(td).html(`<span ` + txtColorStyle + `>` + html + `</span>`);
+            break;
+            case 9: //gray color remarks
+              $(td).html(`<span class="span-csremarks">` + (cellData ? cellData : '') + `</span>`);
+            break;
+            default:
+              $(td).html(((typeof cellData == "string" && cellData.length > 25) ? `<span class="css-wordBreakAll">` : `<span>`) +
+               (cellData ? cellData : '-') + `</span>`);
+            break;
+          }
         }
-
       }
     }]
   }

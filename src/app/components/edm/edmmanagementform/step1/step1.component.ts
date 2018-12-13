@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EdmService } from '../../../../services/edm.service';
 import constants from '../../../../constants/constants';
+import { EdmManagementFormStep1 } from '../../../../models/edm.model';
 
 @Component({
   selector: 'app-step1',
@@ -13,22 +14,22 @@ import constants from '../../../../constants/constants';
 export class Step1Component implements OnInit, AfterViewInit {
   edmManagementStep1Form = new FormGroup({
     templateOption: new FormControl('0',[Validators.pattern('[1-3]')]),
-    emailSubj: new FormControl('',[Validators.required, Validators.email]),
-    greetingTxt: new FormControl('',[Validators.required, Validators.pattern('[0-9a-zA-Z ]+')]),
+    emailSubj: new FormControl('',[Validators.required, Validators.email, Validators.maxLength(100)]),
+    greetingTxt: new FormControl('',[Validators.maxLength(200)]),
     mainBannerImgFile: new FormControl(''),
-    campaign1Title: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
-    campaign1Desc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
-    campaign2Title: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
-    campaign2Desc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
-    priButtonTitle: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
-    priButtonLink: new FormControl(''),
-    secButtonTitle: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    campaign1Title: new FormControl('',[Validators.maxLength(100)]),
+    campaign1Desc: new FormControl('',[Validators.maxLength(255)]),
+    campaign2Title: new FormControl('',[Validators.maxLength(100)]),
+    campaign2Desc: new FormControl('',[Validators.maxLength(255)]),
+    priButtonTitle: new FormControl('',[Validators.maxLength(100)]),
+    priButtonLink: new FormControl('',[Validators.maxLength(255)]),
+    secButtonTitle: new FormControl('',[Validators.maxLength(10)]),
     secButtonLink: new FormControl(''),
     bottomBannerImgFile: new FormControl(''),
-    bottomBannerButtonTitle: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    bottomBannerButtonTitle: new FormControl('',[Validators.maxLength(10)]),
     bottomBannerButtonLink: new FormControl(''),
-    campaignTnc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
-    standardTnc: new FormControl('',[Validators.pattern('[0-9a-zA-Z ]+')]),
+    campaignTnc: new FormControl('',[Validators.maxLength(255)]),
+    standardTnc: new FormControl('',[Validators.maxLength(255)]),
     communicationCd: new FormControl('',[Validators.required, Validators.pattern('[0-9a-zA-Z]+')])
   });
 
@@ -63,6 +64,8 @@ export class Step1Component implements OnInit, AfterViewInit {
         this.closeAllDropDown();
       }
     });
+
+    //this.fetchFormServiceSubscription = this.edmService.getHistoryTemplates
   }
   ngOnDestroy(){
     if(this.bodyRendererListener){
@@ -82,6 +85,7 @@ export class Step1Component implements OnInit, AfterViewInit {
     this.fetchFormParamsAndPost();
     this.edmStep1FormSubmitted = true;
     this.router.navigate(['/easEDM']);
+    window.scrollTo(0,0);
   }
 
   fetchFormParamsAndPost(){
@@ -140,6 +144,17 @@ export class Step1Component implements OnInit, AfterViewInit {
     this.errMsgArr = (isReset) ? [] : this.errMsgArr;
     //setCommCodeInputFieldCSS
     $(`[name="communicationCdField"]`).css("border-color", (isReset) ? 'unset' : 'red');
+  }
+
+  onSelectFile(event, fieldName) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      //called upon the reader finished reading the image
+      reader.onload = (event) => {
+        this.edmManagementStep1Form.controls[fieldName].setValue(_get(event, 'target.result', ''));
+      }
+    }
   }
 
   sendTestEmail(){

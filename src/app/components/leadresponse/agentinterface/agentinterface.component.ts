@@ -383,7 +383,7 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
             let closestTrObj = $(td).closest('tr');
             $(closestTrObj).attr("rowData", JSON.stringify(rowData));
 
-            html = optoutOrReassign ? `<a ` + optOutReassignStyle + ` class="a-modalLink" polno="` + polNo + `" >` + customerName + `</a>` :
+            html = optoutOrReassign ? `<a ` + optOutReassignStyle + ` class="a-modalLink css-wordBreakAll" polno="` + polNo + `" >` + customerName + `</a>` :
              `<a class="a-modalLink css-wordBreakAll" polNo="` + polNo + `"` + cursorStyle +
              ` data-toggle="modal" data-target="#customerDetailModal">` + customerName + `</a>`;
             $(td).html(html);
