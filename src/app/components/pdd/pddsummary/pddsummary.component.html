@@ -19,29 +19,33 @@
                     </div>
                 </div>
                 <div class="row export-date div-exportDateWrapper">
-                    <label class="radio-wrapper label-dateOfSubmissionFromTo">
+                    <label style="width:250px" class="radio-wrapper label-dateOfSubmissionFromTo">
                         <input formControlName="selectedOption" value="range" type="radio" (click)="triggerAndClearSubmissionDate('enable')">
                         <span class="checkmark"></span>
+                        Submission Date from
                     </label>
-                    <div class="col-md-5">
-                        <label class="label-dateOfSubmissionFrom">Submission Date from</label>
-                        <div class="div-dateOfSubmissionFrom">
-                            <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)" matInput [max]="maxDateFrom" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
-                            <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionFromPicker">
+                    <label style="margin-left:55px">To</label>
+                    <div style="display:inline-flex; margin-left:30px" class="div-dateOfSubmissionWrapper">
+                      <div style="display:inline-flex" class="col-md-5">
+                          <div style="display:inline-flex; margin-right:180px" class="div-dateOfSubmissionFrom">
+                              <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 0)"
+                              matInput [max]="maxDateFrom < currDate ? maxDateFrom : currDate" [matDatepicker]="dateOfSubmissionFromPicker" formControlName="dateOfSubmissionFrom" name="dateOfSubmissionFromField" placeholder="DD/MM/YYYY">
+                              <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionFromPicker">
+                                <mat-icon matDatepickerToggleIcon>apps</mat-icon>
+                              </mat-datepicker-toggle>
+                              <mat-datepicker #dateOfSubmissionFromPicker></mat-datepicker>
+                          </div>
+                      </div>
+                      <div class="col-md-5">
+                          <div style="display:inline-flex" class="div-dateOfSubmissionTo">
+                            <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)"
+                            matInput [min]="minDateTo" [max]="currDate" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
+                            <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
                               <mat-icon matDatepickerToggleIcon>apps</mat-icon>
                             </mat-datepicker-toggle>
-                            <mat-datepicker #dateOfSubmissionFromPicker></mat-datepicker>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <label class="label-dateOfSubmissionTo">To</label>
-                        <div class="div-dateOfSubmissionTo">
-                          <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)" matInput [min]="minDateTo" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
-                          <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
-                            <mat-icon matDatepickerToggleIcon>apps</mat-icon>
-                          </mat-datepicker-toggle>
-                          <mat-datepicker #dateOfSubmissionToPicker></mat-datepicker>
-                        </div>
+                            <mat-datepicker #dateOfSubmissionToPicker></mat-datepicker>
+                          </div>
+                      </div>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EdmService } from '../../../../services/edm.service';
 import constants from '../../../../constants/constants';
 import { EdmManagementFormStep1 } from '../../../../models/edm.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-step1',
@@ -13,21 +14,25 @@ import { EdmManagementFormStep1 } from '../../../../models/edm.model';
 })
 export class Step1Component implements OnInit, AfterViewInit {
   edmManagementStep1Form = new FormGroup({
-    templateOption: new FormControl('0',[Validators.pattern('[1-3]')]),
-    emailSubj: new FormControl('',[Validators.required, Validators.email, Validators.maxLength(100)]),
-    greetingTxt: new FormControl('',[Validators.maxLength(200)]),
-    mainBannerImgFile: new FormControl(''),
+    template: new FormControl('0',[Validators.pattern('[1-3]')]),
+    emailSubject: new FormControl('',[Validators.required, Validators.email, Validators.maxLength(100)]),
+    greeting: new FormControl('',[Validators.maxLength(200)]),
+    banner1: new FormControl(''),
+    banner1File: new FormControl(''),
     campaign1Title: new FormControl('',[Validators.maxLength(100)]),
     campaign1Desc: new FormControl('',[Validators.maxLength(255)]),
     campaign2Title: new FormControl('',[Validators.maxLength(100)]),
     campaign2Desc: new FormControl('',[Validators.maxLength(255)]),
-    priButtonTitle: new FormControl('',[Validators.maxLength(100)]),
-    priButtonLink: new FormControl('',[Validators.maxLength(255)]),
-    secButtonTitle: new FormControl('',[Validators.maxLength(10)]),
-    secButtonLink: new FormControl(''),
-    bottomBannerImgFile: new FormControl(''),
-    bottomBannerButtonTitle: new FormControl('',[Validators.maxLength(10)]),
-    bottomBannerButtonLink: new FormControl(''),
+    campaign3Title: new FormControl('',[Validators.maxLength(100)]),
+    campaign3Desc: new FormControl('',[Validators.maxLength(255)]),
+    button1Title: new FormControl('',[Validators.maxLength(100)]),
+    button1Link: new FormControl('',[Validators.maxLength(255)]),
+    button2Title: new FormControl('',[Validators.maxLength(10)]),
+    button2Link: new FormControl(''),
+    banner2: new FormControl(''),
+    banner2File: new FormControl(''),
+    button3Title: new FormControl('',[Validators.maxLength(10)]),
+    button3Link: new FormControl(''),
     campaignTnc: new FormControl('',[Validators.maxLength(255)]),
     standardTnc: new FormControl('',[Validators.maxLength(255)]),
     communicationCd: new FormControl('',[Validators.required, Validators.pattern('[0-9a-zA-Z]+')])
@@ -49,6 +54,7 @@ export class Step1Component implements OnInit, AfterViewInit {
     private renderer2 : Renderer2
   ) { }
   bodyRendererListener;
+  fetchFormHistorySubscription : Subscription;
   dropdownDivArray : Array<String> = ["div-templateOption"];
   closeAllDropDown(){
     this.dropdownDivArray.forEach((elem,key)=>{
@@ -65,12 +71,29 @@ export class Step1Component implements OnInit, AfterViewInit {
       }
     });
 
-    //this.fetchFormServiceSubscription = this.edmService.getHistoryTemplates
+    if(this.edmService.currCommunicationCode){ //edit mode, not add mode
+      let queryParams = {
+        communicationCode : this.edmService.currCommunicationCode
+      };
+
+      this.fetchFormHistorySubscription = this.edmService.getHistoryTemplates(queryParams, "getHistory").subscribe((resp : any) => {
+        console.log("resp: ",resp);
+        this.edmService.currEdmManagementFormObj = resp.body;
+
+      }, (error) => {
+        console.error("step1component error: ", error);
+      });
+    }
   }
   ngOnDestroy(){
-    if(this.bodyRendererListener){
-      this.bodyRendererListener();
-    }
+    let toBeDestroyArray = ['bodyRendererListener', 'fetchFormHistorySubscription'];
+    toBeDestroyArray.forEach((elem, key)=>{
+      if(this[elem] && elem == 'bodyRendererListener'){
+        this.bodyRendererListener();
+      }else if(this[elem] && elem != 'bodyRendererListener'){
+        this[elem].unsubscribe();
+      }
+    });
   }
   ngAfterViewInit(){
     this.initPopoverChooseFileJquery();
@@ -90,54 +113,62 @@ export class Step1Component implements OnInit, AfterViewInit {
 
   fetchFormParamsAndPost(){
     let params = {
-      templateOption: this.edmManagementStep1Form.controls['templateOption'].value,
-      emailSubj: this.edmManagementStep1Form.controls['emailSubj'].value,
-      greetingTxt: this.edmManagementStep1Form.controls['greetingTxt'].value,
-      mainBannerImgFile: this.edmManagementStep1Form.controls['mainBannerImgFile'].value,
+      template: this.edmManagementStep1Form.controls['template'].value,
+      emailSubject: this.edmManagementStep1Form.controls['emailSubject'].value,
+      greeting: this.edmManagementStep1Form.controls['greeting'].value,
+      banner1: this.edmManagementStep1Form.controls['banner1'].value,
+      banner1File: this.edmManagementStep1Form.controls['banner1File'].value,
       campaign1Title: this.edmManagementStep1Form.controls['campaign1Title'].value,
       campaign1Desc: this.edmManagementStep1Form.controls['campaign1Desc'].value,
       campaign2Title: this.edmManagementStep1Form.controls['campaign2Title'].value,
       campaign2Desc: this.edmManagementStep1Form.controls['campaign2Desc'].value,
-      priButtonTitle: this.edmManagementStep1Form.controls['priButtonTitle'].value,
-      priButtonLink: this.edmManagementStep1Form.controls['priButtonLink'].value,
-      secButtonTitle: this.edmManagementStep1Form.controls['secButtonTitle'].value,
-      secButtonLink: this.edmManagementStep1Form.controls['secButtonLink'].value,
-      bottomBannerImgFile: this.edmManagementStep1Form.controls['bottomBannerImgFile'].value,
-      bottomBannerButtonTitle: this.edmManagementStep1Form.controls['bottomBannerButtonTitle'].value,
-      bottomBannerButtonLink: this.edmManagementStep1Form.controls['bottomBannerButtonLink'].value,
+      campaign3Title: this.edmManagementStep1Form.controls['campaign3Title'].value,
+      campaign3Desc: this.edmManagementStep1Form.controls['campaign3Desc'].value,
+      button1Title: this.edmManagementStep1Form.controls['button1Title'].value,
+      button1Link: this.edmManagementStep1Form.controls['button1Link'].value,
+      button2Title: this.edmManagementStep1Form.controls['button2Title'].value,
+      button2Link: this.edmManagementStep1Form.controls['button2Link'].value,
+      banner2: this.edmManagementStep1Form.controls['banner2'].value,
+      banner2File: this.edmManagementStep1Form.controls['banner2File'].value,
+      button3Title: this.edmManagementStep1Form.controls['button3Title'].value,
+      button3Link: this.edmManagementStep1Form.controls['button3Link'].value,
       campaignTnc: this.edmManagementStep1Form.controls['campaignTnc'].value,
       standardTnc: this.edmManagementStep1Form.controls['standardTnc'].value,
       communicationCd: this.edmManagementStep1Form.controls['communicationCd'].value
     };
-    this.edmPageInfo.commCode = params.communicationCd;
-    this.edmService.postSubmitOrSave(params, 'sendParams').subscribe((resp : any) => {
-      console.log("resp: ", resp);
-      //reset the errMsgArr and comm code input field css
-      this.isSetStep1ErrPrompt(true);
+    if(this.edmManagementStep1Form.invalid){
+      console.error(">>> step1component edmManagementStep1Form has invalid fields");
+    }else {
+      this.edmPageInfo.commCode = params.communicationCd;
+      this.edmService.postSubmitOrSave(params, 'sendParams').subscribe((resp : any) => {
+        console.log("resp: ", resp);
+        //reset the errMsgArr and comm code input field css
+        this.isSetStep1ErrPrompt(true);
 
-      let codeList = _get(resp, 'code');
-      let errMsgList = _get(resp, 'errMsg');
+        let codeList = _get(resp, 'code');
+        let errMsgList = _get(resp, 'errMsg');
 
-      //00000 : ok
-      //00001 : dup comm Code
-      //00002 : no template is selected
+        //00000 : ok
+        //00001 : dup comm Code
+        //00002 : no template is selected
 
-      if(codeList && codeList[0] == constants.STATUS_CODE.SUCCESS_CODE){
-        this.edmPageInfo.currStep = "step2";
-        window.scrollTo(0,0);
-      }else if(codeList && codeList[0] != constants.STATUS_CODE.SUCCESS_CODE){
-        codeList.forEach((elem, key)=>{
-          this.errMsgArr.push(errMsgList[key]);
-          console.log(">>> code: ", elem);
-        });
-        this.isSetStep1ErrPrompt(false);
-        $("#ErrMsgModal").modal('show');
-      }else{
-        console.error(">>> No code and errmsg found in server's response.");
-      }
-    }, (error) => {
-      console.error("error: ", error);
-    });
+        if(codeList && codeList[0] == constants.STATUS_CODE.SUCCESS_CODE){
+          this.edmPageInfo.currStep = "step2";
+          window.scrollTo(0,0);
+        }else if(codeList && codeList[0] != constants.STATUS_CODE.SUCCESS_CODE){
+          codeList.forEach((elem, key)=>{
+            this.errMsgArr.push(errMsgList[key]);
+            console.log(">>> code: ", elem);
+          });
+          this.isSetStep1ErrPrompt(false);
+          $("#ErrMsgModal").modal('show');
+        }else{
+          console.error(">>> No code and errmsg found in server's response.");
+        }
+      }, (error) => {
+        console.error("error: ", error);
+      });
+    }
   }
 
   isSetStep1ErrPrompt(isReset){
@@ -150,9 +181,12 @@ export class Step1Component implements OnInit, AfterViewInit {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
+      //store the image file name
+      this.edmManagementStep1Form.controls[fieldName].setValue(_get(event, 'target.files[0].name', ''));
       //called upon the reader finished reading the image
       reader.onload = (event) => {
-        this.edmManagementStep1Form.controls[fieldName].setValue(_get(event, 'target.result', ''));
+        //store the image file data
+        this.edmManagementStep1Form.controls[fieldName + 'File'].setValue(_get(event, 'target.result', ''));
       }
     }
   }
@@ -201,7 +235,8 @@ export class Step1Component implements OnInit, AfterViewInit {
         $("[name=templateOptionField]").val(
           selectOptionNameMapVal[$(e.target).text()]
         );
-        this.edmManagementStep1Form.controls['templateOption'].setValue(selectOptionNameMapVal[$(e.target).text()]);
+        this.edmManagementStep1Form.controls['template'].setValue(selectOptionNameMapVal[$(e.target).text()]);
+        console.log('val:' , this.edmManagementStep1Form.controls['template'].value)
       });
     }
   }

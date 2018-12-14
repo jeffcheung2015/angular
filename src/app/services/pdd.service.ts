@@ -57,7 +57,7 @@ export class PddService {
   getPddClientDetails(params, type){
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/pddClientDtls.json', params, 'get', type) :
-            this.getOrPostFunc("/eas/api/pdd/getPddClientDetails/"+params.agentCode ,params, 'get', type);
+            this.getOrPostFunc("/eas/api/pdd/getPddClientDetails/"+params.policyNo ,params, 'get', type);
   }
 
   //getExportList

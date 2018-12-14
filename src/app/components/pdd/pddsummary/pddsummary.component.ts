@@ -29,6 +29,7 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
 
   minDateTo;
   maxDateFrom;
+  currDate = new Date();
 
   noOfApplications : number = 1;
   exportListArray : Array<any>;
@@ -147,9 +148,11 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
       this.exportListForm.controls['dateOfSubmissionTo'].disable();
       this.exportListForm.controls['dateOfSubmissionFrom'].reset();
       this.exportListForm.controls['dateOfSubmissionTo'].reset();
+      
     }else{
       this.exportListForm.controls['dateOfSubmissionFrom'].enable();
       this.exportListForm.controls['dateOfSubmissionTo'].enable();
+
     }
   }
 

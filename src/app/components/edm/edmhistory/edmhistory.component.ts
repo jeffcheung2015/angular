@@ -4,6 +4,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject} from 'rxjs';
 import constants from '../../../constants/constants';
 import { set as _set, get as _get } from 'lodash';
+import { EdmManagementFormStep1 } from '../../../models/edm.model';
 
 @Component({
   selector: 'app-edmhistory',
@@ -12,7 +13,7 @@ import { set as _set, get as _get } from 'lodash';
 })
 export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  eDMHistoryDtl : any = {};
+  eDMHistoryDtl : EdmManagementFormStep1;
   eDMHistoryCustomerList : Array<any> = [];
   noOfCustomers : number = 0;
 
@@ -45,7 +46,7 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.edmService.getHistoryTemplates(templateQueryParams, "getHistory").subscribe((resp : any)=>{
       console.log("resp", resp);
-      this.eDMHistoryDtl = resp;
+      this.eDMHistoryDtl = resp.body;
 
     });
 
@@ -188,7 +189,7 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
           recordsFiltered: resp.body.recordsFiltered
         });
       }, (error) => {
-        console.log("error: ", error);
+        console.error("error: ", error);
       });
     }
   }

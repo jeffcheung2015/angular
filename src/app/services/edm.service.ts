@@ -21,7 +21,7 @@ export class EdmService {
   currEdmId: string;
   currServiceName : string = ""; //to determine current assignment service is GI/CS
 
-  edmManagementFormObj : EdmManagementFormStep1;
+  currEdmManagementFormObj : EdmManagementFormStep1;
   //expected val = easAgentAssignGI | easAgentAssignGI
   //set currServiceName(name : string) {this._currServiceName = name;}
   //get currServiceName() : string {return this._currServiceName;}
@@ -31,6 +31,7 @@ export class EdmService {
     switch(type){
       case 'dataTable':
       case 'retrieve':
+      case 'getHistory':
         sentParams =  {
           observe: "response",
           params: params

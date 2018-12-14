@@ -19,14 +19,14 @@
         <div class="form-group clearfix">
             <p class="control-label" for="inputSuccess1">Template<i class="iconfont popover1">&#xe628;</i></p>
             <div class="inputSuccess1 dropdown-redarrow search-by-dropdown col-md-6 div-templateOption">
-                <select formControlName="templateOption" name="templateOptionField">
+                <select (change)="templateOptionChange($event)" formControlName="template" name="templateOptionField">
                   <option value="0"></option>
                   <option value="1">Template1</option>
                   <option value="2">Template2</option>
                   <option value="3">Template3</option>
                 </select>
                 <div class="select-selected"
-                [style.border-color]="edmManagementStep1Form.get('templateOption').invalid && edmStep1FormSubmitted ? 'red' : '#CCCCCC'"></div>
+                [style.border-color]="edmManagementStep1Form.get('template').invalid && edmStep1FormSubmitted ? 'red' : '#CCCCCC'"></div>
                 <div class="select-items select-hide"><!--same-as-selected-->
                   <div></div>
                   <div>Template1</div>
@@ -39,14 +39,15 @@
         <div class="form-group clearfix">
             <p class="control-label" for="inputSuccess1">Email Subject</p>
             <div class="inputSuccess1">
-                <input maxlength="100" formControlName="emailSubj" name="emailSubjField" type="text" class="col-md-6">
+                <input [style.border-color]="edmStep1FormSubmitted && edmManagementStep1Form.get('emailSubject').invalid ? 'red' : '#CCCCCC'"
+                axlength="100" formControlName="emailSubject" name="emailSubjField" type="text" class="col-md-6">
             </div>
         </div>
 
         <div class="form-group clearfix">
             <p class="control-label" for="inputSuccess1">Greeting Text <i class="iconfont popover1">&#xe628;</i></p>
             <div class="inputSuccess1">
-                <textarea maxlength="200" formControlName="greetingTxt" name="greetingTxtField" id="greet-text" cols="60" rows="10"></textarea>
+                <textarea maxlength="200" formControlName="greeting" name="greetingTxtField" id="greet-text" cols="60" rows="10"></textarea>
             </div>
         </div>
 
@@ -57,7 +58,7 @@
             <a href="javascript:;" class="file">
                 <i class="fa fa-upload"></i>
                 Choose File...
-                <input (change)="onSelectFile($event, 'mainBannerImgFile')" formControlName="mainBannerImgFile" name="mainBannerImgFileField" type="file" id="uploadFile" class="uploadFile">
+                <input (change)="onSelectFile($event, 'banner1')" formControlName="banner1File" name="mainBannerImgFileField" type="file" id="uploadFile" class="uploadFile">
             </a>
             <a href="javascript:;" class="file filename" id="filename">
             </a>
@@ -90,7 +91,23 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Description <i class="iconfont popover2">&#xe628;</i></p>
                 <div class="inputSuccess1">
-                    <textarea maxlength="255" (change)="onSelectFile($event)" formControlName="campaign2Desc" name="campaign2DescField" id="greet-text1" cols="60" rows="10"></textarea>
+                    <textarea maxlength="255" formControlName="campaign2Desc" name="campaign2DescField" id="greet-text1" cols="60" rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <h5 style="color: #333333;">Campaign 3</h5>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Title</p>
+                <div class="inputSuccess1">
+                    <input maxlength="100" formControlName="campaign3Title" name="campaign3TitleField" type="text" class="col-md-6">
+                </div>
+            </div>
+            <div class="clearfix form-block">
+                <p class="control-label" for="inputSuccess1">Description <i class="iconfont popover2">&#xe628;</i></p>
+                <div class="inputSuccess1">
+                    <textarea maxlength="255" formControlName="campaign3Desc" name="campaign3DescField" id="greet-text1" cols="60" rows="10"></textarea>
                 </div>
             </div>
         </div>
@@ -99,13 +116,13 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Title (Primary)</p>
                 <div class="inputSuccess1">
-                    <input maxlength="100" formControlName="priButtonTitle" name="priButtonTitleField" type="text" class="col-md-6">
+                    <input maxlength="100" formControlName="button1Title" name="priButtonTitleField" type="text" class="col-md-6">
                 </div>
             </div>
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Link (Primary)</p>
                 <div class="inputSuccess1">
-                    <input maxlength="255" formControlName="priButtonLink" name="priButtonLinkField" type="text" class="col-md-6 btn-link1" placeholder="Default" disabled>
+                    <input maxlength="255" formControlName="button1Link" name="priButtonLinkField" type="text" class="col-md-6 btn-link1" placeholder="Default" disabled>
                 </div>
             </div>
         </div>
@@ -114,25 +131,24 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Title (Secondary)</p>
                 <div class="inputSuccess1">
-                    <input maxlength="10" formControlName="secButtonTitle" name="secButtonTitleField" type="text" class="col-md-6">
+                    <input maxlength="10" formControlName="button2Title" name="secButtonTitleField" type="text" class="col-md-6">
                 </div>
             </div>
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Link (Secondary)</p>
                 <div class="inputSuccess1">
-                    <input formControlName="secButtonLink" name="secButtonLinkField" type="text" class="col-md-6" placeholder="http://">
+                    <input formControlName="button2Link" name="secButtonLinkField" type="text" class="col-md-6" placeholder="http://">
                 </div>
             </div>
         </div>
 
-        <div class="form-group clearfix">
+        <div class="form-group clearfix" [style.display]="['2','3'].indexOf(edmManagementStep1Form.get('template').value) != -1 ? 'block' : 'none'">
             <p class="control-label" for="inputSuccess1">Bottom Banner (B)</p>
-            <p style="color:#AAAAAA;">800W X 600H (px),  JPG / PNG / BMP </p>
-            <!--<input type="file" style="opacity: 0">-->
+            <p style="color:#AAAAAA;">800W X 600H (px),  JPG / PNG / BMP</p>
             <a href="javascript:;" class="file">
                 <i class="iconfont">&#xe61c;</i>
                 Choose File...
-                <input type="file" (change)="onSelectFile($event, 'bottomBannerImgFile')" formControlName="bottomBannerImgFile" name="bottomBannerImgFileField" id="uploadFile1" class="uploadFile">
+                <input type="file" (change)="onSelectFile($event, 'banner2')" formControlName="banner2File" name="bottomBannerImgFileField" id="uploadFile1" class="uploadFile">
             </a>
             <a href="javascript:;" class="file filename" id="filename1">
             </a>
@@ -142,13 +158,13 @@
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Title (Bottom Banner)</p>
                 <div class="inputSuccess1">
-                    <input maxlength="10" type="text" formControlName="bottomBannerButtonTitle" name="bottomBannerButtonTitleField" class="col-md-6">
+                    <input maxlength="10" type="text" formControlName="button3Title" name="bottomBannerButtonTitleField" class="col-md-6">
                 </div>
             </div>
             <div class="clearfix form-block">
                 <p class="control-label" for="inputSuccess1">Button Link (Bottom Banner)</p>
                 <div class="inputSuccess1">
-                    <input type="text" formControlName="bottomBannerButtonLink" name="bottomBannerButtonLinkField" class="col-md-6" placeholder="http://">
+                    <input type="text" formControlName="button3Link" name="bottomBannerButtonLinkField" class="col-md-6" placeholder="http://">
                 </div>
             </div>
         </div>
@@ -202,7 +218,8 @@
             <div class="clearfix form-block div-commCodeErrorWrapper">
                 <p class="control-label" for="inputSuccess1">Communication Code</p>
                 <div class="inputSuccess1">
-                  <input formControlName="communicationCd" name="communicationCdField" type="text" class="col-md-6">
+                  <input [style.border-color]="edmStep1FormSubmitted && edmManagementStep1Form.get('communicationCd').invalid ? 'red' : '#CCCCCC'"
+                  formControlName="communicationCd" name="communicationCdField" type="text" class="col-md-6">
                 </div>
             </div>
         </div>

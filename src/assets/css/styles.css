@@ -1669,7 +1669,7 @@ table th[class*="col-"] {
   background-color: #fbdbdb;
 }
 .table-responsive {
-  overflow-x: hidden;
+  overflow: hidden;
   min-height: 0.01%;
 }
 .table-wrapper {
@@ -15764,6 +15764,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   color: #ffffff;
   border:none;
   border-radius: 8px;
+  margin: 0px 5px 0px 0px;
 }
 .visible-xs-block button{
   margin-bottom: 10px;

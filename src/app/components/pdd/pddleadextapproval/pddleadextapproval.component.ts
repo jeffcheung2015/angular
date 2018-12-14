@@ -55,7 +55,7 @@ export class PddleadextapprovalComponent implements OnInit {
       };
       this.pddService.getPddClientDetails(queryParams, 'clientDetails').subscribe((resp: any) => {
         console.log('resp:', resp);
-        this.pddLeadExtApprovalInfo = resp.body;
+        this.pddLeadExtApprovalInfo = resp;
 
       }, (error) => {
         console.error('error: ', error);

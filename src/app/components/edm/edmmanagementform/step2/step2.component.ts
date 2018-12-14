@@ -89,7 +89,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     let queryParams = {
       selectedRecordsStr: this.convertSelectedRecordIntoArray(this.selectedRecords)
     };
-
+    
     this.edmService.postEdmReceiver(queryParams, 'sendParams').subscribe((resp: any) =>{
       console.log(resp);
 
