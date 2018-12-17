@@ -13,6 +13,19 @@
     resize: none;
   }
 
+  .step1-left{
+    .div-bannerFile{
+      .div-fileWrapper{
+        display: inline-flex;
+
+        .span-fileName{
+          margin:auto;
+          padding-left: 20px;
+        }
+      }
+    }
+  }
+
   .div-step1RightPart{
     .div-iconTextWrapper{
       display: inline-flex;

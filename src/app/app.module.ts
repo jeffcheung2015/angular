@@ -92,7 +92,7 @@ import { PddsummaryComponent } from './components/pdd/pddsummary/pddsummary.comp
 import { PddleadextapprovalComponent } from './components/pdd/pddleadextapproval/pddleadextapproval.component';
 import { ClientcampaigndetailsComponent } from './components/agentAssign/clientcampaigndetails/clientcampaigndetails.component';
 import { ApsearchcriteriaComponent } from './components/leadresponse/apuplineinterface/apsearchcriteria/apsearchcriteria.component';
-
+import { CustomfileinputComponent } from './components/common/customfileinput/customfileinput.component';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -131,6 +131,7 @@ export function createTranslateLoader(http: HttpClient) {
     PddleadextapprovalComponent,
     ClientcampaigndetailsComponent,
     ApsearchcriteriaComponent,
+    CustomfileinputComponent,
   ],
   imports: [
     NgbModule,

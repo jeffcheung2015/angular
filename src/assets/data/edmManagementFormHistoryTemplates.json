@@ -1,5 +1,5 @@
 {
-  "template": "1",
+  "template": "2",
   "emailSubject":"Hello ~~~",
   "greeting":"i am greeting txt",
   "banner1":"assets/img/boat-daylight-lake-675764.png",
@@ -8,6 +8,8 @@
   "campaign1Desc":"asdasd",
   "campaign2Title":"123213",
   "campaign2Desc":"asdasdasd",
+  "campaign3Title":"123213",
+  "campaign3Desc":"asdasdasd",
   "button1Title":"asdasdasd",
   "button1Link":"asdasdasd",
   "button2Title":"asdadsdas",

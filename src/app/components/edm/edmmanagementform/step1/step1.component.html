@@ -26,7 +26,9 @@
                   <option value="3">Template3</option>
                 </select>
                 <div class="select-selected"
-                [style.border-color]="edmManagementStep1Form.get('template').invalid && edmStep1FormSubmitted ? 'red' : '#CCCCCC'"></div>
+                [style.border-color]="edmManagementStep1Form.get('template').invalid && edmStep1FormSubmitted ? 'red' : '#CCCCCC'">
+                  {{templateOptionMapStr[edmManagementStep1Form.get('template').value]}}
+                </div>
                 <div class="select-items select-hide"><!--same-as-selected-->
                   <div></div>
                   <div>Template1</div>
@@ -51,17 +53,18 @@
             </div>
         </div>
 
-        <div class="form-group clearfix">
+        <div class="form-group clearfix div-bannerFile">
             <p class="control-label" for="inputSuccess1">Banner Image (Main)</p>
             <p style="color:#AAAAAA;">800W X 600H (px),  JPG / PNG / BMP </p>
-            <!--<input type="file" style="opacity: 0">-->
-            <a href="javascript:;" class="file">
-                <i class="fa fa-upload"></i>
-                Choose File...
-                <input (change)="onSelectFile($event, 'banner1')" formControlName="banner1File" name="mainBannerImgFileField" type="file" id="uploadFile" class="uploadFile">
-            </a>
-            <a href="javascript:;" class="file filename" id="filename">
-            </a>
+            <div class="div-fileWrapper">
+              <a href="javascript:;" class="file">
+                  <i class="fa fa-upload"></i>
+                  Choose File...
+                  <input (change)="onSelectFile($event, 'banner1')"
+                  formControlName="banner1File" name="mainBannerImgFileField" type="file" id="uploadFile" class="uploadFile">
+              </a>
+              <span class="span-fileName">{{edmManagementStep1Form.get('banner1').value}}</span>
+            </div>
         </div>
 
         <div class="form-group clearfix">
@@ -142,16 +145,18 @@
             </div>
         </div>
 
-        <div class="form-group clearfix" [style.display]="['2','3'].indexOf(edmManagementStep1Form.get('template').value) != -1 ? 'block' : 'none'">
+        <div class="form-group clearfix div-bannerFile" [style.display]="['2','3'].indexOf(edmManagementStep1Form.get('template').value) != -1 ? 'block' : 'none'">
             <p class="control-label" for="inputSuccess1">Bottom Banner (B)</p>
             <p style="color:#AAAAAA;">800W X 600H (px),  JPG / PNG / BMP</p>
-            <a href="javascript:;" class="file">
-                <i class="iconfont">&#xe61c;</i>
-                Choose File...
-                <input type="file" (change)="onSelectFile($event, 'banner2')" formControlName="banner2File" name="bottomBannerImgFileField" id="uploadFile1" class="uploadFile">
-            </a>
-            <a href="javascript:;" class="file filename" id="filename1">
-            </a>
+            <div class="div-fileWrapper">
+              <a href="javascript:;" class="file">
+                  <i class="fa fa-upload"></i>
+                  Choose File...
+                  <input (change)="onSelectFile($event, 'banner1')"
+                  formControlName="banner2File" name="bottomBannerImgFileField" type="file" id="uploadFile" class="uploadFile">
+              </a>
+              <span class="span-fileName">{{edmManagementStep1Form.get('banner2').value}}</span>
+            </div>
         </div>
 
         <div class="form-group clearfix">

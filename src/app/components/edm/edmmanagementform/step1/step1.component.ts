@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class Step1Component implements OnInit, AfterViewInit {
   edmManagementStep1Form = new FormGroup({
     template: new FormControl('0',[Validators.pattern('[1-3]')]),
-    emailSubject: new FormControl('',[Validators.required, Validators.email, Validators.maxLength(100)]),
+    emailSubject: new FormControl('',[Validators.maxLength(100)]),
     greeting: new FormControl('',[Validators.maxLength(200)]),
     banner1: new FormControl(''),
     banner1File: new FormControl(''),
@@ -41,6 +41,13 @@ export class Step1Component implements OnInit, AfterViewInit {
   edmManagementStep1TestForm = new FormGroup({
     testEmail: new FormControl('', [Validators.email])
   });
+
+  templateOptionMapStr : any = {
+    0: '',
+    1: 'Template1',
+    2: 'Template2',
+    3: 'Template3'
+  }
 
   edmStep1FormSubmitted = false;
   @Input()edmPageInfo : { //fetched from edmManagementForm parent component
@@ -70,16 +77,40 @@ export class Step1Component implements OnInit, AfterViewInit {
         this.closeAllDropDown();
       }
     });
-
-    if(this.edmService.currCommunicationCode){ //edit mode, not add mode
+    //to be removed, the constants.localOrVm
+    if(constants.localOrVm == "local" || this.edmService.currCommunicationCode){ //edit mode, not add mode
       let queryParams = {
-        communicationCode : this.edmService.currCommunicationCode
+        communicationCd : this.edmService.currCommunicationCode
       };
 
       this.fetchFormHistorySubscription = this.edmService.getHistoryTemplates(queryParams, "getHistory").subscribe((resp : any) => {
         console.log("resp: ",resp);
+        //store a copy of this template's all fields into edmService
         this.edmService.currEdmManagementFormObj = resp.body;
+        //set edmManagementStep1Form based on the val of resp.body
+        this.edmManagementStep1Form.controls['template'].setValue(resp.body.template);
 
+        this.edmManagementStep1Form.controls['emailSubject'].setValue(resp.body.emailSubject);
+        this.edmManagementStep1Form.controls['greeting'].setValue(resp.body.greeting);
+        this.edmManagementStep1Form.controls['banner1'].setValue(resp.body.banner1);
+        this.edmManagementStep1Form.controls['banner1File'].setValue(resp.body.banner1File);
+        this.edmManagementStep1Form.controls['campaign1Title'].setValue(resp.body.campaign1Title);
+        this.edmManagementStep1Form.controls['campaign1Desc'].setValue(resp.body.campaign1Desc);
+        this.edmManagementStep1Form.controls['campaign2Title'].setValue(resp.body.campaign2Title);
+        this.edmManagementStep1Form.controls['campaign2Desc'].setValue(resp.body.campaign2Desc);
+        this.edmManagementStep1Form.controls['campaign3Title'].setValue(resp.body.campaign3Title);
+        this.edmManagementStep1Form.controls['campaign3Desc'].setValue(resp.body.campaign3Desc);
+        this.edmManagementStep1Form.controls['button1Title'].setValue(resp.body.button1Title);
+        this.edmManagementStep1Form.controls['button1Link'].setValue(resp.body.button1Link);
+        this.edmManagementStep1Form.controls['button2Title'].setValue(resp.body.button2Title);
+        this.edmManagementStep1Form.controls['button2Link'].setValue(resp.body.button2Link);
+        this.edmManagementStep1Form.controls['banner2'].setValue(resp.body.banner2);
+        this.edmManagementStep1Form.controls['banner2File'].setValue(resp.body.banner2File);
+        this.edmManagementStep1Form.controls['button3Title'].setValue(resp.body.button3Title);
+        this.edmManagementStep1Form.controls['button3Link'].setValue(resp.body.button3Link);
+        this.edmManagementStep1Form.controls['campaignTnc'].setValue(resp.body.campaignTnc);
+        this.edmManagementStep1Form.controls['standardTnc'].setValue(resp.body.standardTnc);
+        this.edmManagementStep1Form.controls['communicationCd'].setValue(resp.body.communicationCd);
       }, (error) => {
         console.error("step1component error: ", error);
       });
@@ -98,6 +129,7 @@ export class Step1Component implements OnInit, AfterViewInit {
   ngAfterViewInit(){
     this.initPopoverChooseFileJquery();
     this.initDropdown();
+
   }
   onSubmitStep1(){
     console.log("go from step1 to step2");
@@ -109,6 +141,10 @@ export class Step1Component implements OnInit, AfterViewInit {
     this.edmStep1FormSubmitted = true;
     this.router.navigate(['/easEDM']);
     window.scrollTo(0,0);
+  }
+
+  setTemplateOption(){
+    $(".div-templateOption .select-selected").text($(".div-templateOption .select-items div:eq(0)").text());
   }
 
   fetchFormParamsAndPost(){
@@ -196,7 +232,6 @@ export class Step1Component implements OnInit, AfterViewInit {
       testEmail: $("[name=sendTestEmailField]").val()
     };
     this.edmService.postSendTestEmail(params, 'sendParams').subscribe((resp: any) => {
-
       console.log("resp: ", resp);
     }, (error) => {
       console.error("error: ", error);
@@ -206,7 +241,7 @@ export class Step1Component implements OnInit, AfterViewInit {
   initDropdown(){
     $("[name=templateOptionField]").val("1"); //initialize the select into default val first
     $(".div-templateOption .select-items div:eq(0)").addClass("same-as-selected");
-    $(".div-templateOption .select-selected").text($(".div-templateOption .select-items div:eq(0)").text());
+    //$(".div-templateOption .select-selected").text($(".div-templateOption .select-items div:eq(0)").text());
     //select-selected select-arrow-active
     //select-hide, same-as-selected
     $(".div-templateOption .select-selected").on("click", (event)=>{
@@ -225,7 +260,7 @@ export class Step1Component implements OnInit, AfterViewInit {
       $(".div-templateOption .select-items div:eq(" + j + ")").on('click', (e)=>{
 
         $(".div-templateOption .select-selected").removeClass("select-arrow-active");
-        $(".div-templateOption .select-selected").text($(e.target).text());
+        //$(".div-templateOption .select-selected").text($(e.target).text());
         $(".div-templateOption .select-items").addClass("select-hide");
         for(var k = 0; k < selectItemsChildren.length; k++){
           $(".div-templateOption .select-items div:eq(" + k + ")").removeClass("same-as-selected");
@@ -236,7 +271,7 @@ export class Step1Component implements OnInit, AfterViewInit {
           selectOptionNameMapVal[$(e.target).text()]
         );
         this.edmManagementStep1Form.controls['template'].setValue(selectOptionNameMapVal[$(e.target).text()]);
-        console.log('val:' , this.edmManagementStep1Form.controls['template'].value)
+
       });
     }
   }

@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { get as _get } from 'lodash';
 import constants from '../../../constants/constants';
+import { PddLeadExtApprovalDtl } from '../../../models/pdd.model';
+
 @Component({
   selector: 'app-pddleadextapproval',
   templateUrl: './pddleadextapproval.component.html',
@@ -18,27 +20,7 @@ export class PddleadextapprovalComponent implements OnInit {
   });
   popUpMsg: String;
 
-  pddLeadExtApprovalInfo : {
-    agentName: String,
-    agentCode: String,
-    assignmentDate: String,
-    dateOfSubmission:String,
-    firstContactDt: String,
-    leadExtReason: String,
-    customerName: String,
-    customerPhoneNo: String,
-    customerEmail:String
-  } = {
-    agentName:  "",
-    agentCode:  "",
-    assignmentDate:  "",
-    dateOfSubmission: "",
-    firstContactDt:  "",
-    leadExtReason:  "",
-    customerName:  "",
-    customerPhoneNo:  "",
-    customerEmail: ""
-  };
+  pddLeadExtApprovalInfo : PddLeadExtApprovalDtl = new PddLeadExtApprovalDtl();
 
   constructor(
     private pddService : PddService,
@@ -55,7 +37,7 @@ export class PddleadextapprovalComponent implements OnInit {
       };
       this.pddService.getPddClientDetails(queryParams, 'clientDetails').subscribe((resp: any) => {
         console.log('resp:', resp);
-        this.pddLeadExtApprovalInfo = resp;
+        this.pddLeadExtApprovalInfo = resp.body;
 
       }, (error) => {
         console.error('error: ', error);

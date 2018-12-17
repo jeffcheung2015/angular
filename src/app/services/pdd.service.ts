@@ -22,14 +22,10 @@ export class PddService {
     switch(type){
       case 'dataTable':
       case 'getExportList':
+      case 'clientDetails':
         sentParams = {
           observe: "response",
           params: params
-        };
-      break;
-      case 'clientDetails':
-        sentParams = {
-          observe: "response"
         };
       break;
       case 'sendParams':
@@ -57,7 +53,7 @@ export class PddService {
   getPddClientDetails(params, type){
     return (constants.localOrVm === 'local') ?
             this.getOrPostFunc('http://localhost:4200/eas/assets/data/pddClientDtls.json', params, 'get', type) :
-            this.getOrPostFunc("/eas/api/pdd/getPddClientDetails/"+params.policyNo ,params, 'get', type);
+            this.getOrPostFunc("/eas/api/pdd/getPddClientDetails" ,params, 'get', type);
   }
 
   //getExportList
