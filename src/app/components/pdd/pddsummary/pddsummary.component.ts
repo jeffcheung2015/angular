@@ -148,7 +148,7 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
       this.exportListForm.controls['dateOfSubmissionTo'].disable();
       this.exportListForm.controls['dateOfSubmissionFrom'].reset();
       this.exportListForm.controls['dateOfSubmissionTo'].reset();
-      
+
     }else{
       this.exportListForm.controls['dateOfSubmissionFrom'].enable();
       this.exportListForm.controls['dateOfSubmissionTo'].enable();
@@ -197,20 +197,24 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
     }
   }
   ngOnDestroy(){
-    if(this.bodyRendererListener){
-      this.bodyRendererListener();
-    }
-    if(this.dtTrigger){
-      this.dtTrigger.unsubscribe();
-    }
-    if(this.dataTableAjaxSubscription){
-      this.dataTableAjaxSubscription.unsubscribe();
-    }
+    let toBeDestroyArray = ['bodyRendererListener', 'dtTrigger', 'dataTableAjaxSubscription'];
+    toBeDestroyArray.forEach((elem, key)=>{
+      if(this[elem] && elem == 'bodyRendererListener'){
+        this.bodyRendererListener();
+      }else if(this[elem] && elem != 'bodyRendererListener'){
+        this[elem].unsubscribe();
+      }
+    });
   }
 
   //to set the min, max date of from / to once submissionfrom / to is changed
   dateOfSubmissionChange(e, fromOrTo){
     this[(fromOrTo == 0) ? "minDateTo" : "maxDateFrom"] = e.value;
+  }
+
+  resetSubmissionFromTo(){
+    this.minDateTo = null;
+    this.maxDateFrom = new Date();
   }
 
   changeTablePerPage(val){
@@ -247,7 +251,6 @@ export class PddsummaryComponent implements OnInit, OnDestroy,
       targets: "_all",
       orderable: false,
       createdCell: function (td, cellData, rowData, row, col) {
-
         //funcs
         let convertDate = (date) => {
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
