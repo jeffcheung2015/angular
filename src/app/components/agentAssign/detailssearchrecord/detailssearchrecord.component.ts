@@ -88,7 +88,6 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     }
     //to check if curr full agent list's agent are old agent type / new agent Type
     this.agentPoolSubscription = this.agentassignmentService.getCurrAgentPoolType({policyNo: this.currPolicyNo}, 'getPoolType').subscribe((resp : any) => {
-      console.log('>>> poolType == ', resp.body.poolType == 1 ? "NEW_POOL_TYPE" : resp.body.poolType == 2 ? "OLD_POOL_TYPE" : "ADDITIONAL_POOL_TYPE");
       this.currAgentListPoolType = parseInt(resp.body.poolType);
 
       if([constants.OLD_POOL_TYPE, constants.ADDITIONAL_POOL_TYPE].indexOf(this.currAgentListPoolType) != -1){
@@ -142,7 +141,6 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
 
   initDatatableAndClassToTrigger(){
     $('.table-detailSearchRecord').on( 'page.dt', function (event,settings) {
-      console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
     //all the following btns are placed inside the agentassignment.component.html
@@ -165,7 +163,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       console.log("resp:", resp);
       this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
 
-    }, (error) => console.log(error));
+    }, (error) => console.error(error));
   }
   addBtnClicked(){
     //reset the form's Value
@@ -207,7 +205,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
     this.agentassignmentService.postSelectYesLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
       this.router.navigate(['/'+this.agentassignmentService.currServiceName]);
 
-    }, (error) => console.log(error));
+    }, (error) => console.error(error));
   }
 
   ngAfterViewInit(){ //only load data after view are initialized
@@ -297,7 +295,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
   refreshAndReloadSearchRecordTable(_searchCriteria : string[]){
     this.searchCriterias = _searchCriteria;
     this.currPage = 1;
-    $(".input-goToPage_left").val(1);    
+    $(".input-goToPage_left").val(1);
     let dTableInstance = _get(this.dTable, "dtInstance");
     if(dTableInstance){
       dTableInstance.then((dtInstance: DataTables.Api) => {

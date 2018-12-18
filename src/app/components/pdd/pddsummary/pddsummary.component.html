@@ -39,7 +39,8 @@
                       <div class="col-md-5">
                           <div style="display:inline-flex" class="div-dateOfSubmissionTo">
                             <input readonly class="input-dateOfSubmission" (dateChange)="dateOfSubmissionChange($event, 1)"
-                            matInput [min]="minDateTo" [max]="currDate" [matDatepicker]="dateOfSubmissionToPicker" formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
+                            matInput [min]="minDateTo" [max]="currDate" [matDatepicker]="dateOfSubmissionToPicker"
+                            formControlName="dateOfSubmissionTo" name="dateOfSubmissionToField" placeholder="DD/MM/YYYY">
                             <mat-datepicker-toggle matSuffix [for]="dateOfSubmissionToPicker">
                               <mat-icon matDatepickerToggleIcon>apps</mat-icon>
                             </mat-datepicker-toggle>
@@ -50,7 +51,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" (click)="resetSubmissionFromTo()" class="btn btn-primary table-btn">Export</button>
+                <button type="submit"
+                [disabled]="exportListForm.controls['selectedOption'].value != 'all' && !exportListForm.controls['dateOfSubmissionFrom'].value && !exportListForm.controls['dateOfSubmissionTo'].value" 
+                (click)="resetSubmissionFromTo()" class="btn btn-primary table-btn">Export</button>
                 <button type="button" (click)="resetSubmissionFromTo()" class="btn btn-default table-btn" data-dismiss="modal">Cancel</button>
             </div>
         </div>

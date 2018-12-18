@@ -132,7 +132,6 @@ export class Step1Component implements OnInit, AfterViewInit {
 
   }
   onSubmitStep1(){
-    console.log("go from step1 to step2");
     this.edmStep1FormSubmitted = true;
     this.fetchFormParamsAndPost();
   }
@@ -194,7 +193,6 @@ export class Step1Component implements OnInit, AfterViewInit {
         }else if(codeList && codeList[0] != constants.STATUS_CODE.SUCCESS_CODE){
           codeList.forEach((elem, key)=>{
             this.errMsgArr.push(errMsgList[key]);
-            console.log(">>> code: ", elem);
           });
           this.isSetStep1ErrPrompt(false);
           $("#ErrMsgModal").modal('show');

@@ -85,7 +85,6 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
       columns: colArr,
     };
     $('.table-edmHistoryCustomerlist').on( 'page.dt', function (event,settings) {
-      console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
   }
@@ -144,9 +143,7 @@ export class EdmhistoryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
-      console.log('Change to page: ' + page);
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
-      console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
       this.currPage = parseInt(page);
     }
   }

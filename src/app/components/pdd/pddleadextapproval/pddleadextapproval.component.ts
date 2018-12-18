@@ -15,7 +15,7 @@ import { PddLeadExtApprovalDtl } from '../../../models/pdd.model';
 export class PddleadextapprovalComponent implements OnInit {
   //1 approve ,2 reject
   clientDtlsForm = new FormGroup({
-    pddApproval : new FormControl('1'), //default approve
+    pddApproval : new FormControl('3'), //default approve
     remarks : new FormControl('', [Validators.maxLength(200)])
   });
   popUpMsg: String;
@@ -38,7 +38,7 @@ export class PddleadextapprovalComponent implements OnInit {
       this.pddService.getPddClientDetails(queryParams, 'clientDetails').subscribe((resp: any) => {
         console.log('resp:', resp);
         this.pddLeadExtApprovalInfo = resp.body;
-
+        this.clientDtlsForm.controls['remarks'].setValue(resp.body.remarks);
       }, (error) => {
         console.error('error: ', error);
       });
@@ -54,13 +54,18 @@ export class PddleadextapprovalComponent implements OnInit {
         remarks: this.clientDtlsForm.controls['remarks'].value
       }
       console.log(">>> pddLeadExtApproval::postPddApproval queryParams:", queryParams);
-      this.pddService.postPddApproval(queryParams,'sentParams').subscribe((resp: any) =>{
+      this.pddService.postPddApproval(queryParams,'sendParams').subscribe((resp: any) =>{
         console.log("resp: ", resp);
-        this.router.navigate(['/easLeadExtensionAppl']);
+        let code = _get(resp, 'code[0]');
+        let errMsg = (code && code !== constants.STATUS_CODE.SUCCESS_CODE) ? _get(resp, 'errMsg[0]') : constants.MSG.PRUCHAT_EMAIL_SUCCESS;
 
+        if(code != constants.STATUS_CODE.SUCCESS_CODE){
+          this.showPopUpMsg(errMsg);
+        }else{
+          this.router.navigate(['/easLeadExtensionAppl']);
+        }
       },(error) => {
         console.error("error: ", error);
-        this.showPopUpMsg("Error: " + JSON.stringify(error));
       });
     }else{
       return null;

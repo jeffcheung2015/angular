@@ -89,7 +89,7 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
     let queryParams = {
       selectedRecordsStr: this.convertSelectedRecordIntoArray(this.selectedRecords)
     };
-    
+
     this.edmService.postEdmReceiver(queryParams, 'sendParams').subscribe((resp: any) =>{
       console.log(resp);
 
@@ -224,18 +224,14 @@ export class Step2Component implements OnInit, AfterViewInit, AfterViewChecked, 
       columns: colArr,
     };
     $('.table-edmManagementForm').on( 'page.dt', function (event,settings) {
-      console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
     //get the whole available list of customer's polno for curr edm template here and store it into edmService
     this.agentCodeSubscription = this.loginUserService.usercodeObs$.subscribe((resp: any) => {
-      console.log(">>> step2Component ::ngOnInit, resp: ", resp);
       let queryParams = {
         agentCode: resp
       };
-      console.log(">>> edmService:: getAllPolNoList, queryParams: ", queryParams);
       this.allPolNoSubscription = this.edmService.getAllPolNoList(queryParams, 'retrieve').subscribe((resp : any) =>{
-        console.log('allPolNoSubscription resp:', resp);
         this.edmService.polNoList = resp.body;
       });
     });

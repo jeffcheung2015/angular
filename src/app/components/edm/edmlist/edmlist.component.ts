@@ -91,7 +91,6 @@ export class EdmlistComponent implements OnInit, OnDestroy,
       columns: colArr,
     }
     $('.table-edmList').on( 'page.dt', function (event,settings) {
-      console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
 
@@ -191,9 +190,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
   }
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
-      console.log('Change to page: ' + page);
-      let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
-      console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
+      let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true);
       this.currPage = Number(page);
     }
   }
@@ -247,7 +244,7 @@ export class EdmlistComponent implements OnInit, OnDestroy,
           recordsTotal: resp.body.recordsTotal,
           recordsFiltered: resp.body.recordsFiltered
         });
-      },(error) => {console.log(error)});
+      },(error) => {console.error(error)});
     }
   }
 }

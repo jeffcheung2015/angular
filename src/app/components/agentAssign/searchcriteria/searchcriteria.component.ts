@@ -51,7 +51,6 @@ export class SearchcriteriaComponent implements OnInit, OnChanges, AfterViewChec
   }
 
   ngOnChanges(changes: SimpleChanges){
-    console.log('Info: Search Criteria component onchanges, ', changes, "this.currSubPage:", this.currSubPage);
     let mobileNoValidator = [Validators.pattern('[0-9]+'), Validators.maxLength(8), Validators.minLength(8)];
     let numValidator = [Validators.pattern('[0-9]+')];
     let numEngValidator = [Validators.pattern('[0-9a-zA-Z]+')];
@@ -107,10 +106,8 @@ export class SearchcriteriaComponent implements OnInit, OnChanges, AfterViewChec
   //set the option according to the curr value of the corresponding select elem
   setOptionDivHTML(_criteriaObj : any){
     if(this.currSubPage == 'easAgentAssignGI'){
-      console.log(this.currSubPage, this.mapOptionValToTxt[_criteriaObj.assignmentOption]);
       $(".div-assignmentOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.assignmentOption]);
     }else if(this.currSubPage == 'easAgentAssignCS'){
-      console.log(this.currSubPage);
       $(".div-assignmentOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.assignmentOption]);
       $(".div-contactCustomerOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.contactCustomerOption]);
       $(".div-assignmentStatusOption .select-selected").html(this.mapOptionValToTxt[_criteriaObj.assignmentStatusOption]);

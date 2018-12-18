@@ -99,7 +99,6 @@ export class ClientcampaigndetailsComponent implements OnInit {
             this.campaignDetailInfo[prop] = (isDateType) ? resp.body[prop].substr(0,10) :
               (resp.body[prop] || "N/A");
           }
-          console.log(resp.body, this.campaignDetailInfo)
         },(error : any) =>{
           console.log('>>> Error getting campaign details', error);
         })

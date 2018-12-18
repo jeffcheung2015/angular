@@ -8,4 +8,5 @@ export class PddLeadExtApprovalDtl {
 	customerName: String;
 	customerPhoneNo: String;
 	customerEmail:String;
+	remarks:String;
 }

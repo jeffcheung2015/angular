@@ -37,7 +37,7 @@ export class ViewemailComponent implements OnInit {
       this.receiverName = resp.body.receiverName;
       this.receiver = resp.body.receiver;
       this.status = resp.body.status;
-    }, (error) => console.log(error));
+    }, (error) => console.error(error));
   }
 
 }

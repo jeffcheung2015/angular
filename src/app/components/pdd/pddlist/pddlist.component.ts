@@ -84,7 +84,6 @@ export class PddlistComponent  implements OnInit, OnDestroy,
       columns: colArr,
     }
     $('.table-pddList').on( 'page.dt', function (event,settings) {
-      console.log('Page change:', event, settings);
       $('.input-goToPage_left').val((settings._iDisplayStart/settings.oInit.pageLength) + 1);
     });
 
@@ -188,9 +187,7 @@ export class PddlistComponent  implements OnInit, OnDestroy,
 
   changeCurrTablePage(page){
     if(page !== "" && /^\d+$/.test(page)){
-      console.log('Change to page: ' + page);
       let pageChangeStatus = this.dataTableSettings.oApi._fnPageChange(this.dataTableSettings, page - 1, true)
-      console.log((pageChangeStatus)?'Current page changed to '+ page : "Fail to change page, page exceed no of page");
       this.currPage = page;
     }
   }
@@ -204,12 +201,12 @@ export class PddlistComponent  implements OnInit, OnDestroy,
         let convertDate = (date) => {
           return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
         };
-        if(!cellData){
+        if(!cellData && col != 1){
           $(td).html(`<span>-</span>`)
-        }else if(1){
+        }else{
           switch(col){
             case 1:
-              $(td).html(`<a class="a-customerName css-wordBreakAll" queryParams="policyNo:` + rowData.policyNo + `">` + (cellData ? cellData : '') + `</a>`);
+              $(td).html(`<a class="a-customerName css-wordBreakAll" queryParams="policyNo:` + rowData.policyNo + `">` + (cellData ? cellData : 'N/A') + `</a>`);
             break;
             case 0: case 6: case 7:
               if(cellData){
@@ -221,17 +218,15 @@ export class PddlistComponent  implements OnInit, OnDestroy,
             break;
             case 8:
               let mapStatusToText = {
-                0: '',
-                1: 'Approved',
-                2: 'Rejected'
+                3: 'Approved',
+                4: 'Rejected'
               };
               let mapStatusToColor = {
-                0: "#4d4d4d",
-                1: "green",//Approved
-                2: "red"//Rejected
+                3: "green",//Approved
+                4: "red"//Rejected
               };
-              let txtColorStyle = `style="color:` + mapStatusToColor[parseInt(cellData)] + `;"`;
-              let html = cellData ? mapStatusToText[parseInt(cellData)] : '-';
+              let txtColorStyle = `style="color:` + ((cellData && ["3","4"].indexOf(cellData) !== -1) ? mapStatusToColor[parseInt(cellData)] : "#4d4d4d") + `;"`;
+              let html = cellData && ["3","4"].indexOf(cellData) !== -1 ? mapStatusToText[parseInt(cellData)] : '-';
               $(td).html(`<span ` + txtColorStyle + `>` + html + `</span>`);
             break;
             case 9: //gray color remarks
