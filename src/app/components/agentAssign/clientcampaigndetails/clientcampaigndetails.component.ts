@@ -116,8 +116,16 @@ export class ClientcampaigndetailsComponent implements OnInit {
             let isDateType = ['dateOfSubmission', 'birthDate','assignedDate',
               'smsEmailSentDate','firstContactDate','accountExpiryDate',
               'reAssignedDate'].indexOf(prop) !== -1;
-            this.clientDetailInfo[prop] = (isDateType) ? resp.body[prop].substr(0,10) :
-              (resp.body[prop] || "N/A");
+
+            if(prop == 'remarksToConsultant'){
+              this.clientDetailForm.controls[prop].setValue(resp.body[prop]);
+            }else if(prop == 'refuseContact'){
+              this.clientDetailInfo[prop] = (resp.body[prop] != null) ? resp.body[prop] : 0;
+            }else if(isDateType){
+              this.clientDetailInfo[prop] = (resp.body[prop]) ? resp.body[prop].substr(0,10) : null;
+            }else{
+              this.clientDetailInfo[prop] = resp.body[prop] || "N/A";
+            }
           }
 
         },(error : any) =>{
@@ -130,7 +138,8 @@ export class ClientcampaigndetailsComponent implements OnInit {
   onSubmitSaveClientDetail(){
     let sentParams = {
       refuseContact: this.clientDetailForm.controls['refuseContact'].value ? "1" : "0", //convert boolean into 1 and 0
-      remarksToConsultant: this.clientDetailForm.controls['remarksToConsultant'].value
+      remarksToConsultant: this.clientDetailForm.controls['remarksToConsultant'].value,
+      policyNo: this.agentassignmentService.currClientCd
     };
     this.agentassignmentService.postClientDetail(sentParams, 'sendParams').subscribe((resp : any)=>{
       console.log('resp: ', resp);

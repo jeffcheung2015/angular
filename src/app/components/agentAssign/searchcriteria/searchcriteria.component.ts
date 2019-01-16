@@ -234,7 +234,6 @@ export class SearchcriteriaComponent implements OnInit, OnChanges, AfterViewChec
     [fullName,mobileNo,emailAddr,idCardNo,dateOfSubmissionFrom,dateOfSubmissionTo,assignmentOption,contactCustomerOption,assignmentStatusOption] :
     [agentCode, agentPhone, agentName];
     let property = (isAgentAssign) ? "searchRecordComponent" : "detailSearchRecordComponent";
-
     this[property].refreshAndReloadSearchRecordTable(searchCriteriaArr);
   }
 

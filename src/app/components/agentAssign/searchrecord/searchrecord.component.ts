@@ -311,9 +311,11 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
         //F re-assign btn
         //G assign btn
         let rowSymbol = (agentCode != 'null') ? 'F' : 'G';
-        if(col == 0){//client dtls
+        if(!cellData){
+          $(td).html(`<span>-</span>`);
+        }else if(col == 0){//client dtls
           //to be done split eng chinese name
-          $(td).html(`<a class="a-clientDetail" queryParams="policyNo:` + rowData.policyNo +  `">` + cellData + `</a>`);
+          $(td).html(`<a class="a-clientDetail" queryParams="policyNo:` + rowData.polNo +  `">` + cellData + `</a>`);
         }else if([3,6,13,16].indexOf(col) !== -1){
           let cellDataStr = cellData.substr(0,10);
           $(td).html(`<span>` + convertDate(new Date(cellDataStr)) + `</span>`);
@@ -367,10 +369,10 @@ export class SearchrecordComponent implements OnInit, OnDestroy, AfterViewInit,A
             "3" : "Opt-out from this program",
             "4" : "Re-assigned"
           };
-          $(td).html(mapStatusToText[cellData.toString()]);
+          $(td).html(cellData ? mapStatusToText[cellData.toString()] : "-");
         }else if([17,18].indexOf(col) !== -1){ //pruchat and SMS col
           $(td).addClass((rowSymbol === 'B') ? 're-assign' : '');
-          let dataArrSrc = (col == 17) ? rowData.pruchatEmailSendDate : rowData.SMSEmailSendDate;
+          let dataArrSrc = (col == 17) ? rowData.pruchatEmailSendDate : rowData.smsEmailSendDate;
           let tdhtml = "";
           if(dataArrSrc && dataArrSrc.length != 0){
             dataArrSrc.forEach((data)=>{

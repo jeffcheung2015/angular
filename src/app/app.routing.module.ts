@@ -13,10 +13,9 @@ import { MenuGuard } from './guards/menu.guard';
 const appRoutes: Routes = [
 
   { path: 'easAgentAssignGI', component: AgentassignmentComponent , canActivate: [MenuGuard]},
-  { path: 'easAgentAssignCS', component: AgentassignmentComponent , canActivate: [MenuGuard]},
+
   { path: 'easAgentDetail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
   { path: 'easCampaignDetail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
-  { path: 'easClientDetail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
   { path: 'easViewEmail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
 
   { path: 'easAgentInterface', component: LeadresponseComponent , canActivate: [MenuGuard]},
@@ -24,6 +23,8 @@ const appRoutes: Routes = [
   { path: 'easAOInterface', component: LeadresponseComponent , canActivate: [MenuGuard]},
 
   //to be commented out
+  { path: 'easClientDetail', component: AgentassignmentComponent},
+  { path: 'easAgentAssignCS', component: AgentassignmentComponent},
   { path: 'easLeadExtensionAppl', component: PddComponent},
   { path: 'easLeadExtensionApproval', component: PddComponent},
   { path: 'easLeadSummary', component: PddComponent},
@@ -34,6 +35,8 @@ const appRoutes: Routes = [
   //to be commented out
 
   //to be uncommented
+  // { path: 'easAgentAssignCS', component: AgentassignmentComponent , canActivate: [MenuGuard]},
+  // { path: 'easClientDetail', component: AgentassignmentComponent , canActivate: [MenuGuard]},
   // { path: 'easLeadExtensionAppl', component: PddComponent},
   // { path: 'easLeadExtensionApproval', component: PddComponent , canActivate: [MenuGuard]},
   // { path: 'easLeadSummary', component: PddComponent , canActivate: [MenuGuard]},

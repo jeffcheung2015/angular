@@ -29,7 +29,7 @@ export default {
       'firstContactDate','contactCustomer',
       'assignmentStatus', 'agentAccountExpiryDate',
       'pruchatEmailSendDate',
-      'SMSEmailSendDate'],
+      'smsEmailSendDate'],
     GISearchRecordColumnField: [
       'prodClass','polNo','lifePolNo','applicantName',
       'idNo','giOptOut','lifeOptOut','currentAgentName',
@@ -101,7 +101,8 @@ export default {
       TEMP_MISS_CODE: "00012",
       REMARKS_EXCEED_MAX_LENGTH_CODE: "00013",
       NO_CUSTOMER_CHOSEN: "00014",
-      POST_PDD_APPROVAL_FAIL: "00015"
+      POST_PDD_APPROVAL_FAIL_CODE: "00015",
+      POST_CS_CLIENT_DTL_CODE: "00016"
     },
 
     MSG:{

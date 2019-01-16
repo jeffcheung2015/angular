@@ -10,7 +10,6 @@ export class GISearchCriteria {
 }
 export class CSSearchCriteria {
 	fullName: String;
-	policyNo: String;
 	mobileNo: String;
 	emailAddr: String;
 	idCardNo: String;

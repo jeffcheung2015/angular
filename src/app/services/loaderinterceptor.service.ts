@@ -4,6 +4,7 @@ import { Observable, pipe } from 'rxjs';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { get as _get } from 'lodash';
+import 'rxjs/add/operator/timeout';
 
 import {LoaderService} from './loader.service';
 
@@ -19,7 +20,7 @@ export class LoaderinterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.showLoader();
-    return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
+    return next.handle(req).timeout(600000).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         this.onEnd();
       }

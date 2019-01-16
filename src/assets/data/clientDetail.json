@@ -18,7 +18,7 @@
   "firstContactDate":"2017-11-30T16:00:00.000+0000",
   "assignmentStatus":"1",
   "accountExpiryDate":"2017-11-30T16:00:00.000+0000",
-  "refuseContact":"1",
+  "refuseContact":null,
   "remarksToConsultant":"asdkalsd",
 
   "reAgentCode":"ASDAS12313",

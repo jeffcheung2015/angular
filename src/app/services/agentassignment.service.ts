@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import {BehaviorSubject} from 'rxjs';
 import constants from '../constants/constants';
 
+
 import {GISearchCriteria, CSSearchCriteria} from '../models/agentassignment.model';
 
 @Injectable({
@@ -25,7 +26,6 @@ export class AgentassignmentService{
 
     this.currCSSearchCriteria = {
       fullName: '',
-    	policyNo: '',
     	mobileNo: '',
     	emailAddr: '',
     	idCardNo: '',
@@ -82,7 +82,7 @@ export class AgentassignmentService{
     if(currSubPage === 'easAgentAssignCS'){
       return (constants.localOrVm === 'local') ?
                 this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecordCS.json', params, 'get', type) :
-                this.getOrPostFunc("/eas/api/agent/getCSPolicyList",params, 'get', type);
+                this.getOrPostFunc("/eas/api/agent/getCustomerList",params, 'get', type);
     }else{
       return (constants.localOrVm === 'local') ?
                 this.getOrPostFunc('http://localhost:4200/eas/assets/data/searchRecord.json', params, 'get', type) :

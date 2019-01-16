@@ -259,21 +259,21 @@
 
                           <div class="accordion-item col-lg-12 col-md-12 col-xs-12">
                             <span class="checkbox-wrapper one-line span-refuseContact">
-                              <input formControlName="refuseContact" [checked]="refuseContactMapToBool[clientDetailInfo.refuseContact] ? 'checked' : ''" class="chkaction" type="checkbox" id="catrgory-1" value="b87d7dae7ebdb27dd14a48059495d52d1f" name="category[]">
+                              <input formControlName="refuseContact" [checked]="refuseContactMapToBool[clientDetailInfo.refuseContact]" class="chkaction" type="checkbox" id="catrgory-1" value="b87d7dae7ebdb27dd14a48059495d52d1f" name="category[]">
                               <label for="catrgory-1" class="checkbox-uncheck"><img src="assets/img/icon_checkbox.png">Refuse financial consultant to contact (拒絕顧問聯絡)</label>
                               <label for="catrgory-1" class="checkbox-checked"><img src="assets/img/icon_checkbox_checked.png">Refuse financial consultant to contact (拒絕顧問聯絡)</label>
                             </span>
                           </div>
                           <div class="div-consultantRemarks accordion-item col-lg-12 col-md-12 col-xs-12">
                             <h5 class="h5-remarksTitle">Remarks to Financial Consultant</h5>
-                            <textarea formControlName="remarksToConsultant" class="col-md-6 textarea-remarks">{{clientDetailInfo.remarksToConsultant}}</textarea>
+                            <textarea formControlName="remarksToConsultant" class="col-md-6 textarea-remarks"></textarea>
                           </div>
 
                       </div>
 
                       <div class="button-box clearfix">
                           <input type="submit" class=" btn btn-primary table-btn float-left all-btn" value="Save">
-                          <input routerLink="/{{gobackRouteLink}}" class=" btn btn-default table-btn float-right all-btn" value="Close">
+                          <input type="button" routerLink="/{{gobackRouteLink}}" class=" btn btn-default table-btn float-right all-btn" value="Close">
                       </div>
                     </form>
 
