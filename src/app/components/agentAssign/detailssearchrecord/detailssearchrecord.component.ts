@@ -137,6 +137,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       this.initDatatableAndClassToTrigger();
       this.dataTableJustInitialized = true;
     }, (error)=>{console.error(error)});
+
+    window.currServiceName = this.agentassignmentService.currServiceName;
   }
 
   initDatatableAndClassToTrigger(){
@@ -365,7 +367,7 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
             let divStyle = `display:inline-flex;width:100%;`
             //OLD_POOL_TYPE and ADDITIONAL_POOL_TYPE in gi interface, onleave col should be hidden
             //cs interface doenst have such a concern
-            if(this.agentassignmentService.currServiceName === "easAgentAssignGI" &&
+            if(window.currServiceName === "easAgentAssignGI" &&
               [constants.OLD_POOL_TYPE, constants.ADDITIONAL_POOL_TYPE].indexOf(poolType) != -1){
               $(td).html(``);
             }else if(!onLeave || !isEarlierThanLeavePeriod){

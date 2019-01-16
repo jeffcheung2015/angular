@@ -47,7 +47,6 @@ export class AgentassignmentService{
 
   setCurrCriteria(varName, criteriaObj){
     this[varName] = criteriaObj;
-    console.log(this[varName])
   }
 
   //expected val = easAgentAssignGI | easAgentAssignGI
