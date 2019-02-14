@@ -175,27 +175,23 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
 
   saveLeaveRecord(){
     //preprocess the leave start dt and leave end dt,
-    try{
-      let leaveStartDate = this.onLeaveModalForm.controls['onLeaveFrom'].value;
-      let leaveEndDate = this.onLeaveModalForm.controls['onLeaveTo'].value;
-      if(!leaveStartDate || !leaveEndDate || leaveEndDate - leaveStartDate < 0 || (leaveStartDate.getTime() - new Date().getTime()) < -86400000){
-        throw new Error('leaveStartDt || leaveEndDt error');
-      }
-      let queryParams = {
-        leaveId: this.currLeaveId,
-        agentCode: this.currAgentCode,
-        leaveStartDate: convertformat.dateToDDMMYYYY(leaveStartDate),
-        leaveEndDate: convertformat.dateToDDMMYYYY(leaveEndDate)
-      }
-
-      this.agentassignmentService.postSaveLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
-        console.log("resp:", resp);
-        this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
-
-      }, (error) => console.log(error));
-    }catch(e){
-      console.error('Exception: ', e);
+    let leaveStartDate = this.onLeaveModalForm.controls['onLeaveFrom'].value;
+    let leaveEndDate = this.onLeaveModalForm.controls['onLeaveTo'].value;
+    if(!leaveStartDate || !leaveEndDate || leaveEndDate - leaveStartDate < 0 || (leaveStartDate.getTime() - new Date().getTime()) < -86400000){
+      throw new Error('leaveStartDt || leaveEndDt error');
     }
+    let queryParams = {
+      leaveId: this.currLeaveId,
+      agentCode: this.currAgentCode,
+      leaveStartDate: convertformat.dateToDDMMYYYY(leaveStartDate),
+      leaveEndDate: convertformat.dateToDDMMYYYY(leaveEndDate)
+    }
+
+    this.agentassignmentService.postSaveLeaveRecord(queryParams, "sendParams").subscribe((resp : any)=>{
+      console.log("resp:", resp);
+      this.refreshAndReloadSearchRecordTable(this.defaultCriterias);
+
+    }, (error) => console.log(error));
   }
 
   selectYesRecord(){

@@ -164,25 +164,21 @@ export class AgentinterfaceComponent implements OnInit, OnDestroy,
   }
   setCustomerDtl(){
     let firstContactDt = this.customerDetailModalForm.controls['firstContactDt'].value;
-    try{
-      if(firstContactDt >= new Date()){ //double check if firstContactDt >= currDate
-        throw new Error('firstContactDt error');
-      }
-
-      let queryParams = {
-        firstContactDt: convertformat.dateToDDMMYYYY(firstContactDt),
-        polNo: this.currPolNo
-      };
-
-      this.leadresponseService.postCustomerDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
-        console.log("resp:", resp);
-
-        this.refreshTable();
-
-      }, (error) => console.log(error));
-    }catch(e){
-      console.log("Exception: ", e);
+    if(firstContactDt >= new Date()){ //double check if firstContactDt >= currDate
+      throw new Error('firstContactDt error');
     }
+
+    let queryParams = {
+      firstContactDt: convertformat.dateToDDMMYYYY(firstContactDt),
+      polNo: this.currPolNo
+    };
+
+    this.leadresponseService.postCustomerDtlRecord(queryParams, "sendParams").subscribe((resp : any)=>{
+      console.log("resp:", resp);
+
+      this.refreshTable();
+
+    }, (error) => console.log(error));
   }
   setLeadExt(){
     let queryParams = {
