@@ -1,6 +1,6 @@
 Commands to be run: </br>
 yarn install </br>
-ng serve --host 0.0.0.0 --disable-host-check --serve-path /eas/ </br>
+ng serve
 </br>
 </br>
 This is a frontend project that i worked on for insurance company called prudential </br>
