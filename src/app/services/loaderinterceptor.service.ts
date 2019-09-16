@@ -20,17 +20,18 @@ export class LoaderinterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.showLoader();
+
     return next.handle(req).timeout(600000).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         this.onEnd();
       }
     },
       (err: any) => {
-        let status = _get(err, 'status');
+        // let status = _get(err, 'status');
         // 0 for unknown error
-        if(status == 401 || status == 302 || status == 0){
-          window.location.href = 'saml/logout';
-        }
+        // if(status == 401 || status == 302 || status == 0){
+        //   window.location.href = 'saml/logout';
+        // }
         this.onEnd();
     }));
   }
