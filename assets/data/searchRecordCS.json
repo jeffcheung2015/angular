@@ -1,0 +1,31 @@
+{
+  "draw": 0,
+  "recordsTotal": 1,
+  "recordsFiltered": 1,
+  "data" : [
+    {"fullName":"ho ming ming",
+      "emailAddr":"mingho@gmail.com",
+      "mobileNo":"93002992",
+      "submissionDate":"2018-10-15T04:29:15.239+0000",
+      "prodClass":"Travel",
+      "polNo":"900009103876",
+      "birthDate":"2018-10-15T04:29:15.239+0000",
+      "idCardNo":"A1234567(8)",
+      "gender":"F",
+      "giOptOut":"Y",
+      "lifeOptOut":"Y",
+      "campaignCode":"ASM000009",
+      "agentCode":"02374665",
+      "agentName":"Chan tai man",
+      "agentPhone":"64885995",
+      "agentAssignedDate":"2018-10-15T04:29:15.239+0000",
+      "firstContactDate":"2018-12-16T04:29:15.239+0000",
+      "contactCustomer":"Y",
+      "assignmentStatus":1,
+      "agentAccountExpiryDate":"2018-10-15T04:29:15.239+0000",
+      "pruchatEmailSendDate":["2018-09-27T01:58:22.253+0000","2018-09-27T01:58:21.006+0000","2018-09-27T01:58:19.884+0000"],
+      "smsEmailSendDate":["2018-09-27T01:58:22.253+0000","2018-09-27T01:58:21.006+0000","2018-09-27T01:58:19.884+0000"],
+      "lastEmailOrEDMId":"2"
+    }
+  ]
+  }

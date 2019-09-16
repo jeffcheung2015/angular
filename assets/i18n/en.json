@@ -1,0 +1,116 @@
+{
+  "DATATABLE_CONSTANTS":{
+    "GO_TO_PAGE":"Go to page",
+    "SHOW":"show",
+    "PER_PAGE":"per page"
+  },
+  "FOOTER":{
+    "DISCLAIMER_AND_RIGHT":"Disclaimer and Intellectual Property Rights",
+    "SECURITY_POLICY":"Security Policy",
+    "PRIVACY_POLICY":"Privacy Policy"
+  },
+  "LEAD_RESP_BREAD_CRUMB":{
+    "LEAD_RESPONSE":"Lead Response",
+    "HOME":"Home",
+    "AGENT_INTERFACE":"Agent Individual Client",
+    "AP_UPLINE_INTERFACE":"Division Client",
+    "AO_INTERFACE":"AO interface"
+  },
+  "LEFT_SIDEBAR_MENU":{
+    "MINIMIZE_MENU":"Minimize Menu",
+    "MAXMIZE_MENU":"Maxmize Menu",
+    "LEAD_RESPONSE":"Client Details",
+    "AGENT_INTERFACE":"Agent Individual Client",
+    "AP_UPLINE_INTERFACE":"Division Client",
+    "AO_INTERFACE":"AO interface"
+  },
+  "LEAD_RESPONSE_COMMON":{
+    "ASSIGNMENT_STATUS":{
+      "TO_APPLY_FOR_EXT":"To apply for extension",
+      "APPLIED_FOR_EXT":"Applied for extension",
+      "REASSIGNED":"Re-assigned",
+      "OPT_OUT":"Opt-out from this program"
+    },
+    "APP_EXT":{
+      "TO_BE_REVIEWED":"To be reviewed",
+      "APPROVED":"Approved",
+      "REJECTED":"Rejected"
+    },
+    "PROMPT_TXT":{
+      "LIFE_POL_NO":"Please input Pol no.",
+      "LIFE_PROD":"Please input Product name",
+      "AFYP":"Please input AFYP"
+    }
+  },
+  "AGENT_AO_INTERFACE_COLS":{
+    "AGENT_CD":"Agent Code",
+    "CUSTOMER_NAME":"Customer Name",
+    "PHONE":"Phone",
+    "EMAIL":"Email",
+    "SUBMISSION_DT":"Submission Date",
+    "PROD":"Product",
+    "ASSIGNMENT_DT":"Date of Assignment",
+    "FIRST_CONTACT_DT":"First contact date",
+    "ASSIGNMENT_STATUS":"Assignment Status",
+    "APPLICATION_EXT":"Application of Extension",
+    "CS_REMARKS":"CS Remarks",
+    "LIFE_POL_NO":"Upsell Life Pol No",
+    "LIFE_PROD":"Upsell Life Product",
+    "AFYP":"AFYP (HK$)"
+  },
+  "AP_UPLINE_INTERFACE_COLS":{
+    "AGENT_CD":"Agent Code",
+    "AGENT_NAME":"Agent Name",
+    "ASSIGNMENT_DT":"Date of Assignment",
+    "ASSIGNMENT_STATUS":"Assignment Status",
+    "NO_OF_LEADS":"No. of Leads assigned"
+  },
+  "AGENT_INTERFACE":{
+    "TABLE_TITLE":"Client Details",
+    "CUSTOMER_DTL":{
+      "CUSTOMER_NAME":"Customer Name",
+      "PHONE":"Phone",
+      "EMAIL":"Email",
+      "ASSIGNMENT_DT":"Date and Time of Assignment",
+      "FIRST_CONTACT_DT":"Date of first contact with assigned lead",
+      "SUBMIT":"Submit"
+    },
+    "LEAD_EXT_APPLICATION":{
+      "REASON_OF_EXT":"I would like to extend the assigned lead for another 6 months.",
+      "APP_REVIEW_DESC":"Application will be reviewed by PDD and maximum extension is 6 months",
+      "APPLICATION_EXT":"Application of Extension",
+      "TO_BE_REVIEWED":"To be review",
+      "APPROVED":"Approved",
+      "REJECTED":"Rejected",
+      "SUBMIT":"Submit"
+    },
+    "UPSELL_DTL":{
+      "CUSTOMER_NAME":"Customer Name",
+      "LIFE_POL_NO":"Upsell Prulife Pol No.",
+      "LIFE_PROD":"Upsell Life Product",
+      "AFYP":"AFYP",
+      "SUBMIT":"Submit"
+    }
+  },
+  "AO_INTERFACE":{
+    "TABLE_TITLE":"Client Details",
+    "NO_OF_RECORDS":"Table No. Of Records",
+    "SEARCH_CRITERIA":"Search Criteria",
+    "INPUT_SEARCH_CRITERIA":"Input your Search Criteria(s)",
+    "SUBMISSION_DT_FROM":"Date of Submission From",
+    "ASSIGNMENT_DT_FROM":"Date of Assignment From",
+    "TO":"To",
+    "AGENT_CODE":"Agent Code",
+    "SEARCH_BTN":"Search",
+    "RESET_BTN":"Reset"
+  },
+  "AP_UPLINE_INTERFACE":{
+    "TABLE_TITLE":"Financial Consultant - Allocation of New Leads",
+    "NO_OF_RECORDS":"Table No. Of Records",
+    "SEARCH_CRITERIA":"Search Criteria",
+    "INPUT_SEARCH_CRITERIA":"Input your Search Criteria(s)",
+    "AGENT_CODE":"Agent Code",
+    "SEARCH_BTN":"Search",
+    "RESET_BTN":"Reset"
+  }
+}

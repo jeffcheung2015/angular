@@ -1,0 +1,45 @@
+{
+"draw":0,
+"recordsFiltered":7,
+"recordsTotal":7,
+"data":[{
+  "customerName":"Mary",
+  "email":"asdasd@gmail.com",
+  "status":"1",
+  "sentTime":"2018-02-02T16:00:00.000+0000"
+  },{
+  "customerName":"asdsad",
+  "email":"asdasd@gmail.com",
+  "status":"0",
+  "sentTime":"2018-02-02T16:00:00.000+0000"
+  },
+  {
+  "customerName":"Mary",
+  "email":"asdasd@gmail.com",
+  "status":"1",
+  "sentTime":"2018-02-02T16:00:00.000+0000"
+  },
+  {
+  "customerName":"Mary",
+  "email":"asdasd@gmail.com",
+  "status":"1",
+  "sentTime":null
+  },
+  {
+  "customerName":"Mary",
+  "email":"asdasd@gmail.com",
+  "status":"1",
+  "sentTime":"2018-02-02T16:00:00.000+0000"
+  }
+  ,{
+  "customerName":"Mary",
+  "email":"asdasd@gmail.com",
+  "status":"0",
+  "sentTime":"2018-02-02T16:00:00.000+0000"
+  },{
+  "customerName":"Mary",
+  "email":"asdasd@gmail.com",
+  "status":"0",
+  "sentTime":"2018-02-02T16:00:00.000+0000"
+  }]
+}

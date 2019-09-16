@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+  <defs>
+    <style>
+      .cls-2, .cls-4 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #555;
+        stroke-width: 2px;
+      }
+
+      .cls-3 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="ico_person" transform="translate(-1609 6429)">
+    <path id="Union_2" data-name="Union 2" class="cls-1" d="M1,15H0V13.125c0-2.493,5-3.749,7.5-3.749S15,10.632,15,13.125V15H14c0,1.1-2.911,2-6.5,2S1,16.1,1,15ZM3.75,3.75A3.75,3.75,0,1,1,7.5,7.5,3.749,3.749,0,0,1,3.75,3.75Z" transform="translate(1614 -6422)"/>
+    <g id="Group_153" data-name="Group 153">
+      <g id="Group_155" data-name="Group 155">
+        <g id="Ellipse_37" data-name="Ellipse 37" class="cls-2" transform="translate(1609 -6429)">
+          <circle class="cls-3" cx="12.5" cy="12.5" r="12.5"/>
+          <circle class="cls-4" cx="12.5" cy="12.5" r="11.5"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
