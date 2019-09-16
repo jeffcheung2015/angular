@@ -138,7 +138,8 @@ export class DetailssearchrecordComponent implements OnInit, OnDestroy,
       this.dataTableJustInitialized = true;
     }, (error)=>{console.error(error)});
 
-    window.currServiceName = this.agentassignmentService.currServiceName;
+    _set(window,'currServiceName', this.agentassignmentService.currServiceName);
+
   }
 
   initDatatableAndClassToTrigger(){
